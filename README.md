@@ -1,4 +1,5 @@
-# Secure Password Manager
+# Secure CLI Password Manager | Cybersecurity
+& Python Engineering
 
 A professional-grade, secure password management system that allows you to create, store, and manage passwords locally with multiple layers of encryption. All data is stored locally with advanced encryption, ensuring your sensitive information never leaves your device.
 
