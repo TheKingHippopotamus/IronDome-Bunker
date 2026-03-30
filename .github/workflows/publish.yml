@@ -1,11 +1,12 @@
 name: Publish to PyPI
 
 on:
-  release:
-    types: [published]
   push:
-    tags:
-      - "v*"
+    branches:
+      - main
+    paths:
+      - "password_manager/**"
+      - "pyproject.toml"
 
 jobs:
   publish:
