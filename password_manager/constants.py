@@ -7,7 +7,7 @@
 LOWERCASE = list("abcdefghijklmnopqrstuvwxyz")
 UPPERCASE = list("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 DIGITS = list("0123456789")
-SPECIAL_CHARS = list("!@#$%^*)(")
+SPECIAL_CHARS = list("!@#$%^&*()-_+=")
 
 # Session and security constants
 SESSION_TIMEOUT = 30 * 60  # 30 minutes

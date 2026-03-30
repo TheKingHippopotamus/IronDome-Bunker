@@ -20,6 +20,7 @@ def main():
     print("=== Secure Password Manager ===")
     print("All data is stored locally and encrypted")
     
+    manager = None
     try:
         manager = SecurePasswordManager()
         manager.run_interactive_menu()
@@ -28,7 +29,7 @@ def main():
     except Exception as e:
         print(f"An error occurred: {e}")
         # Don't log the error details to console for security reasons
-        if hasattr(manager, 'logger'):
+        if manager is not None and hasattr(manager, 'logger'):
             manager.logger.error(f"Unhandled exception: {str(e)}", exc_info=True)
 
 if __name__ == "__main__":

@@ -3,6 +3,7 @@
 
 """Utility functions for the Secure Password Manager"""
 
+import getpass
 import re
 import socket
 import platform
@@ -165,11 +166,18 @@ def get_machine_info():
             "ip_address": ip_address,
             "os_info": os_info,
             "mac_address": mac_address,
-            "username": os.getlogin(),
+            "username": getpass.getuser(),
             "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
     except Exception as e:
+        # Provide fallback values so callers don't crash on missing keys
+        mac_fallback = ':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
+                                 for elements in range(0, 8*6, 8)][::-1])
         return {
-            "error": str(e),
+            "hostname": "unknown",
+            "ip_address": "unknown",
+            "os_info": f"{platform.system()} {platform.release()}",
+            "mac_address": mac_fallback,
+            "username": getpass.getuser(),
             "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         } 

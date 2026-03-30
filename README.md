@@ -105,8 +105,8 @@ The application implements multiple layers of security:
 ### Key Derivation
 1. Your master password is never stored in its original form
 2. A unique salt is generated for each master account
-3. Password-Based Key Derivation Function 2 (PBKDF2) with 100,000 iterations is used
-4. SHA-256 is used as the hashing algorithm
+3. Password-Based Key Derivation Function 2 (PBKDF2) with 600,000 iterations is used (OWASP 2023 recommendation)
+4. PBKDF2-HMAC-SHA256 is used for both password hashing and key derivation
 
 ### Encryption Levels
 1. **Machine-specific system key**: Derived from hardware identifiers and salt
@@ -224,8 +224,8 @@ This password manager is designed for single-device use with machine-specific en
 ### Cryptographic Implementation
 - **Symmetric Encryption**: AES-256 in CBC mode with PKCS7 padding (via Fernet)
 - **Key Derivation**: PBKDF2HMAC with SHA-256
-- **Password Hashing**: SHA-256 with unique salt
-- **Random Number Generation**: Cryptographically secure sources combined with time-based entropy
+- **Password Hashing**: PBKDF2-HMAC-SHA256 with 600,000 iterations and unique salt
+- **Random Number Generation**: Python `secrets` module (cryptographically secure)
 
 ### Password Strength Evaluation
 Passwords are evaluated based on:
