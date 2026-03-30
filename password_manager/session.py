@@ -154,7 +154,7 @@ class SessionManager:
         try:
             with open(self.login_attempts_file, 'r') as f:
                 return json.load(f)
-        except:
+        except (IOError, json.JSONDecodeError, KeyError):
             return {}
     
     def _save_login_attempts(self, data):
