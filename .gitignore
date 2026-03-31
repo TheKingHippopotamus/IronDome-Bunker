@@ -69,3 +69,5 @@ coverage.xml
 # Personal test files
 test_password_manager.py
 users.json .claude/
+.astro/
+node_modules/
