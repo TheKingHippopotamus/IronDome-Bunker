@@ -575,24 +575,197 @@
       background: rgba(52, 211, 153, 0.1);
     }
 
-    /* Full command tree */
-    .cmd-tree-full {
+    /* Install box copy button */
+    .install-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+    .install-copy {
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      padding: 16px 14px;
+      cursor: pointer;
+      color: #546E7A;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all 0.2s;
+      font-family: -apple-system, sans-serif;
+    }
+    .install-copy:hover { background: rgba(255, 215, 0, 0.15); color: #FFD700; }
+    .install-copy.copied { color: #34d399; }
+    .install-box { border-radius: 4px 0 0 4px; }
+
+    /* CSS Workflow Tree */
+    .workflow-tree {
       background: #0d1117;
       border: 1px solid rgba(255, 215, 0, 0.08);
       border-radius: 2px;
-      padding: 20px 24px;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.78rem;
-      line-height: 1.8;
-      color: #78909C;
-      position: relative;
+      padding: 24px 0 24px 0;
       overflow-x: auto;
     }
-    .cmd-tree-full .t-root { color: #FFD700; font-weight: 700; }
-    .cmd-tree-full .t-branch { color: #263238; }
-    .cmd-tree-full .t-cmd { color: #34d399; }
-    .cmd-tree-full .t-arg { color: #4FC3F7; }
-    .cmd-tree-full .t-desc { color: #546E7A; }
+    .workflow-tree .wt-title {
+      padding: 0 24px 16px;
+      color: #FFD700;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+    .wt-list {
+      list-style: none;
+      margin: 0;
+      padding: 0 24px;
+    }
+    .wt-list li {
+      position: relative;
+      padding: 0 0 0 28px;
+      min-height: 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    /* Vertical line */
+    .wt-list > li::before {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #263238;
+    }
+    .wt-list > li:last-child::before {
+      bottom: 50%;
+    }
+    /* Horizontal branch */
+    .wt-list > li::after {
+      content: '';
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      width: 14px;
+      height: 1px;
+      background: #263238;
+    }
+    /* Node dot */
+    .wt-node {
+      position: absolute;
+      left: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #0d1117;
+      border: 2px solid #FFD700;
+      z-index: 1;
+    }
+    .wt-node.active { background: #FFD700; }
+    .wt-node.locked { border-color: #f87171; background: #f87171; }
+    .wt-node.dim { border-color: #263238; }
+    .wt-cmd {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.8rem;
+      color: #34d399;
+      white-space: nowrap;
+    }
+    .wt-arg {
+      color: #4FC3F7;
+    }
+    .wt-comment {
+      color: #546E7A;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.72rem;
+      margin-left: auto;
+      white-space: nowrap;
+    }
+    .wt-label {
+      color: #78909C;
+      font-size: 0.78rem;
+      font-style: italic;
+    }
+    .wt-error {
+      color: #f87171;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+    }
+    .wt-spacer {
+      height: 8px;
+    }
+    .wt-spacer::before, .wt-spacer::after { display: none; }
+    /* Sub-tree */
+    .wt-sub {
+      list-style: none;
+      margin: 0;
+      padding: 0 0 0 28px;
+    }
+    .wt-sub li {
+      position: relative;
+      padding: 0 0 0 24px;
+      min-height: 26px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .wt-sub li::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(255, 215, 0, 0.1);
+    }
+    .wt-sub li:last-child::before { bottom: 50%; }
+    .wt-sub li::after {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      width: 12px;
+      height: 1px;
+      background: rgba(255, 215, 0, 0.1);
+    }
+    .wt-sub .wt-node {
+      left: 2px;
+      width: 7px;
+      height: 7px;
+      border-color: #546E7A;
+      border-width: 1.5px;
+    }
+    /* Phase labels */
+    .wt-phase {
+      padding: 4px 24px 4px 28px;
+      position: relative;
+    }
+    .wt-phase::before {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: #263238;
+    }
+    .wt-phase-label {
+      display: inline-block;
+      background: rgba(255, 215, 0, 0.06);
+      border: 1px solid rgba(255, 215, 0, 0.12);
+      border-radius: 2px;
+      padding: 2px 10px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #FFD700;
+      margin-left: 20px;
+    }
 
     /* ═══════════════════════════════════════════ */
     /* RESPONSIVE                                  */
@@ -643,8 +816,11 @@
       <br><br>
       <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
       <p>Fortified CLI vault. AES-256 encryption, biometric auth, zero-knowledge architecture. Your bunkers never leave your machine.</p>
-      <div class="install-box">
-        <span>$</span> pip install IronDome
+      <div class="install-wrap">
+        <div class="install-box">
+          <span>$</span> pip install IronDome
+        </div>
+        <button class="install-copy" onclick="copyCmd('pip install IronDome'); this.textContent='done'; this.classList.add('copied'); setTimeout(()=>{this.textContent='copy'; this.classList.remove('copied')},1500)">copy</button>
       </div>
     </div>
   </section>
@@ -741,28 +917,86 @@
       </div>
     </div>
 
-    <!-- Full workflow tree -->
-    <div class="cmd-tree-full">
-<span class="t-desc">## Typical workflow</span>
-<span class="t-root">$</span> <span class="t-cmd">pip install IronDome</span>
-<span class="t-branch">│</span>
-<span class="t-branch">├──</span> <span class="t-cmd">irondome create bunker</span>          <span class="t-desc"># one-time setup</span>
-<span class="t-branch">│</span>   <span class="t-branch">├──</span> <span class="t-desc">choose: Touch ID / Hello / Password</span>
-<span class="t-branch">│</span>   <span class="t-branch">├──</span> <span class="t-desc">configure defaults (length, chars)</span>
-<span class="t-branch">│</span>   <span class="t-branch">└──</span> <span class="t-desc">save recovery key</span>
-<span class="t-branch">│</span>
-<span class="t-branch">├──</span> <span class="t-cmd">irondome open airspace</span>           <span class="t-desc"># authenticate once</span>
-<span class="t-branch">│</span>   <span class="t-branch">└──</span> <span class="t-desc">biometric / password &rarr; 30 min free access</span>
-<span class="t-branch">│</span>
-<span class="t-branch">├──</span> <span class="t-cmd">bunker create</span>                    <span class="t-desc"># no re-auth needed</span>
-<span class="t-branch">├──</span> <span class="t-cmd">bunker create</span>                    <span class="t-desc"># still free</span>
-<span class="t-branch">├──</span> <span class="t-cmd">bunker open</span> <span class="t-arg">github</span>               <span class="t-desc"># instant access</span>
-<span class="t-branch">├──</span> <span class="t-cmd">bunker fortify</span>                   <span class="t-desc"># backup</span>
-<span class="t-branch">│</span>
-<span class="t-branch">├──</span> <span class="t-cmd">irondome close airspace</span>          <span class="t-desc"># lock down</span>
-<span class="t-branch">│</span>
-<span class="t-branch">└──</span> <span class="t-cmd">bunker open</span>                      <span class="t-desc"># blocked &mdash; airspace closed</span>
-    <span class="t-branch">└──</span> <span style="color:#f87171">Airspace is closed. Run 'irondome open airspace' first.</span>
+    <!-- CSS-drawn workflow tree -->
+    <div class="workflow-tree">
+      <div class="wt-title">Typical Workflow</div>
+
+      <ul class="wt-list">
+        <!-- PHASE: SETUP -->
+        <li>
+          <span class="wt-node active"></span>
+          <span class="wt-cmd" onclick="copyCmd('irondome create bunker')" style="cursor:pointer">irondome create bunker</span>
+          <span class="wt-comment"># one-time setup</span>
+        </li>
+      </ul>
+      <div class="wt-phase"><span class="wt-phase-label">Setup</span></div>
+      <ul class="wt-list">
+        <li style="padding-left:56px; min-height:26px;">
+          <span class="wt-label">Choose: Touch ID / Windows Hello / Password</span>
+        </li>
+        <li style="padding-left:56px; min-height:26px;">
+          <span class="wt-label">Configure defaults (length, characters)</span>
+        </li>
+        <li style="padding-left:56px; min-height:26px;">
+          <span class="wt-label">Save recovery key (shown once)</span>
+        </li>
+
+        <!-- PHASE: AUTHENTICATE -->
+        <li class="wt-spacer"></li>
+        <li>
+          <span class="wt-node active"></span>
+          <span class="wt-cmd" onclick="copyCmd('irondome open airspace')" style="cursor:pointer">irondome open airspace</span>
+          <span class="wt-comment"># authenticate once</span>
+        </li>
+      </ul>
+      <div class="wt-phase"><span class="wt-phase-label">Airspace Open &mdash; 30 min</span></div>
+      <ul class="wt-list">
+        <li style="padding-left:56px; min-height:26px;">
+          <span class="wt-label">Biometric / password &rarr; free access for 30 minutes</span>
+        </li>
+
+        <!-- PHASE: OPERATE -->
+        <li class="wt-spacer"></li>
+        <li>
+          <span class="wt-node"></span>
+          <span class="wt-cmd" onclick="copyCmd('bunker create')" style="cursor:pointer">bunker create</span>
+          <span class="wt-comment"># no re-auth needed</span>
+        </li>
+        <li>
+          <span class="wt-node"></span>
+          <span class="wt-cmd" onclick="copyCmd('bunker create')" style="cursor:pointer">bunker create</span>
+          <span class="wt-comment"># still free</span>
+        </li>
+        <li>
+          <span class="wt-node"></span>
+          <span class="wt-cmd" onclick="copyCmd('bunker open github')" style="cursor:pointer">bunker open <span class="wt-arg">github</span></span>
+          <span class="wt-comment"># instant access</span>
+        </li>
+        <li>
+          <span class="wt-node"></span>
+          <span class="wt-cmd" onclick="copyCmd('bunker fortify')" style="cursor:pointer">bunker fortify</span>
+          <span class="wt-comment"># encrypted backup</span>
+        </li>
+
+        <!-- PHASE: LOCK DOWN -->
+        <li class="wt-spacer"></li>
+        <li>
+          <span class="wt-node active"></span>
+          <span class="wt-cmd" onclick="copyCmd('irondome close airspace')" style="cursor:pointer">irondome close airspace</span>
+          <span class="wt-comment"># lock down</span>
+        </li>
+
+        <!-- PHASE: BLOCKED -->
+        <li class="wt-spacer"></li>
+        <li>
+          <span class="wt-node locked"></span>
+          <span class="wt-cmd" style="opacity:0.5">bunker open</span>
+          <span class="wt-comment" style="color:#f87171"># blocked</span>
+        </li>
+        <li style="padding-left:56px; min-height:26px;">
+          <span class="wt-error">Airspace is closed. Run 'irondome open airspace' first.</span>
+        </li>
+      </ul>
     </div>
   </section>
 
