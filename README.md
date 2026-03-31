@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/iron%20dome%20svgs/iron_dome_dark.svg" alt="IronDome" width="280"/>
-</p>
+
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome" width="500"/>
