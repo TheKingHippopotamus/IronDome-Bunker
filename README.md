@@ -7,25 +7,23 @@
 <h3 align="center">Fortified Password Vault — TUI | AES-256 | Zero-Knowledge | Biometric | Hardware-Bound</h3>
 
 <p align="center">
-  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=for-the-badge&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
-  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/pyversions/IronDome?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
-  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-green?style=for-the-badge" alt="License GPL-3.0"></a>
-  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/dm/IronDome?style=for-the-badge&color=orange&label=downloads" alt="Downloads"></a>
+  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
+  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/pyversions/IronDome?style=flat-square&logo=python&logoColor=white" alt="Python"></a>
+  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/dm/IronDome?style=flat-square&color=orange&label=downloads" alt="Downloads"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"><img src="https://img.shields.io/github/license/TheKingHippopotamus/IronDome-Bunker?style=flat-square&color=green" alt="License"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker"><img src="https://img.shields.io/github/stars/TheKingHippopotamus/IronDome-Bunker?style=flat-square&logo=github&color=181717" alt="Stars"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/actions"><img src="https://img.shields.io/github/actions/workflow/status/TheKingHippopotamus/IronDome-Bunker/publish.yml?style=flat-square&label=CI&logo=githubactions&logoColor=white" alt="CI"></a>
 </p>
-
 <p align="center">
-  <img src="https://img.shields.io/badge/macOS-Touch_ID-000000?style=for-the-badge&logo=apple&logoColor=white" alt="macOS">
-  <img src="https://img.shields.io/badge/Windows-Hello-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Windows">
-  <img src="https://img.shields.io/badge/Linux-Fingerprint-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Linux">
-  <a href="https://textual.textualize.io/"><img src="https://img.shields.io/badge/Built_With-Textual-00FF41?style=for-the-badge&logo=python&logoColor=white" alt="Textual"></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker"><img src="https://img.shields.io/github/stars/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&logo=github&color=181717" alt="GitHub Stars"></a>
-  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"><img src="https://img.shields.io/github/issues/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&color=red" alt="Issues"></a>
-  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/actions"><img src="https://img.shields.io/github/actions/workflow/status/TheKingHippopotamus/IronDome-Bunker/publish.yml?style=for-the-badge&label=CI&logo=githubactions&logoColor=white" alt="CI"></a>
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/"><img src="https://img.shields.io/badge/Website-IronDome-FFD700?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Website"></a>
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/docs"><img src="https://img.shields.io/badge/Docs-Field_Manual-0073b7?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Docs"></a>
+  <img src="https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS">
+  <img src="https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows">
+  <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux">
+  <img src="https://img.shields.io/badge/Touch_ID-000000?style=flat-square&logo=apple&logoColor=white" alt="Touch ID">
+  <img src="https://img.shields.io/badge/Windows_Hello-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows Hello">
+  <img src="https://img.shields.io/badge/Fingerprint-4A5568?style=flat-square&logo=linux&logoColor=white" alt="Fingerprint">
+  <a href="https://textual.textualize.io/"><img src="https://img.shields.io/badge/Textual-00FF41?style=flat-square&logo=python&logoColor=black" alt="Textual"></a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/"><img src="https://img.shields.io/badge/Website-FFD700?style=flat-square&logo=firefoxbrowser&logoColor=black" alt="Website"></a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/docs"><img src="https://img.shields.io/badge/Docs-0073b7?style=flat-square&logo=readthedocs&logoColor=white" alt="Docs"></a>
 </p>
 
 <p align="center">
