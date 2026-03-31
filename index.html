@@ -7,7 +7,8 @@
   <meta name="description" content="IronDome - Military-grade CLI password manager with AES-256 encryption and zero-knowledge architecture">
   <meta property="og:title" content="IronDome — Secure CLI Password Manager">
   <meta property="og:description" content="AES-256 encryption, zero-knowledge, hardware-bound. Install: pip install IronDome">
-  <meta property="og:image" content="static/king-hippo.svg">
+  <meta property="og:image" content="static/bunker-badge.svg">
+  <link rel="icon" type="image/svg+xml" href="static/bunker-badge.svg">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -17,170 +18,342 @@
       min-height: 100vh;
     }
 
-    /* Nav */
+    /* ═══════════════════════════════════════════ */
+    /* NAV — Military Command Bar                  */
+    /* ═══════════════════════════════════════════ */
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(10, 14, 26, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-      padding: 12px 24px;
+      background: rgba(10, 14, 26, 0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid rgba(255, 215, 0, 0.2);
+      padding: 10px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 4px,
+        rgba(255, 215, 0, 0.15) 4px,
+        rgba(255, 215, 0, 0.15) 8px
+      );
     }
     nav .brand {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 700;
-      font-size: 1.2rem;
+      font-weight: 800;
+      font-size: 1.1rem;
       color: #FFD700;
       text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
-    nav .brand img { width: 32px; height: 32px; }
-    nav .links { display: flex; gap: 20px; }
+    nav .brand img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+    nav .links { display: flex; gap: 20px; align-items: center; }
     nav .links a {
-      color: #94a3b8;
+      color: #78909C;
       text-decoration: none;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
       transition: color 0.2s;
     }
     nav .links a:hover { color: #FFD700; }
+    .nav-divider {
+      width: 1px;
+      height: 16px;
+      background: rgba(255, 215, 0, 0.2);
+    }
 
-    /* Hero */
+    /* ═══════════════════════════════════════════ */
+    /* HERO — Tactical Command Center              */
+    /* ═══════════════════════════════════════════ */
     .hero {
       text-align: center;
-      padding: 80px 24px 60px;
-      background: radial-gradient(ellipse at center top, rgba(255, 215, 0, 0.06) 0%, transparent 60%);
+      padding: 80px 24px 40px;
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(ellipse at center top, rgba(255, 215, 0, 0.04) 0%, transparent 60%);
     }
-    .hero .logo { width: min(500px, 90vw); margin-bottom: 32px; }
-    .hero p {
-      color: #94a3b8;
-      font-size: 1.15rem;
-      max-width: 600px;
-      margin: 0 auto 32px;
-      line-height: 1.6;
+    .hero-radar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      opacity: 0.6;
+      pointer-events: none;
     }
-    .hero .install-box {
+    .hero-content { position: relative; z-index: 1; }
+    .hero .logo { width: min(560px, 92vw); margin-bottom: 28px; }
+
+    /* Classification banner */
+    .classification {
       display: inline-block;
-      background: #111827;
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      border-radius: 8px;
-      padding: 16px 32px;
-      font-family: 'SF Mono', 'Fira Code', monospace;
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.25);
+      padding: 4px 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #FFD700;
+      margin-bottom: 24px;
+    }
+
+    .hero p {
+      color: #78909C;
       font-size: 1.1rem;
+      max-width: 620px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    /* Install box — terminal style */
+    .install-box {
+      display: inline-block;
+      background: #0d1117;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 4px;
+      padding: 16px 32px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 1.05rem;
       color: #34d399;
       letter-spacing: 1px;
+      position: relative;
     }
-    .hero .install-box span { color: #64748b; }
+    .install-box::before {
+      content: 'INSTALL';
+      position: absolute;
+      top: -8px;
+      left: 12px;
+      background: #0d1117;
+      padding: 0 6px;
+      font-size: 0.55rem;
+      color: #FFD700;
+      letter-spacing: 2px;
+      font-family: -apple-system, sans-serif;
+      font-weight: 700;
+    }
+    .install-box span { color: #546E7A; }
 
-    /* Features grid */
+    /* ═══════════════════════════════════════════ */
+    /* SECTION DIVIDER                             */
+    /* ═══════════════════════════════════════════ */
+    .section-divider {
+      display: block;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 10px 24px;
+    }
+    .section-divider img {
+      width: 100%;
+      height: 20px;
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /* FEATURES — Tactical Grid                    */
+    /* ═══════════════════════════════════════════ */
+    .features-header {
+      text-align: center;
+      padding: 30px 24px 20px;
+    }
+    .features-header h2 {
+      color: #FFD700;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+    }
+    .features-header .sub {
+      color: #546E7A;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
     .features {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px 60px;
+      padding: 0 24px 40px;
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
+      gap: 16px;
     }
     .features .card {
-      background: #111827;
-      border: 1px solid rgba(255, 215, 0, 0.1);
-      border-radius: 10px;
+      background: #0d1117;
+      border: 1px solid rgba(255, 215, 0, 0.08);
+      border-radius: 2px;
       padding: 24px;
-      transition: border-color 0.3s;
+      transition: border-color 0.3s, background 0.3s;
+      position: relative;
+    }
+    .features .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: linear-gradient(180deg, #FFD700, transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
     }
     .features .card:hover {
-      border-color: rgba(255, 215, 0, 0.35);
+      border-color: rgba(255, 215, 0, 0.25);
+      background: #111827;
+    }
+    .features .card:hover::before { opacity: 0.6; }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 12px;
+      opacity: 0.9;
     }
     .features .card h3 {
       color: #FFD700;
-      font-size: 1rem;
-      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
     .features .card p {
-      color: #94a3b8;
-      font-size: 0.9rem;
+      color: #78909C;
+      font-size: 0.85rem;
       line-height: 1.5;
     }
 
-    /* Try It section */
+    /* ═══════════════════════════════════════════ */
+    /* WARNING STRIPE — Accent Bar                 */
+    /* ═══════════════════════════════════════════ */
+    .warning-bar {
+      height: 6px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #FFD700,
+        #FFD700 6px,
+        #0a0e1a 6px,
+        #0a0e1a 12px
+      );
+      opacity: 0.15;
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /* TRY IT — Tactical Terminal                  */
+    /* ═══════════════════════════════════════════ */
     .try-it {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px 60px;
+      padding: 30px 24px 40px;
+      position: relative;
     }
     .try-it h2 {
       color: #FFD700;
-      font-size: 0.85rem;
-      letter-spacing: 3px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 5px;
       text-transform: uppercase;
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
     .try-it .subtitle {
       text-align: center;
-      color: #64748b;
-      font-size: 0.85rem;
-      margin-bottom: 20px;
+      color: #546E7A;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
     }
-    .colab-preview {
+
+    /* Tactical corners on terminal */
+    .tactical-frame {
       position: relative;
+      padding: 8px;
     }
+    .tactical-frame .corner {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      opacity: 0.5;
+    }
+    .tactical-frame .corner.tl { top: 0; left: 0; }
+    .tactical-frame .corner.tr { top: 0; right: 0; transform: scaleX(-1); }
+    .tactical-frame .corner.bl { bottom: 0; left: 0; transform: scaleY(-1); }
+    .tactical-frame .corner.br { bottom: 0; right: 0; transform: scale(-1, -1); }
+
     .colab-terminal {
       background: #0d1117;
-      border: 1px solid rgba(255, 215, 0, 0.15);
-      border-radius: 12px;
+      border: 1px solid rgba(255, 215, 0, 0.12);
+      border-radius: 2px;
       overflow: hidden;
     }
     .term-bar {
-      background: #1c1c1e;
+      background: #111827;
       padding: 10px 14px;
       display: flex;
       align-items: center;
       gap: 6px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.08);
     }
     .term-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       display: inline-block;
     }
     .term-title {
-      color: #64748b;
-      font-size: 0.8rem;
+      color: #546E7A;
+      font-size: 0.75rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
       margin-left: 8px;
     }
     .term-body {
       padding: 20px 24px;
       font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       line-height: 1.7;
       color: #e2e8f0;
     }
-    .blink {
-      animation: blink 1s step-end infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
+    .blink { animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
     .btn-try {
       display: block;
       margin: 20px auto 0;
       width: fit-content;
-      padding: 14px 32px;
-      background: #F9AB00;
-      color: #1a1a1a;
-      font-size: 1rem;
-      font-weight: 700;
-      border-radius: 8px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #FFD700, #FF8F00);
+      color: #0a0e1a;
+      font-size: 0.85rem;
+      font-weight: 800;
+      border-radius: 2px;
       text-decoration: none;
       transition: all 0.2s;
-      letter-spacing: 0.5px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
-    .btn-try:hover { background: #FFD700; transform: translateY(-1px); }
+    .btn-try:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
+
     .try-actions {
       display: flex;
       gap: 12px;
@@ -192,172 +365,281 @@
       align-items: center;
       gap: 8px;
       padding: 10px 20px;
-      border-radius: 8px;
+      border-radius: 2px;
       text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 700;
       transition: all 0.2s;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
     .btn-github {
       background: transparent;
-      color: #94a3b8;
-      border: 1px solid rgba(255, 215, 0, 0.2);
+      color: #78909C;
+      border: 1px solid rgba(255, 215, 0, 0.15);
     }
     .btn-github:hover { color: #FFD700; border-color: rgba(255, 215, 0, 0.4); }
 
-    /* Docs section */
+    /* ═══════════════════════════════════════════ */
+    /* DOCS — Intelligence Briefing                */
+    /* ═══════════════════════════════════════════ */
     .docs {
       max-width: 900px;
       margin: 0 auto;
-      padding: 0 24px 60px;
+      padding: 30px 24px 60px;
     }
     .docs h2 {
       color: #FFD700;
-      font-size: 0.85rem;
-      letter-spacing: 3px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 5px;
       text-transform: uppercase;
       text-align: center;
       margin-bottom: 16px;
     }
     .docs-container {
       background: #ffffff;
-      border-radius: 12px;
+      border-radius: 2px;
       overflow: hidden;
+      border: 1px solid rgba(255, 215, 0, 0.1);
     }
     .docs-container simple-spawn {
       display: block;
       padding: 40px;
     }
 
-    /* Footer */
+    /* ═══════════════════════════════════════════ */
+    /* FOOTER — Command Post                       */
+    /* ═══════════════════════════════════════════ */
     footer {
       text-align: center;
       padding: 40px 24px;
-      border-top: 1px solid rgba(255, 215, 0, 0.1);
-      color: #475569;
-      font-size: 0.85rem;
+      border-top: 2px solid rgba(255, 215, 0, 0.1);
+      color: #37474F;
+      font-size: 0.8rem;
+      position: relative;
     }
-    footer img { width: 40px; margin-bottom: 8px; }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 4px,
+        rgba(255, 215, 0, 0.1) 4px,
+        rgba(255, 215, 0, 0.1) 8px
+      );
+    }
+    footer img {
+      width: 48px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
     footer a { color: #FFD700; text-decoration: none; }
+    footer .footer-meta {
+      margin-top: 8px;
+      color: #263238;
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
 
+    /* ═══════════════════════════════════════════ */
+    /* RESPONSIVE                                  */
+    /* ═══════════════════════════════════════════ */
     @media (max-width: 700px) {
       .features { grid-template-columns: 1fr; }
-      .hero .logo { width: 80vw; }
-      nav .links { gap: 12px; }
-      nav .links a { font-size: 0.8rem; }
+      .hero .logo { width: 85vw; }
+      .hero-radar { width: 500px; height: 500px; }
+      nav .links { gap: 10px; }
+      nav .links a { font-size: 0.7rem; letter-spacing: 1px; }
+      .nav-divider { display: none; }
+      .classification { font-size: 0.6rem; letter-spacing: 3px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- NAVIGATION — COMMAND BAR                    -->
+  <!-- ═══════════════════════════════════════════ -->
   <nav>
     <a class="brand" href="#">
-      <img src="static/king-hippo.svg" alt="IronDome">
+      <img src="static/bunker-badge.svg" alt="IronDome">
       IronDome
     </a>
     <div class="links">
       <a href="https://pypi.org/project/IronDome/">PyPI</a>
+      <span class="nav-divider"></span>
       <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker">GitHub</a>
-      <a href="#try">Try It</a>
-      <a href="#docs">Docs</a>
+      <span class="nav-divider"></span>
+      <a href="#try">Field Test</a>
+      <span class="nav-divider"></span>
+      <a href="#docs">Intel</a>
+      <span class="nav-divider"></span>
       <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md">Contribute</a>
     </div>
   </nav>
 
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- HERO — TACTICAL COMMAND CENTER              -->
+  <!-- ═══════════════════════════════════════════ -->
   <section class="hero">
-    <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
-    <p>Military-grade CLI password manager. AES-256 encryption, zero-knowledge architecture, hardware-bound keys. Your passwords never leave your machine.</p>
-    <div class="install-box">
-      <span>$</span> pip install IronDome <span>&&</span> bunker
+    <img class="hero-radar" src="static/radar-bg.svg" alt="" aria-hidden="true">
+    <div class="hero-content">
+      <div class="classification">Classified // Defense Grade Encryption</div>
+      <br><br>
+      <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
+      <p>Military-grade CLI password manager. AES-256 encryption, zero-knowledge architecture, hardware-bound keys. Your passwords never leave your machine.</p>
+      <div class="install-box">
+        <span>$</span> pip install IronDome <span>&&</span> bunker
+      </div>
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <img src="static/section-divider.svg" alt="" aria-hidden="true">
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- FEATURES — DEFENSE CAPABILITIES             -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="features-header">
+    <h2>Defense Capabilities</h2>
+    <div class="sub">Six layers of protection for your credentials</div>
+  </div>
+
   <section class="features">
     <div class="card">
+      <img class="card-icon" src="static/shield-aes.svg" alt="AES-256">
       <h3>AES-256 Encryption</h3>
       <p>Fernet symmetric encryption with PBKDF2-HMAC-SHA256 and 600,000 iterations. OWASP 2023 compliant.</p>
     </div>
     <div class="card">
+      <img class="card-icon" src="static/shield-zero.svg" alt="Zero Knowledge">
       <h3>Zero Knowledge</h3>
       <p>Your master password is never stored. Only a salted hash exists. Not even the tool can read it.</p>
     </div>
     <div class="card">
+      <img class="card-icon" src="static/shield-hardware.svg" alt="Hardware Bound">
       <h3>Hardware Bound</h3>
       <p>Encryption keys derived from your machine's hardware identifiers. Data is tied to your device.</p>
     </div>
     <div class="card">
+      <img class="card-icon" src="static/shield-brute.svg" alt="Brute Force Shield">
       <h3>Brute Force Shield</h3>
       <p>Adaptive lockout system with progressive security. Each failed attempt tightens the defense.</p>
     </div>
     <div class="card">
+      <img class="card-icon" src="static/shield-session.svg" alt="Session Protection">
       <h3>Session Protection</h3>
       <p>Automatic timeout after 30 minutes of inactivity. Sensitive operations require re-authentication.</p>
     </div>
     <div class="card">
+      <img class="card-icon" src="static/shield-local.svg" alt="Local Only">
       <h3>Local Only</h3>
       <p>No network. No cloud. No telemetry. Everything stays on your machine. Period.</p>
     </div>
   </section>
 
+  <!-- Warning stripe accent -->
+  <div class="warning-bar"></div>
+
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <img src="static/section-divider.svg" alt="" aria-hidden="true">
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- TRY IT — FIELD TEST                         -->
+  <!-- ═══════════════════════════════════════════ -->
   <section class="try-it" id="try">
-    <h2>Try It Yourself</h2>
-    <p class="subtitle">Real Python environment powered by Google Colab — no install needed</p>
-    <div class="colab-preview">
+    <h2>Field Test</h2>
+    <p class="subtitle">Live Python environment powered by Google Colab — zero installation required</p>
+
+    <div class="tactical-frame">
+      <img class="corner tl" src="static/tactical-corner.svg" alt="" aria-hidden="true">
+      <img class="corner tr" src="static/tactical-corner.svg" alt="" aria-hidden="true">
+      <img class="corner bl" src="static/tactical-corner.svg" alt="" aria-hidden="true">
+      <img class="corner br" src="static/tactical-corner.svg" alt="" aria-hidden="true">
+
       <div class="colab-terminal">
         <div class="term-bar">
           <span class="term-dot" style="background:#ff5f57"></span>
           <span class="term-dot" style="background:#febc2e"></span>
           <span class="term-dot" style="background:#28c840"></span>
-          <span class="term-title">IronDome — Live Session</span>
+          <span class="term-title">IronDome — Secure Session</span>
         </div>
         <div class="term-body">
-          <div><span style="color:#64748b">$</span> <span style="color:#34d399">pip install IronDome</span></div>
-          <div style="color:#94a3b8">Successfully installed IronDome-1.1.0</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">pip install IronDome</span></div>
+          <div style="color:#78909C">Successfully installed IronDome-1.1.0</div>
           <div>&nbsp;</div>
-          <div><span style="color:#64748b">$</span> <span style="color:#34d399">bunker</span></div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker</span></div>
           <div>&nbsp;</div>
           <div style="color:#FFD700">=== IronDome Password Manager ===</div>
-          <div style="color:#64748b">Version 1.1.0</div>
+          <div style="color:#546E7A">Version 1.1.0</div>
           <div>&nbsp;</div>
-          <div>Enter master username: <span style="color:#34d399">demo_user</span></div>
+          <div>Enter master username: <span style="color:#34d399">operator</span></div>
           <div>Create master password: <span style="color:#34d399">********</span></div>
           <div>&nbsp;</div>
           <div style="color:#34d399">Master account created successfully!</div>
-          <div style="color:#64748b">Encryption keys generated and bound to this machine.</div>
+          <div style="color:#546E7A">Encryption keys generated and bound to this machine.</div>
           <div>&nbsp;</div>
           <div style="color:#FFD700">=== Password Manager ===</div>
-          <div>Logged in as: <span style="color:#34d399">demo_user</span></div>
+          <div>Logged in as: <span style="color:#34d399">operator</span></div>
           <div>&nbsp;</div>
           <div>1. Generate a new password</div>
           <div>2. Save a password</div>
           <div>3. Find passwords</div>
           <div>4. List all websites</div>
-          <div style="color:#94a3b8">...</div>
+          <div style="color:#546E7A">...</div>
           <div>&nbsp;</div>
-          <div class="term-cursor">Choose option (1-8): <span class="blink">_</span></div>
+          <div>Choose option (1-8): <span class="blink">_</span></div>
         </div>
       </div>
-      <a class="btn-try" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">
-        Run It Live on Google Colab
-      </a>
     </div>
+
+    <a class="btn-try" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">
+      Launch Live Environment
+    </a>
     <div class="try-actions">
       <a class="btn-github" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank">View Source on GitHub</a>
     </div>
   </section>
 
+  <!-- Section Divider -->
+  <div class="section-divider">
+    <img src="static/section-divider.svg" alt="" aria-hidden="true">
+  </div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- DOCS — INTELLIGENCE BRIEFING                -->
+  <!-- ═══════════════════════════════════════════ -->
   <section class="docs" id="docs">
-    <h2>Documentation</h2>
+    <h2>Intelligence Briefing</h2>
     <div class="docs-container">
       <simple-spawn src="./README.md" shadow></simple-spawn>
     </div>
   </section>
 
+  <!-- Warning stripe accent -->
+  <div class="warning-bar"></div>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- FOOTER — COMMAND POST                       -->
+  <!-- ═══════════════════════════════════════════ -->
   <footer>
     <img src="static/king-hippo.svg" alt="King Hippopotamus">
     <br>
     Created by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a>
     &bull; Powered by <a href="https://www.npmjs.com/package/sst-spawn">SST</a>
+    <div class="footer-meta">IronDome Bunker Division // All Rights Reserved</div>
   </footer>
 
   <script type="module" src="https://unpkg.com/sst-spawn/dist/index.js"></script>
