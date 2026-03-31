@@ -41,10 +41,12 @@ dependencies = [
 
 [project.optional-dependencies]
 macos = ["pyobjc-framework-LocalAuthentication>=9.0"]
+tui = ["textual>=0.80.0"]
 
 [project.scripts]
 bunker = "password_manager.cli:bunker_main"
 irondome = "password_manager.cli:irondome_main"
+irondome-tui = "password_manager.tui.app:main"
 
 [project.urls]
 Homepage = "https://github.com/TheKingHippopotamus/IronDome-Bunker"

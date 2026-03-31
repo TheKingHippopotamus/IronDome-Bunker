@@ -1,0 +1,403 @@
+/* IronDome TUI — Master Stylesheet
+   Military/cybersecurity aesthetic: dark base, green accent, amber warnings, red threats */
+
+/* ─── Global ─── */
+
+Screen {
+    background: #0A0D0F;
+    color: #E2E8F0;
+}
+
+/* ─── Header ─── */
+
+Header {
+    background: #0D1117;
+    color: #00FF41;
+    dock: top;
+    height: 1;
+}
+
+/* ─── Footer / Status Bar ─── */
+
+Footer {
+    background: #0D1117;
+    color: #94A3B8;
+    dock: bottom;
+    height: 1;
+}
+
+/* ─── Panels & Cards ─── */
+
+.panel {
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 1 2;
+    margin: 1;
+}
+
+.panel:focus-within {
+    border: solid #00FF41;
+}
+
+.card {
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 1 2;
+    width: 1fr;
+    height: auto;
+}
+
+.card-value {
+    color: #00FF41;
+    text-style: bold;
+}
+
+.card-label {
+    color: #4A5568;
+}
+
+/* ─── Buttons ─── */
+
+Button {
+    background: #1A1F24;
+    color: #E2E8F0;
+    border: tall #1E2D3D;
+    min-width: 16;
+    height: 3;
+}
+
+Button:hover {
+    background: #1E2D3D;
+    border: tall #00FF41;
+}
+
+Button:focus {
+    border: tall #00FF41;
+    text-style: bold;
+}
+
+Button.-primary {
+    background: #00FF41;
+    color: #0A0D0F;
+    text-style: bold;
+}
+
+Button.-primary:hover {
+    background: #00CC33;
+}
+
+Button.-danger {
+    background: #FF2020;
+    color: #0A0D0F;
+    text-style: bold;
+}
+
+/* ─── Input Fields ─── */
+
+Input {
+    background: #1A1F24;
+    color: #E2E8F0;
+    border: tall #1E2D3D;
+    padding: 0 1;
+}
+
+Input:focus {
+    border: tall #00FF41;
+}
+
+Input.-invalid {
+    border: tall #FF2020;
+}
+
+/* ─── DataTable ─── */
+
+DataTable {
+    background: #111518;
+    height: 1fr;
+}
+
+DataTable > .datatable--header {
+    background: #0D1117;
+    color: #94A3B8;
+    text-style: bold;
+}
+
+DataTable > .datatable--cursor {
+    background: #1A1F24;
+    color: #00FF41;
+    text-style: bold;
+}
+
+DataTable > .datatable--hover {
+    background: #1A1F24;
+}
+
+/* ─── Sidebar ─── */
+
+.sidebar {
+    dock: left;
+    width: 24;
+    background: #111518;
+    border-right: solid #1E2D3D;
+    padding: 1;
+}
+
+/* ─── Status Indicators ─── */
+
+.status-open {
+    color: #00FF41;
+    text-style: bold;
+}
+
+.status-closed {
+    color: #FF2020;
+    text-style: bold;
+}
+
+.status-warning {
+    color: #FFB300;
+    text-style: bold;
+}
+
+/* ─── Strength Meter ─── */
+
+.strength-excellent {
+    color: #00FF41;
+}
+
+.strength-strong {
+    color: #00B4D8;
+}
+
+.strength-medium {
+    color: #FFB300;
+}
+
+.strength-weak {
+    color: #FF2020;
+}
+
+/* ─── Splash Screen ─── */
+
+#splash-container {
+    align: center middle;
+    width: 100%;
+    height: 100%;
+}
+
+#splash-logo {
+    color: #00FF41;
+    text-align: center;
+    width: auto;
+    content-align: center middle;
+}
+
+#splash-version {
+    color: #4A5568;
+    text-align: center;
+    margin-top: 1;
+}
+
+#splash-progress {
+    width: 50;
+    margin-top: 2;
+}
+
+#splash-status {
+    color: #94A3B8;
+    text-align: center;
+    margin-top: 1;
+}
+
+/* ─── Login Screen ─── */
+
+#login-container {
+    align: center middle;
+    width: 60;
+    height: auto;
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 2 4;
+}
+
+#login-title {
+    color: #00FF41;
+    text-style: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 1;
+}
+
+#login-mode {
+    color: #94A3B8;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 2;
+}
+
+#login-error {
+    color: #FF2020;
+    text-align: center;
+    width: 100%;
+    margin-top: 1;
+}
+
+/* ─── Dashboard ─── */
+
+#dashboard-stats {
+    layout: horizontal;
+    height: 5;
+    margin: 1 0;
+}
+
+#dashboard-actions {
+    layout: grid;
+    grid-size: 3 2;
+    grid-gutter: 1;
+    margin: 1 0;
+    height: auto;
+}
+
+#dashboard-activity {
+    height: 1fr;
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 1 2;
+    margin: 1 0;
+}
+
+/* ─── Vault Screen ─── */
+
+#vault-search {
+    dock: top;
+    height: 3;
+    margin: 0 0 1 0;
+}
+
+#vault-table-container {
+    height: 1fr;
+}
+
+#vault-count {
+    dock: bottom;
+    height: 1;
+    color: #4A5568;
+    text-align: right;
+    padding: 0 2;
+}
+
+/* ─── Detail Screen ─── */
+
+.detail-field {
+    layout: horizontal;
+    height: 3;
+    margin: 0 0 1 0;
+}
+
+.detail-label {
+    width: 16;
+    color: #4A5568;
+    padding: 1 1;
+}
+
+.detail-value {
+    width: 1fr;
+    color: #E2E8F0;
+    padding: 1 1;
+    background: #1A1F24;
+}
+
+.detail-value-masked {
+    color: #4A5568;
+}
+
+/* ─── Generator Screen ─── */
+
+#generator-output {
+    color: #00FF41;
+    text-style: bold;
+    text-align: center;
+    padding: 2;
+    margin: 1;
+    background: #1A1F24;
+    border: solid #1E2D3D;
+}
+
+#generator-controls {
+    layout: horizontal;
+    height: auto;
+    margin: 1 0;
+}
+
+/* ─── Help Overlay ─── */
+
+#help-modal {
+    align: center middle;
+    width: 70;
+    max-height: 80%;
+    background: #111518;
+    border: solid #00FF41;
+    padding: 2;
+}
+
+#help-title {
+    color: #00FF41;
+    text-style: bold;
+    text-align: center;
+    margin-bottom: 1;
+}
+
+/* ─── Lock Overlay ─── */
+
+#lock-overlay {
+    align: center middle;
+    width: 100%;
+    height: 100%;
+    background: #0A0D0F 90%;
+}
+
+#lock-message {
+    color: #FF2020;
+    text-style: bold;
+    text-align: center;
+}
+
+/* ─── Notifications ─── */
+
+Toast {
+    background: #1A1F24;
+    border: tall #1E2D3D;
+    color: #E2E8F0;
+}
+
+Toast.-information {
+    border: tall #00B4D8;
+}
+
+Toast.-warning {
+    border: tall #FFB300;
+}
+
+Toast.-error {
+    border: tall #FF2020;
+}
+
+/* ─── ProgressBar ─── */
+
+ProgressBar Bar > .bar--bar {
+    color: #00FF41;
+}
+
+ProgressBar Bar > .bar--complete {
+    color: #00FF41;
+}
+
+/* ─── Switch / Toggles ─── */
+
+Switch:focus {
+    border: tall #00FF41;
+}
+
+Switch.-on > .switch--slider {
+    color: #00FF41;
+}
