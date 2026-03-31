@@ -9,18 +9,18 @@ import '../styles/global.css';
     <link rel="icon" href="/IronDome-Bunker/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/IronDome-Bunker/apple-touch-icon.png" />
     <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
-    <meta name="theme-color" content="#0a0e1a" />
+    <meta name="theme-color" content="#0A0D06" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>Features — IronDome Password Vault</title>
     <meta name="description" content="Every layer of defense, explained. Military-grade AES-256 encryption, zero-knowledge architecture, hardware-bound keys, and biometric authentication." />
     <style>
       :root {
-        --bg: #0a0e1a;
-        --gold: #FFD700;
-        --gold-dim: #b8960c;
-        --card: #0d1117;
-        --card-border: #1a2332;
+        --bg: #0A0D06;
+        --gold: #8B9A46;
+        --gold-dim: #6B7A36;
+        --card: #0D1208;
+        --card-border: #1A2610;
         --text: #e2e8f0;
         --muted: #78909C;
         --green: #34d399;
@@ -124,7 +124,7 @@ import '../styles/global.css';
       /* ── Terminal block ── */
       .terminal-block {
         background: #060a12;
-        border: 1px solid #1a2332;
+        border: 1px solid #1A2610;
         border-left: 3px solid var(--gold);
         padding: 1.25rem 1.5rem;
         font-family: var(--mono);
@@ -223,7 +223,7 @@ import '../styles/global.css';
 
       .compare-table td {
         padding: 0.875rem 1.25rem;
-        border-bottom: 1px solid #1a2332;
+        border-bottom: 1px solid #1A2610;
         color: var(--text);
         vertical-align: middle;
       }
@@ -246,7 +246,7 @@ import '../styles/global.css';
       }
 
       .compare-table tr:hover td {
-        background: rgba(255, 215, 0, 0.03);
+        background: rgba(139, 154, 70, 0.03);
       }
 
       .compare-table tbody tr:last-child td {
@@ -283,8 +283,8 @@ import '../styles/global.css';
 
       /* ── Nav ── */
       nav {
-        border-bottom: 1px solid #1a2332;
-        background: rgba(10, 14, 26, 0.95);
+        border-bottom: 1px solid #1A2610;
+        background: rgba(10, 13, 6, 0.95);
         position: sticky;
         top: 0;
         z-index: 100;
@@ -304,7 +304,7 @@ import '../styles/global.css';
       .btn-primary {
         display: inline-block;
         background: var(--gold);
-        color: #0a0e1a;
+        color: #0A0D06;
         font-family: var(--mono);
         font-size: 0.8rem;
         font-weight: 700;
@@ -355,7 +355,7 @@ import '../styles/global.css';
         content: '';
         flex: 1;
         height: 1px;
-        background: #1a2332;
+        background: #1A2610;
       }
 
       /* ── Responsive layout ── */
@@ -383,7 +383,7 @@ import '../styles/global.css';
       /* ── Scrollbar ── */
       ::-webkit-scrollbar { width: 6px; height: 6px; }
       ::-webkit-scrollbar-track { background: var(--bg); }
-      ::-webkit-scrollbar-thumb { background: #1a2332; border-radius: 3px; }
+      ::-webkit-scrollbar-thumb { background: #1A2610; border-radius: 3px; }
       ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
     </style>
   </head>
@@ -406,11 +406,11 @@ import '../styles/global.css';
     </nav>
 
     <!-- ═══════════════════════════════════════════ PAGE HEADER ═══ -->
-    <header style="padding:5rem 0 4rem;background:radial-gradient(ellipse 120% 80% at 50% -20%,rgba(255,215,0,0.06) 0%,transparent 70%);">
+    <header style="padding:5rem 0 4rem;background:radial-gradient(ellipse 120% 80% at 50% -20%,rgba(139,154,70,0.06) 0%,transparent 70%);">
       <div class="content-wrap" style="text-align:center;">
 
         <!-- Classification badge -->
-        <div style="display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:2rem;padding:0.4rem 1.25rem;border:1px solid var(--gold);background:rgba(255,215,0,0.06);">
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:2rem;padding:0.4rem 1.25rem;border:1px solid var(--gold);background:rgba(139,154,70,0.06);">
           <span style="display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s ease-in-out infinite;"></span>
           <span class="label-gold">CLASSIFICATION: TACTICAL CAPABILITIES</span>
           <span style="display:inline-block;width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse 2s ease-in-out infinite 1s;"></span>
@@ -425,16 +425,16 @@ import '../styles/global.css';
         </p>
 
         <!-- Tactical metrics strip -->
-        <div style="display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:2rem;border:1px solid #1a2332;max-width:640px;margin-left:auto;margin-right:auto;">
-          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1a2332;text-align:center;">
+        <div style="display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:2rem;border:1px solid #1A2610;max-width:640px;margin-left:auto;margin-right:auto;">
+          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1A2610;text-align:center;">
             <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">256</div>
             <div class="label-muted" style="margin-top:0.25rem;">bit AES</div>
           </div>
-          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1a2332;text-align:center;">
+          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1A2610;text-align:center;">
             <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">600K</div>
             <div class="label-muted" style="margin-top:0.25rem;">iterations</div>
           </div>
-          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1a2332;text-align:center;">
+          <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1A2610;text-align:center;">
             <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">0</div>
             <div class="label-muted" style="margin-top:0.25rem;">cloud deps</div>
           </div>
@@ -513,7 +513,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
                   ['IV', 'Unique per encryption operation'],
                   ['Authentication', 'HMAC-SHA256 tag on every write'],
                 ].map(([k, v]) => (
-                  <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0.875rem;border-bottom:1px solid #1a2332;font-size:0.85rem;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;padding:0.625rem 0.875rem;border-bottom:1px solid #1A2610;font-size:0.85rem;">
                     <span style="font-family:var(--mono);color:var(--muted);font-size:0.78rem;">{k}</span>
                     <span style="color:var(--text);text-align:right;font-size:0.82rem;">{v}</span>
                   </div>
@@ -545,7 +545,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             </div>
           </div>
 
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#1a2332;border:1px solid #1a2332;margin-top:0.5rem;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1px;background:#1A2610;border:1px solid #1A2610;margin-top:0.5rem;">
             {[
               { label: 'STORED ON DISK', items: ['Encrypted vault entries', 'PBKDF2 verification hash', 'Salt (random, per-vault)', 'Hardware binding artifacts'], bad: false },
               { label: 'NEVER STORED', items: ['Master password (plaintext)', 'Master password (encrypted)', 'Master password (hashed)', 'Derived encryption key'], bad: true },
@@ -600,7 +600,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
               { src: 'mac', label: 'macOS', detail: 'IOPlatformUUID', icon: '' },
               { src: 'win', label: 'Windows', detail: 'MachineGuid (registry)', icon: '' },
             ].map(({ label, detail }) => (
-              <div style="background:#060a12;border:1px solid #1a2332;padding:1.25rem;border-top:2px solid var(--gold-dim);">
+              <div style="background:#060a12;border:1px solid #1A2610;padding:1.25rem;border-top:2px solid var(--gold-dim);">
                 <div style="font-family:var(--mono);font-size:0.85rem;font-weight:700;color:var(--text);margin-bottom:0.375rem;">{label}</div>
                 <div style="font-family:var(--mono);font-size:0.72rem;color:var(--muted);">{detail}</div>
               </div>
@@ -626,7 +626,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             <!-- macOS -->
             <div class="bio-cell">
               <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-                <div style="width:36px;height:36px;background:#1a2332;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
+                <div style="width:36px;height:36px;background:#1A2610;display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0;">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.78 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="#94a3b8"/></svg>
                 </div>
                 <div>
@@ -642,7 +642,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             <!-- Windows -->
             <div class="bio-cell">
               <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-                <div style="width:36px;height:36px;background:#1a2332;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <div style="width:36px;height:36px;background:#1A2610;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12V6.75L9 5.43V11.91L3 12ZM20 3V11.75L10 11.9V5.21L20 3ZM3 13L9 13.09V19.9L3 18.75V13ZM20 13.25V22L10 20.09V13.1L20 13.25Z" fill="#94a3b8"/></svg>
                 </div>
                 <div>
@@ -658,7 +658,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             <!-- Linux -->
             <div class="bio-cell">
               <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
-                <div style="width:36px;height:36px;background:#1a2332;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:#94a3b8;font-family:var(--mono);font-weight:700;">
+                <div style="width:36px;height:36px;background:#1A2610;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;color:#94a3b8;font-family:var(--mono);font-weight:700;">
                   $
                 </div>
                 <div>
@@ -718,7 +718,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
               { value: 'Cross-process', label: 'SESSION SCOPE', color: 'var(--text)' },
               { value: 'Auto', label: 'EXPIRY ENFORCEMENT', color: 'var(--green)' },
             ].map(({ value, label, color }) => (
-              <div style="background:#060a12;border:1px solid #1a2332;padding:1.25rem;text-align:center;">
+              <div style="background:#060a12;border:1px solid #1A2610;padding:1.25rem;text-align:center;">
                 <div style={`font-family:var(--mono);font-size:1.1rem;font-weight:900;color:${color};margin-bottom:0.375rem;`}>{value}</div>
                 <div class="label-muted">{label}</div>
               </div>
@@ -775,13 +775,13 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           </p>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
-            <div style="background:#060a12;border:1px solid #1a2332;border-left:3px solid var(--gold);padding:1.5rem;">
+            <div style="background:#060a12;border:1px solid #1A2610;border-left:3px solid var(--gold);padding:1.5rem;">
               <div class="label-gold" style="margin-bottom:0.875rem;">BIP-39 STANDARD</div>
               <div style="font-size:0.85rem;color:#94a3b8;line-height:1.7;">
                 The same mnemonic standard used by Bitcoin hardware wallets. 24 words drawn from a 2048-word wordlist, encoding 256 bits of entropy. Standardized, audited, and battle-tested by the cryptocurrency industry.
               </div>
             </div>
-            <div style="background:#060a12;border:1px solid #1a2332;border-left:3px solid var(--red);padding:1.5rem;">
+            <div style="background:#060a12;border:1px solid #1A2610;border-left:3px solid var(--red);padding:1.5rem;">
               <div style="font-family:var(--mono);font-size:0.7rem;font-weight:700;letter-spacing:0.15em;color:var(--red);margin-bottom:0.875rem;">SECURITY WARNING</div>
               <div style="font-size:0.85rem;color:#94a3b8;line-height:1.7;">
                 Never store your recovery phrase digitally. Never photograph it. Never type it into any device while connected to a network. If someone obtains these 24 words, they own your vault permanently.
@@ -794,7 +794,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             <div class="label-muted" style="margin-bottom:0.75rem;">EXAMPLE PHRASE FORMAT (CENSORED)</div>
             <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px;">
               {Array.from({length: 24}, (_, i) => (
-                <div style="background:#060a12;border:1px solid #1a2332;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.5rem;">
+                <div style="background:#060a12;border:1px solid #1A2610;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.5rem;">
                   <span style="font-family:var(--mono);font-size:0.65rem;color:var(--gold-dim);width:1.5rem;flex-shrink:0;">{String(i + 1).padStart(2, '0')}</span>
                   <span style="font-family:var(--mono);font-size:0.72rem;color:#475569;letter-spacing:0.05em;">••••••</span>
                 </div>
@@ -852,12 +852,12 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           </p>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;background:#1a2332;border:1px solid #1a2332;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;background:#1A2610;border:1px solid #1A2610;">
 
           <!-- Password Generation -->
           <div style="background:var(--card);padding:2rem;position:relative;">
-            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1a2332;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#FFD700" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1A2610;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="#8B9A46" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="#8B9A46" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
             <div class="label-gold" style="margin-bottom:0.625rem;">Password Generation</div>
             <h4 style="font-size:1.05rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);">Customizable Generator</h4>
@@ -872,8 +872,8 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
           <!-- Search -->
           <div style="background:var(--card);padding:2rem;position:relative;">
-            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1a2332;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8" stroke="#FFD700" stroke-width="1.5"/><path d="m21 21-4.35-4.35" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1A2610;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="11" cy="11" r="8" stroke="#8B9A46" stroke-width="1.5"/><path d="m21 21-4.35-4.35" stroke="#8B9A46" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
             <div class="label-gold" style="margin-bottom:0.625rem;">Vault Search</div>
             <h4 style="font-size:1.05rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);">Instant Retrieval</h4>
@@ -889,8 +889,8 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
           <!-- Interactive CLI -->
           <div style="background:var(--card);padding:2rem;position:relative;">
-            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1a2332;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="4 17 10 11 4 5" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="19" x2="20" y2="19" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1A2610;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="4 17 10 11 4 5" stroke="#8B9A46" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="12" y1="19" x2="20" y2="19" stroke="#8B9A46" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
             <div class="label-gold" style="margin-bottom:0.625rem;">Interactive CLI</div>
             <h4 style="font-size:1.05rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);">9-Option Menu System</h4>
@@ -907,8 +907,8 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
           <!-- TUI -->
           <div style="background:var(--card);padding:2rem;position:relative;">
-            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1a2332;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#FFD700" stroke-width="1.5"/><path d="M8 21h8m-4-4v4" stroke="#FFD700" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div style="width:40px;height:40px;background:#060a12;border:1px solid #1A2610;display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="3" width="20" height="14" rx="2" stroke="#8B9A46" stroke-width="1.5"/><path d="M8 21h8m-4-4v4" stroke="#8B9A46" stroke-width="1.5" stroke-linecap="round"/></svg>
             </div>
             <div class="label-gold" style="margin-bottom:0.625rem;">Terminal UI</div>
             <h4 style="font-size:1.05rem;font-weight:700;margin:0 0 0.75rem;color:var(--text);">Textual-Based TUI</h4>
@@ -917,7 +917,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             </p>
             <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
               {['Dashboard', 'Splash Screen', 'Help Overlay', 'Entry Browser'].map(f => (
-                <span style="font-family:var(--mono);font-size:0.7rem;padding:0.25rem 0.625rem;background:#060a12;border:1px solid #1a2332;color:var(--muted);">{f}</span>
+                <span style="font-family:var(--mono);font-size:0.7rem;padding:0.25rem 0.625rem;background:#060a12;border:1px solid #1A2610;color:var(--muted);">{f}</span>
               ))}
             </div>
           </div>
@@ -942,7 +942,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
         <div style="border:1px solid var(--gold);overflow:hidden;position:relative;">
           <!-- Briefing header -->
-          <div style="background:#060a12;border-bottom:1px solid #1a2332;padding:0.875rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+          <div style="background:#060a12;border-bottom:1px solid #1A2610;padding:0.875rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
             <div style="display:flex;align-items:center;gap:0.75rem;">
               <div style="width:8px;height:8px;background:var(--gold);border-radius:50%;"></div>
               <span class="label-gold">TACTICAL COMPARISON / CLASSIFICATION: SECRET</span>
@@ -991,7 +991,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             </table>
           </div>
 
-          <div style="background:#060a12;border-top:1px solid #1a2332;padding:0.875rem 1.25rem;">
+          <div style="background:#060a12;border-top:1px solid #1A2610;padding:0.875rem 1.25rem;">
             <span class="label-muted">ASSESSMENT: LOCAL-FIRST ARCHITECTURE ELIMINATES ENTIRE ATTACK SURFACE CATEGORIES</span>
           </div>
         </div>
@@ -1025,9 +1025,9 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
             <span class="pip-cmd">pip install IronDome</span>
             <button
               onclick="navigator.clipboard.writeText('pip install IronDome').then(()=>{this.textContent='COPIED';setTimeout(()=>this.textContent='COPY',1800)})"
-              style="background:none;border:1px solid #1a2332;color:var(--muted);font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.75rem;cursor:pointer;transition:border-color 0.15s,color 0.15s;"
+              style="background:none;border:1px solid #1A2610;color:var(--muted);font-family:var(--mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.35rem 0.75rem;cursor:pointer;transition:border-color 0.15s,color 0.15s;"
               onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';"
-              onmouseout="this.style.borderColor='#1a2332';this.style.color='var(--muted)';"
+              onmouseout="this.style.borderColor='#1A2610';this.style.color='var(--muted)';"
             >COPY</button>
           </div>
         </div>
@@ -1060,7 +1060,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
     </section>
 
     <!-- ═══════════════════════════════════════════ FOOTER ═══ -->
-    <footer style="border-top:1px solid #1a2332;padding:2.5rem 0;">
+    <footer style="border-top:1px solid #1A2610;padding:2.5rem 0;">
       <div class="content-wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;">
         <div style="display:flex;align-items:center;gap:0.75rem;">
           <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" height="22" />
@@ -1089,40 +1089,72 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
         }
       }
 
-      @media (max-width: 640px) {
-        .auth-mode-grid {
+      @media (max-width: 768px) {
+        /* Stack all grids to single column */
+        [style*="grid-template-columns"] {
           grid-template-columns: 1fr !important;
         }
 
-        /* Mobile: stack all inline grids */
-        [style*="grid-template-columns:repeat(auto-fit"] {
-          grid-template-columns: 1fr !important;
-        }
-
-        [style*="grid-template-columns:repeat(auto-fill"] {
-          grid-template-columns: 1fr !important;
-        }
-
-        /* Reduce section padding on mobile */
+        /* Reduce section padding */
         section {
           padding-block: 2.5rem !important;
         }
 
-        /* Nav adjustments */
-        nav [style*="gap:2rem"] {
+        /* Fix nav on mobile */
+        nav .container,
+        nav [style*="display:flex"] {
+          flex-wrap: wrap !important;
+          gap: 0.5rem !important;
+        }
+
+        /* Stack flex containers */
+        [style*="display:flex"][style*="gap:1.5rem"],
+        [style*="display:flex"][style*="gap:2rem"] {
+          flex-direction: column !important;
           gap: 0.75rem !important;
         }
 
-        /* Stack flex items on mobile */
-        [style*="display:flex"][style*="gap:1.5rem"] {
-          flex-direction: column;
-          gap: 1rem !important;
+        /* Fix overflow */
+        pre, code {
+          overflow-x: auto !important;
+          font-size: 0.75rem !important;
+          word-break: break-all !important;
+        }
+
+        /* Fix padding */
+        .content-wrap,
+        [style*="padding:"] {
+          padding: 1rem !important;
+        }
+
+        /* Fix images */
+        img[width="64"] {
+          width: 40px !important;
+          height: 40px !important;
+        }
+
+        /* Tab navigation wrap */
+        [style*="display:flex"][style*="flex-wrap:wrap"] {
+          gap: 0 !important;
+        }
+
+        /* Auth mode grid */
+        .auth-mode-grid {
+          grid-template-columns: 1fr !important;
         }
       }
 
-      @media (max-width: 400px) {
+      @media (max-width: 480px) {
         section {
-          padding-block: 2rem !important;
+          padding-block: 1.5rem !important;
+        }
+
+        h2 {
+          font-size: 1.25rem !important;
+        }
+
+        nav {
+          padding: 0.5rem !important;
         }
       }
     </style>
