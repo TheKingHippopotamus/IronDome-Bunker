@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IronDome — Secure CLI Password Manager</title>
-  <meta name="description" content="IronDome - Military-grade CLI password manager with AES-256 encryption and zero-knowledge architecture">
-  <meta property="og:title" content="IronDome — Secure CLI Password Manager">
-  <meta property="og:description" content="AES-256 encryption, zero-knowledge, hardware-bound. Install: pip install IronDome">
+  <title>IronDome — Fortified CLI Vault</title>
+  <meta name="description" content="IronDome — Fortified CLI vault with AES-256 encryption, biometric auth, and zero-knowledge architecture">
+  <meta property="og:title" content="IronDome — Fortified CLI Vault">
+  <meta property="og:description" content="AES-256 encryption, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
   <meta property="og:image" content="static/bunker-badge.svg">
   <link rel="icon" type="image/svg+xml" href="static/bunker-badge.svg">
   <style>
@@ -561,7 +561,7 @@
   <!-- ═══════════════════════════════════════════ -->
   <section class="try-it" id="try">
     <h2>Field Test</h2>
-    <p class="subtitle">Live Python environment powered by Google Colab — zero installation required</p>
+    <p class="subtitle">Real CLI workflow — what you see when you run IronDome</p>
 
     <div class="tactical-frame">
       <img class="corner tl" src="static/tactical-corner.svg" alt="" aria-hidden="true">
@@ -574,41 +574,61 @@
           <span class="term-dot" style="background:#ff5f57"></span>
           <span class="term-dot" style="background:#febc2e"></span>
           <span class="term-dot" style="background:#28c840"></span>
-          <span class="term-title">IronDome — Secure Session</span>
+          <span class="term-title">IronDome — v2.2</span>
         </div>
         <div class="term-body">
+          <div style="color:#546E7A">// Step 1 — Install</div>
           <div><span style="color:#546E7A">$</span> <span style="color:#34d399">pip install IronDome</span></div>
-          <div style="color:#78909C">Successfully installed IronDome-1.1.0</div>
+          <div style="color:#78909C">Successfully installed IronDome-2.2.1</div>
           <div>&nbsp;</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker</span></div>
+          <div style="color:#546E7A">// Step 2 — First-time setup</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome create bunker</span></div>
           <div>&nbsp;</div>
-          <div style="color:#FFD700">=== IronDome Password Manager ===</div>
-          <div style="color:#546E7A">Version 1.1.0</div>
+          <div style="color:#FFD700">Touch ID detected on this device!</div>
           <div>&nbsp;</div>
-          <div>Enter master username: <span style="color:#34d399">operator</span></div>
-          <div>Create master password: <span style="color:#34d399">********</span></div>
+          <div>Choose your security level:</div>
+          <div>  <span style="color:#4FC3F7">1.</span> Touch ID Only — quick access, no password</div>
+          <div>  <span style="color:#4FC3F7">2.</span> Touch ID + Master Password — maximum security</div>
+          <div>  <span style="color:#4FC3F7">3.</span> Master Password Only — traditional</div>
           <div>&nbsp;</div>
-          <div style="color:#34d399">Master account created successfully!</div>
-          <div style="color:#546E7A">Encryption keys generated and bound to this machine.</div>
+          <div>Select: <span style="color:#34d399">1</span></div>
+          <div style="color:#34d399">Touch ID vault created successfully!</div>
           <div>&nbsp;</div>
-          <div style="color:#FFD700">=== Password Manager ===</div>
-          <div>Logged in as: <span style="color:#34d399">operator</span></div>
+          <div style="color:#546E7A">// Step 3 — Open airspace (30 min session)</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome open airspace</span></div>
+          <div style="color:#FFD700">Authenticate with Touch ID:</div>
+          <div style="color:#34d399">Touch ID verified. Welcome back!</div>
+          <div style="color:#78909C">Airspace open. You have 30 minutes of free access.</div>
           <div>&nbsp;</div>
-          <div>1. Generate a new password</div>
-          <div>2. Save a password</div>
-          <div>3. Find passwords</div>
-          <div>4. List all websites</div>
-          <div style="color:#546E7A">...</div>
+          <div style="color:#546E7A">// Step 4 — Create bunkers (no re-auth needed)</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker create</span></div>
+          <div>Generated: <span style="color:#34d399">f4(ZMI87T-eZnsFrp#VgQ</span></div>
+          <div>Strength: <span style="color:#34d399">Excellent</span></div>
+          <div>Username: <span style="color:#4FC3F7">admin@github.com</span></div>
+          <div>Service:  <span style="color:#4FC3F7">github.com</span></div>
+          <div style="color:#34d399">Bunker stored for admin@github.com at github.com</div>
           <div>&nbsp;</div>
-          <div>Choose option (1-8): <span class="blink">_</span></div>
+          <div style="color:#546E7A">// Retrieve</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker open github</span></div>
+          <div>  Service:  <span style="color:#4FC3F7">github.com</span></div>
+          <div>  Username: <span style="color:#4FC3F7">admin@github.com</span></div>
+          <div>  Password: <span style="color:#34d399">f4(ZMI87T-eZnsFrp#VgQ</span></div>
+          <div>&nbsp;</div>
+          <div style="color:#546E7A">// Lock down</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome close airspace</span></div>
+          <div style="color:#FFD700">Airspace closed. All access locked.</div>
+          <div>&nbsp;</div>
+          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome status</span></div>
+          <div>=== IronDome Status ===</div>
+          <div>  Dome:     <span style="color:#34d399">configured</span></div>
+          <div>  Airspace: <span style="color:#f87171">CLOSED</span></div>
+          <div>  Biometric: <span style="color:#4FC3F7">Touch ID</span></div>
         </div>
       </div>
     </div>
 
-    <a class="btn-try" href="https://colab.research.google.com/drive/1nC4ePtw5LF-GTMEPm-_13EXLUtEEgm7p?usp=sharing" target="_blank">
-      Launch Live Environment
-    </a>
     <div class="try-actions">
+      <a class="btn-try" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">Try on Google Colab</a>
       <a class="btn-github" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank">View Source on GitHub</a>
     </div>
   </section>
