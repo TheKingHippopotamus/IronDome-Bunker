@@ -215,6 +215,51 @@ class AppState:
             log.error("Failed to save entry: %s", exc)
             return False
 
+    def update_entry(
+        self,
+        orig_username: str,
+        orig_website: str,
+        new_username: str,
+        new_website: str,
+        new_password: str,
+        new_notes: str = "",
+    ) -> Optional[dict]:
+        """Update an existing entry. Returns the updated entry dict or None on failure."""
+        import time
+        try:
+            if not self.auth.fernet:
+                return None
+            entries = self.get_entries()
+            # Remove the original entry
+            remaining = [
+                e for e in entries
+                if not (e["username"] == orig_username and e["website"] == orig_website)
+            ]
+            # Build the updated entry, preserving created_at from the original
+            created_at = None
+            for e in entries:
+                if e["username"] == orig_username and e["website"] == orig_website:
+                    created_at = e.get("created_at")
+                    break
+
+            updated = {
+                "username": new_username,
+                "website": new_website,
+                "password": new_password,
+                "notes": new_notes,
+                "created_at": created_at or time.strftime("%Y-%m-%d %H:%M:%S"),
+                "updated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+            remaining.append(updated)
+            if self.storage.save_passwords(remaining, self.auth.fernet):
+                self._vault_cache = remaining
+                self.logger.info(f"Updated entry for {new_username} at {new_website}")
+                return updated
+            return None
+        except Exception as exc:
+            log.error("Failed to update entry: %s", exc)
+            return None
+
     def delete_entry(self, username: str, website: str) -> bool:
         try:
             if not self.auth.fernet:

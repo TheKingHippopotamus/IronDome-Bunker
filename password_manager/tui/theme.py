@@ -59,6 +59,8 @@ LOGO_WORDMARK = r"""
  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚══════╝
 """
 
-# Full splash art lives in ascii_art.py (3 versions: radar, profile, badge)
-# LOGO_LARGE is the wordmark only — used where a simple text logo is needed
+# Full splash art lives in ascii_art.py (3 versions: radar, profile, badge).
+# Import example:
+#   from password_manager.tui.ascii_art import SPLASH_RADAR, SPLASH_PROFILE, SPLASH_BADGE
+# LOGO_LARGE is the wordmark only — used where a simple text logo is needed.
 LOGO_LARGE = LOGO_WORDMARK
