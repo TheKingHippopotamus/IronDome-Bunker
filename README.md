@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="static/irondome-logo.svg" alt="IronDome" width="500"/>
+  <img src="static/irondome-readme.svg" alt="IronDome" width="500"/>
 </p>
 
 <h3 align="center">Fortified CLI Vault — AES-256 | Zero-Knowledge | Biometric | Hardware-Bound</h3>

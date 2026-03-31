@@ -34,7 +34,7 @@
   .scrF{animation:scrF 2s ease-in-out infinite}
 </style>
 <defs>
-  <radialGradient id="bg" cx="50%" cy="42%" r="56%"><stop offset="0%" stop-color="#243a55"/><stop offset="55%" stop-color="#1c3048"/><stop offset="100%" stop-color="#14243c"/></radialGradient>
+  <radialGradient id="bg" cx="50%" cy="42%" r="56%"><stop offset="0%" stop-color="#f5ece0"/><stop offset="55%" stop-color="#ede2d4"/><stop offset="100%" stop-color="#e4d8c8"/></radialGradient>
   <linearGradient id="dG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d47a1" stop-opacity=".12"/><stop offset="25%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="50%" stop-color="#90caf9"/><stop offset="75%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".12"/></linearGradient>
   <linearGradient id="dGl" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1565c0" stop-opacity="0"/><stop offset="35%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="50%" stop-color="#bbdefb" stop-opacity=".5"/><stop offset="65%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="100%" stop-color="#1565c0" stop-opacity="0"/></linearGradient>
   <radialGradient id="shF" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".06"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".01"/></radialGradient>
@@ -44,9 +44,9 @@
   <radialGradient id="bm1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="15%" stop-color="#fffde7"/><stop offset="40%" stop-color="#ffb300"/><stop offset="65%" stop-color="#ff6f00"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
   <radialGradient id="bm1o" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff9800" stop-opacity=".45"/><stop offset="100%" stop-color="#ff6f00" stop-opacity="0"/></radialGradient>
   <radialGradient id="bm2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="20%" stop-color="#fff9c4"/><stop offset="50%" stop-color="#ffa726"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
-  <linearGradient id="gnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2c4458"/><stop offset="100%" stop-color="#203448"/></linearGradient>
-  <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a4a6f" stop-opacity=".85"/><stop offset="100%" stop-color="#1a2e48" stop-opacity=".95"/></linearGradient>
-  <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1565c0" stop-opacity=".55"/><stop offset="50%" stop-color="#42a5f5" stop-opacity=".12"/><stop offset="100%" stop-color="#1565c0" stop-opacity=".55"/></linearGradient>
+  <linearGradient id="gnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ccc0ae"/><stop offset="100%" stop-color="#bcae9c"/></linearGradient>
+  <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5a4a38" stop-opacity=".78"/><stop offset="100%" stop-color="#3e3228" stop-opacity=".88"/></linearGradient>
+  <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5a7a9a" stop-opacity=".42"/><stop offset="50%" stop-color="#7aa0c0" stop-opacity=".1"/><stop offset="100%" stop-color="#5a7a9a" stop-opacity=".42"/></linearGradient>
 
   <!-- Military olive/green vehicle gradients -->
   <linearGradient id="oliveBody" x1="0" y1="0" x2="0" y2="1">
@@ -79,14 +79,14 @@
 
 <!-- ═══ BASE ═══ -->
 <circle cx="375" cy="375" r="340" fill="url(#bg)" stroke="url(#rG)" stroke-width="2.5"/>
-<circle cx="375" cy="375" r="346" fill="none" stroke="#1e3a5c" stroke-width="1" opacity=".55"/>
-<circle cx="375" cy="375" r="354" fill="none" stroke="#1a3a5c" stroke-width=".5" stroke-dasharray="3 8" opacity=".25"/>
+<circle cx="375" cy="375" r="346" fill="none" stroke="#b8aa98" stroke-width="1" opacity=".45"/>
+<circle cx="375" cy="375" r="354" fill="none" stroke="#988a78" stroke-width=".5" stroke-dasharray="3 8" opacity=".2"/>
 
 <g clip-path="url(#cl)">
-<rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".4"/>
+<rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".05"/>
 
 <!-- Grid -->
-<g opacity=".07" stroke="#42a5f5" stroke-width=".5">
+<g opacity=".05" stroke="#98886e" stroke-width=".5">
   <line x1="36" y1="150" x2="714" y2="150"/><line x1="36" y1="225" x2="714" y2="225"/>
   <line x1="36" y1="300" x2="714" y2="300"/><line x1="36" y1="375" x2="714" y2="375"/>
   <line x1="36" y1="450" x2="714" y2="450"/>
@@ -97,17 +97,17 @@
 </g>
 
 <!-- Star of David -->
-<g opacity=".08">
-  <polygon points="375,155 455,325 295,325" fill="none" stroke="#64b5f6" stroke-width="1.2"/>
-  <polygon points="375,385 295,215 455,215" fill="none" stroke="#64b5f6" stroke-width="1.2"/>
+<g opacity=".055">
+  <polygon points="375,155 455,325 295,325" fill="none" stroke="#7a92b0" stroke-width="1.2"/>
+  <polygon points="375,385 295,215 455,215" fill="none" stroke="#7a92b0" stroke-width="1.2"/>
 </g>
 
 <!-- Scan bar -->
-<rect class="scan" x="36" y="373" width="678" height="2.5" fill="#42a5f5" opacity=".08" rx="1"/>
+<rect class="scan" x="36" y="373" width="678" height="2.5" fill="#7a8a9a" opacity=".06" rx="1"/>
 
 <!-- ═══ GROUND ═══ -->
 <rect x="36" y="430" width="678" height="300" fill="url(#gnG)"/>
-<line x1="36" y1="430" x2="714" y2="430" stroke="#1e3a5f" stroke-width="1.2" opacity=".6"/>
+<line x1="36" y1="430" x2="714" y2="430" stroke="#98886e" stroke-width="1.2" opacity=".4"/>
 <!-- Sand/dirt texture -->
 <g opacity=".03" stroke="#8d6e63" stroke-width=".3">
   <line x1="36" y1="470" x2="714" y2="470"/>
@@ -115,7 +115,7 @@
 </g>
 
 <!-- ═══ CITY SKYLINE ═══ -->
-<g opacity=".7">
+<g opacity=".6">
   <path d="
     M36,430 L55,430 L55,398 L62,398 L62,382 L67,372 L72,382 L72,398 L88,398 L88,408
     L105,408 L105,392 L112,392 L112,372 L118,372 L118,352 L122,338 L126,352 L126,372 L138,372 L138,390 L155,390
@@ -127,7 +127,7 @@
     L500,378 L508,378 L508,360 L514,360 L514,345 L518,335 L522,345 L522,360 L532,360 L532,378 L548,378 L548,395 L565,395
     L565,385 L572,385 L572,370 L577,362 L582,370 L582,385 L598,385 L598,398 L618,398 L618,408 L640,408 L640,415 L665,415 L665,422 L690,422 L690,430 L714,430 Z
   " fill="url(#cG)"/>
-  <g fill="#64b5f6" opacity=".55">
+  <g fill="#5a7a9a" opacity=".45">
     <rect x="120" y="358" width="4" height="5" rx=".5"/><rect x="120" y="370" width="4" height="5" rx=".5"/>
     <rect x="170" y="340" width="4" height="5" rx=".5"/><rect x="170" y="352" width="4" height="5" rx=".5"/>
     <rect x="238" y="334" width="4" height="5" rx=".5"/><rect x="238" y="348" width="4" height="5" rx=".5"/>
@@ -227,7 +227,7 @@
   <circle class="p3" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width=".7" opacity=".3"/>
 
   <!-- Detection beams -->
-  <g opacity=".28">
+  <g opacity=".2">
     <path d="M160 365 Q180 300 250 240" stroke="#90caf9" fill="none" stroke-width="1.2" opacity=".5"/>
     <path d="M160 365 Q190 280 300 210" stroke="#64b5f6" fill="none" stroke-width="1" opacity=".4"/>
     <path d="M160 365 Q200 260 350 180" stroke="#42a5f5" fill="none" stroke-width=".8" opacity=".3"/>
@@ -446,7 +446,7 @@
 <g transform="translate(345,215) rotate(206)">
   <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
   <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#5a7a9a" opacity=".3"/>
   <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
   <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
   <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
@@ -467,7 +467,7 @@
 <g transform="translate(338,222) rotate(218)">
   <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
   <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#5a7a9a" opacity=".3"/>
   <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
   <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
   <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
@@ -600,7 +600,7 @@
 <g transform="translate(445,163) rotate(200)">
   <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
   <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#5a7a9a" opacity=".3"/>
   <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
   <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
   <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
@@ -620,7 +620,7 @@
 <g transform="translate(438,170) rotate(212)">
   <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
   <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#5a7a9a" opacity=".3"/>
   <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
   <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
   <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
@@ -693,23 +693,23 @@
 </g><!-- clip -->
 
 <!-- Outer ring -->
-<g opacity=".25" stroke="#42a5f5" stroke-width="1.2">
+<g opacity=".28" stroke="#7a6a58" stroke-width="1.2">
   <line x1="375" y1="30" x2="375" y2="42"/><line x1="375" y1="708" x2="375" y2="720"/>
   <line x1="30" y1="375" x2="42" y2="375"/><line x1="708" y1="375" x2="720" y2="375"/>
 </g>
-<g opacity=".14" stroke="#42a5f5" stroke-width=".8">
+<g opacity=".28" stroke="#7a6a58" stroke-width=".8">
   <line x1="617" y1="133" x2="612" y2="138"/><line x1="133" y1="133" x2="138" y2="138"/>
   <line x1="617" y1="617" x2="612" y2="612"/><line x1="133" y1="617" x2="138" y2="612"/>
 </g>
 
 <!-- ═══ TYPOGRAPHY ═══ -->
 <g class="tGlow">
-  <text x="375" y="575" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="42" fill="#e3f2fd" letter-spacing="10">IRON DOME</text>
-  <text x="375" y="625" text-anchor="middle" font-family="Rajdhani" font-weight="500" font-size="12" fill="#78909c" letter-spacing="6">ADVANCED DEFENSE SHIELD SYSTEM</text>
+  <text x="375" y="575" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="42" fill="#1e1812" letter-spacing="10">IRON DOME</text>
+  <text x="375" y="625" text-anchor="middle" font-family="Rajdhani" font-weight="500" font-size="12" fill="#5a4a38" letter-spacing="6">ADVANCED DEFENSE SHIELD SYSTEM</text>
 </g>
-<line x1="150" y1="560" x2="258" y2="560" stroke="#1e88e5" stroke-width=".6" opacity=".3"/>
-<line x1="492" y1="560" x2="600" y2="560" stroke="#1e88e5" stroke-width=".6" opacity=".3"/>
-<polygon points="264,560 269,556 274,560 269,564" fill="#42a5f5" opacity=".3"/>
-<polygon points="476,560 481,556 486,560 481,564" fill="#42a5f5" opacity=".3"/>
+<line x1="150" y1="560" x2="258" y2="560" stroke="#5a7a9a" stroke-width=".6" opacity=".3"/>
+<line x1="492" y1="560" x2="600" y2="560" stroke="#5a7a9a" stroke-width=".6" opacity=".3"/>
+<polygon points="264,560 269,556 274,560 269,564" fill="#5a7a9a" opacity=".3"/>
+<polygon points="476,560 481,556 486,560 481,564" fill="#5a7a9a" opacity=".3"/>
 
 </svg>

@@ -7,8 +7,8 @@
   <meta name="description" content="IronDome — Fortified CLI vault with AES-256 encryption, biometric auth, and zero-knowledge architecture">
   <meta property="og:title" content="IronDome — Fortified CLI Vault">
   <meta property="og:description" content="AES-256 encryption, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
-  <meta property="og:image" content="static/bunker-badge.svg">
-  <link rel="icon" type="image/svg+xml" href="static/bunker-badge.svg">
+  <meta property="og:image" content="static/irondome-favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="static/irondome-favicon.svg">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -190,19 +190,66 @@
       margin-top: 4px;
     }
 
-    .features {
+    .features-wrap {
       max-width: 900px;
       margin: 0 auto;
       padding: 0 24px 40px;
+      position: relative;
+    }
+    /* Center emblem */
+    .features-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      z-index: 2;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.08));
+    }
+    .features-center img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+    /* Ring behind center */
+    .features-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .features-ring::after {
+      content: '';
+      position: absolute;
+      top: -20px; left: -20px; right: -20px; bottom: -20px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255, 215, 0, 0.05);
+    }
+
+    .features {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap: 16px;
+      position: relative;
+    }
+    /* Gap in center column for emblem */
+    .features .card:nth-child(2),
+    .features .card:nth-child(5) {
+      visibility: hidden;
     }
     .features .card {
       background: #0d1117;
       border: 1px solid rgba(255, 215, 0, 0.08);
       border-radius: 2px;
-      padding: 24px;
+      padding: 20px;
       transition: border-color 0.3s, background 0.3s;
       position: relative;
     }
@@ -224,22 +271,22 @@
     .features .card:hover::before { opacity: 0.6; }
 
     .card-icon {
-      width: 40px;
-      height: 40px;
-      margin-bottom: 12px;
+      width: 36px;
+      height: 36px;
+      margin-bottom: 10px;
       opacity: 0.9;
     }
     .features .card h3 {
       color: #FFD700;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
       letter-spacing: 1px;
       text-transform: uppercase;
     }
     .features .card p {
       color: #78909C;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       line-height: 1.5;
     }
 
@@ -572,6 +619,7 @@
     }
 
     /* Color hierarchy */
+    .wf-dollar   { color: #546E7A; }        /* gray — $ prompt, never same as commands */
     .wf-install  { color: #FFD700; }        /* gold — pip install */
     .wf-sys      { color: #4FC3F7; }        /* cyan — irondome commands */
     .wf-bunker   { color: #34d399; }        /* green — bunker commands */
@@ -605,6 +653,9 @@
     /* ═══════════════════════════════════════════ */
     @media (max-width: 700px) {
       .features { grid-template-columns: 1fr; }
+      .features .card:nth-child(2), .features .card:nth-child(5) { visibility: visible; display: none; }
+      .features-center { position: relative; top: auto; left: auto; transform: none; margin: 0 auto 16px; }
+      .features-ring { display: none; }
       .hero .logo { width: 85vw; }
       .hero-radar { width: 500px; height: 500px; }
       nav .links { gap: 10px; }
@@ -623,7 +674,7 @@
   <!-- ═══════════════════════════════════════════ -->
   <nav>
     <a class="brand" href="#">
-      <img src="static/bunker-badge.svg" alt="IronDome">
+      <img src="static/irondome-favicon.svg" alt="IronDome">
       IronDome
     </a>
     <div class="links">
@@ -677,7 +728,7 @@
         <!-- INSTALL -->
         <div class="wf-line" onclick="copyCmd('pip install IronDome')">
           <span class="wf-tree">  </span>
-          <span class="wf-install">$ pip install IronDome</span>
+          <span class="wf-dollar">$</span> <span class="wf-install">pip install IronDome</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
 
@@ -685,7 +736,7 @@
         <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Setup</span></div>
         <div class="wf-line" onclick="copyCmd('irondome create bunker')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-sys">irondome create bunker</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome create bunker</span>
           <span class="wf-comment"># first-time setup</span>
         </div>
         <div class="wf-line no-hover">
@@ -706,7 +757,7 @@
         <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Airspace Open &mdash; 30 min</span></div>
         <div class="wf-line" onclick="copyCmd('irondome open airspace')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-sys">irondome open airspace</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome open airspace</span>
           <span class="wf-comment"># authenticate once</span>
         </div>
         <div class="wf-line no-hover">
@@ -719,37 +770,37 @@
         <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Bunker Operations</span></div>
         <div class="wf-line" onclick="copyCmd('bunker create')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker create</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker create</span>
           <span class="wf-comment"># generate &amp; store — no re-auth</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker create')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker create</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker create</span>
           <span class="wf-comment"># still free</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker open github')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker open</span> <span class="wf-arg">github</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span> <span class="wf-arg">github</span>
           <span class="wf-comment"># search &amp; retrieve</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker open')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker open</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span>
           <span class="wf-comment"># list all bunkers</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker fortify')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker fortify</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker fortify</span>
           <span class="wf-comment"># encrypted backup</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker settings')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-bunker">bunker settings</span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker settings</span>
           <span class="wf-comment"># configure defaults</span>
         </div>
         <div class="wf-line" onclick="copyCmd('irondome status')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-sys">irondome status</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome status</span>
           <span class="wf-comment"># dome info &amp; timer</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
@@ -758,7 +809,7 @@
         <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Lock Down</span></div>
         <div class="wf-line" onclick="copyCmd('irondome close airspace')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-sys">irondome close airspace</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome close airspace</span>
           <span class="wf-comment"># seal everything</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
@@ -791,38 +842,52 @@
     <div class="sub">Six layers of protection for your credentials</div>
   </div>
 
-  <section class="features">
-    <div class="card">
-      <img class="card-icon" src="static/shield-aes.svg" alt="AES-256">
-      <h3>AES-256 Encryption</h3>
-      <p>Fernet symmetric encryption with PBKDF2-HMAC-SHA256 and 600,000 iterations. OWASP 2023 compliant.</p>
+  <div class="features-wrap">
+    <!-- Center emblem -->
+    <div class="features-ring"></div>
+    <div class="features-center">
+      <img src="static/irondome-features-center.svg" alt="IronDome">
     </div>
-    <div class="card">
-      <img class="card-icon" src="static/shield-zero.svg" alt="Zero Knowledge">
-      <h3>Zero Knowledge</h3>
-      <p>Your master password is never stored. Only a salted hash exists. Not even the tool can read it.</p>
+
+    <section class="features">
+      <div class="card">
+        <img class="card-icon" src="static/shield-aes.svg" alt="AES-256">
+        <h3>AES-256 Encryption</h3>
+        <p>Fernet symmetric encryption with PBKDF2-HMAC-SHA256 and 600,000 iterations. OWASP 2023 compliant.</p>
+      </div>
+      <div class="card"><!-- center gap --></div>
+      <div class="card">
+        <img class="card-icon" src="static/shield-zero.svg" alt="Zero Knowledge">
+        <h3>Zero Knowledge</h3>
+        <p>Your master password is never stored. Only a salted hash exists. Not even the tool can read it.</p>
+      </div>
+      <div class="card">
+        <img class="card-icon" src="static/shield-hardware.svg" alt="Hardware Bound">
+        <h3>Hardware Bound</h3>
+        <p>Encryption keys derived from your machine's hardware identifiers. Data is tied to your device.</p>
+      </div>
+      <div class="card"><!-- center gap --></div>
+      <div class="card">
+        <img class="card-icon" src="static/shield-brute.svg" alt="Brute Force Shield">
+        <h3>Brute Force Shield</h3>
+        <p>Adaptive lockout system with progressive security. Each failed attempt tightens the defense.</p>
+      </div>
+    </section>
+
+    <!-- Bottom row — full width below the circle -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+      <div class="card" style="background:#0d1117; border:1px solid rgba(255,215,0,0.08); border-radius:2px; padding:20px; position:relative; transition:border-color 0.3s, background 0.3s;">
+        <img class="card-icon" src="static/shield-session.svg" alt="Session Protection" style="width:36px;height:36px;margin-bottom:10px;opacity:0.9">
+        <h3 style="color:#FFD700;font-size:0.8rem;font-weight:700;margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Session Protection</h3>
+        <p style="color:#78909C;font-size:0.8rem;line-height:1.5">Automatic timeout after 30 minutes of inactivity. Sensitive operations require re-authentication.</p>
+      </div>
+      <div class="card" style="background:#0d1117; border:1px solid rgba(255,215,0,0.08); border-radius:2px; padding:20px; position:relative; transition:border-color 0.3s, background 0.3s;">
+        <img class="card-icon" src="static/shield-local.svg" alt="Local Only" style="width:36px;height:36px;margin-bottom:10px;opacity:0.9">
+        <h3 style="color:#FFD700;font-size:0.8rem;font-weight:700;margin-bottom:5px;letter-spacing:1px;text-transform:uppercase">Local Only</h3>
+        <p style="color:#78909C;font-size:0.8rem;line-height:1.5">No network. No cloud. No telemetry. Everything stays on your machine. Period.</p>
+      </div>
     </div>
-    <div class="card">
-      <img class="card-icon" src="static/shield-hardware.svg" alt="Hardware Bound">
-      <h3>Hardware Bound</h3>
-      <p>Encryption keys derived from your machine's hardware identifiers. Data is tied to your device.</p>
-    </div>
-    <div class="card">
-      <img class="card-icon" src="static/shield-brute.svg" alt="Brute Force Shield">
-      <h3>Brute Force Shield</h3>
-      <p>Adaptive lockout system with progressive security. Each failed attempt tightens the defense.</p>
-    </div>
-    <div class="card">
-      <img class="card-icon" src="static/shield-session.svg" alt="Session Protection">
-      <h3>Session Protection</h3>
-      <p>Automatic timeout after 30 minutes of inactivity. Sensitive operations require re-authentication.</p>
-    </div>
-    <div class="card">
-      <img class="card-icon" src="static/shield-local.svg" alt="Local Only">
-      <h3>Local Only</h3>
-      <p>No network. No cloud. No telemetry. Everything stays on your machine. Period.</p>
-    </div>
-  </section>
+  </div>
 
   <!-- Warning stripe accent -->
   <div class="warning-bar"></div>
