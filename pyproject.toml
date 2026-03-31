@@ -37,9 +37,9 @@ dependencies = [
 bunker = "password_manager.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/TheKingHippopotamus/Secure_CLI_Password_Manager_Cybersecurity_PythonEngineering"
-Repository = "https://github.com/TheKingHippopotamus/Secure_CLI_Password_Manager_Cybersecurity_PythonEngineering"
-Issues = "https://github.com/TheKingHippopotamus/Secure_CLI_Password_Manager_Cybersecurity_PythonEngineering/issues"
+Homepage = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
+Repository = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
+Issues = "https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"
 
 [tool.setuptools.dynamic]
 version = {attr = "password_manager.__version__"}
