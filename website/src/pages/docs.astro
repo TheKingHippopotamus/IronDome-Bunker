@@ -76,6 +76,7 @@ import '../styles/global.css';
               ['#config',       'Config'],
               ['#vault-structure','Vault Files'],
               ['#demo',         'Live Demo'],
+              ['#source',       'Source Code'],
               ['#troubleshoot', 'Troubleshooting'],
             ].map(([href, label]) => (
               <a href={href} style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); padding: 0.25rem 0.625rem; border: 1px solid var(--color-gold-border); border-radius: var(--radius-sm); transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;"
@@ -585,6 +586,26 @@ import '../styles/global.css';
             <p style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">
               Google account required &mdash; free tier supported
             </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 8.5 — SOURCE CODE / GIST
+           ---------------------------------------------------------- -->
+      <section id="source" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">08 / Source</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Full Source Code
+            </h2>
+            <p style="color: var(--color-text-secondary); margin-top: 0.5rem; max-width: 44rem; line-height: 1.65;">
+              Complete IronDome implementation — browse the code directly.
+            </p>
+          </div>
+          <div class="tactical-card" style="padding: 1.5rem; overflow-x: auto; background: var(--color-bg-card);">
+            <script src="https://gist.github.com/TheKingHippopotamus/eaf340197e1251ac73250f40e764afbf.js"></script>
           </div>
         </div>
       </section>
