@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "IronDome"
 dynamic = ["version"]
 description = "IronDome — Fortified password vault with TUI, AES-256 encryption, biometric auth, and zero-knowledge architecture"
-readme = "README.md"
+readme = "README_PYPI.md"
 license = {text = "GPL-3.0-only"}
 requires-python = ">=3.8"
 authors = [
