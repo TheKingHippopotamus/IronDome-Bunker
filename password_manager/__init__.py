@@ -3,4 +3,4 @@
 
 """IronDome — Fortified Password Vault with TUI"""
 
-__version__ = "3.0.2"
+__version__ = "3.0.3"

@@ -37,7 +37,6 @@ classifiers = [
     "Topic :: Security",
     "Topic :: Security :: Cryptography",
     "Topic :: Utilities",
-    "Framework :: Textual",
 ]
 dependencies = [
     "cryptography>=36.0.0",
