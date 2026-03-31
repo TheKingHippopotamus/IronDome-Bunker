@@ -9,9 +9,11 @@ from __future__ import annotations
 import logging
 import sys
 import traceback
+from typing import Iterable
 
 from textual.app import App
 from textual.binding import Binding
+from textual.command import Provider, Hit, Hits
 
 from password_manager import __version__
 from password_manager.tui.state.app_state import AppState
@@ -23,6 +25,36 @@ from password_manager.tui.security.clipboard import force_clear as clipboard_cle
 log = logging.getLogger("IronDome.TUI")
 
 
+class IronDomeCommands(Provider):
+    """Custom command palette entries for IronDome."""
+
+    async def search(self, query: str) -> Hits:
+        app = self.app
+
+        commands = [
+            ("Open Vault", "Browse and search all bunker entries", "open_vault"),
+            ("Search Entries", "Fuzzy search across all entries", "open_vault_search"),
+            ("New Entry", "Create a new bunker entry", "open_save"),
+            ("Password Generator", "Generate a strong password", "open_generator"),
+            ("Fortify (Backup)", "Create encrypted backup", "open_backup"),
+            ("Settings", "Configure IronDome preferences", "open_settings"),
+            ("Dome Status", "View vault and security info", "open_status"),
+            ("Lock Vault", "Close airspace and lock", "lock_vault"),
+            ("Help", "Show keyboard shortcuts", "show_help"),
+            ("Quit", "Exit IronDome", "quit_app"),
+        ]
+
+        query_lower = query.lower()
+        for name, description, action in commands:
+            if query_lower in name.lower() or query_lower in description.lower():
+                yield Hit(
+                    1.0 if query_lower == name.lower() else 0.5,
+                    name,
+                    help=description,
+                    command=lambda a=action: app.run_action(a),
+                )
+
+
 class IronDomeApp(App):
     """The IronDome TUI application."""
 
@@ -31,14 +63,15 @@ class IronDomeApp(App):
 
     CSS_PATH = "irondome.tcss"
 
-    COMMANDS = set()  # Disable built-in command palette (maximize, theme toggle, etc.)
+    COMMANDS = {IronDomeCommands}
 
     BINDINGS = [
         Binding("ctrl+q", "quit_app", "^Q: Quit", show=True, priority=True),
         Binding("ctrl+l", "lock_vault", "^L: Lock", show=True),
+        Binding("ctrl+p", "command_palette", "^P: Commands", show=True),
         Binding("question_mark", "show_help", "?: Help", show=True),
-        Binding("tab", "focus_next", "Tab: Next field", show=True),
-        Binding("shift+tab", "focus_previous", "S-Tab: Prev field", show=True),
+        Binding("tab", "focus_next", "Tab: Next", show=True),
+        Binding("shift+tab", "focus_previous", "S-Tab: Prev", show=True),
     ]
 
     def __init__(self, **kwargs) -> None:
@@ -141,6 +174,55 @@ class IronDomeApp(App):
             self.push_screen(HelpOverlay())
         except Exception as exc:
             self.notify(f"Help unavailable: {exc}", severity="error", timeout=3)
+
+    def action_open_vault(self) -> None:
+        try:
+            from password_manager.tui.screens.vault import VaultScreen
+            self.push_screen(VaultScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Vault error: {exc}", severity="error", timeout=3)
+
+    def action_open_vault_search(self) -> None:
+        try:
+            from password_manager.tui.screens.vault import VaultScreen
+            self.push_screen(VaultScreen(self.state, focus_search=True))
+        except Exception as exc:
+            self.notify(f"Search error: {exc}", severity="error", timeout=3)
+
+    def action_open_save(self) -> None:
+        try:
+            from password_manager.tui.screens.save import SaveScreen
+            self.push_screen(SaveScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Save error: {exc}", severity="error", timeout=3)
+
+    def action_open_generator(self) -> None:
+        try:
+            from password_manager.tui.screens.generator import GeneratorScreen
+            self.push_screen(GeneratorScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Generator error: {exc}", severity="error", timeout=3)
+
+    def action_open_backup(self) -> None:
+        try:
+            from password_manager.tui.screens.backup import BackupScreen
+            self.push_screen(BackupScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Backup error: {exc}", severity="error", timeout=3)
+
+    def action_open_settings(self) -> None:
+        try:
+            from password_manager.tui.screens.settings import SettingsScreen
+            self.push_screen(SettingsScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Settings error: {exc}", severity="error", timeout=3)
+
+    def action_open_status(self) -> None:
+        try:
+            from password_manager.tui.screens.status import StatusScreen
+            self.push_screen(StatusScreen(self.state))
+        except Exception as exc:
+            self.notify(f"Status error: {exc}", severity="error", timeout=3)
 
     # ------------------------------------------------------------------
     # Helpers
