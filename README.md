@@ -7,9 +7,17 @@
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=for-the-badge&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/pyversions/IronDome?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
-  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"><img src="https://img.shields.io/github/license/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&color=green" alt="License"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-GPL--3.0-green?style=for-the-badge" alt="License GPL-3.0"></a>
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/dm/IronDome?style=for-the-badge&color=orange&label=downloads" alt="Downloads"></a>
   <a href="https://colab.research.google.com/drive/1nC4ePtw5LF-GTMEPm-_13EXLUtEEgm7p?usp=sharing"><img src="https://img.shields.io/badge/Try_It-Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white" alt="Open in Colab"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker"><img src="https://img.shields.io/github/stars/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&logo=github&color=181717" alt="GitHub Stars"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"><img src="https://img.shields.io/github/issues/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&color=red" alt="Issues"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/actions"><img src="https://img.shields.io/github/actions/workflow/status/TheKingHippopotamus/IronDome-Bunker/publish.yml?style=for-the-badge&label=CI&logo=githubactions&logoColor=white" alt="CI"></a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/"><img src="https://img.shields.io/badge/Docs-GitHub_Pages-0073b7?style=for-the-badge&logo=githubpages&logoColor=white" alt="Docs"></a>
+  <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/format/IronDome?style=for-the-badge&label=format" alt="Format"></a>
 </p>
 
 <p align="center">
@@ -357,9 +365,13 @@ We welcome contributions! Please read:
 ---
 
 <p align="center">
-  <img src="static/king-hippo.svg" alt="King Hippopotamus" width="60"/>
+  <img src="static/king-hippo.svg" alt="King Hippopotamus" width="80"/>
   <br>
   <strong>Created & maintained by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a></strong>
-  <br>
+  <br><br>
+  <a href="https://github.com/TheKingHippopotamus"><img src="https://img.shields.io/badge/GitHub-TheKingHippopotamus-181717?style=flat-square&logo=github" alt="GitHub"></a>
+  <a href="https://pypi.org/user/king.hippo/"><img src="https://img.shields.io/badge/PyPI-king.hippo-0073b7?style=flat-square&logo=pypi&logoColor=white" alt="PyPI"></a>
+  <a href="https://x.com/LmlyhNyr"><img src="https://img.shields.io/badge/X-@LmlyhNyr-000000?style=flat-square&logo=x&logoColor=white" alt="X"></a>
+  <br><br>
   <sub>Built with security in mind. No data leaves your machine. Ever.</sub>
 </p>
