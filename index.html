@@ -450,137 +450,12 @@
     }
 
     /* ═══════════════════════════════════════════ */
-    /* COMMAND CENTER — Tree & Copy Cards           */
+    /* UNIFIED WORKFLOW                             */
     /* ═══════════════════════════════════════════ */
-    .cmd-center {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 24px 40px;
-    }
-    .cmd-center-header {
-      text-align: center;
-      padding: 30px 24px 24px;
-    }
-    .cmd-center-header h2 {
-      color: #FFD700;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 5px;
-      text-transform: uppercase;
-    }
-    .cmd-center-header .sub {
-      color: #546E7A;
-      font-size: 0.75rem;
-      letter-spacing: 2px;
-      margin-top: 4px;
-    }
-
-    /* Workflow lanes */
-    .cmd-lanes {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-    .cmd-lane {
-      background: #0d1117;
-      border: 1px solid rgba(255, 215, 0, 0.08);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-    .cmd-lane-header {
-      background: rgba(255, 215, 0, 0.06);
-      border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .cmd-lane-icon {
-      color: #FFD700;
-      font-size: 0.85rem;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-    }
-    .cmd-lane-label {
-      color: #546E7A;
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-    }
-    .cmd-lane-body {
-      padding: 4px 0;
-    }
-
-    /* Individual command row */
-    .cmd-row {
-      display: flex;
-      align-items: center;
-      padding: 8px 16px;
-      gap: 12px;
-      cursor: pointer;
-      transition: background 0.15s;
-      position: relative;
-    }
-    .cmd-row:hover {
-      background: rgba(255, 215, 0, 0.04);
-    }
-    .cmd-row:hover .cmd-copy {
-      opacity: 1;
-    }
-    .cmd-tree {
-      color: #263238;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.8rem;
-      width: 16px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .cmd-text {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: #34d399;
-      flex-shrink: 0;
-    }
-    .cmd-desc {
-      color: #546E7A;
-      font-size: 0.7rem;
-      letter-spacing: 0.5px;
-      margin-left: auto;
-    }
-    .cmd-copy {
-      opacity: 0;
-      color: #FFD700;
-      font-size: 0.6rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      font-weight: 700;
-      background: rgba(255, 215, 0, 0.1);
-      border: 1px solid rgba(255, 215, 0, 0.2);
-      padding: 2px 8px;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: opacity 0.15s, background 0.15s;
-      flex-shrink: 0;
-    }
-    .cmd-copy:hover {
-      background: rgba(255, 215, 0, 0.2);
-    }
-    .cmd-copy.copied {
-      opacity: 1;
-      color: #34d399;
-      border-color: rgba(52, 211, 153, 0.3);
-      background: rgba(52, 211, 153, 0.1);
-    }
-
-    /* Install box copy button */
     .install-wrap {
       display: inline-flex;
       align-items: center;
       gap: 0;
-      position: relative;
     }
     .install-copy {
       background: rgba(255, 215, 0, 0.08);
@@ -601,170 +476,128 @@
     .install-copy.copied { color: #34d399; }
     .install-box { border-radius: 4px 0 0 4px; }
 
-    /* CSS Workflow Tree */
-    .workflow-tree {
-      background: #0d1117;
-      border: 1px solid rgba(255, 215, 0, 0.08);
-      border-radius: 2px;
-      padding: 24px 0 24px 0;
-      overflow-x: auto;
+    .workflow-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 40px;
     }
-    .workflow-tree .wt-title {
-      padding: 0 24px 16px;
+    .workflow-header {
+      text-align: center;
+      padding: 30px 24px 20px;
+    }
+    .workflow-header h2 {
       color: #FFD700;
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      letter-spacing: 3px;
+      letter-spacing: 5px;
       text-transform: uppercase;
     }
-    .wt-list {
-      list-style: none;
-      margin: 0;
-      padding: 0 24px;
-    }
-    .wt-list li {
-      position: relative;
-      padding: 0 0 0 28px;
-      min-height: 32px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    /* Vertical line */
-    .wt-list > li::before {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: #263238;
-    }
-    .wt-list > li:last-child::before {
-      bottom: 50%;
-    }
-    /* Horizontal branch */
-    .wt-list > li::after {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 50%;
-      width: 14px;
-      height: 1px;
-      background: #263238;
-    }
-    /* Node dot */
-    .wt-node {
-      position: absolute;
-      left: 4px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: #0d1117;
-      border: 2px solid #FFD700;
-      z-index: 1;
-    }
-    .wt-node.active { background: #FFD700; }
-    .wt-node.locked { border-color: #f87171; background: #f87171; }
-    .wt-node.dim { border-color: #263238; }
-    .wt-cmd {
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.8rem;
-      color: #34d399;
-      white-space: nowrap;
-    }
-    .wt-arg {
-      color: #4FC3F7;
-    }
-    .wt-comment {
+    .workflow-header .sub {
       color: #546E7A;
-      font-family: 'SF Mono', 'Fira Code', monospace;
-      font-size: 0.72rem;
-      margin-left: auto;
-      white-space: nowrap;
-    }
-    .wt-label {
-      color: #78909C;
-      font-size: 0.78rem;
-      font-style: italic;
-    }
-    .wt-error {
-      color: #f87171;
-      font-family: 'SF Mono', 'Fira Code', monospace;
       font-size: 0.75rem;
+      letter-spacing: 2px;
+      margin-top: 4px;
     }
-    .wt-spacer {
-      height: 8px;
-    }
-    .wt-spacer::before, .wt-spacer::after { display: none; }
-    /* Sub-tree */
-    .wt-sub {
-      list-style: none;
-      margin: 0;
-      padding: 0 0 0 28px;
-    }
-    .wt-sub li {
+
+    /* The unified block */
+    .wf-block {
+      background: #0d1117;
+      border: 1px solid rgba(255, 215, 0, 0.08);
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.82rem;
+      line-height: 1.0;
       position: relative;
-      padding: 0 0 0 24px;
-      min-height: 26px;
+      overflow: hidden;
+    }
+    .wf-block-bar {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 8px;
+      background: rgba(255, 215, 0, 0.04);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+      padding: 8px 16px;
     }
-    .wt-sub li::before {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: rgba(255, 215, 0, 0.1);
+    .wf-block-title {
+      color: #546E7A;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-family: -apple-system, sans-serif;
+      font-weight: 700;
     }
-    .wt-sub li:last-child::before { bottom: 50%; }
-    .wt-sub li::after {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 50%;
-      width: 12px;
-      height: 1px;
-      background: rgba(255, 215, 0, 0.1);
+    .wf-copy-all {
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 3px;
+      padding: 4px 12px;
+      cursor: pointer;
+      color: #FFD700;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-family: -apple-system, sans-serif;
+      transition: all 0.2s;
     }
-    .wt-sub .wt-node {
-      left: 2px;
-      width: 7px;
-      height: 7px;
-      border-color: #546E7A;
-      border-width: 1.5px;
+    .wf-copy-all:hover { background: rgba(255, 215, 0, 0.15); }
+    .wf-copy-all.copied { color: #34d399; border-color: rgba(52,211,153,0.3); }
+
+    .wf-body {
+      padding: 20px 24px 24px;
     }
-    /* Phase labels */
-    .wt-phase {
-      padding: 4px 24px 4px 28px;
-      position: relative;
+
+    /* Each line in the workflow */
+    .wf-line {
+      display: flex;
+      align-items: baseline;
+      min-height: 28px;
+      gap: 0;
+      cursor: pointer;
+      padding: 2px 4px;
+      margin: 0 -4px;
+      border-radius: 3px;
+      transition: background 0.1s;
     }
-    .wt-phase::before {
-      content: '';
-      position: absolute;
-      left: 32px;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: #263238;
+    .wf-line:hover { background: rgba(255, 255, 255, 0.03); }
+    .wf-line.no-hover { cursor: default; }
+    .wf-line.no-hover:hover { background: none; }
+
+    /* Tree characters */
+    .wf-tree {
+      color: #1e293b;
+      white-space: pre;
+      flex-shrink: 0;
+      user-select: none;
     }
-    .wt-phase-label {
+
+    /* Color hierarchy */
+    .wf-install  { color: #FFD700; }        /* gold — pip install */
+    .wf-sys      { color: #4FC3F7; }        /* cyan — irondome commands */
+    .wf-bunker   { color: #34d399; }        /* green — bunker commands */
+    .wf-arg      { color: #ce93d8; }        /* purple — arguments */
+    .wf-comment  { color: #37474F; margin-left: auto; white-space: nowrap; }
+    .wf-info     { color: #546E7A; font-style: italic; font-size: 0.78rem; }
+    .wf-error    { color: #ef5350; font-size: 0.78rem; }
+    .wf-phase    {
       display: inline-block;
       background: rgba(255, 215, 0, 0.06);
       border: 1px solid rgba(255, 215, 0, 0.12);
       border-radius: 2px;
-      padding: 2px 10px;
+      padding: 1px 10px;
       font-size: 0.6rem;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: #FFD700;
-      margin-left: 20px;
+      font-family: -apple-system, sans-serif;
+      margin: 4px 0;
+    }
+    .wf-gap { height: 6px; }
+    .wf-sep {
+      height: 1px;
+      background: rgba(255, 215, 0, 0.05);
+      margin: 8px 0;
     }
 
     /* ═══════════════════════════════════════════ */
@@ -772,14 +605,14 @@
     /* ═══════════════════════════════════════════ */
     @media (max-width: 700px) {
       .features { grid-template-columns: 1fr; }
-      .cmd-lanes { grid-template-columns: 1fr; }
       .hero .logo { width: 85vw; }
       .hero-radar { width: 500px; height: 500px; }
       nav .links { gap: 10px; }
       nav .links a { font-size: 0.7rem; letter-spacing: 1px; }
       .nav-divider { display: none; }
       .classification { font-size: 0.6rem; letter-spacing: 3px; }
-      .cmd-desc { display: none; }
+      .wf-comment { display: none; }
+      .wf-body { padding: 16px 14px 20px; font-size: 0.72rem; }
     }
   </style>
 </head>
@@ -826,177 +659,122 @@
   </section>
 
   <!-- ═══════════════════════════════════════════ -->
-  <!-- COMMAND CENTER — Workflow Tree & Copy Cards  -->
+  <!-- UNIFIED WORKFLOW                             -->
   <!-- ═══════════════════════════════════════════ -->
-  <div class="cmd-center-header">
+  <div class="workflow-header">
     <h2>Command Center</h2>
-    <div class="sub">Two commands. Full control. Click to copy.</div>
+    <div class="sub">Full workflow. Click any line to copy. Or copy all.</div>
   </div>
 
-  <section class="cmd-center">
-    <div class="cmd-lanes">
-
-      <!-- LEFT LANE: irondome -->
-      <div class="cmd-lane">
-        <div class="cmd-lane-header">
-          <span class="cmd-lane-icon">irondome</span>
-          <span class="cmd-lane-label">System Control</span>
-        </div>
-        <div class="cmd-lane-body">
-          <div class="cmd-row" onclick="copyCmd('irondome create bunker')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">irondome create bunker</span>
-            <span class="cmd-desc">First-time setup</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('irondome open airspace')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">irondome open airspace</span>
-            <span class="cmd-desc">Authenticate &mdash; 30 min session</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('irondome close airspace')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">irondome close airspace</span>
-            <span class="cmd-desc">Lock everything</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('irondome status')">
-            <span class="cmd-tree">&#9492;</span>
-            <span class="cmd-text">irondome status</span>
-            <span class="cmd-desc">Dome info &amp; session timer</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-        </div>
+  <section class="workflow-section">
+    <div class="wf-block" id="wf-block">
+      <div class="wf-block-bar">
+        <span class="wf-block-title">IronDome Workflow</span>
+        <button class="wf-copy-all" id="wf-copy-btn">Copy All</button>
       </div>
+      <div class="wf-body">
 
-      <!-- RIGHT LANE: bunker -->
-      <div class="cmd-lane">
-        <div class="cmd-lane-header">
-          <span class="cmd-lane-icon">bunker</span>
-          <span class="cmd-lane-label">Bunker Operations</span>
+        <!-- INSTALL -->
+        <div class="wf-line" onclick="copyCmd('pip install IronDome')">
+          <span class="wf-tree">  </span>
+          <span class="wf-install">$ pip install IronDome</span>
         </div>
-        <div class="cmd-lane-body">
-          <div class="cmd-row" onclick="copyCmd('bunker create')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">bunker create</span>
-            <span class="cmd-desc">Generate &amp; store a bunker</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('bunker open')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">bunker open</span>
-            <span class="cmd-desc">List all bunkers</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('bunker open github')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">bunker open <span class="t-arg">github</span></span>
-            <span class="cmd-desc">Search specific bunker</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('bunker fortify')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">bunker fortify</span>
-            <span class="cmd-desc">Encrypted backup</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('bunker settings')">
-            <span class="cmd-tree">&#9500;</span>
-            <span class="cmd-text">bunker settings</span>
-            <span class="cmd-desc">Configure defaults</span>
-            <span class="cmd-copy">copy</span>
-          </div>
-          <div class="cmd-row" onclick="copyCmd('bunker')">
-            <span class="cmd-tree">&#9492;</span>
-            <span class="cmd-text">bunker</span>
-            <span class="cmd-desc">Interactive mode</span>
-            <span class="cmd-copy">copy</span>
-          </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- SETUP PHASE -->
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Setup</span></div>
+        <div class="wf-line" onclick="copyCmd('irondome create bunker')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-sys">irondome create bunker</span>
+          <span class="wf-comment"># first-time setup</span>
         </div>
+        <div class="wf-line no-hover">
+          <span class="wf-tree">  │   ├── </span>
+          <span class="wf-info">Choose: Touch ID / Windows Hello / Password</span>
+        </div>
+        <div class="wf-line no-hover">
+          <span class="wf-tree">  │   ├── </span>
+          <span class="wf-info">Configure defaults (length, chars)</span>
+        </div>
+        <div class="wf-line no-hover">
+          <span class="wf-tree">  │   └── </span>
+          <span class="wf-info">Save recovery key (shown once)</span>
+        </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- AUTHENTICATE PHASE -->
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Airspace Open &mdash; 30 min</span></div>
+        <div class="wf-line" onclick="copyCmd('irondome open airspace')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-sys">irondome open airspace</span>
+          <span class="wf-comment"># authenticate once</span>
+        </div>
+        <div class="wf-line no-hover">
+          <span class="wf-tree">  │   └── </span>
+          <span class="wf-info">Biometric / password &rarr; 30 min free access</span>
+        </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- OPERATE PHASE -->
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Bunker Operations</span></div>
+        <div class="wf-line" onclick="copyCmd('bunker create')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker create</span>
+          <span class="wf-comment"># generate &amp; store — no re-auth</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker create')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker create</span>
+          <span class="wf-comment"># still free</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker open github')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker open</span> <span class="wf-arg">github</span>
+          <span class="wf-comment"># search &amp; retrieve</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker open')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker open</span>
+          <span class="wf-comment"># list all bunkers</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker fortify')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker fortify</span>
+          <span class="wf-comment"># encrypted backup</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker settings')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-bunker">bunker settings</span>
+          <span class="wf-comment"># configure defaults</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('irondome status')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-sys">irondome status</span>
+          <span class="wf-comment"># dome info &amp; timer</span>
+        </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- LOCK DOWN -->
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Lock Down</span></div>
+        <div class="wf-line" onclick="copyCmd('irondome close airspace')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-sys">irondome close airspace</span>
+          <span class="wf-comment"># seal everything</span>
+        </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- BLOCKED -->
+        <div class="wf-line no-hover">
+          <span class="wf-tree">  └── </span>
+          <span class="wf-bunker" style="opacity:0.4">bunker open</span>
+          <span class="wf-comment" style="color:#ef5350"># blocked</span>
+        </div>
+        <div class="wf-line no-hover">
+          <span class="wf-tree">      └── </span>
+          <span class="wf-error">Airspace is closed. Run 'irondome open airspace' first.</span>
+        </div>
+
       </div>
-    </div>
-
-    <!-- CSS-drawn workflow tree -->
-    <div class="workflow-tree">
-      <div class="wt-title">Typical Workflow</div>
-
-      <ul class="wt-list">
-        <!-- PHASE: SETUP -->
-        <li>
-          <span class="wt-node active"></span>
-          <span class="wt-cmd" onclick="copyCmd('irondome create bunker')" style="cursor:pointer">irondome create bunker</span>
-          <span class="wt-comment"># one-time setup</span>
-        </li>
-      </ul>
-      <div class="wt-phase"><span class="wt-phase-label">Setup</span></div>
-      <ul class="wt-list">
-        <li style="padding-left:56px; min-height:26px;">
-          <span class="wt-label">Choose: Touch ID / Windows Hello / Password</span>
-        </li>
-        <li style="padding-left:56px; min-height:26px;">
-          <span class="wt-label">Configure defaults (length, characters)</span>
-        </li>
-        <li style="padding-left:56px; min-height:26px;">
-          <span class="wt-label">Save recovery key (shown once)</span>
-        </li>
-
-        <!-- PHASE: AUTHENTICATE -->
-        <li class="wt-spacer"></li>
-        <li>
-          <span class="wt-node active"></span>
-          <span class="wt-cmd" onclick="copyCmd('irondome open airspace')" style="cursor:pointer">irondome open airspace</span>
-          <span class="wt-comment"># authenticate once</span>
-        </li>
-      </ul>
-      <div class="wt-phase"><span class="wt-phase-label">Airspace Open &mdash; 30 min</span></div>
-      <ul class="wt-list">
-        <li style="padding-left:56px; min-height:26px;">
-          <span class="wt-label">Biometric / password &rarr; free access for 30 minutes</span>
-        </li>
-
-        <!-- PHASE: OPERATE -->
-        <li class="wt-spacer"></li>
-        <li>
-          <span class="wt-node"></span>
-          <span class="wt-cmd" onclick="copyCmd('bunker create')" style="cursor:pointer">bunker create</span>
-          <span class="wt-comment"># no re-auth needed</span>
-        </li>
-        <li>
-          <span class="wt-node"></span>
-          <span class="wt-cmd" onclick="copyCmd('bunker create')" style="cursor:pointer">bunker create</span>
-          <span class="wt-comment"># still free</span>
-        </li>
-        <li>
-          <span class="wt-node"></span>
-          <span class="wt-cmd" onclick="copyCmd('bunker open github')" style="cursor:pointer">bunker open <span class="wt-arg">github</span></span>
-          <span class="wt-comment"># instant access</span>
-        </li>
-        <li>
-          <span class="wt-node"></span>
-          <span class="wt-cmd" onclick="copyCmd('bunker fortify')" style="cursor:pointer">bunker fortify</span>
-          <span class="wt-comment"># encrypted backup</span>
-        </li>
-
-        <!-- PHASE: LOCK DOWN -->
-        <li class="wt-spacer"></li>
-        <li>
-          <span class="wt-node active"></span>
-          <span class="wt-cmd" onclick="copyCmd('irondome close airspace')" style="cursor:pointer">irondome close airspace</span>
-          <span class="wt-comment"># lock down</span>
-        </li>
-
-        <!-- PHASE: BLOCKED -->
-        <li class="wt-spacer"></li>
-        <li>
-          <span class="wt-node locked"></span>
-          <span class="wt-cmd" style="opacity:0.5">bunker open</span>
-          <span class="wt-comment" style="color:#f87171"># blocked</span>
-        </li>
-        <li style="padding-left:56px; min-height:26px;">
-          <span class="wt-error">Airspace is closed. Run 'irondome open airspace' first.</span>
-        </li>
-      </ul>
     </div>
   </section>
 
@@ -1164,22 +942,43 @@
   <script>
     function copyCmd(cmd) {
       navigator.clipboard.writeText(cmd).then(function() {
-        // Find the clicked row's copy button and flash it
-        var rows = document.querySelectorAll('.cmd-row');
-        rows.forEach(function(row) {
-          var text = row.querySelector('.cmd-text');
-          if (text && row.getAttribute('onclick') === "copyCmd('" + cmd + "')") {
-            var btn = row.querySelector('.cmd-copy');
-            btn.textContent = 'copied';
-            btn.classList.add('copied');
-            setTimeout(function() {
-              btn.textContent = 'copy';
-              btn.classList.remove('copied');
-            }, 1500);
-          }
-        });
+        // Flash the clicked line
+        event.currentTarget.style.background = 'rgba(52,211,153,0.08)';
+        setTimeout(function() { event.currentTarget.style.background = ''; }, 600);
       });
     }
+    // Copy-all button
+    document.getElementById('wf-copy-btn').addEventListener('click', function() {
+      var text = [
+        '$ pip install IronDome',
+        '',
+        '# Setup (one-time)',
+        'irondome create bunker',
+        '',
+        '# Authenticate — 30 min session',
+        'irondome open airspace',
+        '',
+        '# Bunker operations (no re-auth needed)',
+        'bunker create',
+        'bunker open github',
+        'bunker open',
+        'bunker fortify',
+        'bunker settings',
+        'irondome status',
+        '',
+        '# Lock down',
+        'irondome close airspace',
+      ].join('\n');
+      var btn = this;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = 'Copy All';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
   </script>
 </body>
 </html>
