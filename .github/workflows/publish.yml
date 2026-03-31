@@ -7,6 +7,7 @@ on:
     paths:
       - "password_manager/**"
       - "pyproject.toml"
+      - "README_PYPI.md"
 
 jobs:
   publish:
@@ -21,10 +22,12 @@ jobs:
           python-version: "3.12"
 
       - name: Install build tools
-        run: pip install build
+        run: pip install build "setuptools>=75.0.0"
 
       - name: Build package
         run: python -m build
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          verbose: true
