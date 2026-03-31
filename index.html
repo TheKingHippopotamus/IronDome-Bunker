@@ -4,9 +4,150 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IronDome — Secure CLI Password Manager</title>
+  <meta name="description" content="IronDome - Military-grade CLI password manager with AES-256 encryption and zero-knowledge architecture">
+  <meta property="og:title" content="IronDome — Secure CLI Password Manager">
+  <meta property="og:description" content="AES-256 encryption, zero-knowledge, hardware-bound. Install: pip install IronDome">
+  <meta property="og:image" content="static/king-hippo.svg">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0e1a;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 14, 26, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 215, 0, 0.15);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    nav .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #FFD700;
+      text-decoration: none;
+    }
+    nav .brand img { width: 32px; height: 32px; }
+    nav .links { display: flex; gap: 20px; }
+    nav .links a {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav .links a:hover { color: #FFD700; }
+    .hero {
+      text-align: center;
+      padding: 80px 24px 40px;
+      background: radial-gradient(ellipse at center top, rgba(255, 215, 0, 0.06) 0%, transparent 60%);
+    }
+    .hero img { width: 140px; margin-bottom: 24px; }
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #FFD700;
+      letter-spacing: 4px;
+      margin-bottom: 12px;
+    }
+    .hero p {
+      color: #94a3b8;
+      font-size: 1.15rem;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero .install-box {
+      display: inline-block;
+      background: #111827;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 8px;
+      padding: 16px 32px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 1.1rem;
+      color: #34d399;
+      letter-spacing: 1px;
+    }
+    .hero .install-box span { color: #64748b; }
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px 24px 60px;
+    }
+    .source-files {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto 40px;
+      padding: 0 24px;
+    }
+    .source-files h3 {
+      grid-column: 1 / -1;
+      color: #FFD700;
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(255, 215, 0, 0.1);
+      color: #475569;
+      font-size: 0.85rem;
+    }
+    footer a { color: #FFD700; text-decoration: none; }
+  </style>
 </head>
 <body>
-  <simple-spawn src="./README.md"></simple-spawn>
+
+  <nav>
+    <a class="brand" href="#">
+      <img src="static/king-hippo.svg" alt="IronDome">
+      IronDome
+    </a>
+    <div class="links">
+      <a href="https://pypi.org/project/IronDome/">PyPI</a>
+      <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker">GitHub</a>
+      <a href="#docs">Docs</a>
+      <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md">Contribute</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <img src="static/king-hippo.svg" alt="IronDome">
+    <h1>IRONDOME</h1>
+    <p>Military-grade CLI password manager. AES-256 encryption, zero-knowledge architecture, hardware-bound keys. Your passwords never leave your machine.</p>
+    <div class="install-box">
+      <span>$</span> pip install IronDome <span>&&</span> bunker
+    </div>
+  </section>
+
+  <section class="source-files">
+    <h3>Source Preview</h3>
+    <simple-spawn src="./password_manager/__init__.py" shadow></simple-spawn>
+    <simple-spawn src="./pyproject.toml" shadow></simple-spawn>
+  </section>
+
+  <section class="content" id="docs">
+    <simple-spawn src="./README.md"></simple-spawn>
+  </section>
+
+  <footer>
+    Created by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a>
+    &bull; Powered by <a href="https://www.npmjs.com/package/sst-spawn">SST</a>
+  </footer>
+
   <script type="module" src="https://unpkg.com/sst-spawn/dist/index.js"></script>
 </body>
 </html>
