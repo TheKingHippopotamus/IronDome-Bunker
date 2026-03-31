@@ -103,8 +103,18 @@ def create_user_key(username, password, salt):
     Returns:
         Fernet encryption key object
     """
-    # Create a combined key using both username and password
-    combined_key = username + ":" + password
+    # Combine username and password for KDF input using a length-prefixed
+    # encoding to prevent separator-collision attacks.  A bare ":" separator
+    # (e.g. "a:bc" + "d" vs "a" + ":bcd") allows two distinct credential
+    # pairs to derive an identical KDF input.  Encoding the username length
+    # as a zero-padded 8-byte prefix makes the boundary unambiguous.
+    username_bytes = username.encode()
+    password_bytes = password.encode()
+    combined_key = (
+        len(username_bytes).to_bytes(8, "big")
+        + username_bytes
+        + password_bytes
+    )
 
     kdf = PBKDF2HMAC(
         algorithm=hashes.SHA256(),
@@ -113,7 +123,7 @@ def create_user_key(username, password, salt):
         iterations=PBKDF2_ITERATIONS,
     )
 
-    key = base64.urlsafe_b64encode(kdf.derive(combined_key.encode()))
+    key = base64.urlsafe_b64encode(kdf.derive(combined_key))
     return Fernet(key)
 
 def generate_salt():

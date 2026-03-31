@@ -47,26 +47,42 @@ class SecurePasswordManager:
             self.logger.info(f"Password Manager initialized. Data directory: {self.data_dir}")
     
     def initialize_master_account(self):
-        """Set up master username and password if not already created, then authenticate"""
-        # Check if master account exists
+        """Set up master account with security level selection, or authenticate"""
         account_exists = self.storage.master_account_exists()
-        
+
         if account_exists:
-            # Don't log anything since not authenticated yet
             if not os.path.isfile(self.login_attempts_file):
                 with open(self.login_attempts_file, 'w') as f:
                     f.write('{}')
-            
-            # Don't display "Please login" unless login is allowed
-            login_check = self.session.check_login_attempts()
-            if login_check["allowed"]:
-                print("\nMaster account exists. Please login.")
-                self.auth.authenticate_master_account()
+
+            # Check auth mode to determine login flow
+            salt = self.storage.load_salt()
+            if salt:
+                from password_manager.keystore import SecureKeyStore
+                keystore = SecureKeyStore(salt=salt, logger=self.logger)
+                auth_mode = keystore.get_auth_mode()
+                self.auth.keystore = keystore
             else:
-                print(f"\n⛔ {login_check['message']}")
+                auth_mode = None
+
+            if auth_mode in ("biometric_only", "biometric_password"):
+                # Use biometric auth flow
+                login_check = self.session.check_login_attempts()
+                if login_check["allowed"]:
+                    self.auth.authenticate_biometric()
+                else:
+                    print(f"\n⛔ {login_check['message']}")
+            else:
+                # Standard password login
+                login_check = self.session.check_login_attempts()
+                if login_check["allowed"]:
+                    print("\nMaster account exists. Please login.")
+                    self.auth.authenticate_master_account()
+                else:
+                    print(f"\n⛔ {login_check['message']}")
         else:
-            print("\nWelcome! Let's set up your master account to secure your passwords.")
-            self.auth.create_master_account()
+            print("\nWelcome! Let's set up your secure vault.")
+            self.auth.setup_security_mode()
     
     def generate_password(self, length=15, use_special=True, use_uppercase=True, use_digits=True):
         """
