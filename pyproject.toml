@@ -3,9 +3,9 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "secure-password-manager"
+name = "IronDome"
 dynamic = ["version"]
-description = "A secure CLI password manager with AES-256 encryption and zero-knowledge architecture"
+description = "Iron Dome - A secure CLI password manager with AES-256 encryption and zero-knowledge architecture"
 readme = "README.md"
 license = {text = "GPL-3.0-only"}
 requires-python = ">=3.8"
@@ -34,7 +34,7 @@ dependencies = [
 ]
 
 [project.scripts]
-secure-password-manager = "password_manager.__main__:main"
+bunker = "password_manager.__main__:main"
 
 [project.urls]
 Homepage = "https://github.com/TheKingHippopotamus/Secure_CLI_Password_Manager_Cybersecurity_PythonEngineering"
