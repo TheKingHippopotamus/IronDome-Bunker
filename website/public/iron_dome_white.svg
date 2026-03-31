@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 750 750" xmlns="http://www.w3.org/2000/svg">
+<style>
+  @keyframes amb{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.18);opacity:1}}
+  @keyframes rSpin{to{transform:rotate(360deg)}}
+  @keyframes p1{0%{r:20;opacity:.55}100%{r:95;opacity:0}}
+  @keyframes p2{0%{r:20;opacity:.45}100%{r:95;opacity:0}}
+  @keyframes p3{0%{r:20;opacity:.35}100%{r:95;opacity:0}}
+  @keyframes dBr{0%,100%{opacity:.22}50%{opacity:.6}}
+  @keyframes boom{0%,65%,100%{opacity:.5}75%{opacity:1}82%{opacity:.65}}
+  @keyframes trl{to{stroke-dashoffset:-24}}
+  @keyframes etrl{to{stroke-dashoffset:28}}
+  @keyframes scan{0%{transform:translateY(-220px);opacity:0}8%{opacity:.1}92%{opacity:.1}100%{transform:translateY(220px);opacity:0}}
+  @keyframes tGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(144,202,249,.25))}50%{filter:drop-shadow(0 0 10px rgba(144,202,249,.55))}}
+  @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.3}}
+  @keyframes warn{0%,100%{opacity:.5}50%{opacity:1}}
+  @keyframes shP{0%,100%{opacity:.08}50%{opacity:.2}}
+  @keyframes lockOn{0%,100%{r:22;stroke-width:1.3}50%{r:27;stroke-width:2}}
+  @keyframes scrF{0%,100%{opacity:.5}50%{opacity:.8}}
+  .rSpin{transform-origin:140px 430px;animation:rSpin 3.5s linear infinite}
+  .p1{animation:p1 2.8s ease-out infinite}
+  .p2{animation:p2 2.8s ease-out infinite .9s}
+  .p3{animation:p3 2.8s ease-out infinite 1.8s}
+  .dBr{animation:dBr 3.5s ease-in-out infinite}
+  .boom{animation:boom 2.8s ease-in-out infinite}
+  .trl{animation:trl 1.2s linear infinite}
+  .etrl{animation:etrl .9s linear infinite}
+  .scan{animation:scan 6s linear infinite}
+  .tGlow{animation:tGlow 4s ease-in-out infinite}
+  .blink{animation:blink 1s step-end infinite}
+  .warn{animation:warn 1.5s ease-in-out infinite}
+  .shP{animation:shP 4s ease-in-out infinite}
+  .lockOn{animation:lockOn 1.8s ease-in-out infinite}
+  .scrF{animation:scrF 2s ease-in-out infinite}
+</style>
+<defs>
+  <radialGradient id="bg" cx="50%" cy="42%" r="56%"><stop offset="0%" stop-color="#f5f8fc"/><stop offset="55%" stop-color="#edf2f8"/><stop offset="100%" stop-color="#e5ecf4"/></radialGradient>
+  <linearGradient id="dG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d47a1" stop-opacity=".12"/><stop offset="25%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="50%" stop-color="#90caf9"/><stop offset="75%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="dGl" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1565c0" stop-opacity="0"/><stop offset="35%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="50%" stop-color="#bbdefb" stop-opacity=".5"/><stop offset="65%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="100%" stop-color="#1565c0" stop-opacity="0"/></linearGradient>
+  <radialGradient id="shF" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".06"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".01"/></radialGradient>
+  <linearGradient id="iG" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#1565c0"/><stop offset="60%" stop-color="#42a5f5"/><stop offset="100%" stop-color="#e3f2fd"/></linearGradient>
+  <linearGradient id="eG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b71c1c" stop-opacity=".3"/><stop offset="100%" stop-color="#f44336"/></linearGradient>
+  <linearGradient id="eG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c62828" stop-opacity=".25"/><stop offset="100%" stop-color="#e53935"/></linearGradient>
+  <radialGradient id="bm1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="15%" stop-color="#fffde7"/><stop offset="40%" stop-color="#ffb300"/><stop offset="65%" stop-color="#ff6f00"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
+  <radialGradient id="bm1o" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff9800" stop-opacity=".45"/><stop offset="100%" stop-color="#ff6f00" stop-opacity="0"/></radialGradient>
+  <radialGradient id="bm2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="20%" stop-color="#fff9c4"/><stop offset="50%" stop-color="#ffa726"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
+  <linearGradient id="gnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d8dfe8"/><stop offset="100%" stop-color="#c8d0dc"/></linearGradient>
+  <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a6a8f" stop-opacity=".85"/><stop offset="100%" stop-color="#344e6a" stop-opacity=".92"/></linearGradient>
+  <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2a6aaa" stop-opacity=".45"/><stop offset="50%" stop-color="#5a9ad5" stop-opacity=".1"/><stop offset="100%" stop-color="#2a6aaa" stop-opacity=".45"/></linearGradient>
+
+  <!-- Military olive/green vehicle gradients -->
+  <linearGradient id="oliveBody" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#728548"/><stop offset="40%" stop-color="#5f7038"/><stop offset="100%" stop-color="#4e5e2c"/>
+  </linearGradient>
+  <linearGradient id="oliveDark" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#5f7038"/><stop offset="100%" stop-color="#3e4e24"/>
+  </linearGradient>
+  <linearGradient id="oliveLight" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#809050"/><stop offset="100%" stop-color="#728548"/>
+  </linearGradient>
+  <linearGradient id="oliveChassis" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#4e5e2c"/><stop offset="100%" stop-color="#3a4a22"/>
+  </linearGradient>
+  <!-- Radar panel gradient -->
+  <linearGradient id="radarPanel" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#809050"/><stop offset="30%" stop-color="#728548"/><stop offset="100%" stop-color="#5f7038"/>
+  </linearGradient>
+  <!-- Screen -->
+  <radialGradient id="scrG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".4"/></radialGradient>
+  <!-- Scan cone -->
+  <linearGradient id="scC" x1="0" y1="1" x2=".5" y2="0"><stop offset="0%" stop-color="#42a5f5" stop-opacity=".3"/><stop offset="100%" stop-color="#42a5f5" stop-opacity="0"/></linearGradient>
+
+  <filter id="gl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="3.5"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="glH" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="7"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <filter id="bGl" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur in="SourceGraphic" stdDeviation="10"/></filter>
+  <filter id="ns"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="4" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope=".025"/></feComponentTransfer></filter>
+  <clipPath id="cl"><circle cx="375" cy="375" r="338"/></clipPath>
+</defs>
+
+<!-- ═══ BASE ═══ -->
+<circle cx="375" cy="375" r="340" fill="url(#bg)" stroke="url(#rG)" stroke-width="2.5"/>
+<circle cx="375" cy="375" r="346" fill="none" stroke="#b0c4d8" stroke-width="1" opacity=".45"/>
+<circle cx="375" cy="375" r="354" fill="none" stroke="#8aa0b8" stroke-width=".5" stroke-dasharray="3 8" opacity=".2"/>
+
+<g clip-path="url(#cl)">
+<rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".08"/>
+
+<!-- Grid -->
+<g opacity=".06" stroke="#8a9ab5" stroke-width=".5">
+  <line x1="36" y1="150" x2="714" y2="150"/><line x1="36" y1="225" x2="714" y2="225"/>
+  <line x1="36" y1="300" x2="714" y2="300"/><line x1="36" y1="375" x2="714" y2="375"/>
+  <line x1="36" y1="450" x2="714" y2="450"/>
+  <line x1="150" y1="36" x2="150" y2="714"/><line x1="225" y1="36" x2="225" y2="714"/>
+  <line x1="300" y1="36" x2="300" y2="714"/><line x1="375" y1="36" x2="375" y2="714"/>
+  <line x1="450" y1="36" x2="450" y2="714"/><line x1="525" y1="36" x2="525" y2="714"/>
+  <line x1="600" y1="36" x2="600" y2="714"/>
+</g>
+
+<!-- Star of David -->
+<g opacity=".07">
+  <polygon points="375,155 455,325 295,325" fill="none" stroke="#8aaccf" stroke-width="1.2"/>
+  <polygon points="375,385 295,215 455,215" fill="none" stroke="#8aaccf" stroke-width="1.2"/>
+</g>
+
+<!-- Scan bar -->
+<rect class="scan" x="36" y="373" width="678" height="2.5" fill="#6a8ab5" opacity=".06" rx="1"/>
+
+<!-- ═══ GROUND ═══ -->
+<rect x="36" y="430" width="678" height="300" fill="url(#gnG)"/>
+<line x1="36" y1="430" x2="714" y2="430" stroke="#8a9ab5" stroke-width="1.2" opacity=".4"/>
+<!-- Sand/dirt texture -->
+<g opacity=".03" stroke="#8d6e63" stroke-width=".3">
+  <line x1="36" y1="470" x2="714" y2="470"/>
+  <line x1="36" y1="510" x2="714" y2="510"/>
+</g>
+
+<!-- ═══ CITY SKYLINE ═══ -->
+<g opacity=".7">
+  <path d="
+    M36,430 L55,430 L55,398 L62,398 L62,382 L67,372 L72,382 L72,398 L88,398 L88,408
+    L105,408 L105,392 L112,392 L112,372 L118,372 L118,352 L122,338 L126,352 L126,372 L138,372 L138,390 L155,390
+    L155,375 L162,375 L162,355 L168,355 L168,335 L172,318 L176,335 L176,355 L188,355 L188,372 L205,372 L205,390 L222,390
+    L222,375 L228,375 L228,358 L234,358 L234,340 L240,328 L246,340 L246,358 L255,358 L255,372 L272,372 L272,388 L290,388
+    L290,370 L298,370 L298,348 L304,348 L304,325 L308,308 L312,292 L316,308 L320,325 L324,348 L332,348 L332,370 L348,370 L348,388 L365,388
+    L365,368 L372,368 L372,348 L378,348 L378,325 L382,308 L386,295 L390,308 L394,325 L398,348 L405,348 L405,370 L420,370 L420,388 L438,388
+    L438,372 L445,372 L445,355 L451,355 L451,338 L455,325 L459,338 L459,355 L468,355 L468,372 L482,372 L482,390 L500,390
+    L500,378 L508,378 L508,360 L514,360 L514,345 L518,335 L522,345 L522,360 L532,360 L532,378 L548,378 L548,395 L565,395
+    L565,385 L572,385 L572,370 L577,362 L582,370 L582,385 L598,385 L598,398 L618,398 L618,408 L640,408 L640,415 L665,415 L665,422 L690,422 L690,430 L714,430 Z
+  " fill="url(#cG)"/>
+  <g fill="#4a7aaa" opacity=".5">
+    <rect x="120" y="358" width="4" height="5" rx=".5"/><rect x="120" y="370" width="4" height="5" rx=".5"/>
+    <rect x="170" y="340" width="4" height="5" rx=".5"/><rect x="170" y="352" width="4" height="5" rx=".5"/>
+    <rect x="238" y="334" width="4" height="5" rx=".5"/><rect x="238" y="348" width="4" height="5" rx=".5"/>
+    <rect x="308" y="312" width="4" height="5" rx=".5"/><rect x="308" y="328" width="4" height="5" rx=".5"/><rect x="308" y="342" width="4" height="5" rx=".5"/>
+    <rect x="318" y="318" width="4" height="5" rx=".5"/><rect x="318" y="335" width="4" height="5" rx=".5"/>
+    <rect x="382" y="312" width="4" height="5" rx=".5"/><rect x="382" y="328" width="4" height="5" rx=".5"/><rect x="382" y="342" width="4" height="5" rx=".5"/>
+    <rect x="392" y="318" width="4" height="5" rx=".5"/><rect x="392" y="335" width="4" height="5" rx=".5"/>
+    <rect x="453" y="332" width="4" height="5" rx=".5"/><rect x="453" y="348" width="4" height="5" rx=".5"/>
+    <rect x="516" y="348" width="4" height="5" rx=".5"/><rect x="516" y="362" width="4" height="5" rx=".5"/>
+    <rect x="575" y="368" width="4" height="5" rx=".5"/>
+  </g>
+  <!-- Antenna masts -->
+  <line x1="312" y1="292" x2="312" y2="274" stroke="#37474f" stroke-width="1.2"/>
+  <circle cx="312" cy="272" r="2" fill="#f44336" opacity=".6" class="blink"/>
+  <line x1="386" y1="295" x2="386" y2="278" stroke="#37474f" stroke-width="1.2"/>
+  <circle cx="386" cy="276" r="2" fill="#f44336" opacity=".6" class="blink"/>
+</g>
+
+<!-- ═══ DOME ═══ -->
+<path class="shP" d="M65 430 Q375 15 685 430" fill="url(#shF)"/>
+<path class="dBr" d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dGl)" stroke-width="20" opacity=".22"/>
+<path d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dG)" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M110 430 Q375 70 640 430" fill="none" stroke="#42a5f5" stroke-width=".8" opacity=".15" stroke-dasharray="5 10"/>
+<path d="M150 430 Q375 120 600 430" fill="none" stroke="#1e88e5" stroke-width=".5" opacity=".08" stroke-dasharray="3 12"/>
+<g opacity=".3" stroke="#64b5f6" stroke-width=".8">
+  <line x1="115" y1="318" x2="128" y2="326"/><line x1="158" y1="248" x2="172" y2="258"/>
+  <line x1="218" y1="178" x2="232" y2="190"/><line x1="290" y1="120" x2="300" y2="134"/>
+  <line x1="460" y1="120" x2="450" y2="134"/><line x1="532" y1="178" x2="518" y2="190"/>
+  <line x1="592" y1="248" x2="578" y2="258"/><line x1="635" y1="318" x2="622" y2="326"/>
+</g>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- ═══ REAL IRON DOME RADAR — ELM-2084 ON 6-WHEEL TRUCK ═══ -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<g>
+  <!-- Truck chassis -->
+  <rect x="68" y="498" width="140" height="22" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <!-- Truck cab -->
+  <path d="M68,498 L68,475 L78,468 L108,468 L115,478 L115,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <!-- Cab windshield -->
+  <path d="M80,472 L105,472 L110,480 L110,490 L80,490 Z" fill="#1a2a3a" opacity=".5"/>
+  <line x1="95" y1="472" x2="95" y2="490" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
+  <!-- Cab details -->
+  <rect x="70" y="492" width="8" height="4" rx="1" fill="#6b7a42" opacity=".4"/>
+  <!-- Truck bed -->
+  <rect x="115" y="478" width="93" height="22" rx="2" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <!-- Bed side panels -->
+  <line x1="135" y1="480" x2="135" y2="498" stroke="#4a5a2e" stroke-width=".5"/>
+  <line x1="165" y1="480" x2="165" y2="498" stroke="#4a5a2e" stroke-width=".5"/>
+  <line x1="190" y1="480" x2="190" y2="498" stroke="#4a5a2e" stroke-width=".5"/>
+
+  <!-- 6 Wheels (3 axles) -->
+  <circle cx="90" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="90" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="90" cy="524" r="1.5" fill="#333"/>
+  <circle cx="155" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="155" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="155" cy="524" r="1.5" fill="#333"/>
+  <circle cx="180" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="180" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="180" cy="524" r="1.5" fill="#333"/>
+  <!-- Axle connectors -->
+  <line x1="80" y1="520" x2="80" y2="528" stroke="#222" stroke-width="1.5"/>
+  <line x1="100" y1="520" x2="100" y2="528" stroke="#222" stroke-width="1.5"/>
+
+  <!-- Pedestal base on truck bed -->
+  <rect x="145" y="458" width="30" height="22" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+  <!-- Rotation mechanism -->
+  <ellipse cx="160" cy="458" rx="18" ry="4" fill="#3a4a22" stroke="#4a5a2e" stroke-width=".5"/>
+
+  <!-- ELM-2084 FLAT RADAR PANEL (big rectangular) -->
+  <g>
+    <!-- Panel support arm -->
+    <rect x="155" y="388" width="10" height="72" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+    <!-- THE BIG PANEL -->
+    <rect x="112" y="355" width="96" height="38" rx="3" fill="url(#radarPanel)" stroke="#4a5a2e" stroke-width="1.2"/>
+    <!-- Panel face detail (antenna array pattern) -->
+    <g opacity=".3">
+      <!-- Horizontal array lines -->
+      <line x1="118" y1="362" x2="202" y2="362" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="118" y1="368" x2="202" y2="368" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="118" y1="374" x2="202" y2="374" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="118" y1="380" x2="202" y2="380" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="118" y1="386" x2="202" y2="386" stroke="#7a8a4e" stroke-width=".5"/>
+      <!-- Vertical array lines -->
+      <line x1="125" y1="358" x2="125" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="138" y1="358" x2="138" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="150" y1="358" x2="150" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="160" y1="358" x2="160" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="172" y1="358" x2="172" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="185" y1="358" x2="185" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+      <line x1="198" y1="358" x2="198" y2="390" stroke="#7a8a4e" stroke-width=".5"/>
+    </g>
+    <!-- Panel edge highlight -->
+    <line x1="112" y1="355" x2="208" y2="355" stroke="#7a8a4e" stroke-width=".8" opacity=".4"/>
+    <!-- Panel center marking -->
+    <rect x="148" y="366" width="24" height="12" rx="1" fill="none" stroke="#8a9a52" stroke-width=".5" opacity=".3"/>
+  </g>
+
+  <!-- Radar pulses -->
+  <circle class="p1" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width="1.2" opacity=".5"/>
+  <circle class="p2" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width="1" opacity=".4"/>
+  <circle class="p3" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width=".7" opacity=".3"/>
+
+  <!-- Detection beams -->
+  <g opacity=".22">
+    <path d="M160 365 Q180 300 250 240" stroke="#90caf9" fill="none" stroke-width="1.2" opacity=".5"/>
+    <path d="M160 365 Q190 280 300 210" stroke="#64b5f6" fill="none" stroke-width="1" opacity=".4"/>
+    <path d="M160 365 Q200 260 350 180" stroke="#42a5f5" fill="none" stroke-width=".8" opacity=".3"/>
+    <path d="M160 365 Q210 250 400 160" stroke="#1e88e5" fill="none" stroke-width=".6" opacity=".2"/>
+  </g>
+
+  <!-- Status light -->
+  <circle cx="75" cy="472" r="2" fill="#4caf50" opacity=".7" class="blink"/>
+  <!-- Headlight -->
+  <rect x="68" y="490" width="6" height="4" rx="1" fill="#fff3e0" opacity=".15"/>
+</g>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ═══ BMC — BATTLE MANAGEMENT CONTROL SHELTER ON TRUCK ═══ -->
+<!-- ══════════════════════════════════════════════════════════ -->
+<g>
+  <!-- Truck chassis -->
+  <rect x="278" y="498" width="145" height="22" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <!-- Truck cab -->
+  <path d="M278,498 L278,476 L288,468 L318,468 L325,478 L325,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <!-- Cab windshield -->
+  <path d="M290,472 L315,472 L320,480 L320,492 L290,492 Z" fill="#1a2a3a" opacity=".5"/>
+  <line x1="305" y1="472" x2="305" y2="492" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
+  <!-- Headlight -->
+  <rect x="278" y="490" width="6" height="4" rx="1" fill="#fff3e0" opacity=".15"/>
+  <!-- Cab status light -->
+  <circle cx="285" cy="472" r="2" fill="#4caf50" opacity=".7" class="blink"/>
+
+  <!-- SHELTER CONTAINER (the big box) -->
+  <rect x="325" y="456" width="98" height="44" rx="3" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width="1"/>
+  <!-- Container panel lines -->
+  <line x1="350" y1="458" x2="350" y2="498" stroke="#4a5a2e" stroke-width=".6"/>
+  <line x1="375" y1="458" x2="375" y2="498" stroke="#4a5a2e" stroke-width=".6"/>
+  <line x1="400" y1="458" x2="400" y2="498" stroke="#4a5a2e" stroke-width=".6"/>
+  <!-- Top edge highlight -->
+  <line x1="325" y1="456" x2="423" y2="456" stroke="#6b7a42" stroke-width=".8" opacity=".5"/>
+  <!-- Bottom edge -->
+  <line x1="325" y1="500" x2="423" y2="500" stroke="#2a3618" stroke-width=".6"/>
+
+  <!-- Door -->
+  <rect x="404" y="470" width="16" height="28" rx="1" fill="#3a4a22" stroke="#4a5a2e" stroke-width=".5"/>
+  <circle cx="417" cy="484" r="1.2" fill="#546e7a"/>
+
+  <!-- Ventilation slits -->
+  <g stroke="#4a5a2e" stroke-width=".5" opacity=".5">
+    <line x1="330" y1="462" x2="346" y2="462"/><line x1="330" y1="465" x2="346" y2="465"/>
+    <line x1="330" y1="468" x2="346" y2="468"/>
+  </g>
+
+  <!-- SCREEN DISPLAYS (visible through window) -->
+  <rect x="355" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" stroke="#0d47a1" stroke-width=".5"/>
+  <rect x="377" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" style="animation-delay:.3s" stroke="#0d47a1" stroke-width=".5"/>
+  <!-- Screen data lines -->
+  <g stroke="#42a5f5" stroke-width=".4">
+    <line x1="358" y1="469" x2="368" y2="469" opacity=".5"/>
+    <line x1="358" y1="472" x2="365" y2="472" opacity=".3"/>
+    <line x1="380" y1="469" x2="390" y2="469" opacity=".5"/>
+    <line x1="380" y1="472" x2="387" y2="472" opacity=".3"/>
+    <circle cx="387" cy="475" r="1.2" fill="#ef5350" opacity=".5" class="warn"/>
+  </g>
+
+  <!-- Antenna mast on shelter -->
+  <line x1="370" y1="456" x2="370" y2="430" stroke="#4a5a2e" stroke-width="1.5"/>
+  <line x1="362" y1="434" x2="378" y2="434" stroke="#4a5a2e" stroke-width="1"/>
+  <line x1="365" y1="438" x2="375" y2="438" stroke="#4a5a2e" stroke-width=".8"/>
+  <circle cx="370" cy="428" r="2.5" fill="#42a5f5" opacity=".5" filter="url(#gl)"/>
+
+  <!-- Satellite dish on top -->
+  <path d="M342 456 Q342 442 352 435" stroke="#5d6b3a" fill="none" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="353" cy="434" r="2" fill="#4a5a2e"/>
+
+  <!-- 6 Wheels -->
+  <circle cx="300" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="300" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="300" cy="524" r="1.5" fill="#333"/>
+  <circle cx="370" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="370" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="370" cy="524" r="1.5" fill="#333"/>
+  <circle cx="395" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="395" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="395" cy="524" r="1.5" fill="#333"/>
+
+  <!-- Status label -->
+</g>
+
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<!-- ═══ LAUNCHER — RECTANGULAR BOX WITH 20 TUBE GRID ON TRAILER ═══ -->
+<!-- ══════════════════════════════════════════════════════════════════ -->
+<g>
+  <!-- Trailer bed -->
+  <rect x="490" y="498" width="155" height="18" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <!-- Trailer tongue/hitch -->
+  <line x1="490" y1="508" x2="472" y2="508" stroke="#3a4a22" stroke-width="2.5"/>
+  <circle cx="470" cy="508" r="3" fill="none" stroke="#3a4a22" stroke-width="1.5"/>
+
+  <!-- Stabilizer legs (deployed) -->
+  <line x1="500" y1="516" x2="492" y2="538" stroke="#3a4a22" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="635" y1="516" x2="643" y2="538" stroke="#3a4a22" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Foot pads -->
+  <rect x="486" y="536" width="14" height="4" rx="1" fill="#2a3618"/>
+  <rect x="637" y="536" width="14" height="4" rx="1" fill="#2a3618"/>
+
+  <!-- Wheels (2 axles) -->
+  <circle cx="540" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="540" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="540" cy="524" r="1.5" fill="#333"/>
+  <circle cx="565" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="565" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="565" cy="524" r="1.5" fill="#333"/>
+  <circle cx="600" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="600" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="600" cy="524" r="1.5" fill="#333"/>
+  <circle cx="625" cy="524" r="10" fill="#111" stroke="#2a2a2a" stroke-width="2"/><circle cx="625" cy="524" r="4.5" fill="#1a1a1a"/><circle cx="625" cy="524" r="1.5" fill="#333"/>
+
+  <!-- LAUNCH BOX (tilted upward ~20deg) -->
+  <g transform="translate(565,460) rotate(-18)">
+    <!-- Main rectangular housing -->
+    <rect x="-55" y="-40" width="110" height="75" rx="4" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width="1.2"/>
+    <!-- Top face -->
+    <rect x="-55" y="-40" width="110" height="8" rx="4" fill="url(#oliveLight)" stroke="#4a5a2e" stroke-width=".5"/>
+    <!-- Side panel lines -->
+    <line x1="-55" y1="-20" x2="-55" y2="35" stroke="#4a5a2e" stroke-width=".6"/>
+    <line x1="55" y1="-20" x2="55" y2="35" stroke="#3a4a22" stroke-width=".6"/>
+
+    <!-- 20 MISSILE TUBE OPENINGS (4 columns x 5 rows) -->
+    <g>
+      <!-- Row 1 -->
+      <circle cx="-33" cy="-22" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="-11" cy="-22" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="11" cy="-22" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="33" cy="-22" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <!-- Row 2 -->
+      <circle cx="-33" cy="-6" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="-11" cy="-6" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="11" cy="-6" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="33" cy="-6" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <!-- Row 3 -->
+      <circle cx="-33" cy="10" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="-11" cy="10" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="11" cy="10" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="33" cy="10" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <!-- Row 4 -->
+      <circle cx="-33" cy="26" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="-11" cy="26" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="11" cy="26" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="33" cy="26" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <!-- Row 5 (bottom) -->
+      <circle cx="-33" cy="42" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="-11" cy="42" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="11" cy="42" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+      <circle cx="33" cy="42" r="6.5" fill="#1a2618" stroke="#2a3618" stroke-width=".8"/>
+
+      <!-- Missile tips visible in some tubes -->
+      <circle cx="-11" cy="-22" r="3" fill="#2a4a2e" opacity=".5"/>
+      <circle cx="11" cy="-6" r="3" fill="#2a4a2e" opacity=".4"/>
+      <circle cx="33" cy="10" r="3" fill="#2a4a2e" opacity=".5"/>
+      <circle cx="-33" cy="26" r="3" fill="#2a4a2e" opacity=".4"/>
+      <circle cx="11" cy="42" r="3" fill="#2a4a2e" opacity=".5"/>
+      <circle cx="-11" cy="10" r="3" fill="#2a4a2e" opacity=".4"/>
+      <circle cx="33" cy="-22" r="3" fill="#2a4a2e" opacity=".5"/>
+
+      <!-- Just-fired tube glow (top-left tube = empty, fired) -->
+      <circle cx="-33" cy="-22" r="6.5" fill="#42a5f5" opacity=".08"/>
+      <circle cx="-33" cy="-22" r="10" fill="#90caf9" opacity=".04" filter="url(#gl)"/>
+    </g>
+
+    <!-- Side markings -->
+  </g>
+
+  <!-- Hydraulic mount connecting box to trailer -->
+  <rect x="540" y="480" width="50" height="20" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+  <!-- Mount detail -->
+  <line x1="548" y1="484" x2="548" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
+  <line x1="558" y1="484" x2="558" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
+  <line x1="568" y1="484" x2="568" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
+  <line x1="578" y1="484" x2="578" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
+</g>
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ═══ INTERCEPTION 1 — 1 QASSAM vs 2 TAMIRS face-to-face at (305,205) ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<!-- Enemy rocket 1 smoke trail -->
+<g opacity=".15">
+  <circle cx="80" cy="100" r="6" fill="#9e9e9e"/><circle cx="108" cy="112" r="8" fill="#757575"/>
+  <circle cx="140" cy="128" r="7" fill="#9e9e9e"/><circle cx="178" cy="146" r="9" fill="#616161"/>
+  <circle cx="212" cy="162" r="7" fill="#9e9e9e"/><circle cx="248" cy="178" r="5" fill="#bdbdbd"/>
+</g>
+
+<!-- Enemy rocket 1 trail -->
+<line class="etrl" x1="42" y1="78" x2="280" y2="198" stroke="url(#eG)" stroke-width="3" stroke-dasharray="10 7"/>
+
+<!-- ENEMY QASSAM 1 — flying RIGHT toward interception point -->
+<g transform="translate(285,200) rotate(26)">
+  <rect x="-40" y="-8" width="52" height="16" rx="3" fill="#b71c1c"/>
+  <rect x="-40" y="-8" width="52" height="9" rx="3" fill="#c62828"/>
+  <rect x="-40" y="-2" width="52" height="2" fill="#d32f2f" opacity=".4"/>
+  <rect x="8" y="-8" width="14" height="16" rx="2" fill="#8e0000"/>
+  <rect x="8" y="-8" width="14" height="9" rx="2" fill="#a31515"/>
+  <!-- Nose cone pointing RIGHT -->
+  <polygon points="22,-8 22,8 38,0" fill="#c62828"/>
+  <polygon points="22,-8 22,0 38,0" fill="#d32f2f"/>
+  <circle cx="35" cy="0" r="1.5" fill="#e53935"/>
+  <rect x="-2" y="-9" width="3" height="18" fill="#7f0000" opacity=".5"/>
+  <rect x="-18" y="-9" width="2" height="18" fill="#7f0000" opacity=".3"/>
+  <polygon points="-40,-8 -52,-18 -36,-8" fill="#8e0000"/>
+  <polygon points="-40,8 -52,18 -36,8" fill="#8e0000"/>
+  <polygon points="-32,-8 -38,-13 -28,-8" fill="#a31515" opacity=".7"/>
+  <polygon points="-32,8 -38,13 -28,8" fill="#a31515" opacity=".7"/>
+  <ellipse cx="-42" cy="0" rx="3" ry="5" fill="#4a0000"/>
+  <ellipse cx="-50" cy="0" rx="12" ry="6" fill="#ff6f00" opacity=".35"/>
+  <ellipse cx="-48" cy="0" rx="8" ry="4" fill="#ffab00" opacity=".45"/>
+  <ellipse cx="-46" cy="0" rx="4" ry="2" fill="#fff176" opacity=".3"/>
+</g>
+
+<!-- Lock-on reticle 1 -->
+<g transform="translate(305,205)">
+  <circle class="lockOn" cx="0" cy="0" r="32" fill="none" stroke="#ef5350" stroke-width="1.5" opacity=".45"/>
+  <line x1="-16" y1="0" x2="-7" y2="0" stroke="#ef5350" stroke-width="1.2" opacity=".5"/>
+  <line x1="7" y1="0" x2="16" y2="0" stroke="#ef5350" stroke-width="1.2" opacity=".5"/>
+  <line x1="0" y1="-16" x2="0" y2="-7" stroke="#ef5350" stroke-width="1.2" opacity=".5"/>
+  <line x1="0" y1="7" x2="0" y2="16" stroke="#ef5350" stroke-width="1.2" opacity=".5"/>
+</g>
+
+<!-- TAMIR INTERCEPTOR 1A — coming from RIGHT, facing LEFT (head-on) -->
+<path class="trl" d="M540 395 Q510 350 470 300 Q440 265 370 225" fill="none" stroke="url(#iG)" stroke-width="2.8" stroke-dasharray="7 5" stroke-linecap="round"/>
+
+<g transform="translate(345,215) rotate(206)">
+  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#4a7aaa" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
+  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
+  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
+  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
+  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
+  <circle cx="-10" cy="0" r="7" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="4" fill="#90caf9" opacity=".5"/>
+  <circle cx="-8" cy="0" r="2" fill="#e3f2fd" opacity=".3"/>
+</g>
+
+<!-- TAMIR INTERCEPTOR 1B — coming from BELOW-RIGHT, facing LEFT (head-on) -->
+<path class="trl" d="M520 430 Q490 370 440 290 Q410 255 355 218" fill="none" stroke="url(#iG)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" style="animation-delay:.3s"/>
+
+<g transform="translate(338,222) rotate(218)">
+  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#4a7aaa" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
+  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
+  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
+  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
+  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
+  <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".45"/>
+</g>
+
+<!-- ═══ EXPLOSION 1 (where all 3 meet) ═══ -->
+<g transform="translate(318,210)">
+  <circle cx="0" cy="0" r="60" fill="url(#bm1o)" filter="url(#bGl)" opacity=".55"/>
+  <circle cx="0" cy="0" r="40" fill="url(#bm1o)" opacity=".25"/>
+  <circle class="boom" cx="0" cy="0" r="22" fill="url(#bm1)"/>
+  <circle class="boom" cx="0" cy="0" r="9" fill="#fff" opacity=".7" style="animation-delay:.1s"/>
+  <!-- Shockwaves -->
+  <circle cx="0" cy="0" r="20" fill="none" stroke="#fff176" stroke-width="1.5" opacity=".3">
+    <animate attributeName="r" values="18;55" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".4;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="0" cy="0" r="20" fill="none" stroke="#ffb300" stroke-width="1" opacity=".2">
+    <animate attributeName="r" values="22;65" dur="2.5s" repeatCount="indefinite" begin=".5s"/>
+    <animate attributeName="opacity" values=".3;0" dur="2.5s" repeatCount="indefinite" begin=".5s"/>
+  </circle>
+  <!-- 12 Explosion rays -->
+  <g opacity=".55" stroke="#ffb300" stroke-width="1.5" stroke-linecap="round">
+    <line x1="0" y1="-24" x2="0" y2="-40"/><line x1="12" y1="-21" x2="20" y2="-35"/>
+    <line x1="21" y1="-12" x2="35" y2="-20"/><line x1="24" y1="0" x2="40" y2="0"/>
+    <line x1="21" y1="12" x2="35" y2="20"/><line x1="12" y1="21" x2="20" y2="35"/>
+    <line x1="0" y1="24" x2="0" y2="40"/><line x1="-12" y1="21" x2="-20" y2="35"/>
+    <line x1="-21" y1="12" x2="-35" y2="20"/><line x1="-24" y1="0" x2="-40" y2="0"/>
+    <line x1="-21" y1="-12" x2="-35" y2="-20"/><line x1="-12" y1="-21" x2="-20" y2="-35"/>
+  </g>
+  <!-- Red debris -->
+  <rect x="-15" y="-24" width="6" height="2" fill="#d32f2f" opacity=".7" transform="rotate(30,-15,-24)">
+    <animate attributeName="x" values="-15;-35" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="-24;-50" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".7;0" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="14" y="-20" width="5" height="2" fill="#c62828" opacity=".6" transform="rotate(-20,14,-20)">
+    <animate attributeName="x" values="14;34" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="y" values="-20;-42" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="1.8s" repeatCount="indefinite"/>
+  </rect>
+  <!-- Blue debris -->
+  <rect x="20" y="6" width="4" height="1.5" fill="#1976d2" opacity=".6">
+    <animate attributeName="x" values="20;44" dur="2.2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="2.2s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="-12" y="18" width="5" height="1.5" fill="#1565c0" opacity=".5">
+    <animate attributeName="y" values="18;42" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;0" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <!-- Fire particles -->
+  <circle cx="-18" cy="-16" r="2.5" fill="#ff9800" opacity=".7">
+    <animate attributeName="cx" values="-18;-40" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="cy" values="-16;-34" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".7;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="22" cy="-10" r="2" fill="#ffb300" opacity=".6">
+    <animate attributeName="cx" values="22;46" dur="1.7s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="1.7s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="10" cy="22" r="2.2" fill="#ff6f00" opacity=".6">
+    <animate attributeName="cy" values="22;48" dur="2.3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="2.3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="-22" cy="10" r="1.8" fill="#ffa726" opacity=".5">
+    <animate attributeName="cx" values="-22;-46" dur="2.1s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;0" dur="2.1s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="6" cy="-26" r="1" fill="#fff176" opacity=".6">
+    <animate attributeName="cy" values="-26;-52" dur="1.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</g>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+<!-- ═══ INTERCEPTION 2 — 1 QASSAM vs 2 TAMIRS face-to-face at (415,152) ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════ -->
+
+<!-- Enemy rocket 2 smoke -->
+<g opacity=".12">
+  <circle cx="140" cy="58" r="5" fill="#9e9e9e"/><circle cx="180" cy="72" r="6.5" fill="#757575"/>
+  <circle cx="225" cy="88" r="5.5" fill="#9e9e9e"/><circle cx="275" cy="106" r="5" fill="#bdbdbd"/>
+  <circle cx="325" cy="124" r="4" fill="#9e9e9e"/>
+</g>
+
+<!-- Enemy rocket 2 trail -->
+<line class="etrl" x1="80" y1="35" x2="378" y2="148" stroke="url(#eG2)" stroke-width="2.8" stroke-dasharray="9 6"/>
+
+<!-- ENEMY QASSAM 2 — flying RIGHT toward interception -->
+<g transform="translate(382,150) rotate(21)">
+  <rect x="-35" y="-7" width="44" height="14" rx="2.5" fill="#b71c1c"/>
+  <rect x="-35" y="-7" width="44" height="8" rx="2.5" fill="#c62828"/>
+  <rect x="-35" y="-1.5" width="44" height="1.8" fill="#d32f2f" opacity=".4"/>
+  <rect x="5" y="-7" width="12" height="14" rx="2" fill="#8e0000"/>
+  <rect x="5" y="-7" width="12" height="8" rx="2" fill="#a31515"/>
+  <!-- Nose cone pointing RIGHT -->
+  <polygon points="17,-7 17,7 32,0" fill="#c62828"/>
+  <polygon points="17,-7 17,0 32,0" fill="#d32f2f"/>
+  <circle cx="30" cy="0" r="1.3" fill="#e53935"/>
+  <rect x="-4" y="-7.5" width="3" height="15" fill="#7f0000" opacity=".5"/>
+  <polygon points="-35,-7 -46,-15 -30,-7" fill="#8e0000"/>
+  <polygon points="-35,7 -46,15 -30,7" fill="#8e0000"/>
+  <polygon points="-28,-7 -33,-11 -24,-7" fill="#a31515" opacity=".7"/>
+  <polygon points="-28,7 -33,11 -24,7" fill="#a31515" opacity=".7"/>
+  <ellipse cx="-37" cy="0" rx="2.5" ry="4.5" fill="#4a0000"/>
+  <ellipse cx="-44" cy="0" rx="10" ry="5" fill="#ff6f00" opacity=".3"/>
+  <ellipse cx="-42" cy="0" rx="6" ry="3.5" fill="#ffab00" opacity=".4"/>
+</g>
+
+<!-- Lock-on 2 -->
+<g transform="translate(415,152)">
+  <circle class="lockOn" cx="0" cy="0" r="28" fill="none" stroke="#ef5350" stroke-width="1.3" opacity=".4" style="animation-delay:.5s"/>
+  <line x1="-12" y1="0" x2="-5" y2="0" stroke="#ef5350" stroke-width="1" opacity=".4"/>
+  <line x1="5" y1="0" x2="12" y2="0" stroke="#ef5350" stroke-width="1" opacity=".4"/>
+  <line x1="0" y1="-12" x2="0" y2="-5" stroke="#ef5350" stroke-width="1" opacity=".4"/>
+  <line x1="0" y1="5" x2="0" y2="12" stroke="#ef5350" stroke-width="1" opacity=".4"/>
+</g>
+
+<!-- TAMIR INTERCEPTOR 2A — from RIGHT, facing LEFT (head-on) -->
+<path class="trl" d="M590 370 Q560 320 510 260 Q480 225 450 165" fill="none" stroke="url(#iG)" stroke-width="2.5" stroke-dasharray="7 5" stroke-linecap="round" style="animation-delay:.2s"/>
+
+<g transform="translate(445,163) rotate(200)">
+  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#4a7aaa" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
+  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
+  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
+  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
+  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
+  <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".5"/>
+</g>
+
+<!-- TAMIR INTERCEPTOR 2B — from BELOW-RIGHT, facing LEFT (head-on) -->
+<path class="trl" d="M570 400 Q545 345 500 275 Q472 240 442 172" fill="none" stroke="url(#iG)" stroke-width="2.2" stroke-dasharray="6 4" stroke-linecap="round" style="animation-delay:.5s"/>
+
+<g transform="translate(438,170) rotate(212)">
+  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#4a7aaa" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
+  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
+  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
+  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
+  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
+  <circle cx="-10" cy="0" r="5.5" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3" fill="#90caf9" opacity=".45"/>
+</g>
+
+<!-- ═══ EXPLOSION 2 ═══ -->
+<g transform="translate(420,158)">
+  <circle cx="0" cy="0" r="45" fill="url(#bm1o)" filter="url(#bGl)" opacity=".45"/>
+  <circle cx="0" cy="0" r="30" fill="url(#bm1o)" opacity=".2"/>
+  <circle class="boom" cx="0" cy="0" r="16" fill="url(#bm2)" style="animation-delay:.4s"/>
+  <circle class="boom" cx="0" cy="0" r="6" fill="#fff" opacity=".65" style="animation-delay:.5s"/>
+  <circle cx="0" cy="0" r="14" fill="none" stroke="#fff176" stroke-width="1.2" opacity=".25">
+    <animate attributeName="r" values="14;42" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".35;0" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="0" cy="0" r="16" fill="none" stroke="#ffb300" stroke-width=".8" opacity=".18">
+    <animate attributeName="r" values="18;50" dur="2.2s" repeatCount="indefinite" begin=".4s"/>
+    <animate attributeName="opacity" values=".25;0" dur="2.2s" repeatCount="indefinite" begin=".4s"/>
+  </circle>
+  <g opacity=".45" stroke="#ffa726" stroke-width="1.3" stroke-linecap="round">
+    <line x1="0" y1="-18" x2="0" y2="-32"/><line x1="16" y1="-9" x2="27" y2="-16"/>
+    <line x1="18" y1="0" x2="32" y2="0"/><line x1="16" y1="9" x2="27" y2="16"/>
+    <line x1="0" y1="18" x2="0" y2="32"/><line x1="-16" y1="9" x2="-27" y2="16"/>
+    <line x1="-18" y1="0" x2="-32" y2="0"/><line x1="-16" y1="-9" x2="-27" y2="-16"/>
+  </g>
+  <!-- Debris -->
+  <rect x="-12" y="-18" width="5" height="1.8" fill="#c62828" opacity=".6" transform="rotate(25,-12,-18)">
+    <animate attributeName="y" values="-18;-40" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="16" y="4" width="4" height="1.5" fill="#1976d2" opacity=".5">
+    <animate attributeName="x" values="16;36" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;0" dur="2s" repeatCount="indefinite"/>
+  </rect>
+  <circle cx="16" cy="-12" r="2" fill="#ff9800" opacity=".6">
+    <animate attributeName="cx" values="16;34" dur="1.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".6;0" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="-14" cy="10" r="1.8" fill="#ffa726" opacity=".5">
+    <animate attributeName="cx" values="-14;-32" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;0" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="8" cy="18" r="1.5" fill="#ff6f00" opacity=".5">
+    <animate attributeName="cy" values="18;38" dur="2.1s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values=".5;0" dur="2.1s" repeatCount="indefinite"/>
+  </circle>
+</g>
+
+<!-- ═══ SYSTEM LINKS ═══ -->
+<g opacity=".1" stroke="#42a5f5" stroke-width=".7" stroke-dasharray="2 5">
+  <line x1="208" y1="498" x2="278" y2="498"/>
+  <line x1="423" y1="498" x2="490" y2="498"/>
+  <path d="M160 365 Q270 280 330 190" fill="none"/>
+  <path d="M370 456 Q450 390 530 400" fill="none"/>
+</g>
+
+<!-- Kill zones -->
+<g opacity=".07" stroke="#ef5350" stroke-width=".6" stroke-dasharray="2 6">
+  <circle cx="375" cy="250" r="150"/><circle cx="375" cy="250" r="210"/>
+</g>
+
+</g><!-- clip -->
+
+<!-- Outer ring -->
+<g opacity=".35" stroke="#6a8ab5" stroke-width="1.2">
+  <line x1="375" y1="30" x2="375" y2="42"/><line x1="375" y1="708" x2="375" y2="720"/>
+  <line x1="30" y1="375" x2="42" y2="375"/><line x1="708" y1="375" x2="720" y2="375"/>
+</g>
+<g opacity=".35" stroke="#6a8ab5" stroke-width=".8">
+  <line x1="617" y1="133" x2="612" y2="138"/><line x1="133" y1="133" x2="138" y2="138"/>
+  <line x1="617" y1="617" x2="612" y2="612"/><line x1="133" y1="617" x2="138" y2="612"/>
+</g>
+
+<!-- ═══ TYPOGRAPHY ═══ -->
+<g class="tGlow">
+  <text x="375" y="575" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="42" fill="#1a2d45" letter-spacing="10">IRON DOME</text>
+  <text x="375" y="625" text-anchor="middle" font-family="Rajdhani" font-weight="500" font-size="12" fill="#546e7a" letter-spacing="6">ADVANCED DEFENSE SHIELD SYSTEM</text>
+</g>
+<line x1="150" y1="560" x2="258" y2="560" stroke="#4a7aaa" stroke-width=".6" opacity=".3"/>
+<line x1="492" y1="560" x2="600" y2="560" stroke="#4a7aaa" stroke-width=".6" opacity=".3"/>
+<polygon points="264,560 269,556 274,560 269,564" fill="#4a7aaa" opacity=".3"/>
+<polygon points="476,560 481,556 486,560 481,564" fill="#4a7aaa" opacity=".3"/>
+
+</svg>

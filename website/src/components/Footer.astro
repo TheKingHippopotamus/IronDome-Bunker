@@ -1,0 +1,479 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer" role="contentinfo">
+  <!-- Gold top border -->
+  <div class="footer-border" aria-hidden="true"></div>
+
+  <div class="footer-inner">
+
+    <!-- Brand + tagline column -->
+    <div class="footer-brand-col">
+      <a href="/" class="footer-logo-link" aria-label="IronDome — Home">
+        <div class="footer-logo-wrap">
+          <img
+            src="/irondome-favicon.svg"
+            alt="IronDome logo"
+            width="26"
+            height="26"
+            aria-hidden="true"
+          />
+        </div>
+        <span class="footer-logo-name">IRONDOME</span>
+      </a>
+
+      <p class="footer-tagline">Built for the paranoid.</p>
+
+      <p class="footer-description">
+        Zero-knowledge CLI password vault. AES-256 encryption.
+        Your credentials never leave your machine.
+      </p>
+
+      <!-- Install snippet -->
+      <div class="footer-install">
+        <span class="install-prompt" aria-hidden="true">&gt;</span>
+        <code class="install-cmd">pip install IronDome</code>
+      </div>
+
+      <!-- Classification + tech badges -->
+      <div class="footer-badges">
+        <span class="classified-badge" aria-label="Security classification: Classified">
+          <svg width="6" height="6" viewBox="0 0 6 6" fill="currentColor" aria-hidden="true">
+            <circle cx="3" cy="3" r="3"/>
+          </svg>
+          CLASSIFIED
+        </span>
+        <span class="tech-badge tech-badge--green">AES-256</span>
+        <span class="tech-badge">ZERO-KNOWLEDGE</span>
+        <span class="tech-badge">Python 3.8+</span>
+      </div>
+    </div>
+
+    <!-- Links grid -->
+    <div class="footer-links-grid">
+      <div class="footer-col">
+        <h3 class="footer-col-title">Project</h3>
+        <ul class="footer-link-list">
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub Repository (opens in new tab)"
+            >
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://pypi.org/project/IronDome/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="PyPI Package (opens in new tab)"
+            >
+              PyPI
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="License (opens in new tab)"
+            >
+              License
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Contributing Guide (opens in new tab)"
+            >
+              Contributing
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CHANGELOG.md"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Changelog (opens in new tab)"
+            >
+              Changelog
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-col-title">Resources</h3>
+        <ul class="footer-link-list">
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Security Policy
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Live Demo (Colab)
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Report Issue
+            </a>
+          </li>
+          <li><a href="/about">About</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3 class="footer-col-title">Creator</h3>
+        <ul class="footer-link-list">
+          <li>
+            <a
+              href="https://github.com/TheKingHippopotamus"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @TheKingHippopotamus
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://x.com/LmlyhNyr"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @LmlyhNyr on X
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://pypi.org/user/king.hippo/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              PyPI Profile
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /.footer-inner -->
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <span class="footer-copy">
+        &copy; {year} King Hippopotamus.&nbsp; GPL-3.0 Licensed. Use it. Audit it. Fork it.
+      </span>
+      <div class="footer-status">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="footer-status-text">NO SERVER. NO SYNC. NO BREACH.</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* ============================================================
+     FOOTER COMPONENT STYLES
+     ============================================================ */
+
+  .site-footer {
+    margin-top: auto;
+    background-color: #0d1117;
+    border-top: none;
+  }
+
+  /* Gold top border */
+  .footer-border {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.08) 10%,
+      rgba(255, 215, 0, 0.35) 30%,
+      rgba(255, 215, 0, 0.6)  50%,
+      rgba(255, 215, 0, 0.35) 70%,
+      rgba(255, 215, 0, 0.08) 90%,
+      transparent 100%
+    );
+  }
+
+  /* ── Main content ─────────────────────────────────────────── */
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-block: 3rem 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .footer-inner {
+      grid-template-columns: 1fr 2fr;
+    }
+  }
+
+  /* ── Brand column ─────────────────────────────────────────── */
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .footer-logo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    text-decoration: none;
+    color: inherit;
+    width: fit-content;
+    transition: opacity 150ms ease;
+  }
+
+  .footer-logo-link:hover {
+    opacity: 0.85;
+    color: inherit;
+  }
+
+  .footer-logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background-color: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .footer-logo-name {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: #FFD700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+  }
+
+  .footer-tagline {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #e8ecf0;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .footer-description {
+    font-size: 0.8125rem;
+    color: #546E7A;
+    line-height: 1.6;
+    max-width: 30ch;
+    margin: 0;
+  }
+
+  /* Install command */
+  .footer-install {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 215, 0, 0.08);
+    border-left: 2px solid #FFD700;
+    border-radius: 1px;
+    width: fit-content;
+  }
+
+  .install-prompt {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    color: rgba(255, 215, 0, 0.45);
+    user-select: none;
+  }
+
+  .install-cmd {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.8125rem;
+    color: #34d399;
+    user-select: all;
+    cursor: text;
+  }
+
+  /* Badges row */
+  .footer-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.125rem;
+  }
+
+  /* CLASSIFIED badge */
+  .classified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.2rem 0.5rem;
+    background-color: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.28);
+    color: #ef4444;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-radius: 1px;
+    line-height: 1;
+  }
+
+  /* Generic tech badges */
+  .tech-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.2rem 0.5rem;
+    background-color: rgba(255, 215, 0, 0.05);
+    border: 1px solid rgba(255, 215, 0, 0.18);
+    color: #FFD700;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border-radius: 1px;
+    line-height: 1;
+  }
+
+  .tech-badge--green {
+    background-color: rgba(52, 211, 153, 0.06);
+    border-color: rgba(52, 211, 153, 0.2);
+    color: #34d399;
+  }
+
+  /* ── Links grid ───────────────────────────────────────────── */
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    .footer-links-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .footer-col-title {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #FFD700;
+    margin-bottom: 0.875rem;
+    padding-bottom: 0.625rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.07);
+  }
+
+  .footer-link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .footer-link-list a {
+    font-size: 0.8125rem;
+    color: #78909C;
+    text-decoration: none;
+    transition: color 150ms ease, padding-left 150ms ease;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    display: block;
+    padding-left: 0;
+  }
+
+  .footer-link-list a:hover {
+    color: #FFD700;
+    padding-left: 4px;
+  }
+
+  /* ── Bottom bar ───────────────────────────────────────────── */
+  .footer-bottom {
+    border-top: 1px solid rgba(255, 215, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .footer-bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-block: 1rem;
+  }
+
+  .footer-copy {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    color: #546E7A;
+    letter-spacing: 0.04em;
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-status-text {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgba(52, 211, 153, 0.6);
+    text-transform: uppercase;
+  }
+
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #34d399;
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+    animation: glow-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.6); }
+    50%       { box-shadow: 0 0 10px rgba(52, 211, 153, 1), 0 0 18px rgba(52, 211, 153, 0.35); }
+  }
+</style>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thekinghippopotamus.github.io/IronDome-Bunker/sitemap.xml

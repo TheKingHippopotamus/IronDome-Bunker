@@ -1,0 +1,511 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="404 — Sector Not Found"
+  description="The coordinates you entered don't match any known bunker. Return to base and try again."
+>
+  <section class="error-shell" aria-labelledby="error-heading">
+
+    <!-- Radar animation background -->
+    <div class="radar-wrap" aria-hidden="true">
+      <div class="radar-ring radar-ring--1"></div>
+      <div class="radar-ring radar-ring--2"></div>
+      <div class="radar-ring radar-ring--3"></div>
+      <div class="radar-sweep"></div>
+      <div class="radar-crosshair radar-crosshair--h"></div>
+      <div class="radar-crosshair radar-crosshair--v"></div>
+      <!-- Blip dots -->
+      <div class="radar-blip radar-blip--1"></div>
+      <div class="radar-blip radar-blip--2"></div>
+    </div>
+
+    <!-- Corner brackets (tactical dressing) -->
+    <div class="corner corner--tl" aria-hidden="true"></div>
+    <div class="corner corner--tr" aria-hidden="true"></div>
+    <div class="corner corner--bl" aria-hidden="true"></div>
+    <div class="corner corner--br" aria-hidden="true"></div>
+
+    <!-- Main content -->
+    <div class="error-content">
+
+      <!-- Classification badge -->
+      <div class="badge-row">
+        <span class="class-badge" aria-label="Error classification">
+          ERROR &mdash; 404 &mdash; UNAUTHORIZED SECTOR
+        </span>
+      </div>
+
+      <!-- Big 404 -->
+      <div class="four-oh-four" aria-hidden="true">404</div>
+
+      <!-- Heading -->
+      <h1 class="error-heading" id="error-heading">SECTOR NOT FOUND</h1>
+
+      <!-- Sub-label -->
+      <p class="breach-label" aria-label="Status">BREACH DETECTED</p>
+
+      <!-- Description -->
+      <p class="error-description">
+        The coordinates you entered don't match any known bunker.<br />
+        This sector is either classified, decommissioned, or never existed.
+      </p>
+
+      <!-- Diagnostic readout -->
+      <div class="diagnostic" aria-label="Diagnostic readout">
+        <div class="diagnostic-row">
+          <span class="diag-label">STATUS</span>
+          <span class="diag-value diag-value--red">TARGET NOT ACQUIRED</span>
+        </div>
+        <div class="diagnostic-row">
+          <span class="diag-label">SECTOR</span>
+          <span class="diag-value">UNCHARTED TERRITORY</span>
+        </div>
+        <div class="diagnostic-row">
+          <span class="diag-label">THREAT LEVEL</span>
+          <span class="diag-value diag-value--amber">MODERATE — LOST OPERATIVE</span>
+        </div>
+        <div class="diagnostic-row">
+          <span class="diag-label">RECOMMENDED ACTION</span>
+          <span class="diag-value diag-value--green">RETURN TO BASE</span>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-row">
+        <a href="/" class="return-btn" aria-label="Return to IronDome home">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          RETURN TO BASE
+        </a>
+      </div>
+
+      <!-- Footer classification line -->
+      <p class="footer-class" aria-hidden="true">
+        IRONDOME SECURE VAULT &mdash; v2.0 &mdash; TACTICAL COMMAND CENTER
+      </p>
+
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* ============================================================
+     404 PAGE — TACTICAL ERROR SCREEN
+     ============================================================ */
+
+  .error-shell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 128px); /* subtract header + footer approx */
+    background-color: #0a0e1a;
+    overflow: hidden;
+    padding: clamp(2rem, 6vw, 4rem) clamp(1rem, 4vw, 2rem);
+  }
+
+  /* ── Radar background ───────────────────────────────────── */
+  .radar-wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0.18;
+  }
+
+  .radar-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 215, 0, 0.5);
+  }
+
+  .radar-ring--1 {
+    width: min(520px, 80vw);
+    height: min(520px, 80vw);
+  }
+
+  .radar-ring--2 {
+    width: min(360px, 56vw);
+    height: min(360px, 56vw);
+  }
+
+  .radar-ring--3 {
+    width: min(200px, 32vw);
+    height: min(200px, 32vw);
+  }
+
+  .radar-sweep {
+    position: absolute;
+    width: min(520px, 80vw);
+    height: min(520px, 80vw);
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 320deg,
+      rgba(255, 215, 0, 0.08) 340deg,
+      rgba(255, 215, 0, 0.28) 355deg,
+      rgba(255, 215, 0, 0.04) 360deg
+    );
+    animation: radar-sweep 4s linear infinite;
+    transform-origin: center center;
+  }
+
+  @keyframes radar-sweep {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .radar-crosshair--h,
+  .radar-crosshair--v {
+    position: absolute;
+    background-color: rgba(255, 215, 0, 0.3);
+  }
+
+  .radar-crosshair--h {
+    width: min(540px, 84vw);
+    height: 1px;
+  }
+
+  .radar-crosshair--v {
+    width: 1px;
+    height: min(540px, 84vw);
+  }
+
+  /* Blip dots that appear and fade on the radar */
+  .radar-blip {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #FFD700;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+    animation: blip-flash 4s ease-in-out infinite;
+  }
+
+  .radar-blip--1 {
+    transform: translate(60px, -80px);
+    animation-delay: 1.2s;
+  }
+
+  .radar-blip--2 {
+    transform: translate(-100px, 40px);
+    animation-delay: 2.8s;
+  }
+
+  @keyframes blip-flash {
+    0%   { opacity: 0; transform: translate(var(--tx, 60px), var(--ty, -80px)) scale(0.5); }
+    15%  { opacity: 1; transform: translate(var(--tx, 60px), var(--ty, -80px)) scale(1); }
+    60%  { opacity: 0.8; }
+    100% { opacity: 0; }
+  }
+
+  .radar-blip--1 {
+    --tx: 60px;
+    --ty: -80px;
+  }
+
+  .radar-blip--2 {
+    --tx: -100px;
+    --ty: 40px;
+  }
+
+  /* ── Corner brackets ────────────────────────────────────── */
+  .corner {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+  }
+
+  .corner--tl {
+    top: 1.5rem;
+    left: 1.5rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.35);
+    border-left: 1px solid rgba(255, 215, 0, 0.35);
+  }
+
+  .corner--tr {
+    top: 1.5rem;
+    right: 1.5rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.35);
+    border-right: 1px solid rgba(255, 215, 0, 0.35);
+  }
+
+  .corner--bl {
+    bottom: 1.5rem;
+    left: 1.5rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.35);
+    border-left: 1px solid rgba(255, 215, 0, 0.35);
+  }
+
+  .corner--br {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.35);
+    border-right: 1px solid rgba(255, 215, 0, 0.35);
+  }
+
+  /* ── Content ────────────────────────────────────────────── */
+  .error-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    max-width: 680px;
+    width: 100%;
+  }
+
+  /* Classification badge */
+  .badge-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .class-badge {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 215, 0, 0.6);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    padding: 0.3rem 0.875rem;
+    border-radius: 1px;
+    background-color: rgba(255, 215, 0, 0.03);
+  }
+
+  /* Big 404 number */
+  .four-oh-four {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: clamp(5rem, 18vw, 10rem);
+    font-weight: 900;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: #FFD700;
+    text-shadow:
+      0 0 20px rgba(255, 215, 0, 0.7),
+      0 0 50px rgba(255, 215, 0, 0.35),
+      0 0 100px rgba(255, 215, 0, 0.12);
+    animation: number-glow 3s ease-in-out infinite;
+    user-select: none;
+  }
+
+  @keyframes number-glow {
+    0%, 100% {
+      text-shadow:
+        0 0 20px rgba(255, 215, 0, 0.7),
+        0 0 50px rgba(255, 215, 0, 0.35),
+        0 0 100px rgba(255, 215, 0, 0.12);
+    }
+    50% {
+      text-shadow:
+        0 0 30px rgba(255, 215, 0, 0.9),
+        0 0 70px rgba(255, 215, 0, 0.5),
+        0 0 140px rgba(255, 215, 0, 0.2);
+    }
+  }
+
+  /* Main heading */
+  .error-heading {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #e2e8f0;
+    margin: 0;
+  }
+
+  /* Breach label */
+  .breach-label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #ef4444;
+    text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    animation: alert-pulse 1.5s ease-in-out infinite;
+    margin: 0;
+  }
+
+  @keyframes alert-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.5; }
+  }
+
+  /* Description text */
+  .error-description {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: clamp(0.875rem, 2vw, 1rem);
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 42ch;
+    margin: 0;
+  }
+
+  /* Diagnostic readout */
+  .diagnostic {
+    width: 100%;
+    max-width: 480px;
+    background-color: rgba(13, 17, 23, 0.85);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 2px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle scan line on diagnostic box */
+  .diagnostic::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 215, 0, 0.4),
+      transparent
+    );
+    animation: diag-scan 3s linear infinite;
+  }
+
+  @keyframes diag-scan {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .diagnostic-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.04);
+    padding-bottom: 0.5rem;
+  }
+
+  .diagnostic-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .diag-label {
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 215, 0, 0.45);
+    min-width: 11ch;
+    flex-shrink: 0;
+  }
+
+  .diag-value {
+    letter-spacing: 0.06em;
+    color: #78909C;
+    font-weight: 500;
+  }
+
+  .diag-value--red {
+    color: #ef4444;
+    text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+  }
+
+  .diag-value--amber {
+    color: #f59e0b;
+    text-shadow: 0 0 8px rgba(245, 158, 11, 0.3);
+  }
+
+  .diag-value--green {
+    color: #34d399;
+    text-shadow: 0 0 8px rgba(52, 211, 153, 0.35);
+  }
+
+  /* CTA */
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .return-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 2rem;
+    background-color: #FFD700;
+    color: #0a0e1a;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    border: 2px solid transparent;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease,
+      box-shadow 200ms ease,
+      transform 150ms ease;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  .return-btn:hover {
+    background-color: transparent;
+    color: #FFD700;
+    border-color: #FFD700;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .return-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Footer classification line */
+  .footer-class {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(84, 110, 122, 0.4);
+    margin-top: 0.5rem;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .corner--tl,
+    .corner--tr,
+    .corner--bl,
+    .corner--br {
+      width: 16px;
+      height: 16px;
+    }
+
+    .diagnostic {
+      padding: 1rem;
+    }
+
+    .diag-label {
+      min-width: 9ch;
+    }
+  }
+</style>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="lc-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </linearGradient>
+    <linearGradient id="lc-steel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#546E7A"/>
+      <stop offset="100%" stop-color="#1C2731"/>
+    </linearGradient>
+    <linearGradient id="lc-bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f1820"/>
+      <stop offset="100%" stop-color="#0a0e1a"/>
+    </linearGradient>
+    <filter id="lc-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect x="2" y="2" width="44" height="44" rx="6" fill="url(#lc-bg)" stroke="url(#lc-gold)" stroke-width="1.8" filter="url(#lc-glow)"/>
+  <rect x="4" y="4" width="40" height="40" rx="5" fill="none" stroke="url(#lc-gold)" stroke-width="0.5" opacity="0.3"/>
+
+  <!-- Vault/bunker door — center -->
+  <rect x="12" y="10" width="24" height="28" rx="2" fill="url(#lc-steel)" stroke="url(#lc-gold)" stroke-width="1.5"/>
+  <!-- Door inner frame -->
+  <rect x="15" y="13" width="18" height="22" rx="1.5" fill="#1C2731" stroke="#37474F" stroke-width="0.8"/>
+
+  <!-- Vault door wheel/handle (circular spinner) -->
+  <circle cx="24" cy="24" r="7" fill="none" stroke="url(#lc-gold)" stroke-width="1.5"/>
+  <!-- Spoke cross -->
+  <line x1="24" y1="17" x2="24" y2="31" stroke="url(#lc-gold)" stroke-width="1.2"/>
+  <line x1="17" y1="24" x2="31" y2="24" stroke="url(#lc-gold)" stroke-width="1.2"/>
+  <line x1="19.1" y1="19.1" x2="28.9" y2="28.9" stroke="url(#lc-gold)" stroke-width="0.8" opacity="0.6"/>
+  <line x1="28.9" y1="19.1" x2="19.1" y2="28.9" stroke="url(#lc-gold)" stroke-width="0.8" opacity="0.6"/>
+  <circle cx="24" cy="24" r="2.5" fill="url(#lc-gold)" filter="url(#lc-glow)"/>
+  <!-- Bolt/locking pins on door sides -->
+  <rect x="12" y="16" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+  <rect x="32" y="16" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+  <rect x="12" y="24" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+  <rect x="32" y="24" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+  <rect x="12" y="32" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+  <rect x="32" y="32" width="4" height="3" rx="0.5" fill="url(#lc-gold)" opacity="0.8"/>
+
+  <!-- NO SIGNAL waves — upper right corner, crossed out -->
+  <!-- Signal arc 1 (outermost) -->
+  <path d="M34,7 A8,8 0 0,1 44,15" fill="none" stroke="#90A4AE" stroke-width="1.3" opacity="0.7"/>
+  <!-- Signal arc 2 -->
+  <path d="M35,9 A5,5 0 0,1 43,16" fill="none" stroke="#90A4AE" stroke-width="1.3" opacity="0.7"/>
+  <!-- Signal arc 3 (innermost) -->
+  <path d="M36,11 A3,3 0 0,1 42,16" fill="none" stroke="#90A4AE" stroke-width="1.3" opacity="0.7"/>
+  <!-- Signal base dot -->
+  <circle cx="38" cy="18" r="1.2" fill="#90A4AE" opacity="0.8"/>
+  <!-- BIG RED X slash through signal area -->
+  <line x1="32" y1="6" x2="46" y2="20" stroke="#EF5350" stroke-width="2.2" stroke-linecap="round" filter="url(#lc-glow)"/>
+  <line x1="46" y1="6" x2="32" y2="20" stroke="#EF5350" stroke-width="2.2" stroke-linecap="round" filter="url(#lc-glow)"/>
+
+</svg>

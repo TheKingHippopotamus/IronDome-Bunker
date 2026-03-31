@@ -1,0 +1,709 @@
+---
+/**
+ * TerminalDemo.astro
+ * Animated terminal showpiece for the IronDome homepage.
+ *
+ * Animation strategy:
+ *   - Each line starts at opacity:0, visibility:hidden
+ *   - A single `@keyframes reveal` brings it to opacity:1, visibility:visible
+ *   - animation-fill-mode: forwards — holds the final state
+ *   - animation-play-state controlled by data-state on the wrapper
+ *   - IntersectionObserver triggers the "running" state on first view
+ *   - Replay button resets data-state → "idle" then back to "running"
+ *
+ * CSS-only, no JS framework required.
+ */
+---
+
+<div class="td-outer" id="terminal-demo" data-state="idle" aria-label="IronDome interactive terminal demo">
+
+  <!-- Screen-reader summary of what the animation shows -->
+  <p class="sr-only">
+    Animated terminal demonstrating IronDome commands: pip install, creating an encrypted bunker,
+    biometric authentication, and viewing stored credentials.
+  </p>
+
+  <!-- Terminal window -->
+  <div class="td-window" role="presentation">
+
+    <!-- ── Title bar ─────────────────────────────────────────── -->
+    <div class="td-titlebar" aria-hidden="true">
+      <div class="td-dots">
+        <span class="td-dot td-dot--red"  aria-hidden="true"></span>
+        <span class="td-dot td-dot--yel"  aria-hidden="true"></span>
+        <span class="td-dot td-dot--grn"  aria-hidden="true"></span>
+      </div>
+      <span class="td-title">IRONDOME — TACTICAL TERMINAL</span>
+      <div class="td-status" aria-hidden="true">
+        <span class="td-status-dot"></span>
+        <span class="td-status-label">LIVE</span>
+      </div>
+    </div>
+
+    <!-- ── Tactical corner accents (inner) ───────────────────── -->
+    <div class="td-corner td-corner--tl" aria-hidden="true"></div>
+    <div class="td-corner td-corner--tr" aria-hidden="true"></div>
+    <div class="td-corner td-corner--bl" aria-hidden="true"></div>
+    <div class="td-corner td-corner--br" aria-hidden="true"></div>
+
+    <!-- ── Terminal body ─────────────────────────────────────── -->
+    <div class="td-body" aria-hidden="true">
+
+      <!-- Scanline overlay — purely visual -->
+      <div class="td-scanlines" aria-hidden="true"></div>
+
+      <!-- ═══════════════════════════════════════════════════════
+           SEQUENCE LINES
+           Each .td-line gets:
+             style="--delay: Xs;"
+           The CSS animation references var(--delay).
+           ═══════════════════════════════════════════════════════ -->
+
+      <!-- Block 1: install -->
+      <div class="td-line" style="--delay: 0s;">
+        <span class="td-prompt">$</span>
+        <span class="td-cmd"> pip install IronDome</span>
+      </div>
+
+      <div class="td-line td-line--success" style="--delay: 0.8s;">
+        <span class="td-check">✓</span>
+        <span class="td-out"> Successfully installed IronDome-2.2.1</span>
+      </div>
+
+      <div class="td-line td-line--spacer" style="--delay: 1.2s;" aria-hidden="true"></div>
+
+      <!-- Block 2: create bunker -->
+      <div class="td-line" style="--delay: 1.5s;">
+        <span class="td-prompt">$</span>
+        <span class="td-cmd"> irondome create bunker</span>
+      </div>
+
+      <div class="td-line" style="--delay: 2.0s;">
+        <span class="td-emoji">🔐</span>
+        <span class="td-out td-out--white"> Creating fortified bunker...</span>
+      </div>
+
+      <div class="td-line td-line--tree" style="--delay: 2.3s;">
+        <span class="td-tree-pad">   </span>
+        <span class="td-tree-chr">├──</span>
+        <span class="td-tree-txt"> Generating AES-256 encryption key</span>
+      </div>
+
+      <div class="td-line td-line--tree" style="--delay: 2.6s;">
+        <span class="td-tree-pad">   </span>
+        <span class="td-tree-chr">├──</span>
+        <span class="td-tree-txt"> Binding to hardware ID: <span class="td-muted">a1b2c3d4</span></span>
+      </div>
+
+      <div class="td-line td-line--tree" style="--delay: 2.9s;">
+        <span class="td-tree-pad">   </span>
+        <span class="td-tree-chr">├──</span>
+        <span class="td-tree-txt"> Deriving key <span class="td-muted">(PBKDF2 × 600,000)</span></span>
+      </div>
+
+      <div class="td-line td-line--tree" style="--delay: 3.2s;">
+        <span class="td-tree-pad">   </span>
+        <span class="td-tree-chr td-tree-chr--last">└──</span>
+        <span class="td-tree-txt td-tree-txt--success"> Bunker sealed <span class="td-check">✓</span></span>
+      </div>
+
+      <div class="td-line td-line--spacer" style="--delay: 3.6s;" aria-hidden="true"></div>
+
+      <!-- Block 3: open airspace -->
+      <div class="td-line" style="--delay: 4.0s;">
+        <span class="td-prompt">$</span>
+        <span class="td-cmd"> irondome open airspace</span>
+      </div>
+
+      <div class="td-line" style="--delay: 4.5s;">
+        <span class="td-emoji">🛡️</span>
+        <span class="td-out td-out--white"> Biometric authentication required...</span>
+      </div>
+
+      <div class="td-line td-line--indent" style="--delay: 5.0s;">
+        <span class="td-indent-pad">   </span>
+        <span class="td-check">✓</span>
+        <span class="td-out td-out--success"> Touch ID verified</span>
+      </div>
+
+      <div class="td-line td-line--indent" style="--delay: 5.3s;">
+        <span class="td-indent-pad">   </span>
+        <span class="td-check">✓</span>
+        <span class="td-out td-out--success"> Master password derived</span>
+      </div>
+
+      <div class="td-line td-line--indent" style="--delay: 5.6s;">
+        <span class="td-indent-pad">   </span>
+        <span class="td-check">✓</span>
+        <span class="td-out td-out--gold"> Airspace open — <span class="td-timer">30:00</span> remaining</span>
+      </div>
+
+      <div class="td-line td-line--spacer" style="--delay: 6.1s;" aria-hidden="true"></div>
+
+      <!-- Block 4: bunker open — table output -->
+      <div class="td-line" style="--delay: 6.5s;">
+        <span class="td-prompt">$</span>
+        <span class="td-cmd"> bunker open</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.0s;">
+        <span class="td-gold">╔═══════════════════════════════════════╗</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.0s;">
+        <span class="td-gold">║</span>
+        <span class="td-out td-out--box-header">  BUNKER CONTENTS </span>
+        <span class="td-muted td-entries-label">— 3 entries          </span>
+        <span class="td-gold">║</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.0s;">
+        <span class="td-gold">╠═══════════════════════════════════════╣</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.3s;">
+        <span class="td-gold">║</span>
+        <span class="td-out td-out--row">
+          <span class="td-entry-key">  github.com  </span>
+          <span class="td-entry-sep">  │</span>
+          <span class="td-entry-val">  dev@irondome.io      </span>
+        </span>
+        <span class="td-gold">║</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.5s;">
+        <span class="td-gold">║</span>
+        <span class="td-out td-out--row">
+          <span class="td-entry-key">  aws-console </span>
+          <span class="td-entry-sep">  │</span>
+          <span class="td-entry-val">  admin@company.io     </span>
+        </span>
+        <span class="td-gold">║</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.7s;">
+        <span class="td-gold">║</span>
+        <span class="td-out td-out--row">
+          <span class="td-entry-key">  pgp-master  </span>
+          <span class="td-entry-sep">  │</span>
+          <span class="td-entry-val td-entry-val--redacted">  <span class="td-redacted">████████████████</span>     </span>
+        </span>
+        <span class="td-gold">║</span>
+      </div>
+
+      <div class="td-line td-line--box" style="--delay: 7.9s;">
+        <span class="td-gold">╚═══════════════════════════════════════╝</span>
+      </div>
+
+      <div class="td-line td-line--spacer" style="--delay: 8.3s;" aria-hidden="true"></div>
+
+      <!-- Final prompt with blinking cursor -->
+      <div class="td-line td-line--cursor-line" style="--delay: 8.5s;">
+        <span class="td-prompt">$</span>
+        <span class="td-cursor" aria-hidden="true">█</span>
+      </div>
+
+    </div><!-- /.td-body -->
+  </div><!-- /.td-window -->
+
+  <!-- ── Replay button ─────────────────────────────────────────── -->
+  <button
+    class="td-replay"
+    id="td-replay-btn"
+    type="button"
+    aria-label="Replay terminal demo animation"
+    title="Replay demo"
+  >
+    <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+      <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+    </svg>
+    <span>REPLAY</span>
+  </button>
+
+</div><!-- /.td-outer -->
+
+<!-- ═══════════════════════════════════════════════════════════════
+     STYLES
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+  /* ── Reveal keyframe ─────────────────────────────────────────── */
+  @keyframes td-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Cursor blink — runs forever once line appears */
+  @keyframes td-cursor-blink {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  /* Soft green pulse for the status dot in title bar */
+  @keyframes td-dot-pulse {
+    0%, 100% { box-shadow: 0 0 3px rgba(40, 200, 64, 0.7); }
+    50%       { box-shadow: 0 0 8px rgba(40, 200, 64, 1), 0 0 16px rgba(40, 200, 64, 0.4); }
+  }
+
+  /* ── Outer wrapper ───────────────────────────────────────────── */
+  .td-outer {
+    position: relative;
+    width: 100%;
+    /* Nudge the replay button into position */
+  }
+
+  /* ── Window shell ────────────────────────────────────────────── */
+  .td-window {
+    background-color: #0d1117;
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+    box-shadow:
+      0 0 0 1px rgba(255, 215, 0, 0.04),
+      0 4px 32px rgba(0, 0, 0, 0.6),
+      0 0 60px rgba(255, 215, 0, 0.04);
+  }
+
+  /* ── Tactical corner accents ─────────────────────────────────── */
+  .td-corner {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgba(255, 215, 0, 0.32);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .td-corner--tl { top: -1px;    left: -1px;    border-width: 2px 0 0 2px; }
+  .td-corner--tr { top: -1px;    right: -1px;   border-width: 2px 2px 0 0; }
+  .td-corner--bl { bottom: -1px; left: -1px;    border-width: 0 0 2px 2px; }
+  .td-corner--br { bottom: -1px; right: -1px;   border-width: 0 2px 2px 0; }
+
+  /* ── Title bar ───────────────────────────────────────────────── */
+  .td-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+    user-select: none;
+  }
+
+  .td-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+
+  .td-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .td-dot--red { background-color: #ff5f57; }
+  .td-dot--yel { background-color: #ffbd2e; }
+  .td-dot--grn { background-color: #28c840; }
+
+  .td-title {
+    flex: 1;
+    text-align: center;
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #546E7A;
+  }
+
+  .td-status {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .td-status-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #28c840;
+    animation: td-dot-pulse 2s ease-in-out infinite;
+  }
+
+  .td-status-label {
+    font-family: ui-monospace, "SF Mono", "Fira Code", Menlo, monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgba(40, 200, 64, 0.7);
+  }
+
+  /* ── Body ────────────────────────────────────────────────────── */
+  .td-body {
+    padding: 1.25rem 1.5rem 1.5rem;
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, "Courier New", monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Scanline texture */
+  .td-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.035) 2px,
+      rgba(0, 0, 0, 0.035) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Lines: base state ───────────────────────────────────────── */
+  /*
+     In "idle" state → everything is hidden.
+     In "running" state → animation fires using --delay.
+     animation-fill-mode: forwards keeps each line visible
+     after its animation completes.
+  */
+  .td-line {
+    display: flex;
+    align-items: baseline;
+    white-space: pre;
+    opacity: 0;
+    visibility: hidden;
+    position: relative;
+    z-index: 1;
+    /* No animation by default */
+  }
+
+  /* When the wrapper transitions to "running", lines animate */
+  [data-state="running"] .td-line {
+    animation: td-reveal 0.35s ease-out var(--delay, 0s) both;
+    /* "both" = backwards (hidden before start) + forwards (stays visible) */
+    visibility: visible; /* allow the animation to show */
+  }
+
+  /* After animation completes, lock to visible */
+  [data-state="running"] .td-line,
+  [data-state="done"] .td-line {
+    animation-fill-mode: both;
+  }
+
+  /* ── Line variants ───────────────────────────────────────────── */
+  .td-line--spacer {
+    height: 0.5rem;
+    /* spacer lines don't need text, just timing */
+  }
+
+  .td-line--box {
+    /* box drawing lines don't have the indent treatment */
+    align-items: center;
+  }
+
+  /* ── Color tokens ────────────────────────────────────────────── */
+  .td-prompt {
+    color: #ff6b6b;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .td-cmd {
+    color: #34d399;
+  }
+
+  .td-check {
+    color: #34d399;
+    flex-shrink: 0;
+  }
+
+  .td-out {
+    color: #e2e8f0;
+  }
+
+  .td-out--white {
+    color: #e2e8f0;
+  }
+
+  .td-out--success {
+    color: #34d399;
+  }
+
+  .td-out--gold {
+    color: #FFD700;
+  }
+
+  .td-out--box-header {
+    color: #FFD700;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  .td-out--row {
+    color: #e2e8f0;
+    flex: 1;
+  }
+
+  .td-gold {
+    color: #FFD700;
+    flex-shrink: 0;
+  }
+
+  .td-muted {
+    color: #78909C;
+  }
+
+  .td-entries-label {
+    color: #78909C;
+  }
+
+  .td-timer {
+    color: #FFD700;
+    font-weight: 700;
+  }
+
+  /* Tree branch characters */
+  .td-tree-pad {
+    color: transparent;
+    user-select: none;
+  }
+
+  .td-tree-chr {
+    color: #546E7A;
+    flex-shrink: 0;
+  }
+
+  .td-tree-chr--last {
+    color: #546E7A;
+  }
+
+  .td-tree-txt {
+    color: #546E7A;
+  }
+
+  .td-tree-txt--success {
+    color: #34d399;
+  }
+
+  /* Emoji — render naturally */
+  .td-emoji {
+    flex-shrink: 0;
+    line-height: 1;
+  }
+
+  /* Indent padding for check rows */
+  .td-indent-pad {
+    color: transparent;
+    user-select: none;
+  }
+
+  /* Table entry columns */
+  .td-entry-key {
+    color: #e2e8f0;
+    display: inline-block;
+    min-width: 12ch;
+  }
+
+  .td-entry-sep {
+    color: rgba(255, 215, 0, 0.4);
+    flex-shrink: 0;
+  }
+
+  .td-entry-val {
+    color: #78909C;
+    display: inline-block;
+  }
+
+  .td-entry-val--redacted {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Redacted text — same color as background to simulate censored block */
+  .td-redacted {
+    color: #37474F;
+    background-color: #37474F;
+    border-radius: 1px;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+
+  /* ── Blinking cursor ─────────────────────────────────────────── */
+  .td-cursor {
+    color: #34d399;
+    /* starts hidden via parent .td-line opacity:0 */
+  }
+
+  /* Once the cursor line is revealed, start blinking */
+  [data-state="running"] .td-line--cursor-line .td-cursor,
+  [data-state="done"] .td-line--cursor-line .td-cursor {
+    animation:
+      td-reveal 0.35s ease-out var(--delay, 8.5s) both,
+      td-cursor-blink 1s step-end calc(var(--delay, 8.5s) + 0.35s) infinite;
+  }
+
+  /* ── Replay button ───────────────────────────────────────────── */
+  .td-replay {
+    position: absolute;
+    bottom: 0.875rem;
+    right: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    background-color: rgba(255, 215, 0, 0.06);
+    color: rgba(255, 215, 0, 0.5);
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    border-radius: 1px;
+    font-family: ui-monospace, "SF Mono", "Fira Code", Menlo, monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 10;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease;
+    /* Button sits inside td-outer which is position:relative */
+  }
+
+  .td-replay:hover {
+    color: #FFD700;
+    border-color: rgba(255, 215, 0, 0.4);
+    background-color: rgba(255, 215, 0, 0.1);
+  }
+
+  .td-replay:focus-visible {
+    outline: 1px solid rgba(255, 215, 0, 0.6);
+    outline-offset: 2px;
+  }
+
+  .td-replay svg {
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ──────────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .td-body {
+      padding: 0.875rem 0.875rem 1.125rem;
+      font-size: 0.72rem;
+    }
+
+    .td-titlebar {
+      padding: 0.4rem 0.625rem;
+    }
+
+    .td-title {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+    }
+
+    .td-dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    /* On very small screens, hide box drawing extra chars to prevent overflow */
+    .td-entries-label {
+      display: none;
+    }
+
+    .td-replay {
+      bottom: 0.625rem;
+      right: 0.625rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .td-body {
+      font-size: 0.65rem;
+      padding: 0.75rem 0.625rem;
+    }
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPT
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+  (function () {
+    const ANIM_TOTAL_DURATION_MS = 9500; // slightly past last line delay (8.5s + ~1s)
+
+    const wrapper = document.getElementById('terminal-demo') as HTMLElement | null;
+    const replayBtn = document.getElementById('td-replay-btn') as HTMLButtonElement | null;
+
+    if (!wrapper) return;
+
+    /** Start the animation sequence */
+    function startAnimation(): void {
+      wrapper!.setAttribute('data-state', 'running');
+
+      // After the full sequence completes, mark as "done"
+      // so the cursor keeps blinking without re-triggering line animations
+      setTimeout(() => {
+        if (wrapper!.getAttribute('data-state') === 'running') {
+          wrapper!.setAttribute('data-state', 'done');
+        }
+      }, ANIM_TOTAL_DURATION_MS);
+    }
+
+    /** Reset all animations, then restart */
+    function replayAnimation(): void {
+      // Step 1: Drop back to idle — this removes the animation declarations from all lines
+      wrapper!.setAttribute('data-state', 'idle');
+
+      // Step 2: Force a reflow so the browser clears the running animation state.
+      // Without this, toggling back to "running" immediately won't restart them.
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      void (wrapper as HTMLElement).offsetWidth;
+
+      // Step 3: Fire
+      startAnimation();
+    }
+
+    // ── IntersectionObserver: start when terminal enters viewport ─
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && wrapper!.getAttribute('data-state') === 'idle') {
+            startAnimation();
+            // Only trigger once on initial entry — replay button handles subsequent runs
+            observer.unobserve(wrapper!);
+          }
+        });
+      },
+      {
+        // Start when 15% of the terminal is visible
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px',
+      }
+    );
+
+    observer.observe(wrapper);
+
+    // ── Replay button ─────────────────────────────────────────────
+    if (replayBtn) {
+      replayBtn.addEventListener('click', replayAnimation);
+    }
+  })();
+</script>

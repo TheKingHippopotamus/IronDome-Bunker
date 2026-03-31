@@ -1,0 +1,122 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonical?: string;
+}
+
+const {
+  title,
+  description = 'IronDome — Zero-knowledge CLI password vault with AES-256 encryption. Your credentials never leave your machine.',
+  image = '/irondome-logo.svg',
+  canonical,
+} = Astro.props;
+
+const siteUrl   = 'https://irondome.dev';
+const pageUrl   = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const imageUrl  = image.startsWith('http') ? image : new URL(image, siteUrl).toString();
+const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary meta -->
+    <title>{fullTitle}</title>
+    <meta name="description"        content={description} />
+    <meta name="theme-color"        content="#0a0e1a" />
+    <meta name="color-scheme"       content="dark" />
+    <meta name="author"             content="King Hippopotamus" />
+    <meta name="keywords"           content="password manager, CLI, zero-knowledge, AES-256, encryption, security, open source, Python" />
+    <link  rel="canonical"          href={pageUrl} />
+
+    <!-- Favicons -->
+    <link rel="icon"             type="image/svg+xml" href="/irondome-favicon.svg" />
+    <link rel="icon"             type="image/x-icon"  href="/favicon.ico" />
+    <link rel="apple-touch-icon"                      href="/irondome-favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content={pageUrl} />
+    <meta property="og:title"       content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image"       content={imageUrl} />
+    <meta property="og:image:alt"   content="IronDome — CLI Password Vault" />
+    <meta property="og:site_name"   content="IronDome" />
+    <meta property="og:locale"      content="en_US" />
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card"        content="summary_large_image" />
+    <meta name="twitter:title"       content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image"       content={imageUrl} />
+    <meta name="twitter:image:alt"   content="IronDome — CLI Password Vault" />
+
+    <!-- Robots -->
+    <meta name="robots" content="index, follow" />
+
+    <!-- Preconnect hints (none needed — no external resources) -->
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "IronDome",
+      "operatingSystem": "Linux, macOS, Windows",
+      "applicationCategory": "SecurityApplication",
+      "applicationSubCategory": "Password Manager",
+      "description": description,
+      "url": siteUrl,
+      "downloadUrl": "https://pypi.org/project/IronDome/",
+      "codeRepository": "https://github.com/TheKingHippopotamus/IronDome-Bunker",
+      "license": "https://opensource.org/licenses/MIT",
+      "programmingLanguage": "Python",
+      "author": {
+        "@type": "Person",
+        "name": "King Hippopotamus",
+        "url": "https://github.com/TheKingHippopotamus"
+      },
+      "featureList": [
+        "AES-256 encryption",
+        "Zero-knowledge architecture",
+        "Local-only storage",
+        "CLI interface",
+        "Brute-force protection",
+        "Session management"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    })} />
+  </head>
+
+  <body class="scan-line-animate">
+    <!-- Skip to content (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only"
+      style="position:absolute;top:0.5rem;left:0.5rem;z-index:9999;padding:0.5rem 1rem;background:var(--color-gold);color:#000;font-family:var(--font-mono);font-size:0.875rem;font-weight:700;border-radius:2px;"
+    >
+      Skip to content
+    </a>
+
+    <Header />
+
+    <main id="main-content" class="page-content">
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>

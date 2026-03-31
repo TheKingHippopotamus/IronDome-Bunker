@@ -1,0 +1,773 @@
+---
+import '../styles/global.css';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content="IronDome CLI Password Vault — Field Manual. Full documentation: installation, commands, auth modes, vault structure, and troubleshooting." />
+    <title>IronDome — Field Manual</title>
+  </head>
+
+  <body>
+
+    <!-- ============================================================
+         NAV BAR
+         ============================================================ -->
+    <nav style="border-bottom: 1px solid var(--color-gold-border); background-color: rgba(10, 14, 26, 0.96); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50;">
+      <div class="container" style="display: flex; align-items: center; justify-content: space-between; height: 3.25rem;">
+        <a href="/" style="display: flex; align-items: center; gap: 0.625rem; text-decoration: none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+            <circle cx="12" cy="12" r="10" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
+            <circle cx="12" cy="12" r="6" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+            <circle cx="12" cy="12" r="2" fill="#FFD700"/>
+            <line x1="12" y1="2" x2="12" y2="7" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+            <line x1="12" y1="17" x2="12" y2="22" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+            <line x1="2" y1="12" x2="7" y2="12" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+            <line x1="17" y1="12" x2="22" y2="12" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
+          </svg>
+          <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.9375rem; color: var(--color-text-primary); letter-spacing: 0.04em;">IRONDOME</span>
+        </a>
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+          <a href="/" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-text-secondary); text-transform: uppercase; transition: color var(--duration-fast) ease;">Home</a>
+          <a href="/docs" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-gold); text-transform: uppercase;">Docs</a>
+          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank" rel="noopener" class="btn-secondary" style="padding: 0.3rem 0.75rem; font-size: 0.7rem;">
+            GitHub
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ============================================================
+         MAIN
+         ============================================================ -->
+    <main class="page-content">
+
+      <!-- ----------------------------------------------------------
+           SECTION 1 — PAGE HEADER
+           ---------------------------------------------------------- -->
+      <section style="padding: 4rem 0 3rem; border-bottom: 1px solid var(--color-gold-border); position: relative; overflow: hidden;">
+        <!-- Background grid texture -->
+        <div style="position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(255,215,0,0.03) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(52,211,153,0.025) 0%, transparent 40%); pointer-events: none;"></div>
+        <div class="container" style="position: relative; z-index: 1;">
+          <div style="margin-bottom: 1rem;">
+            <span class="classification-badge">
+              <span style="display: inline-block; width: 5px; height: 5px; background: var(--color-gold); border-radius: 50%;"></span>
+              Field Manual
+            </span>
+          </div>
+          <h1 class="display-mono" style="font-size: clamp(2.25rem, 5vw, 3.75rem); color: var(--color-text-primary); margin-bottom: 1rem; line-height: 1.05;">
+            Documentation
+          </h1>
+          <p style="font-size: 1.125rem; color: var(--color-text-secondary); max-width: 44rem; line-height: 1.65; margin-bottom: 2rem;">
+            Everything you need to deploy IronDome. From first install to daily ops — full command reference, auth modes, vault structure, and troubleshooting protocols.
+          </p>
+          <!-- Quick jump nav -->
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {[
+              ['#quickstart',   'Quick Start'],
+              ['#commands',     'Commands'],
+              ['#auth-modes',   'Auth Modes'],
+              ['#platforms',    'Platforms'],
+              ['#config',       'Config'],
+              ['#vault-structure','Vault Files'],
+              ['#demo',         'Live Demo'],
+              ['#troubleshoot', 'Troubleshooting'],
+            ].map(([href, label]) => (
+              <a href={href} style="font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-secondary); padding: 0.25rem 0.625rem; border: 1px solid var(--color-gold-border); border-radius: var(--radius-sm); transition: color var(--duration-fast) ease, border-color var(--duration-fast) ease;"
+                onmouseover="this.style.color='var(--color-gold)';this.style.borderColor='rgba(255,215,0,0.3)'"
+                onmouseout="this.style.color='var(--color-text-secondary)';this.style.borderColor='var(--color-gold-border)'">
+                {label}
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 2 — QUICK START
+           ---------------------------------------------------------- -->
+      <section id="quickstart" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">01 / Quick Start</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Three Commands to Operational
+            </h2>
+          </div>
+
+          <!-- Step cards grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+
+            <!-- STEP 1 -->
+            <div class="tactical-card tactical-corners" style="padding: 1.75rem; position: relative;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div style="width: 2rem; height: 2rem; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--color-gold);">01</span>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-text-primary); letter-spacing: 0.02em;">Install</h3>
+              </div>
+              <div class="code-block" style="margin-bottom: 1rem;">
+                <span style="color: var(--color-gold-dim);">$ </span>pip install IronDome
+              </div>
+              <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6;">
+                Requires <strong>Python 3.8&ndash;3.13</strong>. That's it. No other dependencies required for core functionality.
+              </p>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="tactical-card tactical-corners" style="padding: 1.75rem; position: relative;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div style="width: 2rem; height: 2rem; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--color-gold);">02</span>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-text-primary); letter-spacing: 0.02em;">Create Your Bunker</h3>
+              </div>
+              <div class="code-block" style="margin-bottom: 1rem;">
+                <span style="color: var(--color-gold-dim);">$ </span>irondome create bunker
+              </div>
+              <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 0.75rem;">
+                Follow the prompts to configure your vault:
+              </p>
+              <ul style="display: flex; flex-direction: column; gap: 0.375rem;">
+                {[
+                  'Set your master password',
+                  'Choose auth mode (biometric, bio+password, password only)',
+                  'Generate recovery phrase',
+                ].map((item, i) => (
+                  <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary);">
+                    <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.2rem; flex-shrink: 0;">&gt;</span>
+                    <span>{item}{i === 2 ? <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-left: 0.25rem; font-weight: 700;"> (SAVE THIS!)</span> : ''}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="tactical-card tactical-corners" style="padding: 1.75rem; position: relative;">
+              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+                <div style="width: 2rem; height: 2rem; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--color-gold);">03</span>
+                </div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--color-text-primary); letter-spacing: 0.02em;">Start Using</h3>
+              </div>
+              <div class="code-block" style="margin-bottom: 1rem; white-space: pre; line-height: 1.8;"><span style="color: var(--color-gold-dim);">$ </span>irondome open airspace    <span style="color: var(--color-text-muted);"># Authenticate</span>
+<span style="color: var(--color-gold-dim);">$ </span>bunker create             <span style="color: var(--color-text-muted);"># Add a password</span>
+<span style="color: var(--color-gold-dim);">$ </span>bunker open               <span style="color: var(--color-text-muted);"># View passwords</span>
+<span style="color: var(--color-gold-dim);">$ </span>bunker fortify            <span style="color: var(--color-text-muted);"># Backup your vault</span></div>
+              <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6;">
+                Session persists for <strong>30 minutes</strong>. Re-authenticate anytime with <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.35em; border-radius: var(--radius-sm); font-size: 0.8em;">irondome open airspace</code>.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 3 — COMMAND REFERENCE
+           ---------------------------------------------------------- -->
+      <section id="commands" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">02 / Command Reference</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Full CLI Reference
+            </h2>
+          </div>
+
+          <!-- System Commands -->
+          <div style="margin-bottom: 2.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <span class="classification-badge--green" style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.2rem 0.6rem; background-color: rgba(52,211,153,0.08); border: 1px solid rgba(52,211,153,0.2); color: var(--color-green); font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: var(--radius-sm);">System</span>
+              <h3 style="font-size: 1rem; color: var(--color-text-primary); font-family: var(--font-mono);">irondome</h3>
+            </div>
+
+            <div class="tactical-card" style="overflow: hidden;">
+              <!-- Table header -->
+              <div style="display: grid; grid-template-columns: 2fr 3fr; gap: 0; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,215,0,0.04);">
+                <div style="padding: 0.625rem 1.25rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">Command</div>
+                <div style="padding: 0.625rem 1.25rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">Description</div>
+              </div>
+              <!-- Rows -->
+              {[
+                ['irondome create bunker', 'First-time vault setup — generates keys, configures auth, saves recovery phrase'],
+                ['irondome open airspace',  'Authenticate and start a 30-minute session'],
+                ['irondome close airspace', 'Lock everything immediately — terminates session'],
+                ['irondome status',         'Display vault health, session state, and configuration info'],
+              ].map((row, i) => (
+                <div style={`display: grid; grid-template-columns: 2fr 3fr; gap: 0; border-bottom: ${i < 3 ? '1px solid var(--color-gold-border)' : 'none'}; transition: background-color var(--duration-fast) ease;`}
+                  onmouseover="this.style.backgroundColor='rgba(255,215,0,0.02)'"
+                  onmouseout="this.style.backgroundColor='transparent'">
+                  <div style="padding: 0.75rem 1.25rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-green);">{row[0]}</div>
+                  <div style="padding: 0.75rem 1.25rem; font-size: 0.8125rem; color: var(--color-text-secondary);">{row[1]}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Vault Commands -->
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+              <span style="display: inline-flex; align-items: center; gap: 0.375rem; padding: 0.2rem 0.6rem; background-color: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.2); color: #60a5fa; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border-radius: var(--radius-sm);">Vault</span>
+              <h3 style="font-size: 1rem; color: var(--color-text-primary); font-family: var(--font-mono);">bunker</h3>
+            </div>
+
+            <div class="tactical-card" style="overflow: hidden;">
+              <!-- Table header -->
+              <div style="display: grid; grid-template-columns: 2fr 1.5fr 3fr; gap: 0; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,215,0,0.04);">
+                <div style="padding: 0.625rem 1.25rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">Command</div>
+                <div style="padding: 0.625rem 1.25rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">Alias</div>
+                <div style="padding: 0.625rem 1.25rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">Description</div>
+              </div>
+              {[
+                ['bunker create',     'bunker -c',     'Add a new password entry to the vault'],
+                ['bunker open',       'bunker -o',     'List all stored password entries'],
+                ['bunker open [name]','bunker -o [name]','Search for entries matching the given name'],
+                ['bunker fortify',    '—',             'Create an encrypted backup of the vault'],
+                ['bunker settings',   '—',             'Open preferences — passwords length, timeouts, symbols'],
+                ['bunker',            '—',             'Launch interactive 9-option menu'],
+              ].map((row, i) => (
+                <div style={`display: grid; grid-template-columns: 2fr 1.5fr 3fr; gap: 0; border-bottom: ${i < 5 ? '1px solid var(--color-gold-border)' : 'none'}; transition: background-color var(--duration-fast) ease;`}
+                  onmouseover="this.style.backgroundColor='rgba(255,215,0,0.02)'"
+                  onmouseout="this.style.backgroundColor='transparent'">
+                  <div style="padding: 0.75rem 1.25rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-green);">{row[0]}</div>
+                  <div style="padding: 0.75rem 1.25rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-text-muted);">{row[1]}</div>
+                  <div style="padding: 0.75rem 1.25rem; font-size: 0.8125rem; color: var(--color-text-secondary);">{row[2]}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 4 — AUTH MODES
+           ---------------------------------------------------------- -->
+      <section id="auth-modes" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">03 / Authentication</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Auth Modes
+            </h2>
+            <p style="color: var(--color-text-secondary); max-width: 40rem; margin-top: 0.75rem; font-size: 0.9375rem; line-height: 1.65;">
+              Choose your authentication posture during setup. You can change it later via <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.35em; font-size: 0.85em; border-radius: var(--radius-sm);">bunker settings</code>.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.25rem;">
+
+            <!-- Mode 1: Biometric Only -->
+            <div class="tactical-card scan-line" style="padding: 1.75rem; position: relative;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                  <div style="width: 2.25rem; height: 2.25rem; border: 1px solid rgba(255,215,0,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: rgba(255,215,0,0.06);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 2a4 4 0 0 0-4 4v2"/>
+                      <path d="M12 2a4 4 0 0 1 4 4v2"/>
+                      <path d="M5 10a7 7 0 0 0 14 0"/>
+                      <path d="M9 14c.5 1 1.5 2 3 2s2.5-1 3-2"/>
+                      <path d="M12 18v3"/>
+                      <line x1="8" y1="21" x2="16" y2="21"/>
+                    </svg>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.8125rem; color: var(--color-text-primary);">Biometric Only</span>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); border: 1px solid var(--color-gold-border); padding: 0.2rem 0.4rem; border-radius: var(--radius-sm);">Mode 1</span>
+              </div>
+              <ul style="display: flex; flex-direction: column; gap: 0.625rem; margin-bottom: 1.25rem;">
+                {[
+                  'Cryptographically random vault key stored in OS keychain',
+                  'macOS Keychain / Windows Credential Manager / Linux libsecret',
+                  'Biometric authentication unlocks the keychain entry',
+                  'Fastest login experience — no password to type',
+                ].map(item => (
+                  <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.25rem; flex-shrink: 0;">&gt;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style="padding: 0.625rem 0.875rem; background: rgba(255,215,0,0.04); border: 1px solid rgba(255,215,0,0.1); border-radius: var(--radius-sm);">
+                <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold-dim); line-height: 1.5;">
+                  Recovery requires the 24-word phrase. Store it offline.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mode 2: Biometric + Password -->
+            <div class="tactical-card scan-line" style="padding: 1.75rem; position: relative; border-color: rgba(255,215,0,0.15);">
+              <!-- Recommended badge -->
+              <div style="position: absolute; top: -1px; right: 1rem; background: var(--color-gold); color: #000; font-family: var(--font-mono); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.2rem 0.5rem; border-radius: 0 0 var(--radius-sm) var(--radius-sm);">Recommended</div>
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                  <div style="width: 2.25rem; height: 2.25rem; border: 1px solid rgba(255,215,0,0.35); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: rgba(255,215,0,0.1);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFD700" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.8125rem; color: var(--color-text-primary);">Bio + Password</span>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-gold); border: 1px solid rgba(255,215,0,0.3); padding: 0.2rem 0.4rem; border-radius: var(--radius-sm);">Mode 2</span>
+              </div>
+              <ul style="display: flex; flex-direction: column; gap: 0.625rem; margin-bottom: 1.25rem;">
+                {[
+                  'Biometric is a GATE — you must pass it first',
+                  'Password still derives the key via PBKDF2',
+                  'Two fully independent factors required',
+                  'Most secure configuration available',
+                ].map(item => (
+                  <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.25rem; flex-shrink: 0;">&gt;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style="padding: 0.625rem 0.875rem; background: rgba(52,211,153,0.04); border: 1px solid rgba(52,211,153,0.12); border-radius: var(--radius-sm);">
+                <p style="font-family: var(--font-mono); font-size: 0.75rem; color: rgba(52,211,153,0.7); line-height: 1.5;">
+                  Compromise of either factor alone is insufficient to unlock.
+                </p>
+              </div>
+            </div>
+
+            <!-- Mode 3: Password Only -->
+            <div class="tactical-card scan-line" style="padding: 1.75rem; position: relative;">
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem;">
+                <div style="display: flex; align-items: center; gap: 0.625rem;">
+                  <div style="width: 2.25rem; height: 2.25rem; border: 1px solid rgba(120,144,156,0.3); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; background: rgba(120,144,156,0.06);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#78909C" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"/>
+                      <line x1="8" y1="12" x2="16" y2="12"/>
+                    </svg>
+                  </div>
+                  <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.8125rem; color: var(--color-text-primary);">Password Only</span>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); border: 1px solid var(--color-gold-border); padding: 0.2rem 0.4rem; border-radius: var(--radius-sm);">Mode 3</span>
+              </div>
+              <ul style="display: flex; flex-direction: column; gap: 0.625rem; margin-bottom: 1.25rem;">
+                {[
+                  'Traditional approach — master password derives all keys',
+                  'Key derivation via PBKDF2 with stored salt',
+                  'Works everywhere — no hardware requirements',
+                  'Good fallback when biometric hardware unavailable',
+                ].map(item => (
+                  <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.5;">
+                    <span style="color: var(--color-text-muted); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.25rem; flex-shrink: 0;">&gt;</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style="padding: 0.625rem 0.875rem; background: rgba(120,144,156,0.04); border: 1px solid rgba(120,144,156,0.1); border-radius: var(--radius-sm);">
+                <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.5;">
+                  Security depends entirely on master password strength.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 5 — PLATFORM SUPPORT
+           ---------------------------------------------------------- -->
+      <section id="platforms" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">04 / Platform Support</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Compatibility Matrix
+            </h2>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+
+            <!-- Biometric table -->
+            <div>
+              <h3 style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-gold); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.875rem;">Biometric Integration</h3>
+              <div class="tactical-card" style="overflow: hidden;">
+                <div style="display: grid; grid-template-columns: 1fr 1.2fr 1.4fr; border-bottom: 1px solid rgba(255,215,0,0.15); background: rgba(255,215,0,0.04);">
+                  {['Platform', 'Technology', 'Package'].map(h => (
+                    <div style="padding: 0.625rem 1rem; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-gold);">{h}</div>
+                  ))}
+                </div>
+                {[
+                  ['macOS',   'Touch ID',       'pyobjc-framework-LocalAuthentication'],
+                  ['Windows', 'Windows Hello',   'Built-in (subprocess)'],
+                  ['Linux',   'fprintd',         'Built-in (subprocess)'],
+                ].map((row, i) => (
+                  <div style={`display: grid; grid-template-columns: 1fr 1.2fr 1.4fr; border-bottom: ${i < 2 ? '1px solid var(--color-gold-border)' : 'none'}; transition: background-color var(--duration-fast) ease;`}
+                    onmouseover="this.style.backgroundColor='rgba(255,215,0,0.02)'"
+                    onmouseout="this.style.backgroundColor='transparent'">
+                    <div style="padding: 0.625rem 1rem; font-size: 0.8125rem; color: var(--color-text-primary); font-weight: 600;">{row[0]}</div>
+                    <div style="padding: 0.625rem 1rem; font-size: 0.8125rem; color: var(--color-text-secondary);">{row[1]}</div>
+                    <div style="padding: 0.625rem 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-green);">{row[2]}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <!-- Python versions -->
+            <div>
+              <h3 style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-gold); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.875rem;">Python Version Support</h3>
+              <div class="tactical-card" style="padding: 1.25rem;">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.625rem; margin-bottom: 1.25rem;">
+                  {['3.8', '3.9', '3.10', '3.11', '3.12', '3.13'].map((v, i) => (
+                    <div style={`display: flex; align-items: center; gap: 0.375rem; padding: 0.375rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid; ${i === 5 ? 'border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.06);' : i >= 3 ? 'border-color: rgba(255,215,0,0.2); background: rgba(255,215,0,0.04);' : 'border-color: var(--color-gold-border); background: transparent;'}`}>
+                      <div style={`width: 5px; height: 5px; border-radius: 50%; ${i === 5 ? 'background: var(--color-green); box-shadow: 0 0 5px rgba(52,211,153,0.6);' : 'background: rgba(255,215,0,0.5);'}`}></div>
+                      <span style={`font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 600; ${i === 5 ? 'color: var(--color-green);' : 'color: var(--color-text-primary);'}`}>3.{v.split('.')[1]}</span>
+                      {i === 5 && <span style="font-family: var(--font-mono); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-green); opacity: 0.7;">latest</span>}
+                    </div>
+                  ))}
+                </div>
+                <div style="padding: 0.75rem 1rem; background: rgba(255,215,0,0.03); border: 1px solid var(--color-gold-border); border-radius: var(--radius-sm);">
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.55;">
+                    All versions tested against the full feature set. Python 3.13 is the actively maintained target.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 6 — CONFIGURATION
+           ---------------------------------------------------------- -->
+      <section id="config" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">05 / Configuration</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              settings.json Reference
+            </h2>
+            <p style="color: var(--color-text-secondary); max-width: 40rem; margin-top: 0.75rem; font-size: 0.9375rem; line-height: 1.65;">
+              Stored at <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.4em; font-size: 0.85em; border-radius: var(--radius-sm);">~/.password_manager/settings.json</code>. Edit directly or use <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.4em; font-size: 0.85em; border-radius: var(--radius-sm);">bunker settings</code>.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; align-items: start;">
+
+            <!-- JSON block -->
+            <div>
+              <div class="code-block" style="font-size: 0.8125rem; line-height: 1.85; white-space: pre;">
+<span style="color: var(--color-text-muted);">{`{`}</span>
+  <span style="color: #60a5fa;">"default_password_length"</span><span style="color: var(--color-text-muted);">:</span> <span style="color: var(--color-gold);">16</span><span style="color: var(--color-text-muted);">,</span>
+  <span style="color: #60a5fa;">"include_symbols"</span><span style="color: var(--color-text-muted);">:</span> <span style="color: var(--color-green);">true</span><span style="color: var(--color-text-muted);">,</span>
+  <span style="color: #60a5fa;">"clipboard_timeout"</span><span style="color: var(--color-text-muted);">:</span> <span style="color: var(--color-gold);">30</span><span style="color: var(--color-text-muted);">,</span>
+  <span style="color: #60a5fa;">"session_timeout"</span><span style="color: var(--color-text-muted);">:</span> <span style="color: var(--color-gold);">1800</span><span style="color: var(--color-text-muted);">,</span>
+  <span style="color: #60a5fa;">"backup_on_change"</span><span style="color: var(--color-text-muted);">:</span> <span style="color: #ef4444;">false</span>
+<span style="color: var(--color-text-muted);">{`}`}</span></div>
+            </div>
+
+            <!-- Field descriptions -->
+            <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+              {[
+                ['default_password_length', 'integer', '16', 'Length of generated passwords. Recommended: 16–32 characters.'],
+                ['include_symbols',         'boolean', 'true', 'Include special characters (!@#$...) in generated passwords.'],
+                ['clipboard_timeout',       'integer', '30', 'Seconds before the clipboard is automatically cleared after copy.'],
+                ['session_timeout',         'integer', '1800', 'Session expiry in seconds. Default 1800 = 30 minutes.'],
+                ['backup_on_change',        'boolean', 'false', 'Auto-create encrypted backup whenever vault contents change.'],
+              ].map(([key, type, def, desc]) => (
+                <div style="padding: 0.75rem 1rem; background: var(--color-bg-card); border: 1px solid var(--color-gold-border); border-radius: var(--radius-sm);">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.375rem; flex-wrap: wrap;">
+                    <span style="font-family: var(--font-mono); font-size: 0.8125rem; color: #60a5fa;">{key}</span>
+                    <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-text-muted); border: 1px solid var(--color-gold-border); padding: 0.1rem 0.35rem; border-radius: var(--radius-sm);">{type}</span>
+                    <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-gold); margin-left: auto;">default: {def}</span>
+                  </div>
+                  <p style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5; margin: 0;">{desc}</p>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 7 — VAULT FILE STRUCTURE
+           ---------------------------------------------------------- -->
+      <section id="vault-structure" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">06 / Vault Files</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Vault File Structure
+            </h2>
+            <p style="color: var(--color-text-secondary); max-width: 40rem; margin-top: 0.75rem; font-size: 0.9375rem; line-height: 1.65;">
+              All IronDome data lives under <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.4em; font-size: 0.85em; border-radius: var(--radius-sm);">~/.password_manager/</code>. Never delete files manually.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; align-items: start;">
+
+            <!-- Tree -->
+            <div class="code-block" style="font-size: 0.8125rem; line-height: 1.9; white-space: pre;">
+<span style="color: var(--color-gold);">~/.password_manager/</span>
+<span style="color: var(--color-text-secondary);">├── </span><span style="color: var(--color-text-primary);">password_manager.log</span>
+<span style="color: var(--color-text-secondary);">├── </span><span style="color: var(--color-text-primary);">settings.json</span>
+<span style="color: var(--color-text-secondary);">├── </span><span style="color: var(--color-gold);">backups/</span>
+<span style="color: var(--color-text-secondary);">│   └── </span><span style="color: var(--color-text-muted);">.passwords_backup_*.enc</span>
+<span style="color: var(--color-text-secondary);">└── </span><span style="color: var(--color-gold);">secrets/</span>
+<span style="color: var(--color-text-secondary);">    ├── </span><span style="color: var(--color-green);">.passwords.enc</span>
+<span style="color: var(--color-text-secondary);">    ├── </span><span style="color: var(--color-text-primary);">salt.bin</span>
+<span style="color: var(--color-text-secondary);">    ├── </span><span style="color: var(--color-green);">.master_user.enc</span>
+<span style="color: var(--color-text-secondary);">    ├── </span><span style="color: var(--color-green);">.master_hash.enc</span>
+<span style="color: var(--color-text-secondary);">    ├── </span><span style="color: var(--color-text-muted);">.login_attempts.dat</span>
+<span style="color: var(--color-text-secondary);">    └── </span><span style="color: var(--color-text-muted);">.airspace.session</span></div>
+
+            <!-- File descriptions -->
+            <div style="display: flex; flex-direction: column; gap: 0.625rem;">
+              {[
+                ['password_manager.log',       'neutral', 'Append-only audit log of all vault operations.'],
+                ['settings.json',              'neutral', 'User preferences — password length, timeouts, backup behavior.'],
+                ['backups/',                   'gold',    'Directory for encrypted backup files created by bunker fortify.'],
+                ['.passwords_backup_*.enc',    'muted',   'AES-256 encrypted snapshots of the vault. Filename includes timestamp.'],
+                ['.passwords.enc',             'green',   'Primary encrypted password store. Never edit directly.'],
+                ['salt.bin',                   'neutral', 'PBKDF2 salt. Unique per installation. Do not delete.'],
+                ['.master_user.enc',           'green',   'Encrypted vault owner credential record.'],
+                ['.master_hash.enc',           'green',   'Encrypted master password hash used for verification.'],
+                ['.login_attempts.dat',        'muted',   'Rate-limiting data — counts failed authentication attempts.'],
+                ['.airspace.session',          'muted',   'Active session token. Auto-deleted on session expiry.'],
+              ].map(([name, color, desc]) => (
+                <div style="display: flex; gap: 0.75rem; padding: 0.625rem 0; border-bottom: 1px solid var(--color-gold-border);">
+                  <span style={`font-family: var(--font-mono); font-size: 0.75rem; flex-shrink: 0; min-width: 11rem; ${color === 'green' ? 'color: var(--color-green);' : color === 'gold' ? 'color: var(--color-gold);' : color === 'muted' ? 'color: var(--color-text-muted);' : 'color: var(--color-text-primary);'}`}>{name}</span>
+                  <span style="font-size: 0.8rem; color: var(--color-text-secondary); line-height: 1.5;">{desc}</span>
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 8 — INTERACTIVE DEMO CTA
+           ---------------------------------------------------------- -->
+      <section id="demo" style="padding: 4rem 0; border-bottom: 1px solid var(--color-gold-border);">
+        <div class="container">
+          <div class="tactical-card scan-line-animate" style="padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; background: linear-gradient(135deg, var(--color-bg-card) 0%, rgba(255,215,0,0.02) 100%);">
+            <!-- Corner decorations -->
+            <div style="position: absolute; top: 0; left: 0; width: 24px; height: 24px; border-top: 1px solid rgba(255,215,0,0.4); border-left: 1px solid rgba(255,215,0,0.4);"></div>
+            <div style="position: absolute; top: 0; right: 0; width: 24px; height: 24px; border-top: 1px solid rgba(255,215,0,0.4); border-right: 1px solid rgba(255,215,0,0.4);"></div>
+            <div style="position: absolute; bottom: 0; left: 0; width: 24px; height: 24px; border-bottom: 1px solid rgba(255,215,0,0.4); border-left: 1px solid rgba(255,215,0,0.4);"></div>
+            <div style="position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; border-bottom: 1px solid rgba(255,215,0,0.4); border-right: 1px solid rgba(255,215,0,0.4);"></div>
+
+            <div style="margin-bottom: 0.875rem;">
+              <span class="classification-badge">Live Demo Available</span>
+            </div>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2.25rem); color: var(--color-text-primary); margin-bottom: 0.875rem;">
+              Try It in Google Colab
+            </h2>
+            <p style="color: var(--color-text-secondary); max-width: 32rem; margin: 0 auto 2rem; font-size: 0.9375rem; line-height: 1.65;">
+              No installation required. Run a fully interactive IronDome session directly in your browser. Authentication, vault creation, and command demos — all live.
+            </p>
+            <a
+              href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
+              target="_blank"
+              rel="noopener"
+              class="btn-primary"
+              style="font-size: 0.875rem; padding: 0.75rem 1.75rem; display: inline-flex; align-items: center; gap: 0.625rem;">
+              <!-- Colab-like icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+              Open in Colab
+            </a>
+            <p style="margin-top: 1rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">
+              Google account required &mdash; free tier supported
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ----------------------------------------------------------
+           SECTION 9 — TROUBLESHOOTING
+           ---------------------------------------------------------- -->
+      <section id="troubleshoot" style="padding: 4rem 0;">
+        <div class="container">
+          <div style="margin-bottom: 2.5rem;">
+            <span class="section-title">07 / Troubleshooting</span>
+            <h2 style="font-size: clamp(1.5rem, 3vw, 2rem); color: var(--color-text-primary); margin-top: 0.5rem;">
+              Common Issues
+            </h2>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 1rem; max-width: 56rem;">
+
+            <!-- Issue 1 -->
+            <details class="tactical-card" style="padding: 0; overflow: hidden; cursor: pointer;">
+              <summary style="display: flex; align-items: center; gap: 1rem; padding: 1.125rem 1.25rem; cursor: pointer; list-style: none; user-select: none;">
+                <span style="width: 1.5rem; height: 1.5rem; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: #ef4444; font-weight: 700;">!</span>
+                </span>
+                <span style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-text-primary); font-weight: 600; flex: 1;">Biometric not detected</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78909C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; transition: transform var(--duration-base) ease;" class="chevron">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
+              <div style="padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--color-gold-border);">
+                <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">Biometric authentication requires platform-specific hardware and software support. Check the following:</p>
+                  <ul style="display: flex; flex-direction: column; gap: 0.375rem; margin-top: 0.5rem;">
+                    {[
+                      'macOS: Ensure Touch ID is enrolled in System Settings > Touch ID & Password',
+                      'Windows: Enable Windows Hello in Settings > Accounts > Sign-in options',
+                      'Linux: Install and configure fprintd — run sudo fprintd-enroll',
+                      'macOS only: Install the pyobjc package: pip install pyobjc-framework-LocalAuthentication',
+                      'Fallback: Switch to Mode 3 (Password Only) via bunker settings',
+                    ].map(item => (
+                      <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary);">
+                        <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.2rem; flex-shrink: 0;">&gt;</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <!-- Issue 2 -->
+            <details class="tactical-card" style="padding: 0; overflow: hidden; cursor: pointer;">
+              <summary style="display: flex; align-items: center; gap: 1rem; padding: 1.125rem 1.25rem; cursor: pointer; list-style: none; user-select: none;">
+                <span style="width: 1.5rem; height: 1.5rem; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-gold); font-weight: 700;">!</span>
+                </span>
+                <span style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-text-primary); font-weight: 600; flex: 1;">Session expired / Permission denied</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78909C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" class="chevron">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
+              <div style="padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--color-gold-border);">
+                <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">Sessions expire after 30 minutes of inactivity (configurable via <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.35em; font-size: 0.85em; border-radius: var(--radius-sm);">session_timeout</code> in settings). Re-authenticate:</p>
+                  <div class="code-block" style="font-size: 0.8125rem;">
+                    <span style="color: var(--color-gold-dim);">$ </span>irondome open airspace
+                  </div>
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">To increase session duration, edit <code style="background: rgba(52,211,153,0.08); color: var(--color-green); padding: 0.1em 0.35em; font-size: 0.85em; border-radius: var(--radius-sm);">session_timeout</code> to a higher value (in seconds). Maximum recommended: 3600 (1 hour).</p>
+                </div>
+              </div>
+            </details>
+
+            <!-- Issue 3 -->
+            <details class="tactical-card" style="padding: 0; overflow: hidden; cursor: pointer;">
+              <summary style="display: flex; align-items: center; gap: 1rem; padding: 1.125rem 1.25rem; cursor: pointer; list-style: none; user-select: none;">
+                <span style="width: 1.5rem; height: 1.5rem; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: #ef4444; font-weight: 700;">!</span>
+                </span>
+                <span style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-text-primary); font-weight: 600; flex: 1;">Forgot master password</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78909C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" class="chevron">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
+              <div style="padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--color-gold-border);">
+                <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <div class="warning-stripe-border" style="padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
+                    <p style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-gold); font-weight: 700; margin: 0 0 0.375rem;">Zero-knowledge design: there is no server-side recovery.</p>
+                    <p style="font-size: 0.8125rem; color: var(--color-text-secondary); margin: 0; line-height: 1.55;">If you lose your master password AND your recovery phrase, vault contents are permanently inaccessible. This is by design.</p>
+                  </div>
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">Recovery process using your 24-word phrase:</p>
+                  <ul style="display: flex; flex-direction: column; gap: 0.375rem;">
+                    {[
+                      'Locate your 24-word recovery phrase (stored offline at setup)',
+                      'Run: irondome create bunker and select "Recover from phrase"',
+                      'Enter all 24 words in exact order',
+                      'Set a new master password',
+                      'Your vault will be decrypted and re-encrypted with the new credential',
+                    ].map((item, i) => (
+                      <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary);">
+                        <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-gold); margin-top: 0.2rem; flex-shrink: 0; width: 1rem;">{i + 1}.</span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </details>
+
+            <!-- Issue 4 -->
+            <details class="tactical-card" style="padding: 0; overflow: hidden; cursor: pointer;">
+              <summary style="display: flex; align-items: center; gap: 1rem; padding: 1.125rem 1.25rem; cursor: pointer; list-style: none; user-select: none;">
+                <span style="width: 1.5rem; height: 1.5rem; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.2); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <span style="font-family: var(--font-mono); font-size: 0.6875rem; color: var(--color-gold); font-weight: 700;">?</span>
+                </span>
+                <span style="font-family: var(--font-mono); font-size: 0.875rem; color: var(--color-text-primary); font-weight: 600; flex: 1;">irondome command not found</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78909C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;" class="chevron">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </summary>
+              <div style="padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--color-gold-border);">
+                <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">The pip-installed scripts directory may not be in your PATH. Solutions:</p>
+                  <div class="code-block" style="font-size: 0.8125rem; white-space: pre; line-height: 1.8;"><span style="color: var(--color-text-muted);"># Verify install location</span>
+<span style="color: var(--color-gold-dim);">$ </span>python -m pip show IronDome
+
+<span style="color: var(--color-text-muted);"># Run directly via module</span>
+<span style="color: var(--color-gold-dim);">$ </span>python -m irondome create bunker
+
+<span style="color: var(--color-text-muted);"># Add pip scripts to PATH (macOS/Linux)</span>
+<span style="color: var(--color-gold-dim);">$ </span>export PATH="$HOME/.local/bin:$PATH"</div>
+                </div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer style="border-top: 1px solid var(--color-gold-border); padding: 2.5rem 0; background-color: var(--color-bg-card);">
+      <div class="container">
+        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
+          <div style="display: flex; align-items: center; gap: 0.625rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
+              <circle cx="12" cy="12" r="10" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
+              <circle cx="12" cy="12" r="6" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
+              <circle cx="12" cy="12" r="2" fill="#FFD700"/>
+            </svg>
+            <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--color-text-primary);">IRONDOME</span>
+            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">/ Zero-Knowledge CLI Vault</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <a href="/" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.08em;">Home</a>
+            <a href="/docs" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.08em;">Docs</a>
+            <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.08em;">GitHub</a>
+          </div>
+          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">FIELD MANUAL v1.0</span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Expand/collapse animation for details chevrons -->
+    <style>
+      details[open] .chevron {
+        transform: rotate(180deg);
+      }
+      details > summary {
+        cursor: pointer;
+      }
+      details > summary::-webkit-details-marker {
+        display: none;
+      }
+      @media (max-width: 640px) {
+        nav div { gap: 0.75rem; }
+        [style*="grid-template-columns: 2fr 1.5fr 3fr"] {
+          grid-template-columns: 1.5fr 1fr 2fr;
+        }
+      }
+    </style>
+
+  </body>
+</html>

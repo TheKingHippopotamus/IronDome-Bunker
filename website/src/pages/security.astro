@@ -1,0 +1,1342 @@
+---
+const title = "Security Architecture — IronDome";
+const description = "Defense in depth. Every decision explained. Zero-knowledge CLI password vault security architecture, cryptographic primitives, and threat model.";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="stylesheet" href="/src/styles/global.css" />
+  </head>
+  <body>
+
+    <!-- ============================================================
+         CLASSIFICATION TOPBAR
+         ============================================================ -->
+    <div
+      style="
+        background: repeating-linear-gradient(
+          -45deg,
+          rgba(239,68,68,0.18) 0px,
+          rgba(239,68,68,0.18) 10px,
+          rgba(239,68,68,0.06) 10px,
+          rgba(239,68,68,0.06) 20px
+        );
+        border-bottom: 1px solid rgba(239,68,68,0.4);
+        padding: 0.5rem 1.5rem;
+        text-align: center;
+      "
+    >
+      <span
+        style="
+          font-family: var(--font-mono);
+          font-size: 0.6875rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          color: #ef4444;
+          text-transform: uppercase;
+        "
+      >
+        &#9724; TOP SECRET // SECURITY ARCHITECTURE // EYES ONLY &#9724;
+      </span>
+    </div>
+
+    <!-- ============================================================
+         NAV
+         ============================================================ -->
+    <nav
+      style="
+        border-bottom: 1px solid var(--color-gold-border);
+        background-color: rgba(10,14,26,0.95);
+        backdrop-filter: blur(8px);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      "
+    >
+      <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding-block:0.875rem;">
+        <a
+          href="/"
+          style="
+            font-family: var(--font-mono);
+            font-size: 0.875rem;
+            font-weight: 700;
+            color: var(--color-gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          "
+        >
+          <span style="color: var(--color-text-muted);">&#8592;</span>
+          IronDome
+        </a>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <span class="classification-badge classification-badge--red">
+            &#9632; CLASSIFIED
+          </span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ============================================================
+         MAIN CONTENT
+         ============================================================ -->
+    <main class="page-content">
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 1 — HERO HEADER
+           ────────────────────────────────────────────────────────── -->
+      <section
+        style="
+          padding-block: 5rem 4rem;
+          position: relative;
+          overflow: hidden;
+        "
+      >
+        <!-- Background grid texture -->
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background-image:
+              linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+          "
+          aria-hidden="true"
+        ></div>
+        <!-- Radial vignette -->
+        <div
+          style="
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(239,68,68,0.04) 0%, transparent 70%);
+            pointer-events: none;
+          "
+          aria-hidden="true"
+        ></div>
+
+        <div class="container" style="position:relative;text-align:center;">
+
+          <!-- Classification stamp -->
+          <div
+            style="
+              display: inline-block;
+              border: 2px solid rgba(239,68,68,0.5);
+              padding: 0.35rem 1.25rem;
+              margin-bottom: 2rem;
+              transform: rotate(-1deg);
+              background: rgba(239,68,68,0.06);
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.8125rem;
+                font-weight: 700;
+                letter-spacing: 0.2em;
+                color: #ef4444;
+                text-transform: uppercase;
+              "
+            >TOP SECRET</span>
+          </div>
+
+          <h1
+            style="
+              font-family: var(--font-mono);
+              font-size: clamp(2.25rem, 6vw, 4.5rem);
+              font-weight: 700;
+              letter-spacing: -0.02em;
+              color: var(--color-text-primary);
+              line-height: 1.05;
+              margin-bottom: 1.25rem;
+            "
+            class="animate-gold-glow"
+          >
+            Security<br />
+            <span style="color: var(--color-gold);">Architecture</span>
+          </h1>
+
+          <p
+            style="
+              font-family: var(--font-mono);
+              font-size: 1rem;
+              color: var(--color-text-secondary);
+              max-width: 540px;
+              margin-inline: auto;
+              margin-bottom: 2.5rem;
+              letter-spacing: 0.02em;
+            "
+          >
+            Defense in depth. Every decision explained.
+          </p>
+
+          <!-- Meta badges row -->
+          <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;flex-wrap:wrap;">
+            <span class="classification-badge">&#9632; AES-256-CBC</span>
+            <span class="classification-badge">&#9632; PBKDF2-SHA256</span>
+            <span class="classification-badge">&#9632; Zero Network</span>
+            <span class="classification-badge">&#9632; OWASP 2023</span>
+            <span class="classification-badge classification-badge--green">&#9632; GPL-3.0</span>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 2 — ARCHITECTURE DIAGRAM
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="margin-bottom:2.5rem;">
+            <p class="section-title" style="margin-bottom:0.625rem;">&#9632; 01 / Architecture Overview</p>
+            <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);margin-bottom:0.75rem;">
+              The Full Security Stack
+            </h2>
+            <p style="max-width:560px;">
+              Every component of IronDome's security model, from user input to encrypted vault. No gaps. No shortcuts.
+            </p>
+          </div>
+
+          <!-- Terminal window -->
+          <div
+            class="tactical-corners scan-line-animate"
+            style="
+              background-color: rgba(0,0,0,0.7);
+              border: 1px solid rgba(255,215,0,0.15);
+              border-radius: 2px;
+              overflow: hidden;
+              max-width: 760px;
+            "
+          >
+            <!-- Window chrome -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0.625rem 1rem;
+                background-color: rgba(255,215,0,0.05);
+                border-bottom: 1px solid rgba(255,215,0,0.1);
+              "
+            >
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:block;"></span>
+                <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:block;"></span>
+                <span style="width:10px;height:10px;border-radius:50%;background:#34d399;display:block;"></span>
+              </div>
+              <span
+                style="
+                  font-family: var(--font-mono);
+                  font-size: 0.6875rem;
+                  color: var(--color-text-muted);
+                  letter-spacing: 0.1em;
+                "
+              >irondome-arch.diagram</span>
+              <span
+                style="
+                  font-family: var(--font-mono);
+                  font-size: 0.6875rem;
+                  color: var(--color-green);
+                "
+              >&#9679; LIVE</span>
+            </div>
+
+            <!-- Diagram body -->
+            <pre
+              style="
+                padding: 1.75rem 1.5rem;
+                font-family: var(--font-mono);
+                font-size: clamp(0.625rem, 1.4vw, 0.8125rem);
+                line-height: 1.5;
+                color: var(--color-green);
+                overflow-x: auto;
+                white-space: pre;
+                margin: 0;
+                background: transparent;
+                border: none;
+              "
+            >
+<span style="color:var(--color-gold);">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>              <span style="color:var(--color-text-primary);font-weight:700;">IRONDOME SECURITY ARCHITECTURE</span>              <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x251C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                                   <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>    <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>    <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">USER </span>  <span style="color:#78909C;">&#x2502;</span><span style="color:var(--color-gold);">&#x2500;&#x2500;&#x2500;&#x2192;</span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">BIOMETRIC </span> <span style="color:#78909C;">&#x2502;</span><span style="color:var(--color-gold);">&#x2500;&#x2500;&#x2192;</span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">MASTER </span> <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">INPUT </span>  <span style="color:#78909C;">&#x2502;</span>    <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">GATE    </span>  <span style="color:#78909C;">&#x2502;</span>    <span style="color:#78909C;">&#x2502;</span> <span style="color:var(--color-text-primary);">PASSWORD</span> <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>    <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>    <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                     <span style="color:var(--color-green);">PBKDF2-HMAC</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                     <span style="color:var(--color-green);">SHA-256 x600k</span> <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span> <span style="color:var(--color-text-primary);">HARDWARE   </span><span style="color:#78909C;">&#x2502;</span><span style="color:var(--color-gold);">&#x2500;&#x2500;&#x2192;</span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">SYSTEM </span> <span style="color:#78909C;">&#x2502;</span><span style="color:var(--color-gold);">&#x2500;&#x2500;&#x2192;</span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">DERIVED </span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span> <span style="color:var(--color-text-primary);">IDENTITY   </span><span style="color:#78909C;">&#x2502;</span>    <span style="color:#78909C;">&#x2502;</span>   <span style="color:var(--color-text-primary);">KEY  </span>  <span style="color:#78909C;">&#x2502;</span>    <span style="color:#78909C;">&#x2502;</span>   <span style="color:var(--color-text-primary);">KEY   </span><span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                       <span style="color:var(--color-green);">Fernet</span>       <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                    <span style="color:var(--color-green);">AES-256-CBC</span>    <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                     <span style="color:var(--color-green);">+ HMAC-SHA256</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                    <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                    <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-primary);">ENCRYPTED</span>  <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                    <span style="color:#78909C;">&#x2502;</span>    <span style="color:var(--color-text-primary);">VAULT  </span>   <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                    <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                                   <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">SESSION LAYER</span>                              <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-text-secondary);">.airspace.session (chmod 0600) — 30min TTL </span> <span style="color:#78909C;">&#x2502;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2502;</span>                                                   <span style="color:var(--color-gold);">&#x2502;</span>
+<span style="color:var(--color-gold);">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>
+            </pre>
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 3 — ENCRYPTION DEEP DIVE
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="margin-bottom:3rem;">
+            <p class="section-title" style="margin-bottom:0.625rem;">&#9632; 02 / Cryptographic Primitives</p>
+            <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);margin-bottom:0.75rem;">Encryption Deep Dive</h2>
+            <p style="max-width:560px;">
+              Every algorithm chosen for a documented reason. No obscure crypto. No roll-your-own primitives.
+            </p>
+          </div>
+
+          <div style="display:grid;gap:1.5rem;">
+
+            <!-- PBKDF2 -->
+            <div
+              class="tactical-card tactical-corners"
+              style="padding:2rem 2rem 2rem 1.75rem;border-left:3px solid var(--color-gold);"
+            >
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+                <div>
+                  <span class="classification-badge" style="margin-bottom:0.625rem;display:inline-flex;">KEY DERIVATION</span>
+                  <h3 style="font-family:var(--font-mono);font-size:1.25rem;color:var(--color-gold);margin:0;">
+                    PBKDF2-HMAC-SHA256
+                  </h3>
+                </div>
+                <div
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: var(--color-gold);
+                    white-space: nowrap;
+                  "
+                >600,000</div>
+              </div>
+
+              <p style="margin-bottom:1.25rem;max-width:680px;">
+                Password-Based Key Derivation Function 2. Transforms your master password into a 256-bit cryptographic key by running it through HMAC-SHA256 in a tight loop — 600,000 times. Each iteration depends on the last. You cannot skip iterations. There is no shortcut.
+              </p>
+
+              <!-- Why 600k -->
+              <div
+                style="
+                  background: rgba(255,215,0,0.04);
+                  border: 1px solid rgba(255,215,0,0.12);
+                  padding: 1rem 1.25rem;
+                  margin-bottom: 1.25rem;
+                  border-radius: 2px;
+                "
+              >
+                <p
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.75rem;
+                    color: var(--color-gold);
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.5rem;
+                  "
+                >// WHY 600,000 ITERATIONS?</p>
+                <p style="font-size:0.9rem;margin:0;">
+                  OWASP 2023 recommends a minimum of <strong>600,000 iterations</strong> for PBKDF2-HMAC-SHA256. This reflects the current cost of GPU-based brute-force attacks. At 600k iterations on modern hardware, a single password trial takes approximately <strong>0.3–0.8 seconds</strong>. An attacker testing 1 billion passwords would need over 9 years on a single GPU. IronDome meets the current standard — and future releases will increase this as hardware improves.
+                </p>
+              </div>
+
+              <!-- Code block -->
+              <pre class="code-block" style="overflow-x:auto;"><span style="color:var(--color-text-muted);"># Key derivation — irondome/crypto.py</span>
+key = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,            <span style="color:var(--color-text-muted);"># 256-bit output</span>
+    salt=salt,            <span style="color:var(--color-text-muted);"># 32 random bytes, stored in salt.bin</span>
+    iterations=600_000,   <span style="color:var(--color-text-muted);"># OWASP 2023 minimum</span>
+).derive(master_password.encode())
+<span style="color:var(--color-text-muted);">
+# Salt is unique per installation — same password on two machines
+# produces completely different derived keys. This is intentional.</span></pre>
+            </div>
+
+            <!-- Fernet / AES-256 -->
+            <div
+              class="tactical-card tactical-corners"
+              style="padding:2rem 2rem 2rem 1.75rem;border-left:3px solid var(--color-green);"
+            >
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+                <div>
+                  <span class="classification-badge classification-badge--green" style="margin-bottom:0.625rem;display:inline-flex;">SYMMETRIC ENCRYPTION</span>
+                  <h3 style="font-family:var(--font-mono);font-size:1.25rem;color:var(--color-green);margin:0;">
+                    Fernet — AES-256-CBC + HMAC-SHA256
+                  </h3>
+                </div>
+                <div
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 1.25rem;
+                    font-weight: 700;
+                    color: var(--color-green);
+                    white-space: nowrap;
+                    text-align: right;
+                  "
+                >Authenticated<br />Encryption</div>
+              </div>
+
+              <p style="margin-bottom:1.25rem;max-width:680px;">
+                Fernet is a high-level symmetric encryption scheme that wraps AES-256-CBC with HMAC-SHA256 message authentication. The critical property: it provides <strong>authenticated encryption</strong>. An attacker who modifies ciphertext cannot decrypt it — the HMAC will fail first. This prevents tampering, padding oracle attacks, and bitflip attacks simultaneously.
+              </p>
+
+              <!-- What Fernet includes -->
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.25rem;">
+                {[
+                  { label: "Algorithm", value: "AES-256-CBC" },
+                  { label: "Authentication", value: "HMAC-SHA256" },
+                  { label: "Key size", value: "256 bits" },
+                  { label: "IV", value: "Random 128-bit per op" },
+                  { label: "Format", value: "Self-describing token" },
+                  { label: "Tamper detection", value: "Yes — always" },
+                ].map((item) => (
+                  <div
+                    style="
+                      background: rgba(52,211,153,0.04);
+                      border: 1px solid rgba(52,211,153,0.12);
+                      padding: 0.75rem 1rem;
+                      border-radius: 2px;
+                    "
+                  >
+                    <div
+                      style="
+                        font-family: var(--font-mono);
+                        font-size: 0.6875rem;
+                        color: var(--color-text-muted);
+                        text-transform: uppercase;
+                        letter-spacing: 0.1em;
+                        margin-bottom: 0.25rem;
+                      "
+                    >{item.label}</div>
+                    <div
+                      style="
+                        font-family: var(--font-mono);
+                        font-size: 0.875rem;
+                        color: var(--color-green);
+                        font-weight: 600;
+                      "
+                    >{item.value}</div>
+                  </div>
+                ))}
+              </div>
+
+              <pre class="code-block" style="overflow-x:auto;border-left-color:var(--color-green);"><span style="color:var(--color-text-muted);"># Fernet token structure (what gets written to disk)</span>
+Version    | 0x80           <span style="color:var(--color-text-muted);"># 1 byte  — protocol version</span>
+Timestamp  | uint64 BE      <span style="color:var(--color-text-muted);"># 8 bytes — when encrypted</span>
+IV         | random bytes   <span style="color:var(--color-text-muted);"># 16 bytes — unique per write</span>
+Ciphertext | AES-256-CBC    <span style="color:var(--color-text-muted);"># variable length</span>
+HMAC       | SHA256         <span style="color:var(--color-text-muted);"># 32 bytes — covers ALL fields above</span>
+<span style="color:var(--color-text-muted);">
+# If HMAC does not verify → decryption NEVER starts.
+# You cannot learn anything about the plaintext by probing.</span></pre>
+            </div>
+
+            <!-- System Key / Hardware Binding -->
+            <div
+              class="tactical-card tactical-corners"
+              style="padding:2rem 2rem 2rem 1.75rem;border-left:3px solid #3b82f6;"
+            >
+              <div style="margin-bottom:1.25rem;">
+                <span
+                  class="classification-badge"
+                  style="margin-bottom:0.625rem;display:inline-flex;background:rgba(59,130,246,0.08);border-color:rgba(59,130,246,0.3);color:#3b82f6;"
+                >HARDWARE BINDING</span>
+                <h3 style="font-family:var(--font-mono);font-size:1.25rem;color:#3b82f6;margin:0;">
+                  System Key — Machine-Specific Second Layer
+                </h3>
+              </div>
+
+              <p style="margin-bottom:1.25rem;max-width:680px;">
+                The vault is encrypted twice. The derived key (from your password) is one layer. The system key is the second — derived from hardware identifiers unique to your machine: CPU serial, motherboard UUID, machine hostname, and OS-level user identity. These are hashed together with a salt and passed through PBKDF2 to produce a 256-bit system key.
+              </p>
+
+              <div
+                style="
+                  background: rgba(59,130,246,0.04);
+                  border: 1px solid rgba(59,130,246,0.15);
+                  padding: 1rem 1.25rem;
+                  margin-bottom: 1.25rem;
+                  border-radius: 2px;
+                "
+              >
+                <p
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.75rem;
+                    color: #3b82f6;
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                    margin-bottom: 0.5rem;
+                  "
+                >// WHAT THIS MEANS FOR AN ATTACKER</p>
+                <p style="font-size:0.9rem;margin:0;">
+                  Stealing the vault file gives an attacker nothing. They also need your master password. But even with your master password, they need the exact hardware it was created on. The vault is <strong>physically bound to your machine</strong>. Copy the file to a different computer — it won't open. This is not copy protection. This is a security property.
+                </p>
+              </div>
+
+              <pre class="code-block" style="overflow-x:auto;border-left-color:#3b82f6;"><span style="color:var(--color-text-muted);"># Hardware identity construction</span>
+hardware_id = sha256(
+    cpu_serial +
+    motherboard_uuid +
+    hostname +
+    os_user
+)
+
+system_key = PBKDF2HMAC(
+    algorithm=hashes.SHA256(),
+    length=32,
+    salt=hardware_salt,   <span style="color:var(--color-text-muted);"># separate from password salt</span>
+    iterations=600_000,
+).derive(hardware_id)
+
+<span style="color:var(--color-text-muted);"># Final encryption key = combine(derived_key XOR system_key)
+# Both must be correct to decrypt. Either alone is useless.</span></pre>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 4 — THREAT MODEL
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="margin-bottom:3rem;">
+            <p class="section-title" style="margin-bottom:0.625rem;">&#9632; 03 / Threat Model</p>
+            <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);margin-bottom:0.75rem;">What IronDome Defends Against</h2>
+            <p style="max-width:560px;">
+              Security without a threat model is theater. These are the real attack vectors — and how IronDome neutralizes each one.
+            </p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1rem;">
+
+            {[
+              {
+                id: "T-001",
+                threat: "Vault File Stolen",
+                level: "HIGH",
+                levelColor: "#ef4444",
+                scenario: "Attacker gains filesystem access and copies .passwords.enc from disk.",
+                defense: "Hardware-bound encryption key. The vault is machine-specific. On any other hardware, decryption produces garbage. The file has zero value without the source machine.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-002",
+                threat: "Brute Force Attack",
+                level: "HIGH",
+                levelColor: "#ef4444",
+                scenario: "Attacker runs a password cracking tool against the vault file offline.",
+                defense: "600,000 PBKDF2 iterations makes each guess ~0.3–0.8s on modern hardware. Adaptive lockout (3 strikes) adds delay. Hardware binding means cracking even on a GPU farm requires your specific machine identity.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-003",
+                threat: "Memory Dump",
+                level: "MEDIUM",
+                levelColor: "#f59e0b",
+                scenario: "Malicious process dumps RAM to extract decrypted passwords from memory.",
+                defense: "TUI uses memory locking (mlock) to prevent swapping decrypted data to disk. Signal handlers (SIGTERM, SIGINT) zero-fill sensitive buffers before exit. Decrypted data lives in memory for the minimum window possible.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-004",
+                threat: "Clipboard Sniffing",
+                level: "MEDIUM",
+                levelColor: "#f59e0b",
+                scenario: "Malicious background app reads clipboard after you copy a password.",
+                defense: "Automatic clipboard clearing after a configurable timeout (default: 30 seconds). The password is overwritten with random bytes before the clipboard is cleared, not just emptied. Clipboard history tools capture nothing useful.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-005",
+                threat: "Session Hijacking",
+                level: "MEDIUM",
+                levelColor: "#f59e0b",
+                scenario: "Attacker gains access to a live terminal session or reads session data.",
+                defense: "Session file .airspace.session uses chmod 0600 (owner read/write only). Hard 30-minute timeout — session expires unconditionally regardless of activity. Session token is randomly generated per login, never reused.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-006",
+                threat: "Man-in-the-Middle",
+                level: "NONE",
+                levelColor: "#34d399",
+                scenario: "Attacker intercepts traffic between the app and a backend service.",
+                defense: "There is no backend. IronDome makes zero network calls. It does not phone home. It does not sync. It does not check for updates over the network. There is no traffic to intercept. The attack surface is zero.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-007",
+                threat: "Shoulder Surfing",
+                level: "LOW",
+                levelColor: "#3b82f6",
+                scenario: "Someone physically observes the screen during authentication.",
+                defense: "Biometric gate — fingerprint or face ID authenticates the user before the master password is entered or displayed. The TUI masks all password output. Master password input uses secure terminal echo suppression.",
+                icon: "&#9632;",
+              },
+              {
+                id: "T-008",
+                threat: "Database / Server Breach",
+                level: "NONE",
+                levelColor: "#34d399",
+                scenario: "Attacker compromises a cloud server and dumps all stored passwords.",
+                defense: "There is no database. There is no server. There is no cloud. Everything exists only on your local filesystem. The breach surface is your machine, governed by your operating system's access controls.",
+                icon: "&#9632;",
+              },
+            ].map((item) => (
+              <div
+                class="tactical-card"
+                style={`padding: 1.5rem; border-left: 2px solid ${item.levelColor}; position: relative; overflow: hidden;`}
+              >
+                <!-- Threat level indicator -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.875rem;">
+                  <span
+                    style="
+                      font-family: var(--font-mono);
+                      font-size: 0.6875rem;
+                      color: var(--color-text-muted);
+                      letter-spacing: 0.12em;
+                    "
+                  >{item.id}</span>
+                  <span
+                    style={`
+                      font-family: var(--font-mono);
+                      font-size: 0.6875rem;
+                      font-weight: 700;
+                      letter-spacing: 0.12em;
+                      text-transform: uppercase;
+                      color: ${item.levelColor};
+                      background: ${item.levelColor}15;
+                      border: 1px solid ${item.levelColor}30;
+                      padding: 0.2rem 0.5rem;
+                      border-radius: 1px;
+                    `}
+                  >THREAT: {item.level}</span>
+                </div>
+
+                <h3
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 1rem;
+                    font-weight: 700;
+                    color: var(--color-text-primary);
+                    margin-bottom: 0.625rem;
+                    line-height: 1.3;
+                  "
+                >{item.threat}</h3>
+
+                <div style="margin-bottom:0.875rem;">
+                  <p
+                    style="
+                      font-family: var(--font-mono);
+                      font-size: 0.6875rem;
+                      color: var(--color-text-muted);
+                      text-transform: uppercase;
+                      letter-spacing: 0.08em;
+                      margin-bottom: 0.25rem;
+                    "
+                  >SCENARIO</p>
+                  <p style="font-size:0.875rem;line-height:1.55;color:var(--color-text-secondary);">{item.scenario}</p>
+                </div>
+
+                <div>
+                  <p
+                    style="
+                      font-family: var(--font-mono);
+                      font-size: 0.6875rem;
+                      color: var(--color-green);
+                      text-transform: uppercase;
+                      letter-spacing: 0.08em;
+                      margin-bottom: 0.25rem;
+                    "
+                  >DEFENSE</p>
+                  <p style="font-size:0.875rem;line-height:1.55;color:var(--color-text-secondary);">{item.defense}</p>
+                </div>
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 5 — FILE SYSTEM SECURITY
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="margin-bottom:3rem;">
+            <p class="section-title" style="margin-bottom:0.625rem;">&#9632; 04 / File System Security</p>
+            <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);margin-bottom:0.75rem;">Vault Structure on Disk</h2>
+            <p style="max-width:560px;">
+              Every file has a reason to exist and a permission level that matches its sensitivity. No sensitive data sits in a world-readable location.
+            </p>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 2rem;
+              align-items: start;
+            "
+          >
+            <!-- File tree terminal -->
+            <div
+              class="tactical-corners scan-line-animate"
+              style="
+                background-color: rgba(0,0,0,0.7);
+                border: 1px solid rgba(255,215,0,0.15);
+                border-radius: 2px;
+                overflow: hidden;
+                grid-column: 1 / -1;
+                max-width: 700px;
+              "
+            >
+              <!-- Window chrome -->
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  justify-content: space-between;
+                  padding: 0.625rem 1rem;
+                  background-color: rgba(255,215,0,0.05);
+                  border-bottom: 1px solid rgba(255,215,0,0.1);
+                "
+              >
+                <div style="display:flex;align-items:center;gap:0.5rem;">
+                  <span style="width:10px;height:10px;border-radius:50%;background:#ef4444;display:block;"></span>
+                  <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:block;"></span>
+                  <span style="width:10px;height:10px;border-radius:50%;background:#34d399;display:block;"></span>
+                </div>
+                <span
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.6875rem;
+                    color: var(--color-text-muted);
+                    letter-spacing: 0.1em;
+                  "
+                >~/.password_manager/</span>
+                <span
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.6875rem;
+                    color: var(--color-text-muted);
+                  "
+                >ls -la</span>
+              </div>
+
+              <pre
+                style="
+                  padding: 1.5rem;
+                  font-family: var(--font-mono);
+                  font-size: clamp(0.7rem, 1.5vw, 0.8125rem);
+                  line-height: 1.75;
+                  overflow-x: auto;
+                  white-space: pre;
+                  margin: 0;
+                  background: transparent;
+                  border: none;
+                  color: var(--color-text-secondary);
+                "
+              >
+<span style="color:var(--color-gold);">~/.password_manager/</span>
+<span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-text-secondary);">password_manager.log</span>        <span style="color:#546E7A;"># non-sensitive audit trail</span>
+<span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-text-secondary);">settings.json</span>               <span style="color:#546E7A;"># user preferences, no secrets</span>
+<span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-text-secondary);">backups/</span>
+<span style="color:#78909C;">&#x2502;   &#x2514;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords_backup_*.enc</span>    <span style="color:#546E7A;"># AES-256 encrypted backups</span>
+<span style="color:#78909C;">&#x2514;&#x2500;&#x2500;</span> <span style="color:var(--color-gold);">secrets/</span>                        <span style="color:#ef4444;"># chmod 0700 — owner only</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords.enc</span>             <span style="color:#546E7A;"># vault — Fernet AES-256</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">salt.bin</span>                   <span style="color:#546E7A;"># PBKDF2 salt (32 bytes)</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.master_user.enc</span>           <span style="color:#546E7A;"># encrypted master username</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.master_hash.enc</span>           <span style="color:#546E7A;"># encrypted PBKDF2 hash</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-text-secondary);">.login_attempts.dat</span>        <span style="color:#546E7A;"># lockout counter (not secret)</span>
+<span style="color:#78909C;">    &#x2514;&#x2500;&#x2500;</span> <span style="color:var(--color-gold);">.airspace.session</span>          <span style="color:#ef4444;"># chmod 0600 — session token</span>
+              </pre>
+            </div>
+
+            <!-- File permission table -->
+            <div style="grid-column: 1 / -1;">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:0.75rem;">
+                {[
+                  {
+                    file: "secrets/",
+                    perm: "0700",
+                    permLabel: "rwx------",
+                    note: "Directory is inaccessible to all other users. Not readable, not listable, not enterable.",
+                    color: "#ef4444",
+                  },
+                  {
+                    file: ".passwords.enc",
+                    perm: "0600",
+                    permLabel: "rw-------",
+                    note: "Only the owning user can read or write the vault file. No group, no world access.",
+                    color: "#ef4444",
+                  },
+                  {
+                    file: ".airspace.session",
+                    perm: "0600",
+                    permLabel: "rw-------",
+                    note: "Session token is owner-only. Expires in 30 minutes regardless of usage.",
+                    color: "#ef4444",
+                  },
+                  {
+                    file: "salt.bin",
+                    perm: "0600",
+                    permLabel: "rw-------",
+                    note: "Salt is not secret (it's stored alongside the vault) but is protected to prevent modification.",
+                    color: "#f59e0b",
+                  },
+                  {
+                    file: "settings.json",
+                    perm: "0644",
+                    permLabel: "rw-r--r--",
+                    note: "Contains no sensitive data — only UI preferences. Group-readable is acceptable.",
+                    color: "#34d399",
+                  },
+                  {
+                    file: "password_manager.log",
+                    perm: "0644",
+                    permLabel: "rw-r--r--",
+                    note: "Audit trail only. Passwords are never written to logs. Safe to be group-readable.",
+                    color: "#34d399",
+                  },
+                ].map((item) => (
+                  <div
+                    class="tactical-card"
+                    style={`padding: 1rem 1.25rem; border-left: 2px solid ${item.color};`}
+                  >
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+                      <code
+                        style={`font-family:var(--font-mono);font-size:0.8125rem;color:${item.color};font-weight:600;`}
+                      >{item.file}</code>
+                      <span
+                        style={`
+                          font-family: var(--font-mono);
+                          font-size: 0.75rem;
+                          font-weight: 700;
+                          color: ${item.color};
+                          background: ${item.color}12;
+                          padding: 0.15rem 0.4rem;
+                          border: 1px solid ${item.color}30;
+                          border-radius: 1px;
+                        `}
+                      >{item.perm}</span>
+                    </div>
+                    <code
+                      style="
+                        font-family: var(--font-mono);
+                        font-size: 0.75rem;
+                        color: var(--color-text-muted);
+                        display: block;
+                        margin-bottom: 0.5rem;
+                      "
+                    >{item.permLabel}</code>
+                    <p style="font-size:0.8125rem;line-height:1.5;margin:0;">{item.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 6 — SECURITY PRINCIPLES
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="margin-bottom:3rem;">
+            <p class="section-title" style="margin-bottom:0.625rem;">&#9632; 05 / Design Philosophy</p>
+            <h2 style="font-size: clamp(1.5rem,3vw,2.25rem);margin-bottom:0.75rem;">Security Principles</h2>
+            <p style="max-width:560px;">
+              These are not marketing claims. Each principle is enforced architecturally — not just stated in documentation.
+            </p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;">
+
+            {[
+              {
+                num: "01",
+                title: "Defense in Depth",
+                icon: "&#x2665;",
+                body: "Multiple independent security layers. Your password is worthless without the system key. Your system key is worthless without the salt. The salt is worthless without the vault. Compromise one layer — you still have nothing.",
+                color: "var(--color-gold)",
+              },
+              {
+                num: "02",
+                title: "Least Privilege",
+                icon: "&#x2666;",
+                body: "Every file has the minimum permissions required for operation. The secrets directory is 0700. The session file is 0600. No process runs elevated. No service account has write access. Minimized scope means minimized blast radius.",
+                color: "var(--color-gold)",
+              },
+              {
+                num: "03",
+                title: "Zero Trust",
+                icon: "&#x2660;",
+                body: "IronDome does not trust the network. It does not trust cloud services. It does not trust external authentication providers. The only trust boundary is your local machine. There is no way to 'trust us' when we have no server to trust.",
+                color: "#ef4444",
+              },
+              {
+                num: "04",
+                title: "Open Source — GPL-3.0",
+                icon: "&#x2663;",
+                body: "Every line of cryptographic code is public. Any security researcher, developer, or paranoid user can audit the implementation. Claims about zero-knowledge architecture mean nothing without verifiable source code. We put the code on the table.",
+                color: "var(--color-green)",
+              },
+              {
+                num: "05",
+                title: "OWASP Compliant",
+                icon: "&#9632;",
+                body: "Key derivation follows OWASP Cryptographic Storage Cheat Sheet 2023 recommendations. 600,000 PBKDF2 iterations. Minimum 256-bit key length. Authenticated encryption (Fernet). No MD5. No SHA1. No ECB mode.",
+                color: "#3b82f6",
+              },
+              {
+                num: "06",
+                title: "No Secrets in Logs",
+                icon: "&#9632;",
+                body: "The audit log records operations — not values. 'Password retrieved for github.com' is logged. The actual password is never written to any log file, temporary file, or debug output. Log exfiltration reveals nothing actionable.",
+                color: "#f59e0b",
+              },
+            ].map((item) => (
+              <div
+                class="tactical-card tactical-corners"
+                style="padding: 1.75rem 1.5rem; position: relative;"
+              >
+                <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;">
+                  <div
+                    style={`
+                      font-family: var(--font-mono);
+                      font-size: 0.6875rem;
+                      font-weight: 700;
+                      color: ${item.color};
+                      background: ${item.color === 'var(--color-gold)' ? 'rgba(255,215,0,0.06)' : item.color + '10'};
+                      border: 1px solid ${item.color === 'var(--color-gold)' ? 'rgba(255,215,0,0.2)' : item.color + '30'};
+                      padding: 0.375rem 0.6rem;
+                      border-radius: 1px;
+                      min-width: 2.5rem;
+                      text-align: center;
+                    `}
+                  >{item.num}</div>
+                  <h3
+                    style={`font-family:var(--font-mono);font-size:1rem;font-weight:700;color:${item.color};line-height:1.3;`}
+                  >{item.title}</h3>
+                </div>
+                <p style="font-size:0.875rem;line-height:1.6;margin:0;">{item.body}</p>
+              </div>
+            ))}
+
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 7 — RESPONSIBLE DISCLOSURE
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 5rem;">
+        <div class="container">
+
+          <div style="max-width: 800px;margin-inline:auto;">
+
+            <!-- Classification-style header -->
+            <div
+              class="warning-stripe-border tactical-corners"
+              style="
+                padding: 2rem 2.5rem;
+                margin-bottom: 2rem;
+                border-radius: 2px;
+              "
+            >
+              <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;">
+                <span class="classification-badge classification-badge--red">&#9632; SECURITY POLICY</span>
+                <span
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.6875rem;
+                    color: var(--color-text-muted);
+                    letter-spacing: 0.1em;
+                  "
+                >RESPONSIBLE DISCLOSURE</span>
+              </div>
+
+              <p class="section-title" style="margin-bottom:0.5rem;">&#9632; 06 / Vulnerability Reporting</p>
+              <h2 style="font-size: clamp(1.25rem,2.5vw,1.875rem);margin-bottom:1rem;">
+                Found a Security Issue?
+              </h2>
+              <p style="margin-bottom:0;">
+                IronDome is open source. If you find a vulnerability, we want to know. Every security report is treated as high priority. We do not dismiss or minimize reports. We fix the issue and credit the researcher.
+              </p>
+            </div>
+
+            <!-- Process steps -->
+            <div style="display:grid;gap:0.875rem;margin-bottom:2rem;">
+              {[
+                {
+                  step: "01",
+                  title: "Do NOT open a public GitHub issue",
+                  desc: "Public disclosure before a fix is available puts every user at risk. Private reporting allows us to prepare a patch first.",
+                  color: "#ef4444",
+                },
+                {
+                  step: "02",
+                  title: "Read SECURITY.md on GitHub",
+                  desc: "The SECURITY.md file contains the full disclosure policy, PGP key for encrypted reports, and scope definitions for what qualifies as a vulnerability.",
+                  color: "var(--color-gold)",
+                },
+                {
+                  step: "03",
+                  title: "Submit via GitHub Security Advisories",
+                  desc: "GitHub's private vulnerability reporting tool. Your report is visible only to repository maintainers. We will acknowledge within 48 hours.",
+                  color: "var(--color-green)",
+                },
+                {
+                  step: "04",
+                  title: "Coordinated disclosure — 90-day window",
+                  desc: "We aim to patch within 30 days of confirmation. Complex issues receive up to 90 days. After the fix ships, full disclosure and researcher credit are standard.",
+                  color: "#3b82f6",
+                },
+              ].map((item) => (
+                <div
+                  class="tactical-card"
+                  style={`padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1.25rem; border-left: 2px solid ${item.color};`}
+                >
+                  <span
+                    style={`
+                      font-family: var(--font-mono);
+                      font-size: 1.25rem;
+                      font-weight: 700;
+                      color: ${item.color};
+                      min-width: 2.5rem;
+                      line-height: 1;
+                      padding-top: 0.125rem;
+                    `}
+                  >{item.step}</span>
+                  <div>
+                    <h4 style="font-size:0.9375rem;font-weight:700;color:var(--color-text-primary);margin-bottom:0.375rem;">{item.title}</h4>
+                    <p style="font-size:0.875rem;line-height:1.55;margin:0;">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <!-- SLA table -->
+            <div
+              class="tactical-card"
+              style="overflow: hidden;"
+            >
+              <div
+                style="
+                  padding: 0.875rem 1.5rem;
+                  background: rgba(255,215,0,0.04);
+                  border-bottom: 1px solid var(--color-gold-border);
+                "
+              >
+                <span
+                  style="
+                    font-family: var(--font-mono);
+                    font-size: 0.75rem;
+                    color: var(--color-gold);
+                    letter-spacing: 0.1em;
+                    text-transform: uppercase;
+                  "
+                >Response Time Commitments</span>
+              </div>
+              <div style="padding: 0;">
+                {[
+                  { milestone: "Initial acknowledgment", sla: "48 hours", color: "var(--color-green)" },
+                  { milestone: "Triage & severity classification", sla: "5 business days", color: "var(--color-green)" },
+                  { milestone: "Patch for critical severity", sla: "7–14 days", color: "#f59e0b" },
+                  { milestone: "Patch for high severity", sla: "30 days", color: "#f59e0b" },
+                  { milestone: "Patch for medium/low severity", sla: "90 days", color: "var(--color-text-muted)" },
+                  { milestone: "Public disclosure (post-patch)", sla: "30 days after fix ships", color: "var(--color-text-muted)" },
+                ].map((row, idx) => (
+                  <div
+                    style={`
+                      display: flex;
+                      align-items: center;
+                      justify-content: space-between;
+                      gap: 1rem;
+                      padding: 0.875rem 1.5rem;
+                      border-bottom: ${idx < 5 ? '1px solid var(--color-gold-border)' : 'none'};
+                    `}
+                  >
+                    <span style="font-size:0.875rem;color:var(--color-text-secondary);">{row.milestone}</span>
+                    <span
+                      style={`font-family:var(--font-mono);font-size:0.8125rem;font-weight:600;color:${row.color};white-space:nowrap;`}
+                    >{row.sla}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <div class="gold-divider" style="margin-inline: clamp(1rem,4vw,2rem);"></div>
+
+      <!-- ──────────────────────────────────────────────────────────
+           SECTION 8 — BOTTOM CTA
+           ────────────────────────────────────────────────────────── -->
+      <section style="padding-block: 6rem 5rem;">
+        <div class="container" style="text-align:center;">
+
+          <!-- Scan line terminal decoration -->
+          <div
+            class="scan-line-animate"
+            style="
+              max-width: 540px;
+              margin-inline: auto;
+              border: 1px solid rgba(255,215,0,0.12);
+              padding: 3rem 2.5rem;
+              position: relative;
+              background: rgba(0,0,0,0.3);
+            "
+          >
+            <!-- Corner decorations -->
+            <span
+              style="
+                position:absolute;top:0;left:0;
+                width:16px;height:16px;
+                border-top:1px solid rgba(255,215,0,0.5);
+                border-left:1px solid rgba(255,215,0,0.5);
+              "
+              aria-hidden="true"
+            ></span>
+            <span
+              style="
+                position:absolute;top:0;right:0;
+                width:16px;height:16px;
+                border-top:1px solid rgba(255,215,0,0.5);
+                border-right:1px solid rgba(255,215,0,0.5);
+              "
+              aria-hidden="true"
+            ></span>
+            <span
+              style="
+                position:absolute;bottom:0;left:0;
+                width:16px;height:16px;
+                border-bottom:1px solid rgba(255,215,0,0.5);
+                border-left:1px solid rgba(255,215,0,0.5);
+              "
+              aria-hidden="true"
+            ></span>
+            <span
+              style="
+                position:absolute;bottom:0;right:0;
+                width:16px;height:16px;
+                border-bottom:1px solid rgba(255,215,0,0.5);
+                border-right:1px solid rgba(255,215,0,0.5);
+              "
+              aria-hidden="true"
+            ></span>
+
+            <p
+              class="section-title"
+              style="margin-bottom:1rem;"
+            >&#9632; Don't Trust — Verify</p>
+
+            <h2
+              style="
+                font-family: var(--font-mono);
+                font-size: clamp(1.25rem,3vw,2rem);
+                color: var(--color-text-primary);
+                margin-bottom: 1rem;
+                line-height: 1.2;
+              "
+            >Audit the code <span style="color:var(--color-gold);">yourself.</span></h2>
+
+            <p
+              style="
+                font-size: 0.9375rem;
+                color: var(--color-text-secondary);
+                margin-bottom: 2rem;
+                line-height: 1.65;
+                max-width: 380px;
+                margin-inline: auto;
+              "
+            >
+              Every cryptographic claim on this page is backed by real code. GPL-3.0. No obfuscation. No minified blobs. Read the source — then decide if you trust it.
+            </p>
+
+            <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;flex-wrap:wrap;">
+              <a
+                href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary"
+              >
+                <!-- GitHub icon -->
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                </svg>
+                View Source
+              </a>
+              <a
+                href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager/blob/main/SECURITY.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-secondary"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                View SECURITY.md
+              </a>
+            </div>
+
+            <!-- Monospace footnote -->
+            <p
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.6875rem;
+                color: var(--color-text-muted);
+                margin-top: 1.75rem;
+                letter-spacing: 0.06em;
+              "
+            >GPL-3.0 — No warranties. No server. No excuses.</p>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer
+      style="
+        border-top: 1px solid var(--color-gold-border);
+        padding-block: 2rem;
+        background-color: var(--color-bg-card);
+      "
+    >
+      <div
+        class="container"
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 1rem;
+        "
+      >
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <span
+            style="
+              font-family: var(--font-mono);
+              font-size: 0.75rem;
+              color: var(--color-text-muted);
+            "
+          >IronDome &copy; 2024 — GPL-3.0</span>
+          <span class="classification-badge">&#9632; ZERO KNOWLEDGE</span>
+        </div>
+        <nav style="display:flex;align-items:center;gap:1.25rem;">
+          <a
+            href="/"
+            style="font-family:var(--font-mono);font-size:0.75rem;color:var(--color-text-muted);letter-spacing:0.06em;text-transform:uppercase;"
+          >Home</a>
+          <a
+            href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="font-family:var(--font-mono);font-size:0.75rem;color:var(--color-text-muted);letter-spacing:0.06em;text-transform:uppercase;"
+          >GitHub</a>
+          <a
+            href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager/blob/main/SECURITY.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="font-family:var(--font-mono);font-size:0.75rem;color:var(--color-gold);letter-spacing:0.06em;text-transform:uppercase;"
+          >Security Policy</a>
+        </nav>
+      </div>
+    </footer>
+
+    <!-- Classification bottom bar (mirrors top) -->
+    <div
+      style="
+        background: repeating-linear-gradient(
+          -45deg,
+          rgba(239,68,68,0.18) 0px,
+          rgba(239,68,68,0.18) 10px,
+          rgba(239,68,68,0.06) 10px,
+          rgba(239,68,68,0.06) 20px
+        );
+        border-top: 1px solid rgba(239,68,68,0.4);
+        padding: 0.5rem 1.5rem;
+        text-align: center;
+      "
+    >
+      <span
+        style="
+          font-family: var(--font-mono);
+          font-size: 0.6875rem;
+          font-weight: 700;
+          letter-spacing: 0.18em;
+          color: #ef4444;
+          text-transform: uppercase;
+        "
+      >
+        &#9724; TOP SECRET // SECURITY ARCHITECTURE // EYES ONLY &#9724;
+      </span>
+    </div>
+
+  </body>
+</html>

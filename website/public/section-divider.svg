@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 20" width="900" height="20">
+  <defs>
+    <linearGradient id="div-fade-left" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0.3"/>
+    </linearGradient>
+    <linearGradient id="div-fade-right" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Left line — fades in from left edge to center -->
+  <line x1="0" y1="10" x2="418" y2="10"
+        stroke="url(#div-fade-left)" stroke-width="1"/>
+
+  <!-- Right line — fades out to right edge -->
+  <line x1="482" y1="10" x2="900" y2="10"
+        stroke="url(#div-fade-right)" stroke-width="1"/>
+
+  <!-- Military hash marks — left cluster (near center) -->
+  <g stroke="#FFD700" stroke-width="1" stroke-linecap="square" opacity="0.35">
+    <line x1="390" y1="5" x2="390" y2="15"/>
+    <line x1="398" y1="6" x2="398" y2="14"/>
+    <line x1="406" y1="7" x2="406" y2="13"/>
+    <line x1="414" y1="7" x2="414" y2="13"/>
+  </g>
+  <!-- Military hash marks — right cluster -->
+  <g stroke="#FFD700" stroke-width="1" stroke-linecap="square" opacity="0.35">
+    <line x1="486" y1="7" x2="486" y2="13"/>
+    <line x1="494" y1="7" x2="494" y2="13"/>
+    <line x1="502" y1="6" x2="502" y2="14"/>
+    <line x1="510" y1="5" x2="510" y2="15"/>
+  </g>
+
+  <!-- Center diamond/chevron -->
+  <!-- Outer diamond -->
+  <polygon points="450,2 464,10 450,18 436,10"
+           fill="#0a0e1a" stroke="#FFD700" stroke-width="1.2" opacity="0.8"/>
+  <!-- Inner diamond fill -->
+  <polygon points="450,5 461,10 450,15 439,10"
+           fill="#FFD700" opacity="0.15"/>
+  <!-- Center dot -->
+  <circle cx="450" cy="10" r="2" fill="#FFD700" opacity="0.6"/>
+  <!-- Side chevron marks -->
+  <polyline points="422,7 427,10 422,13" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5"/>
+  <polyline points="478,7 473,10 478,13" fill="none" stroke="#FFD700" stroke-width="1" opacity="0.5"/>
+
+</svg>

@@ -1,0 +1,209 @@
+---
+interface Props {
+  command?: string;
+}
+
+const { command = "pip install IronDome" } = Astro.props;
+
+// Generate a unique ID for scoping the inline script per instance
+const instanceId = `install-box-${Math.random().toString(36).slice(2, 9)}`;
+---
+
+<div class="install-box" id={instanceId}>
+  <span class="install-box__label">INSTALL</span>
+
+  <div class="install-box__row">
+    <div class="install-box__terminal">
+      <span class="install-box__prompt" aria-hidden="true">$</span>
+      <code class="install-box__command" data-command={command}>{command}</code>
+    </div>
+
+    <button
+      class="install-box__copy"
+      type="button"
+      aria-label={`Copy command: ${command}`}
+      data-copy-btn
+    >
+      <span class="install-box__copy-default" aria-hidden="true">
+        <!-- Clipboard icon — inline SVG, no external deps -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="2" width="13" height="13" rx="1" ry="1"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+      </span>
+      <span class="install-box__copy-label">COPY</span>
+      <span class="install-box__copied-label" aria-live="polite">COPIED</span>
+    </button>
+  </div>
+</div>
+
+<script define:vars={{ instanceId, command }}>
+  (function () {
+    const root = document.getElementById(instanceId);
+    if (!root) return;
+
+    const btn = root.querySelector('[data-copy-btn]');
+    if (!btn) return;
+
+    let resetTimer = null;
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(command);
+      } catch {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = command;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+
+      btn.setAttribute('data-copied', 'true');
+      btn.setAttribute('aria-label', 'Copied!');
+
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        btn.removeAttribute('data-copied');
+        btn.setAttribute('aria-label', `Copy command: ${command}`);
+      }, 2000);
+    });
+  })();
+</script>
+
+<style>
+  .install-box {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    min-width: 280px;
+  }
+
+  /* INSTALL label */
+  .install-box__label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #FFD700;
+    opacity: 0.8;
+  }
+
+  /* Terminal row */
+  .install-box__row {
+    display: flex;
+    align-items: stretch;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    background-color: #0d1117;
+  }
+
+  .install-box__terminal {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 1;
+    padding: 0.625rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-right: 1px solid rgba(255, 215, 0, 0.1);
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .install-box__prompt {
+    color: rgba(255, 215, 0, 0.5);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.875rem;
+    font-weight: 400;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .install-box__command {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.875rem;
+    color: #34d399;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: none;
+    padding: 0;
+    border: none;
+    line-height: 1;
+  }
+
+  /* Copy button */
+  .install-box__copy {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 215, 0, 0.6);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .install-box__copy:hover {
+    color: #FFD700;
+    background-color: rgba(255, 215, 0, 0.06);
+  }
+
+  .install-box__copy:active {
+    background-color: rgba(255, 215, 0, 0.1);
+  }
+
+  /* Copied / default state labels */
+  .install-box__copy-label,
+  .install-box__copy-default {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+
+  .install-box__copied-label {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) translateY(120%);
+    color: #34d399;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+    transition: opacity 150ms ease, transform 150ms ease;
+    opacity: 0;
+  }
+
+  /* When copied */
+  .install-box__copy[data-copied] .install-box__copy-label,
+  .install-box__copy[data-copied] .install-box__copy-default {
+    opacity: 0;
+    transform: translateY(-120%);
+  }
+
+  .install-box__copy[data-copied] .install-box__copied-label {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+    top: 50%;
+  }
+
+  .install-box__copy[data-copied] {
+    color: #34d399;
+  }
+</style>

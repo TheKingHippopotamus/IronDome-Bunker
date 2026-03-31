@@ -1,0 +1,395 @@
+---
+interface Props {
+  code: string;
+  language?: string;
+  title?: string;
+}
+
+const { code, language = 'bash', title } = Astro.props;
+
+// Generate a unique ID per instance for scoped copy button script
+const instanceId = `code-block-${Math.random().toString(36).slice(2, 9)}`;
+
+/**
+ * Minimal syntax tokenizer — runs at build time (Astro SSG), zero runtime cost.
+ * Handles bash/shell and python with the design system's color scheme:
+ *   commands / keywords → green (#34d399)
+ *   comments           → slate (#78909C)
+ *   strings            → gold (#FFD700)
+ *   flags / options    → muted green (rgba(52,211,153,0.75))
+ *   numbers            → soft cyan (#7dd3fc)
+ *   default text       → primary (#e2e8f0)
+ */
+function tokenize(rawCode: string, lang: string): string {
+  const lines = rawCode.split('\n');
+
+  const htmlEncode = (s: string) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  const processLine = (line: string): string => {
+    // Comment lines — entire line is slate
+    const trimmed = line.trimStart();
+    if (trimmed.startsWith('#')) {
+      return `<span class="token-comment">${htmlEncode(line)}</span>`;
+    }
+
+    // Python decorator
+    if (lang === 'python' && trimmed.startsWith('@')) {
+      return `<span class="token-decorator">${htmlEncode(line)}</span>`;
+    }
+
+    // Process inline tokens
+    let result = '';
+    let i = 0;
+    const encoded = line; // work on raw, encode per token
+
+    while (i < encoded.length) {
+      // Inline comment (not inside string)
+      if (encoded[i] === '#') {
+        result += `<span class="token-comment">${htmlEncode(encoded.slice(i))}</span>`;
+        break;
+      }
+
+      // String — double quote
+      if (encoded[i] === '"') {
+        let j = i + 1;
+        while (j < encoded.length && encoded[j] !== '"') {
+          if (encoded[j] === '\\') j++; // skip escape
+          j++;
+        }
+        j++;
+        result += `<span class="token-string">${htmlEncode(encoded.slice(i, j))}</span>`;
+        i = j;
+        continue;
+      }
+
+      // String — single quote
+      if (encoded[i] === "'") {
+        let j = i + 1;
+        while (j < encoded.length && encoded[j] !== "'") {
+          if (encoded[j] === '\\') j++;
+          j++;
+        }
+        j++;
+        result += `<span class="token-string">${htmlEncode(encoded.slice(i, j))}</span>`;
+        i = j;
+        continue;
+      }
+
+      // CLI flags (-- or -)
+      if (
+        (encoded[i] === '-' && i + 1 < encoded.length && encoded[i + 1] === '-') ||
+        (encoded[i] === '-' && i + 1 < encoded.length && /[a-zA-Z]/.test(encoded[i + 1]) &&
+          (i === 0 || /\s/.test(encoded[i - 1])))
+      ) {
+        let j = i;
+        while (j < encoded.length && !/\s/.test(encoded[j])) j++;
+        result += `<span class="token-flag">${htmlEncode(encoded.slice(i, j))}</span>`;
+        i = j;
+        continue;
+      }
+
+      // Python / bash keywords
+      if (/[a-zA-Z_]/.test(encoded[i])) {
+        let j = i;
+        while (j < encoded.length && /[a-zA-Z0-9_]/.test(encoded[j])) j++;
+        const word = encoded.slice(i, j);
+
+        const bashKeywords = new Set(['pip', 'python', 'python3', 'irondome', 'sudo', 'export', 'source', 'cd', 'mkdir', 'ls', 'cat', 'echo', 'grep', 'curl', 'git', 'npm', 'node', 'which', 'chmod', 'install', 'run']);
+        const pyKeywords = new Set(['import', 'from', 'def', 'class', 'return', 'if', 'else', 'elif', 'for', 'while', 'with', 'as', 'try', 'except', 'finally', 'raise', 'in', 'not', 'and', 'or', 'is', 'None', 'True', 'False', 'pass', 'break', 'continue', 'lambda', 'yield', 'async', 'await']);
+
+        if (bashKeywords.has(word.toLowerCase()) || (lang === 'bash' && i === 0)) {
+          result += `<span class="token-command">${htmlEncode(word)}</span>`;
+        } else if (lang === 'python' && pyKeywords.has(word)) {
+          result += `<span class="token-keyword">${htmlEncode(word)}</span>`;
+        } else {
+          result += htmlEncode(word);
+        }
+        i = j;
+        continue;
+      }
+
+      // Numbers
+      if (/[0-9]/.test(encoded[i])) {
+        let j = i;
+        while (j < encoded.length && /[0-9.]/.test(encoded[j])) j++;
+        result += `<span class="token-number">${htmlEncode(encoded.slice(i, j))}</span>`;
+        i = j;
+        continue;
+      }
+
+      result += htmlEncode(encoded[i]);
+      i++;
+    }
+
+    return result;
+  };
+
+  return lines
+    .map((line, idx) => {
+      const lineNum = String(idx + 1).padStart(String(lines.length).length, ' ');
+      return `<span class="cb-line"><span class="cb-lineno" aria-hidden="true">${lineNum}</span><span class="cb-content">${processLine(line)}</span></span>`;
+    })
+    .join('\n');
+}
+
+const highlighted = tokenize(code.trim(), language);
+---
+
+<div class="code-block-wrap" id={instanceId}>
+  {title && (
+    <div class="code-block-titlebar">
+      <div class="code-block-titlebar__dots" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="code-block-titlebar__title">{title}</span>
+      <span class="code-block-titlebar__lang">{language}</span>
+    </div>
+  )}
+
+  <div class="code-block-body" class:list={[!title && 'code-block-body--notitle']}>
+    <button
+      class="code-block-copy"
+      type="button"
+      aria-label="Copy code"
+      data-copy-btn
+      data-code={code.trim()}
+    >
+      <span class="code-block-copy__default">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="9" y="2" width="13" height="13" rx="1" ry="1"></rect>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+        </svg>
+        <span>COPY</span>
+      </span>
+      <span class="code-block-copy__copied" aria-live="polite">COPIED</span>
+    </button>
+
+    <pre class="code-block-pre" tabindex="0"><code class="code-block-code" set:html={highlighted} /></pre>
+  </div>
+</div>
+
+<script define:vars={{ instanceId }}>
+  (function () {
+    const root = document.getElementById(instanceId);
+    if (!root) return;
+
+    const btn = root.querySelector('[data-copy-btn]');
+    if (!btn) return;
+
+    const codeText = btn.getAttribute('data-code') || '';
+    let resetTimer = null;
+
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(codeText);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = codeText;
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+
+      btn.setAttribute('data-copied', 'true');
+      btn.setAttribute('aria-label', 'Copied!');
+
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        btn.removeAttribute('data-copied');
+        btn.setAttribute('aria-label', 'Copy code');
+      }, 2000);
+    });
+  })();
+</script>
+
+<style>
+  /* Wrapper */
+  .code-block-wrap {
+    position: relative;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    background-color: #0d1117;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+  }
+
+  /* Title bar */
+  .code-block-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.5rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.35);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+  }
+
+  .code-block-titlebar__dots {
+    display: flex;
+    gap: 0.3rem;
+    flex-shrink: 0;
+  }
+
+  .code-block-titlebar__dots span {
+    display: block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: rgba(255, 215, 0, 0.15);
+  }
+
+  .code-block-titlebar__dots span:nth-child(1) { background-color: rgba(255, 95, 87, 0.5); }
+  .code-block-titlebar__dots span:nth-child(2) { background-color: rgba(255, 189, 46, 0.5); }
+  .code-block-titlebar__dots span:nth-child(3) { background-color: rgba(40, 200, 64, 0.5); }
+
+  .code-block-titlebar__title {
+    flex: 1;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #546E7A;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+  }
+
+  .code-block-titlebar__lang {
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255, 215, 0, 0.35);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+  }
+
+  /* Body */
+  .code-block-body {
+    position: relative;
+  }
+
+  /* Copy button */
+  .code-block-copy {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    background-color: rgba(13, 17, 23, 0.9);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 1px;
+    padding: 0.3rem 0.55rem;
+    cursor: pointer;
+    color: rgba(255, 215, 0, 0.5);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease;
+    overflow: hidden;
+    min-width: 60px;
+    justify-content: center;
+  }
+
+  .code-block-copy:hover {
+    color: #FFD700;
+    border-color: rgba(255, 215, 0, 0.35);
+    background-color: rgba(255, 215, 0, 0.05);
+  }
+
+  .code-block-copy__default {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: opacity 150ms ease, transform 150ms ease;
+  }
+
+  .code-block-copy__copied {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(200%);
+    color: #34d399;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    transition: opacity 150ms ease, transform 150ms ease;
+    opacity: 0;
+  }
+
+  .code-block-copy[data-copied] .code-block-copy__default {
+    opacity: 0;
+    transform: translateY(-200%);
+  }
+
+  .code-block-copy[data-copied] .code-block-copy__copied {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-50%);
+  }
+
+  .code-block-copy[data-copied] {
+    border-color: rgba(52, 211, 153, 0.3);
+    color: #34d399;
+  }
+
+  /* Pre / code */
+  .code-block-pre {
+    margin: 0;
+    padding: 1.125rem 1.25rem 1.125rem 0;
+    overflow-x: auto;
+    background: transparent;
+    border: none;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 215, 0, 0.15) transparent;
+  }
+
+  .code-block-code {
+    display: block;
+    min-width: 100%;
+    width: max-content;
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* Lines */
+  :global(.cb-line) {
+    display: flex;
+    align-items: flex-start;
+    min-height: 1.7em;
+  }
+
+  :global(.cb-lineno) {
+    display: inline-block;
+    min-width: 2.75rem;
+    padding-inline: 0.75rem 0.875rem;
+    text-align: right;
+    color: #37474F;
+    font-size: 0.75rem;
+    user-select: none;
+    flex-shrink: 0;
+    line-height: 1.7;
+    border-right: 1px solid rgba(255, 215, 0, 0.05);
+    margin-right: 0.875rem;
+  }
+
+  :global(.cb-content) {
+    flex: 1;
+  }
+
+  /* Syntax token colors */
+  :global(.token-command)   { color: #34d399; }
+  :global(.token-keyword)   { color: #34d399; font-weight: 600; }
+  :global(.token-comment)   { color: #546E7A; font-style: italic; }
+  :global(.token-string)    { color: #FFD700; }
+  :global(.token-flag)      { color: rgba(52, 211, 153, 0.75); }
+  :global(.token-number)    { color: #7dd3fc; }
+  :global(.token-decorator) { color: rgba(255, 215, 0, 0.6); }
+</style>

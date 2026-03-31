@@ -1,0 +1,1264 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const principles = [
+  {
+    number: '01',
+    title: 'Local First',
+    icon: 'shield-local',
+    body: 'No servers, no sync, no accounts. Your vault lives on your machine and nowhere else. If we get hacked, your passwords are safe — because we don\'t have them.',
+  },
+  {
+    number: '02',
+    title: 'Open Source',
+    icon: 'shield-zero',
+    body: 'Every line of code is auditable. GPL-3.0 licensed. We don\'t hide behind "proprietary encryption" or "trust us" claims. Read the code. Verify the math.',
+  },
+  {
+    number: '03',
+    title: 'Standards-Based',
+    icon: 'shield-aes',
+    body: 'We don\'t invent crypto. We use OWASP-recommended PBKDF2 iteration counts, industry-standard AES-256 via Fernet, and OS-native biometric APIs. No homegrown algorithms.',
+  },
+  {
+    number: '04',
+    title: 'Developer-First',
+    icon: 'shield-session',
+    body: 'IronDome is a CLI tool because developers deserve better than browser extensions. Terminal-native, scriptable, pipe-friendly. Your workflow, your way.',
+  },
+];
+
+const specs = [
+  { label: 'Version',         value: '2.2.1' },
+  { label: 'License',         value: 'GPL-3.0' },
+  { label: 'Python',          value: '3.8 – 3.13' },
+  { label: 'Encryption',      value: 'AES-256-CBC' },
+  { label: 'Key Derivation',  value: 'PBKDF2 × 600,000' },
+  { label: 'Platforms',       value: 'macOS · Windows · Linux' },
+  { label: 'Dependencies',    value: 'cryptography + keyring' },
+  { label: 'Network Calls',   value: 'Zero. Ever.' },
+];
+
+const links = [
+  {
+    label: 'GitHub Repository',
+    href: 'https://github.com/TheKingHippopotamus/IronDome-Bunker',
+    icon: 'github',
+    badge: 'Source',
+  },
+  {
+    label: 'PyPI Package',
+    href: 'https://pypi.org/project/IronDome/',
+    icon: 'pypi',
+    badge: 'Install',
+  },
+  {
+    label: 'Security Policy',
+    href: 'https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md',
+    icon: 'security',
+    badge: 'SECURITY.md',
+  },
+  {
+    label: 'Live Demo (Google Colab)',
+    href: 'https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb',
+    icon: 'colab',
+    badge: 'Interactive',
+  },
+];
+
+const steps = [
+  { n: '01', action: 'Fork the repo', detail: 'github.com/TheKingHippopotamus/IronDome-Bunker' },
+  { n: '02', action: 'Create feature branch', detail: 'git checkout -b feat/your-feature' },
+  { n: '03', action: 'Follow conventional commits', detail: 'feat: · fix: · docs: · refactor:' },
+  { n: '04', action: 'Submit PR', detail: 'Target the main branch with clear description' },
+];
+---
+
+<Layout
+  title="About"
+  description="The story behind IronDome — a zero-knowledge CLI password vault built on math, not trust."
+>
+
+  <!-- ============================================================
+       PAGE HEADER
+       ============================================================ -->
+  <section class="page-header" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="page-header-inner">
+        <div class="header-meta">
+          <span class="classification-badge classification-badge--red">CLASSIFIED</span>
+          <span class="classification-badge">PERSONNEL FILE</span>
+          <span class="classification-badge classification-badge--green">CLEARANCE GRANTED</span>
+        </div>
+        <h1 id="about-heading" class="page-title">
+          About <span class="title-accent">IronDome</span>
+        </h1>
+        <p class="page-subtitle">The story behind the vault.</p>
+        <div class="page-header-divider" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MISSION STATEMENT
+       ============================================================ -->
+  <section class="section" aria-labelledby="mission-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="mission-heading">// MISSION STATEMENT</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <blockquote class="mission-block tactical-corners">
+        <div class="mission-gold-bar" aria-hidden="true"></div>
+        <div class="mission-content">
+          <p class="mission-text">
+            IronDome exists because your passwords shouldn't live on someone else's server.
+            Every cloud-based password manager asks you to trust their infrastructure,
+            their employees, their security practices.
+            <strong>IronDome asks you to trust math.</strong>
+            AES-256. PBKDF2. Your own hardware. That's it.
+          </p>
+          <div class="mission-sig">
+            <span class="mission-sig-text">— Design Principle #1</span>
+            <span class="classification-badge">VERIFIED</span>
+          </div>
+        </div>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PHILOSOPHY — 4 PRINCIPLES
+       ============================================================ -->
+  <section class="section" aria-labelledby="philosophy-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="philosophy-heading">// OPERATIONAL DOCTRINE</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <h2 class="section-heading">The Philosophy</h2>
+      <div class="principles-grid">
+        {principles.map((p) => (
+          <article class="principle-card tactical-card" aria-labelledby={`principle-${p.number}`}>
+            <div class="principle-header">
+              <span class="principle-number">{p.number}</span>
+              <h3 id={`principle-${p.number}`} class="principle-title">{p.title}</h3>
+            </div>
+            <p class="principle-body">{p.body}</p>
+            <div class="principle-footer" aria-hidden="true">
+              <div class="principle-footer-line"></div>
+              <span class="principle-status">ACTIVE</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TECHNICAL STATS — SPEC SHEET
+       ============================================================ -->
+  <section class="section" aria-labelledby="specs-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="specs-heading">// TECHNICAL SPECIFICATIONS</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <h2 class="section-heading">Spec Sheet</h2>
+      <div class="spec-sheet tactical-corners">
+        <div class="spec-sheet-header">
+          <div class="spec-sheet-title-row">
+            <img src="/irondome-favicon.svg" alt="" width="16" height="16" aria-hidden="true" />
+            <span class="spec-sheet-title-text">IRONDOME TECHNICAL DOSSIER — v2.2.1</span>
+            <span class="classification-badge">UNCLASSIFIED</span>
+          </div>
+          <div class="spec-sheet-scan" aria-hidden="true"></div>
+        </div>
+        <div class="spec-grid" role="list">
+          {specs.map((s, i) => (
+            <div class="spec-row" role="listitem">
+              <span class="spec-index" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="spec-label">{s.label}</span>
+              <div class="spec-dots" aria-hidden="true"></div>
+              <span class="spec-value">{s.value}</span>
+            </div>
+          ))}
+        </div>
+        <div class="spec-sheet-footer">
+          <span class="spec-footer-text">DOCUMENT INTEGRITY: VERIFIED · LAST UPDATED: 2025</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       THE CREATOR
+       ============================================================ -->
+  <section class="section" aria-labelledby="creator-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="creator-heading">// OPERATOR PROFILE</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <h2 class="section-heading">The Creator</h2>
+      <div class="creator-card tactical-card tactical-corners">
+        <div class="creator-avatar-col">
+          <div class="creator-avatar-wrap">
+            <img
+              src="/king-hippo.svg"
+              alt="King Hippopotamus — Creator of IronDome"
+              width="96"
+              height="96"
+              class="creator-avatar"
+            />
+            <div class="creator-avatar-ring" aria-hidden="true"></div>
+          </div>
+          <div class="creator-status-row" aria-label="Status: Active">
+            <span class="status-dot-sm" aria-hidden="true"></span>
+            <span class="creator-status-text">ACTIVE</span>
+          </div>
+        </div>
+        <div class="creator-info-col">
+          <div class="creator-name-row">
+            <h3 class="creator-name">King Hippopotamus</h3>
+            <span class="classification-badge">CREATOR</span>
+          </div>
+          <p class="creator-bio">
+            Security-focused developer. Built IronDome because every cloud password manager
+            is a liability waiting to happen. The vault stays on your machine because that's the
+            only machine you can actually trust.
+          </p>
+          <div class="creator-links">
+            <a
+              href="https://github.com/TheKingHippopotamus"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="creator-link"
+              aria-label="GitHub profile: TheKingHippopotamus"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              @TheKingHippopotamus
+            </a>
+            <a
+              href="https://pypi.org/user/king.hippo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="creator-link"
+              aria-label="PyPI profile: king.hippo"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M11.535 0C8.55 0 7.027.984 7.027 2.61v1.696h4.508v.565H4.63C2.982 4.871 1.5 5.937 1.5 9.13c0 3.195 1.767 3.88 3.13 3.88h1.98V11.2c0-1.595 1.38-3.002 3.012-3.002h4.5c1.302 0 2.379-1.071 2.379-2.38V2.61C16.5.986 14.997 0 11.535 0zm-2.49 1.5c.497 0 .9.407.9.91a.906.906 0 0 1-.9.91.906.906 0 0 1-.9-.91c0-.503.403-.91.9-.91zM7.027 5.437h9.473v1.38c0 1.595-1.38 3.002-3.012 3.002h-4.5C7.686 9.819 6.609 10.89 6.609 12.2v2.377c0 1.633 1.5 2.61 3.012 2.61 1.511 0 3.012-.977 3.012-2.61v-1.696H8.125v-.565h7.365c1.648 0 3.012-1.066 3.012-4.26 0-3.192-1.364-3.879-3.012-3.879h-8.46l-.003-.74zM14.966 13.81c.497 0 .9.407.9.91a.906.906 0 0 1-.9.91.906.906 0 0 1-.9-.91c0-.503.403-.91.9-.91z"/>
+              </svg>
+              king.hippo
+            </a>
+            <a
+              href="https://x.com/LmlyhNyr"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="creator-link"
+              aria-label="X (Twitter) profile: LmlyhNyr"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.737l7.73-8.835L1.254 2.25H8.08l4.261 5.633zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              @LmlyhNyr
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTRIBUTING
+       ============================================================ -->
+  <section class="section" aria-labelledby="contributing-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="contributing-heading">// RECRUITMENT PROTOCOL</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <h2 class="section-heading">Join the Defense Force</h2>
+      <div class="contribute-layout">
+
+        <!-- Steps -->
+        <div class="contribute-steps">
+          <p class="contribute-intro">
+            IronDome is open source and welcomes contributors. Here's how to join:
+          </p>
+          <ol class="steps-list" aria-label="Contribution steps">
+            {steps.map((s) => (
+              <li class="step-item">
+                <span class="step-number" aria-hidden="true">{s.n}</span>
+                <div class="step-content">
+                  <span class="step-action">{s.action}</span>
+                  <code class="step-detail">{s.detail}</code>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <a
+            href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-secondary contribute-cta"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            Read CONTRIBUTING.md
+          </a>
+        </div>
+
+        <!-- Code guidelines -->
+        <div class="code-guidelines tactical-card">
+          <div class="code-guidelines-header">
+            <span class="section-title">CODE STANDARDS</span>
+          </div>
+          <ul class="guidelines-list" role="list">
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span>Follow <strong>PEP 8</strong> style conventions</span>
+            </li>
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span>Add <strong>type hints</strong> to all function signatures</span>
+            </li>
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span>Maintain <strong>Python 3.8+</strong> compatibility</span>
+            </li>
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span><strong>Never log</strong> passwords, keys, or sensitive data</span>
+            </li>
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span>Write tests for new functionality</span>
+            </li>
+            <li class="guideline-item">
+              <span class="guideline-icon" aria-hidden="true">&gt;</span>
+              <span>Keep pull requests focused and atomic</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LINKS & RESOURCES
+       ============================================================ -->
+  <section class="section" aria-labelledby="links-heading">
+    <div class="container">
+      <div class="section-label-row">
+        <span class="section-title" id="links-heading">// EXTERNAL RESOURCES</span>
+        <div class="section-line" aria-hidden="true"></div>
+      </div>
+      <h2 class="section-heading">Links</h2>
+      <div class="links-grid">
+        {links.map((l) => (
+          <a
+            href={l.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="resource-link tactical-card"
+            aria-label={`${l.label} — opens in new tab`}
+          >
+            <div class="resource-link-inner">
+              <div class="resource-link-text">
+                <span class="resource-link-label">{l.label}</span>
+                <span class="resource-link-url">{l.href.replace('https://', '')}</span>
+              </div>
+              <div class="resource-link-meta">
+                <span class="classification-badge classification-badge--green resource-badge">{l.badge}</span>
+                <svg class="resource-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M7 17L17 7M17 7H7M17 7v10"/>
+                </svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BOTTOM CTA
+       ============================================================ -->
+  <section class="section section--cta" aria-labelledby="cta-heading">
+    <div class="container">
+      <div class="cta-block tactical-corners">
+        <div class="cta-scan" aria-hidden="true"></div>
+        <div class="cta-content">
+          <span class="classification-badge classification-badge--green cta-badge">DEPLOYMENT READY</span>
+          <h2 id="cta-heading" class="cta-heading">Ready to deploy?</h2>
+          <p class="cta-subtext">Install from PyPI. Zero configuration required.</p>
+          <div class="code-block cta-code-block" role="region" aria-label="Installation command">
+            <span class="terminal-prompt">pip install IronDome</span>
+          </div>
+          <div class="cta-actions">
+            <a
+              href="https://pypi.org/project/IronDome/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-primary"
+              aria-label="Install IronDome from PyPI"
+            >
+              Install from PyPI
+            </a>
+            <a
+              href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-secondary"
+              aria-label="View IronDome source on GitHub"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+              View on GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* ============================================================
+     ABOUT PAGE — SECTION SCAFFOLDING
+     ============================================================ */
+
+  .section {
+    padding-block: 4rem 3rem;
+  }
+
+  .section--cta {
+    padding-block: 3rem 5rem;
+  }
+
+  .section-label-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 215, 0, 0.2) 0%,
+      transparent 100%
+    );
+  }
+
+  .section-heading {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: #e8ecf0;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* ============================================================
+     PAGE HEADER
+     ============================================================ */
+
+  .page-header {
+    padding-block: 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 60% at 50% 100%,
+      rgba(255, 215, 0, 0.04) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .page-header-inner {
+    max-width: 680px;
+  }
+
+  .header-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .page-title {
+    font-size: clamp(2.25rem, 6vw, 3.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #e8ecf0;
+    line-height: 1.1;
+    margin-bottom: 0.875rem;
+  }
+
+  .title-accent {
+    color: #FFD700;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+
+  .page-subtitle {
+    font-size: 1.125rem;
+    color: #78909C;
+    margin-bottom: 2rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+  }
+
+  .page-header-divider {
+    height: 1px;
+    max-width: 280px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 215, 0, 0.5) 0%,
+      rgba(255, 215, 0, 0.1) 60%,
+      transparent 100%
+    );
+  }
+
+  /* ============================================================
+     MISSION BLOCK
+     ============================================================ */
+
+  .mission-block {
+    position: relative;
+    background-color: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin: 0;
+    padding: 2rem 2rem 2rem 2.75rem;
+    max-width: 900px;
+  }
+
+  .mission-block::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(
+      180deg,
+      #FFD700 0%,
+      rgba(255, 215, 0, 0.4) 100%
+    );
+  }
+
+  /* Tactical corners on mission block — tighter opacity since it has a gold left bar */
+  .mission-block::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-right: 1px solid rgba(255, 215, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.4);
+    pointer-events: none;
+  }
+
+  .mission-gold-bar {
+    /* handled by ::before pseudo-element */
+    display: none;
+  }
+
+  .mission-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .mission-text {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    line-height: 1.75;
+    color: #b0bec5;
+    font-style: italic;
+    margin: 0;
+  }
+
+  .mission-text strong {
+    color: #FFD700;
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .mission-sig {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .mission-sig-text {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    color: #546E7A;
+    letter-spacing: 0.06em;
+  }
+
+  /* ============================================================
+     PRINCIPLES GRID
+     ============================================================ */
+
+  .principles-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .principles-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .principle-card {
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .principle-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .principle-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .principle-number {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: rgba(255, 215, 0, 0.4);
+    flex-shrink: 0;
+  }
+
+  .principle-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #e8ecf0;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .principle-body {
+    font-size: 0.9rem;
+    color: #78909C;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .principle-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid rgba(255, 215, 0, 0.06);
+  }
+
+  .principle-footer-line {
+    flex: 1;
+    height: 1px;
+    background-color: rgba(255, 215, 0, 0.08);
+  }
+
+  .principle-status {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(52, 211, 153, 0.55);
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     SPEC SHEET
+     ============================================================ */
+
+  .spec-sheet {
+    background-color: #0d1117;
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    max-width: 800px;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+  }
+
+  .spec-sheet-header {
+    background-color: rgba(255, 215, 0, 0.04);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    padding: 0.75rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .spec-sheet-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .spec-sheet-title-text {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #78909C;
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+  .spec-sheet-scan {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.6) 50%,
+      transparent 100%
+    );
+    animation: spec-scan 3s ease-in-out infinite;
+  }
+
+  @keyframes spec-scan {
+    0%, 100% { opacity: 0.3; transform: scaleX(0.6); }
+    50%       { opacity: 1;   transform: scaleX(1); }
+  }
+
+  .spec-grid {
+    padding: 0.5rem 0;
+  }
+
+  .spec-row {
+    display: grid;
+    grid-template-columns: 2rem 1fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.6rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.04);
+    transition: background-color 150ms ease;
+  }
+
+  .spec-row:last-child {
+    border-bottom: none;
+  }
+
+  .spec-row:hover {
+    background-color: rgba(255, 215, 0, 0.02);
+  }
+
+  .spec-index {
+    font-size: 0.6rem;
+    color: rgba(255, 215, 0, 0.25);
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+
+  .spec-label {
+    font-size: 0.75rem;
+    color: #78909C;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .spec-dots {
+    height: 1px;
+    background-image: radial-gradient(circle, rgba(255, 215, 0, 0.2) 1px, transparent 1px);
+    background-size: 5px 1px;
+    min-width: 40px;
+    flex: 1;
+  }
+
+  .spec-value {
+    font-size: 0.8125rem;
+    color: #e8ecf0;
+    font-weight: 600;
+    text-align: right;
+    letter-spacing: 0.02em;
+  }
+
+  /* Highlight "Zero. Ever." */
+  .spec-row:last-child .spec-value {
+    color: #34d399;
+  }
+
+  .spec-sheet-footer {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(255, 215, 0, 0.06);
+    padding: 0.625rem 1.5rem;
+  }
+
+  .spec-footer-text {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: #546E7A;
+    text-transform: uppercase;
+  }
+
+  /* ============================================================
+     CREATOR CARD
+     ============================================================ */
+
+  .creator-card {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    align-items: flex-start;
+    max-width: 780px;
+  }
+
+  @media (max-width: 540px) {
+    .creator-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  }
+
+  .creator-avatar-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+  }
+
+  .creator-avatar-wrap {
+    position: relative;
+    width: 96px;
+    height: 96px;
+  }
+
+  .creator-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 2px;
+    background-color: rgba(255, 215, 0, 0.04);
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
+  }
+
+  .creator-avatar-ring {
+    position: absolute;
+    inset: -3px;
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    border-radius: 3px;
+    pointer-events: none;
+    animation: ring-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes ring-pulse {
+    0%, 100% { border-color: rgba(255, 215, 0, 0.2); }
+    50%       { border-color: rgba(255, 215, 0, 0.45); box-shadow: 0 0 12px rgba(255, 215, 0, 0.08); }
+  }
+
+  .creator-status-row {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+  }
+
+  .status-dot-sm {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #34d399;
+    box-shadow: 0 0 4px rgba(52, 211, 153, 0.7);
+    animation: glow-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(52, 211, 153, 0.6); }
+    50%       { box-shadow: 0 0 8px rgba(52, 211, 153, 1), 0 0 14px rgba(52, 211, 153, 0.3); }
+  }
+
+  .creator-status-text {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(52, 211, 153, 0.6);
+    text-transform: uppercase;
+  }
+
+  .creator-info-col {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .creator-name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 0.875rem;
+    flex-wrap: wrap;
+  }
+
+  .creator-name {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: #e8ecf0;
+    letter-spacing: -0.01em;
+  }
+
+  .creator-bio {
+    font-size: 0.9rem;
+    color: #78909C;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+
+  .creator-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .creator-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background-color: transparent;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 2px;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #78909C;
+    text-decoration: none;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .creator-link:hover {
+    color: #FFD700;
+    border-color: rgba(255, 215, 0, 0.4);
+    background-color: rgba(255, 215, 0, 0.04);
+  }
+
+  /* ============================================================
+     CONTRIBUTING
+     ============================================================ */
+
+  .contribute-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .contribute-layout {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contribute-intro {
+    font-size: 0.9375rem;
+    color: #78909C;
+    margin-bottom: 1.5rem;
+    line-height: 1.65;
+  }
+
+  .steps-list {
+    list-style: none;
+    margin: 0 0 1.5rem 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .step-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .step-number {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #FFD700;
+    background-color: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-radius: 2px;
+    padding: 0.2rem 0.45rem;
+    flex-shrink: 0;
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .step-action {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #e8ecf0;
+    line-height: 1.3;
+  }
+
+  .step-detail {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    color: #34d399;
+    background-color: rgba(52, 211, 153, 0.06);
+    padding: 0.125rem 0.375rem;
+    border-radius: 2px;
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .contribute-cta {
+    margin-top: 0.5rem;
+  }
+
+  /* Code guidelines card */
+  .code-guidelines {
+    padding: 1.5rem;
+  }
+
+  .code-guidelines-header {
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.06);
+  }
+
+  .guidelines-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .guideline-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.875rem;
+    color: #78909C;
+    line-height: 1.5;
+  }
+
+  .guideline-icon {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    color: rgba(255, 215, 0, 0.5);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .guideline-item strong {
+    color: #e8ecf0;
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     LINKS GRID
+     ============================================================ */
+
+  .links-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  @media (min-width: 600px) {
+    .links-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .resource-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 1.125rem 1.25rem;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .resource-link:hover {
+    transform: translateY(-2px);
+    color: inherit;
+  }
+
+  .resource-link-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .resource-link-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+  }
+
+  .resource-link-label {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #e8ecf0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: color 150ms ease;
+  }
+
+  .resource-link:hover .resource-link-label {
+    color: #FFD700;
+  }
+
+  .resource-link-url {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6875rem;
+    color: #546E7A;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.02em;
+  }
+
+  .resource-link-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    flex-shrink: 0;
+  }
+
+  .resource-badge {
+    white-space: nowrap;
+  }
+
+  .resource-arrow {
+    color: rgba(255, 215, 0, 0.4);
+    flex-shrink: 0;
+    transition: color 150ms ease, transform 150ms ease;
+  }
+
+  .resource-link:hover .resource-arrow {
+    color: #FFD700;
+    transform: translate(1px, -1px);
+  }
+
+  /* ============================================================
+     BOTTOM CTA
+     ============================================================ */
+
+  .cta-block {
+    position: relative;
+    background-color: rgba(255, 215, 0, 0.03);
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    padding: 3rem 2.5rem;
+    text-align: center;
+  }
+
+  .cta-scan {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.6) 50%,
+      transparent 100%
+    );
+    animation: spec-scan 4s ease-in-out infinite;
+  }
+
+  .cta-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .cta-badge {
+    margin-bottom: 0.25rem;
+  }
+
+  .cta-heading {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: #e8ecf0;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .cta-subtext {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.875rem;
+    color: #546E7A;
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .cta-code-block {
+    font-size: 0.9375rem;
+    padding: 0.875rem 1.75rem;
+    max-width: 360px;
+    width: 100%;
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.875rem;
+    margin-top: 0.25rem;
+  }
+</style>

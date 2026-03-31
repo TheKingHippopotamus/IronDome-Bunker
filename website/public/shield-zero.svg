@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="zk-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </linearGradient>
+    <linearGradient id="zk-blue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4FC3F7"/>
+      <stop offset="100%" stop-color="#01579B"/>
+    </linearGradient>
+    <linearGradient id="zk-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a2535"/>
+      <stop offset="100%" stop-color="#0d1420"/>
+    </linearGradient>
+    <filter id="zk-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Hexagon background — tactical style -->
+  <!-- Points for 48x48 hexagon: flat-top, centered at 24,24, radius ~22 -->
+  <polygon points="24,2 43.1,13 43.1,35 24,46 4.9,35 4.9,13"
+           fill="url(#zk-bg)" stroke="url(#zk-gold)" stroke-width="1.8" filter="url(#zk-glow)"/>
+  <!-- Inner hex bevel -->
+  <polygon points="24,5 40.1,14.5 40.1,33.5 24,43 7.9,33.5 7.9,14.5"
+           fill="none" stroke="url(#zk-gold)" stroke-width="0.5" opacity="0.35"/>
+
+  <!-- Eye shape — elliptical -->
+  <path d="M10,24 Q24,10 38,24 Q24,38 10,24 Z"
+        fill="none" stroke="url(#zk-blue)" stroke-width="2" filter="url(#zk-glow)"/>
+  <!-- Iris -->
+  <circle cx="24" cy="24" r="6.5" fill="none" stroke="url(#zk-blue)" stroke-width="1.8"/>
+  <!-- Pupil fill -->
+  <circle cx="24" cy="24" r="3.5" fill="url(#zk-blue)" opacity="0.6"/>
+  <!-- Eye highlight spec -->
+  <circle cx="26" cy="22" r="1" fill="#E0F7FA" opacity="0.7"/>
+
+  <!-- SLASH through eye — the NO SURVEILLANCE diagonal -->
+  <!-- Thick slash with gold outline — dominant visual -->
+  <line x1="10" y1="10" x2="38" y2="38"
+        stroke="url(#zk-bg)" stroke-width="5" stroke-linecap="round"/>
+  <line x1="10" y1="10" x2="38" y2="38"
+        stroke="url(#zk-gold)" stroke-width="2.5" stroke-linecap="round" filter="url(#zk-glow)"/>
+  <!-- Slash end caps — small notches -->
+  <circle cx="10" cy="10" r="1.5" fill="url(#zk-gold)" opacity="0.9"/>
+  <circle cx="38" cy="38" r="1.5" fill="url(#zk-gold)" opacity="0.9"/>
+
+  <!-- Corner hex tick marks — tactical detail -->
+  <g stroke="url(#zk-gold)" stroke-width="0.8" opacity="0.5">
+    <line x1="24" y1="2" x2="24" y2="5"/>
+    <line x1="43.1" y1="13" x2="40.5" y2="14.5"/>
+    <line x1="43.1" y1="35" x2="40.5" y2="33.5"/>
+    <line x1="24" y1="46" x2="24" y2="43"/>
+    <line x1="4.9" y1="35" x2="7.5" y2="33.5"/>
+    <line x1="4.9" y1="13" x2="7.5" y2="14.5"/>
+  </g>
+
+</svg>

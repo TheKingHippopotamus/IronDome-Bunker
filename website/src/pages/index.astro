@@ -1,0 +1,1451 @@
+---
+import '../styles/global.css';
+
+const GITHUB_URL = 'https://github.com/TheKingHippopotamus/IronDome-Bunker';
+const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb';
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="generator" content={Astro.generator} />
+
+  <title>IronDome — Zero Knowledge CLI Vault</title>
+  <meta name="description" content="Fortified CLI password vault with AES-256 encryption, biometric authentication, and hardware-bound keys. No servers. No cloud. No compromise." />
+
+  <link rel="icon" type="image/svg+xml" href="/irondome-favicon.svg" />
+  <link rel="icon" href="/favicon.ico" />
+
+  <!-- Preconnect for Google Fonts (military stencil feel) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design tokens ─────────────────────────────────────── */
+    :root {
+      --bg:        #0a0e1a;
+      --card-bg:   #0d1117;
+      --gold:      #FFD700;
+      --gold-dim:  #B8960C;
+      --gold-glow: rgba(255,215,0,0.18);
+      --text:      #e2e8f0;
+      --muted:     #78909C;
+      --muted-dim: #546E7A;
+      --green:     #34d399;
+      --red:       #f87171;
+      --border:    rgba(255,215,0,0.18);
+      --max-w:     1100px;
+      --font-mono: 'Share Tech Mono', 'Courier New', monospace;
+      --font-ui:   'Rajdhani', sans-serif;
+      --font-hud:  'Orbitron', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-ui);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ─── Scrollbar ─────────────────────────────────────────── */
+    ::-webkit-scrollbar              { width: 6px; }
+    ::-webkit-scrollbar-track        { background: var(--bg); }
+    ::-webkit-scrollbar-thumb        { background: var(--gold-dim); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover  { background: var(--gold); }
+
+    /* ─── Utility ────────────────────────────────────────────── */
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .section {
+      padding: 6rem 0;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+    }
+
+    /* ─── Radar animation ────────────────────────────────────── */
+    @keyframes radar-sweep {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes radar-ping {
+      0%   { opacity: 0.7; transform: scale(0.95); }
+      50%  { opacity: 1;   transform: scale(1.02); }
+      100% { opacity: 0.7; transform: scale(0.95); }
+    }
+
+    .radar-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .radar-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(255,215,0,0.06);
+    }
+
+    .radar-sweep-arm {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      height: 2px;
+      transform-origin: 0% 50%;
+      background: linear-gradient(90deg, rgba(255,215,0,0.55), transparent);
+      animation: radar-sweep 8s linear infinite;
+    }
+
+    .radar-sweep-arm::before {
+      content: '';
+      position: absolute;
+      top: -30px;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: conic-gradient(from 0deg, rgba(255,215,0,0.12), transparent 60deg);
+      transform-origin: 0% 50%;
+    }
+
+    /* ─── Animated typing (CSS-only) ─────────────────────────── */
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    .cursor-blink {
+      display: inline-block;
+      width: 8px;
+      height: 1em;
+      background: var(--green);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    /* ─── Terminal ────────────────────────────────────────────── */
+    .terminal-window {
+      background: #0d1117;
+      border: 1px solid rgba(255,215,0,0.22);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .terminal-titlebar {
+      background: #161b22;
+      padding: 0.6rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid rgba(255,215,0,0.12);
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-red    { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green  { background: #28c840; }
+
+    .terminal-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      flex: 1;
+      text-align: center;
+    }
+
+    .terminal-body {
+      padding: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: #c9d1d9;
+      overflow-x: auto;
+    }
+
+    .t-prompt  { color: var(--green); }
+    .t-cmd     { color: #e2e8f0; }
+    .t-comment { color: var(--muted); }
+    .t-gold    { color: var(--gold); }
+    .t-green   { color: var(--green); }
+    .t-dim     { color: var(--muted-dim); }
+    .t-red     { color: var(--red); }
+
+    /* ─── Cards ──────────────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: rgba(255,215,0,0.45);
+      box-shadow: 0 0 24px rgba(255,215,0,0.08), 0 4px 24px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    .card-gold-bar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+      border-radius: 10px 0 0 10px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .card-gold-bar:hover::before { opacity: 1; }
+
+    /* ─── Install box ─────────────────────────────────────────── */
+    .install-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 1.05rem;
+    }
+
+    .install-box .prompt-symbol {
+      color: var(--gold);
+      user-select: none;
+      font-size: 1.1rem;
+    }
+
+    .install-box code {
+      color: var(--green);
+      letter-spacing: 0.03em;
+    }
+
+    .copy-btn {
+      background: none;
+      border: 1px solid rgba(255,215,0,0.3);
+      border-radius: 5px;
+      padding: 0.25rem 0.55rem;
+      cursor: pointer;
+      color: var(--gold);
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      transition: background 0.2s, border-color 0.2s;
+      white-space: nowrap;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,215,0,0.12);
+      border-color: var(--gold);
+    }
+
+    /* ─── CTAs ────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 7px;
+      font-family: var(--font-hud);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-outline {
+      border: 1.5px solid rgba(255,215,0,0.5);
+      color: var(--gold);
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: rgba(255,215,0,0.1);
+      border-color: var(--gold);
+      box-shadow: 0 0 16px rgba(255,215,0,0.15);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #FFD700, #FF8F00);
+      color: #0a0e1a;
+      border: none;
+      box-shadow: 0 4px 20px rgba(255,143,0,0.35);
+    }
+
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FFE44D, #FFA000);
+      box-shadow: 0 6px 28px rgba(255,143,0,0.55);
+      transform: translateY(-1px);
+    }
+
+    /* ─── Why IronDome cards ──────────────────────────────────── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.75rem;
+    }
+
+    .why-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.25rem 2rem;
+      text-align: center;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+
+    .why-card:hover {
+      border-color: rgba(255,215,0,0.5);
+      box-shadow: 0 0 40px rgba(255,215,0,0.07), 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(-3px);
+    }
+
+    .why-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .why-icon img {
+      width: 72px;
+      height: 72px;
+      object-fit: contain;
+    }
+
+    .why-title {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .why-desc {
+      color: var(--muted);
+      font-size: 0.97rem;
+      line-height: 1.7;
+    }
+
+    /* ─── How It Works ───────────────────────────────────────── */
+    .steps-row {
+      display: grid;
+      grid-template-columns: 1fr 40px 1fr 40px 1fr;
+      gap: 0;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      .steps-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .step-connector { display: none; }
+    }
+
+    .step-connector {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-connector-line {
+      width: 100%;
+      height: 2px;
+      border-top: 2px dashed rgba(255,215,0,0.3);
+      position: relative;
+    }
+
+    .step-connector-arrow {
+      color: rgba(255,215,0,0.5);
+      font-size: 1.2rem;
+      position: absolute;
+      right: -6px;
+      top: -0.7rem;
+    }
+
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem;
+      position: relative;
+    }
+
+    .step-card:hover {
+      border-color: rgba(255,215,0,0.45);
+      box-shadow: 0 0 28px rgba(255,215,0,0.07);
+    }
+
+    .step-num {
+      font-family: var(--font-hud);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 4px;
+      padding: 0.15rem 0.5rem;
+      display: inline-block;
+      margin-bottom: 0.85rem;
+    }
+
+    .step-title {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.04em;
+    }
+
+    .step-terminal {
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,215,0,0.1);
+      border-radius: 5px;
+      padding: 0.6rem 0.85rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--green);
+      margin-bottom: 0.85rem;
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── Features grid ──────────────────────────────────────── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 900px) { .features-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .features-grid { grid-template-columns: 1fr; } }
+
+    .feat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feat-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gold);
+      transform: scaleY(0);
+      transition: transform 0.25s ease;
+      transform-origin: bottom;
+    }
+
+    .feat-card:hover {
+      border-color: rgba(255,215,0,0.4);
+      box-shadow: 0 0 32px rgba(255,215,0,0.07), 0 4px 20px rgba(0,0,0,0.35);
+      transform: translateY(-2px);
+    }
+
+    .feat-card:hover::before { transform: scaleY(1); }
+
+    .feat-icon {
+      width: 44px;
+      height: 44px;
+    }
+
+    .feat-icon img {
+      width: 44px;
+      height: 44px;
+      object-fit: contain;
+    }
+
+    .feat-title {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .feat-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ─── Stats bar ──────────────────────────────────────────── */
+    .stats-bar {
+      border-top: 1px solid rgba(255,215,0,0.15);
+      border-bottom: 1px solid rgba(255,215,0,0.15);
+      padding: 2rem 0;
+      background: rgba(255,215,0,0.02);
+    }
+
+    .stats-inner {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: var(--font-hud);
+      font-weight: 900;
+      font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+      color: var(--gold);
+      letter-spacing: 0.06em;
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,215,0,0.15);
+    }
+
+    @media (max-width: 640px) { .stat-divider { display: none; } }
+
+    /* ─── Section divider ────────────────────────────────────── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+    }
+
+    /* ─── Classified badge ───────────────────────────────────── */
+    .classified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid rgba(255,215,0,0.4);
+      border-radius: 3px;
+      padding: 0.3rem 0.8rem;
+      background: rgba(255,215,0,0.06);
+    }
+
+    .classified-badge::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      animation: blink 1.5s step-end infinite;
+    }
+
+    /* ─── Tagline ─────────────────────────────────────────────── */
+    .tagline {
+      font-family: var(--font-hud);
+      font-weight: 900;
+      font-size: clamp(2rem, 5.5vw, 4rem);
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+
+    .tagline .accent { color: var(--gold); }
+
+    /* ─── Nav ─────────────────────────────────────────────────── */
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,215,0,0.1);
+      background: rgba(10,14,26,0.92);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img { height: 32px; }
+
+    .nav-wordmark {
+      font-family: var(--font-hud);
+      font-weight: 900;
+      font-size: 1.05rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--gold); }
+
+    .nav-cta {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #0a0e1a;
+      background: var(--gold);
+      border: none;
+      border-radius: 5px;
+      padding: 0.4rem 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: #ffe44d;
+      box-shadow: 0 0 18px rgba(255,215,0,0.4);
+    }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+    }
+
+    /* ─── Hero ────────────────────────────────────────────────── */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 60px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      padding: 5rem 1.5rem 4rem;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      max-width: 800px;
+    }
+
+    .hero-logo {
+      width: clamp(120px, 20vw, 200px);
+      height: auto;
+      filter: drop-shadow(0 0 32px rgba(255,215,0,0.25));
+      animation: radar-ping 4s ease-in-out infinite;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.7;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* tactical corners on terminal overlay */
+    .tac-corner-tl {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .tac-corner-tr {
+      position: absolute;
+      top: 0;
+      right: 0;
+      transform: scaleX(-1);
+    }
+
+    .tac-corner-bl {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: scaleY(-1);
+    }
+
+    .tac-corner-br {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      transform: scale(-1,-1);
+    }
+
+    /* ─── Terminal demo typing animation ─────────────────────── */
+    /*
+      Each line animates in via width + opacity.
+      We use a staggered approach: visibility at a given delay.
+    */
+    .t-line {
+      white-space: pre;
+      overflow: hidden;
+    }
+
+    .t-line-anim {
+      opacity: 0;
+      animation: fadeInLine 0.15s ease forwards;
+    }
+
+    @keyframes fadeInLine {
+      from { opacity: 0; transform: translateX(-4px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Delays per line — we have ~20 lines */
+    .l0  { animation-delay: 0.2s; }
+    .l1  { animation-delay: 0.55s; }
+    .l2  { animation-delay: 0.9s; }
+    .l3  { animation-delay: 1.15s; }
+    .l4  { animation-delay: 1.35s; }
+    .l5  { animation-delay: 1.55s; }
+    .l6  { animation-delay: 1.75s; }
+    .l7  { animation-delay: 2.0s; }
+    .l8  { animation-delay: 2.4s; }
+    .l9  { animation-delay: 2.7s; }
+    .l10 { animation-delay: 2.95s; }
+    .l11 { animation-delay: 3.15s; }
+    .l12 { animation-delay: 3.35s; }
+    .l13 { animation-delay: 3.55s; }
+    .l14 { animation-delay: 4.0s; }
+    .l15 { animation-delay: 4.25s; }
+    .l16 { animation-delay: 4.45s; }
+    .l17 { animation-delay: 4.65s; }
+    .l18 { animation-delay: 4.85s; }
+    .l19 { animation-delay: 5.1s; }
+    .l20 { animation-delay: 5.35s; }
+    .l21 { animation-delay: 5.55s; }
+    .l22 { animation-delay: 5.75s; }
+    .l23 { animation-delay: 5.95s; }
+
+    /* ─── Footer ─────────────────────────────────────────────── */
+    .footer {
+      border-top: 1px solid rgba(255,215,0,0.1);
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .footer-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .footer-logo img { height: 28px; }
+
+    .footer-wordmark {
+      font-family: var(--font-hud);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      color: var(--muted-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--muted-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* ─── Warning stripe (decorative) ───────────────────────── */
+    .warning-stripe-bar {
+      height: 6px;
+      background: repeating-linear-gradient(
+        -45deg,
+        #FFD700 0px,
+        #FFD700 10px,
+        #1a1200 10px,
+        #1a1200 20px
+      );
+      opacity: 0.55;
+    }
+
+    /* ─── Glow text ──────────────────────────────────────────── */
+    .glow-gold {
+      text-shadow: 0 0 20px rgba(255,215,0,0.35), 0 0 60px rgba(255,215,0,0.12);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ══ NAV ══════════════════════════════════════════════════════ -->
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo" aria-label="IronDome home">
+        <img src="/irondome-logo.svg" alt="IronDome" />
+        <span class="nav-wordmark">IronDome</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#why">Why IronDome</a></li>
+        <li><a href="#howto">How It Works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#demo">Demo</a></li>
+      </ul>
+
+      <a href={GITHUB_URL} target="_blank" rel="noopener" class="nav-cta">
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- ══ HERO ═════════════════════════════════════════════════════ -->
+  <section class="hero" aria-label="Hero">
+    <!-- Radar background -->
+    <div class="radar-bg" aria-hidden="true">
+      <!-- Concentric rings -->
+      <div class="radar-ring" style="width:320px;height:320px;"></div>
+      <div class="radar-ring" style="width:560px;height:560px;"></div>
+      <div class="radar-ring" style="width:800px;height:800px;"></div>
+      <div class="radar-ring" style="width:1100px;height:1100px;"></div>
+      <!-- Sweep arm -->
+      <div style="position:absolute;top:50%;left:50%;width:0;height:0;">
+        <div class="radar-sweep-arm"></div>
+      </div>
+      <!-- Radial gradient overlay -->
+      <div style="
+        position:absolute;inset:0;
+        background: radial-gradient(ellipse 70% 60% at 50% 50%,
+          rgba(255,215,0,0.04) 0%,
+          rgba(10,14,26,0.0) 60%,
+          rgba(10,14,26,1) 100%);
+      "></div>
+    </div>
+
+    <div class="hero-content">
+      <!-- Classified badge -->
+      <div class="classified-badge" aria-label="Classified — Zero Knowledge Architecture">
+        CLASSIFIED — ZERO KNOWLEDGE ARCHITECTURE
+      </div>
+
+      <!-- Logo -->
+      <img
+        src="/irondome-logo.svg"
+        alt="IronDome CLI Password Vault"
+        class="hero-logo"
+        width="200"
+        height="200"
+      />
+
+      <!-- Tagline -->
+      <h1 class="tagline glow-gold">
+        Your bunkers.<br />
+        Your machine.<br />
+        <span class="accent">Your rules.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-subtitle">
+        Fortified CLI vault with AES-256 encryption, biometric authentication,
+        and hardware-bound keys. No servers. No cloud. No compromise.
+      </p>
+
+      <!-- Install command -->
+      <div class="install-box" role="group" aria-label="Install command">
+        <span class="prompt-symbol" aria-hidden="true">$</span>
+        <code id="install-cmd">pip install IronDome</code>
+        <button
+          class="copy-btn"
+          id="copy-install"
+          aria-label="Copy pip install command"
+          type="button"
+        >
+          COPY
+        </button>
+      </div>
+
+      <!-- CTAs -->
+      <div class="hero-ctas">
+        <a
+          href={GITHUB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-outline"
+          aria-label="View IronDome on GitHub"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+          </svg>
+          View on GitHub
+        </a>
+        <a
+          href={COLAB_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-gold"
+          aria-label="Open IronDome demo in Google Colab"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" stroke="currentColor" stroke-width="2">
+            <polygon points="5,3 19,12 5,21"/>
+          </svg>
+          Open in Colab
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WARNING STRIPE ══════════════════════════════════════════ -->
+  <div class="warning-stripe-bar" role="presentation"></div>
+
+  <!-- ══ STATS BAR ════════════════════════════════════════════════ -->
+  <div class="stats-bar" id="stats" aria-label="IronDome stats">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat-item">
+          <span class="stat-value">600,000</span>
+          <span class="stat-label">PBKDF2 Iterations</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item">
+          <span class="stat-value">AES-256</span>
+          <span class="stat-label">Encryption Standard</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Biometric Platforms</span>
+        </div>
+        <div class="stat-divider" aria-hidden="true"></div>
+        <div class="stat-item">
+          <span class="stat-value">ZERO</span>
+          <span class="stat-label">Network Calls</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ WHY IRONDOME ══════════════════════════════════════════════ -->
+  <section class="section" id="why" aria-labelledby="why-title">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-label">SECURITY DOCTRINE</div>
+        <h2 class="section-title" id="why-title">Why IronDome</h2>
+        <p class="section-sub" style="margin:0 auto;">
+          Built on three unbreakable principles. Every design decision traces back to them.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <!-- Zero Knowledge -->
+        <div class="why-card" role="article" aria-label="Zero Knowledge security">
+          <div class="why-icon">
+            <img src="/shield-zero.svg" alt="" aria-hidden="true" width="72" height="72" />
+          </div>
+          <h3 class="why-title">Zero Knowledge</h3>
+          <p class="why-desc">
+            Your master password never touches disk. Only a salted PBKDF2 hash — 600,000 rounds —
+            is derived in memory and immediately discarded. Even if someone dumps your filesystem,
+            there is nothing to find.
+          </p>
+        </div>
+
+        <!-- Hardware Bound -->
+        <div class="why-card" role="article" aria-label="Hardware Binding security">
+          <div class="why-icon">
+            <img src="/shield-hardware.svg" alt="" aria-hidden="true" width="72" height="72" />
+          </div>
+          <h3 class="why-title">Hardware Bound</h3>
+          <p class="why-desc">
+            Encryption keys are derived from your machine's hardware fingerprint. Steal the vault
+            file, copy it anywhere — it's encrypted to hardware it will never be on.
+            No hardware, no access. Full stop.
+          </p>
+        </div>
+
+        <!-- Biometric Shield -->
+        <div class="why-card" role="article" aria-label="Biometric Shield security">
+          <div class="why-icon">
+            <img src="/shield-brute.svg" alt="" aria-hidden="true" width="72" height="72" />
+          </div>
+          <h3 class="why-title">Biometric Shield</h3>
+          <p class="why-desc">
+            Touch ID on macOS. Windows Hello on Win11. Fingerprint auth on Linux via PAM.
+            Your body IS the second factor. Three failed attempts
+            locks the vault for 60 minutes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══ HOW IT WORKS ═════════════════════════════════════════════ -->
+  <section class="section" id="howto" aria-labelledby="howto-title">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-label">OPERATIONS GUIDE</div>
+        <h2 class="section-title" id="howto-title">How It Works</h2>
+        <p class="section-sub" style="margin:0 auto;">
+          Three commands. Complete security. Everything encrypted end-to-end from day one.
+        </p>
+      </div>
+
+      <div class="steps-row">
+        <!-- Step 1 -->
+        <div class="step-card" role="article" aria-label="Step 1: Create Your Bunker">
+          <div class="step-num">STEP 01</div>
+          <h3 class="step-title">Create Your Bunker</h3>
+          <div class="step-terminal" aria-label="Command: irondome create bunker">
+            irondome create bunker
+          </div>
+          <p class="step-desc">
+            Bootstraps your encrypted vault. Generates AES-256 key, binds to hardware ID,
+            initialises biometric gate. One command, fully armed.
+          </p>
+        </div>
+
+        <!-- Connector -->
+        <div class="step-connector" aria-hidden="true">
+          <div style="position:relative;width:100%;height:2px;">
+            <div class="step-connector-line"></div>
+            <span class="step-connector-arrow" style="position:absolute;right:-4px;top:-11px;">&#9658;</span>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card" role="article" aria-label="Step 2: Open Airspace">
+          <div class="step-num">STEP 02</div>
+          <h3 class="step-title">Open Airspace</h3>
+          <div class="step-terminal" aria-label="Command: irondome open airspace">
+            irondome open airspace
+          </div>
+          <p class="step-desc">
+            Authenticate with biometrics + master password. A temporary session token is issued.
+            Expires in 30 minutes. Nothing written to disk.
+          </p>
+        </div>
+
+        <!-- Connector -->
+        <div class="step-connector" aria-hidden="true">
+          <div style="position:relative;width:100%;height:2px;">
+            <div class="step-connector-line"></div>
+            <span class="step-connector-arrow" style="position:absolute;right:-4px;top:-11px;">&#9658;</span>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card" role="article" aria-label="Step 3: Manage Secrets">
+          <div class="step-num">STEP 03</div>
+          <h3 class="step-title">Manage Secrets</h3>
+          <div class="step-terminal" aria-label="Commands: bunker create / bunker open">
+            bunker create&nbsp;&nbsp;# add new secret<br />
+            bunker open&nbsp;&nbsp;&nbsp;# list & retrieve
+          </div>
+          <p class="step-desc">
+            Full CRUD on your passwords. Every read decrypts in memory only.
+            Clipboard auto-clears after 30 seconds. Zero persistence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══ FEATURES GRID ════════════════════════════════════════════ -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-label">ARSENAL</div>
+        <h2 class="section-title" id="features-title">Full Feature Set</h2>
+        <p class="section-sub" style="margin:0 auto;">
+          Every layer engineered for one mission: your secrets stay secret.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <!-- AES-256 -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="AES-256 Encryption feature">
+          <div class="feat-icon">
+            <img src="/shield-aes.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">AES-256 Encryption</div>
+          <p class="feat-desc">
+            Military-grade symmetric encryption. Every password, every note, every field
+            individually encrypted at rest. Fernet-wrapped with a hardware-derived key.
+          </p>
+        </div>
+
+        <!-- Zero Knowledge -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="Zero Knowledge feature">
+          <div class="feat-icon">
+            <img src="/shield-zero.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">Zero Knowledge</div>
+          <p class="feat-desc">
+            Master password never stored, never logged, never transmitted.
+            PBKDF2 with SHA-256, 600,000 rounds, random 32-byte salt.
+            You hold the only key.
+          </p>
+        </div>
+
+        <!-- Hardware Binding -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="Hardware Binding feature">
+          <div class="feat-icon">
+            <img src="/shield-hardware.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">Hardware Binding</div>
+          <p class="feat-desc">
+            CPU serial, motherboard UUID, MAC address — hashed together into a hardware
+            fingerprint that seeds your encryption key. Vault is cryptographically
+            chained to this machine.
+          </p>
+        </div>
+
+        <!-- Session Management -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="Session Management feature">
+          <div class="feat-icon">
+            <img src="/shield-session.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">Session Management</div>
+          <p class="feat-desc">
+            Authenticated sessions expire automatically. Inactivity timeout. Manual lockout.
+            Session token held in memory, never in /tmp or any disk path.
+            Clean shutdown wipes it.
+          </p>
+        </div>
+
+        <!-- Brute Force Protection -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="Brute Force Protection feature">
+          <div class="feat-icon">
+            <img src="/shield-brute.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">Brute Force Protection</div>
+          <p class="feat-desc">
+            3 failed attempts triggers a 60-minute lockout with exponential back-off.
+            10 failures triggers permanent vault seal requiring hardware re-verification.
+            Logged with timestamps.
+          </p>
+        </div>
+
+        <!-- Local Only -->
+        <div class="feat-card card-gold-bar" role="article" aria-label="Local Only feature">
+          <div class="feat-icon">
+            <img src="/shield-local.svg" alt="" aria-hidden="true" width="44" height="44" />
+          </div>
+          <div class="feat-title">Local Only</div>
+          <p class="feat-desc">
+            Fully air-gapped. Zero network calls. No telemetry, no update pings,
+            no license servers. Works offline, in a Faraday cage, on a submarine.
+            Your data never leaves your machine.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ══ TERMINAL DEMO ════════════════════════════════════════════ -->
+  <section class="section" id="demo" aria-labelledby="demo-title">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:3.5rem;">
+        <div class="section-label">LIVE INTELLIGENCE</div>
+        <h2 class="section-title" id="demo-title">Tactical Terminal</h2>
+        <p class="section-sub" style="margin:0 auto;">
+          This is IronDome in action. Every command, exactly as it runs on your machine.
+        </p>
+      </div>
+
+      <!-- Terminal window -->
+      <div class="terminal-window" style="max-width:780px;margin:0 auto;position:relative;" role="region" aria-label="IronDome terminal demo">
+        <!-- Tactical corner decorations -->
+        <div class="tac-corner-tl" aria-hidden="true">
+          <img src="/tactical-corner.svg" alt="" width="60" height="60" />
+        </div>
+        <div class="tac-corner-tr" aria-hidden="true">
+          <img src="/tactical-corner.svg" alt="" width="60" height="60" />
+        </div>
+        <div class="tac-corner-bl" aria-hidden="true">
+          <img src="/tactical-corner.svg" alt="" width="60" height="60" />
+        </div>
+        <div class="tac-corner-br" aria-hidden="true">
+          <img src="/tactical-corner.svg" alt="" width="60" height="60" />
+        </div>
+
+        <!-- Titlebar -->
+        <div class="terminal-titlebar">
+          <div class="terminal-dots" aria-hidden="true">
+            <div class="terminal-dot dot-red"></div>
+            <div class="terminal-dot dot-yellow"></div>
+            <div class="terminal-dot dot-green"></div>
+          </div>
+          <div class="terminal-title">IRONDOME — TACTICAL TERMINAL</div>
+          <div style="width:52px"></div><!-- spacer to balance dots -->
+        </div>
+
+        <!-- Body -->
+        <div class="terminal-body" aria-label="Terminal session output">
+
+          <!-- Install -->
+          <div class="t-line t-line-anim l0"><span class="t-prompt">$</span> <span class="t-cmd">pip install IronDome</span></div>
+          <div class="t-line t-line-anim l1"><span class="t-dim">Collecting IronDome</span></div>
+          <div class="t-line t-line-anim l2"><span class="t-green">Successfully installed IronDome-2.4.1</span></div>
+          <div class="t-line">&nbsp;</div>
+
+          <!-- Create bunker -->
+          <div class="t-line t-line-anim l3"><span class="t-prompt">$</span> <span class="t-cmd">irondome create bunker</span></div>
+          <div class="t-line t-line-anim l4"><span class="t-gold">&#128272; Creating fortified bunker...</span></div>
+          <div class="t-line t-line-anim l5"><span class="t-dim">   ├── Generating AES-256 encryption key</span></div>
+          <div class="t-line t-line-anim l6"><span class="t-dim">   ├── Binding to hardware ID: a1b2c3d4e5f6...</span></div>
+          <div class="t-line t-line-anim l7"><span class="t-dim">   ├── Setting up biometric gate</span></div>
+          <div class="t-line t-line-anim l8"><span class="t-green">   └── Bunker sealed ✓</span></div>
+          <div class="t-line">&nbsp;</div>
+
+          <!-- Open airspace -->
+          <div class="t-line t-line-anim l9"><span class="t-prompt">$</span> <span class="t-cmd">irondome open airspace</span></div>
+          <div class="t-line t-line-anim l10"><span class="t-gold">&#128737; Touch ID authentication required...</span></div>
+          <div class="t-line t-line-anim l11"><span class="t-green">   ✓ Biometric verified</span></div>
+          <div class="t-line t-line-anim l12"><span class="t-green">   ✓ Master password derived (PBKDF2 × 600,000)</span></div>
+          <div class="t-line t-line-anim l13"><span class="t-green">   ✓ Airspace open — session expires in 30:00</span></div>
+          <div class="t-line">&nbsp;</div>
+
+          <!-- Bunker open -->
+          <div class="t-line t-line-anim l14"><span class="t-prompt">$</span> <span class="t-cmd">bunker open</span></div>
+          <div class="t-line t-line-anim l15"><span class="t-gold">╔══════════════════════════════════════════════╗</span></div>
+          <div class="t-line t-line-anim l16"><span class="t-gold">║</span>  <span class="t-cmd">BUNKER CONTENTS — 3 entries found</span>        <span class="t-gold">║</span></div>
+          <div class="t-line t-line-anim l17"><span class="t-gold">╠══════════════════════════════════════════════╣</span></div>
+          <div class="t-line t-line-anim l18"><span class="t-gold">║</span>  <span class="t-green">github.com</span>      <span class="t-dim">║</span>  <span class="t-dim">dev@iron.dome</span>          <span class="t-gold">║</span></div>
+          <div class="t-line t-line-anim l19"><span class="t-gold">║</span>  <span class="t-green">aws-console</span>     <span class="t-dim">║</span>  <span class="t-dim">admin@company.io</span>       <span class="t-gold">║</span></div>
+          <div class="t-line t-line-anim l20"><span class="t-gold">║</span>  <span class="t-green">pgp-master</span>      <span class="t-dim">║</span>  <span class="t-red">████████████████</span>       <span class="t-gold">║</span></div>
+          <div class="t-line t-line-anim l21"><span class="t-gold">╚══════════════════════════════════════════════╝</span></div>
+          <div class="t-line">&nbsp;</div>
+          <div class="t-line t-line-anim l22"><span class="t-prompt">$</span> <span class="cursor-blink" aria-hidden="true"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ WARNING STRIPE ══════════════════════════════════════════ -->
+  <div class="warning-stripe-bar" role="presentation"></div>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <img src="/irondome-logo.svg" alt="IronDome" width="28" height="28" />
+        <span class="footer-wordmark">IRONDOME</span>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href={COLAB_URL} target="_blank" rel="noopener">Colab Demo</a></li>
+        <li><a href="#why">Docs</a></li>
+        <li><a href="#features">Features</a></li>
+      </ul>
+
+      <p class="footer-copy">
+        &copy; 2025 IronDome — Zero Knowledge. Local Only. No Compromise.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ══ SCRIPTS ═════════════════════════════════════════════════ -->
+  <script>
+    // Copy install command
+    const copyBtn = document.getElementById('copy-install') as HTMLButtonElement | null;
+    const installCmd = document.getElementById('install-cmd') as HTMLElement | null;
+
+    if (copyBtn && installCmd) {
+      copyBtn.addEventListener('click', async () => {
+        const text = installCmd.textContent ?? 'pip install IronDome';
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = copyBtn.textContent;
+          copyBtn.textContent = 'COPIED!';
+          copyBtn.style.color = 'var(--green)';
+          copyBtn.style.borderColor = 'var(--green)';
+          setTimeout(() => {
+            copyBtn.textContent = original;
+            copyBtn.style.color = '';
+            copyBtn.style.borderColor = '';
+          }, 2000);
+        } catch {
+          // Fallback for browsers without clipboard API
+          const range = document.createRange();
+          range.selectNodeContents(installCmd);
+          const sel = window.getSelection();
+          if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+      });
+    }
+
+    // Replay terminal animation when it scrolls into view
+    const terminalBody = document.querySelector('.terminal-body') as HTMLElement | null;
+    if (terminalBody) {
+      const lines = terminalBody.querySelectorAll<HTMLElement>('.t-line-anim');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Reset and replay
+            lines.forEach(line => {
+              line.style.animationName = 'none';
+            });
+            // Force reflow
+            void terminalBody.offsetHeight;
+            lines.forEach(line => {
+              line.style.animationName = '';
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      observer.observe(terminalBody);
+    }
+  </script>
+
+</body>
+</html>

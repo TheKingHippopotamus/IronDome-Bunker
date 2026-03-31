@@ -1,0 +1,16 @@
+{
+  "name": "IronDome — Fortified CLI Vault",
+  "short_name": "IronDome",
+  "description": "Zero-knowledge CLI password vault with AES-256 encryption",
+  "start_url": "/IronDome-Bunker/",
+  "display": "standalone",
+  "background_color": "#0a0e1a",
+  "theme_color": "#FFD700",
+  "icons": [
+    {
+      "src": "/IronDome-Bunker/irondome-favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

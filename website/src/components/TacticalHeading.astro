@@ -1,0 +1,88 @@
+---
+import ClassificationBadge from './ClassificationBadge.astro';
+
+interface Props {
+  badge: string;
+  title: string;
+  subtitle?: string;
+  showRules?: boolean;
+}
+
+const { badge, title, subtitle, showRules = true } = Astro.props;
+---
+
+<div class="tactical-heading">
+  {showRules && <div class="tactical-heading__rule tactical-heading__rule--top" aria-hidden="true"></div>}
+
+  <div class="tactical-heading__badge">
+    <ClassificationBadge text={badge} level="classified" />
+  </div>
+
+  <h2 class="tactical-heading__title">{title}</h2>
+
+  {subtitle && (
+    <p class="tactical-heading__subtitle">{subtitle}</p>
+  )}
+
+  {showRules && <div class="tactical-heading__rule tactical-heading__rule--bottom" aria-hidden="true"></div>}
+</div>
+
+<style>
+  .tactical-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0;
+    width: 100%;
+  }
+
+  /* Horizontal gold rules */
+  .tactical-heading__rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.15) 15%,
+      rgba(255, 215, 0, 0.5) 50%,
+      rgba(255, 215, 0, 0.15) 85%,
+      transparent 100%
+    );
+    border: none;
+    flex-shrink: 0;
+  }
+
+  .tactical-heading__rule--top {
+    margin-bottom: 1.25rem;
+  }
+
+  .tactical-heading__rule--bottom {
+    margin-top: 1.25rem;
+  }
+
+  /* Badge */
+  .tactical-heading__badge {
+    margin-bottom: 0.875rem;
+  }
+
+  /* Main title */
+  .tactical-heading__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  /* Subtitle */
+  .tactical-heading__subtitle {
+    margin-top: 0.875rem;
+    font-size: 0.9375rem;
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 560px;
+  }
+</style>

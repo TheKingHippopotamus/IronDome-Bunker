@@ -1,0 +1,184 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800">
+  <defs>
+    <radialGradient id="rdr-sweep" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="rdr-ring-fade" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFD700" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#FFD700" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#FFD700" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background — transparent, renders over page bg -->
+  <rect width="800" height="800" fill="none"/>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- CONCENTRIC RADAR RINGS                       -->
+  <!-- ════════════════════════════════════════════ -->
+  <g fill="none" stroke="#FFD700" stroke-width="0.8">
+    <circle cx="400" cy="400" r="60"  opacity="0.04"/>
+    <circle cx="400" cy="400" r="120" opacity="0.04"/>
+    <circle cx="400" cy="400" r="180" opacity="0.04"/>
+    <circle cx="400" cy="400" r="240" opacity="0.04"/>
+    <circle cx="400" cy="400" r="300" opacity="0.04"/>
+    <circle cx="400" cy="400" r="360" opacity="0.035"/>
+    <circle cx="400" cy="400" r="380" opacity="0.025"/>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- CARDINAL CROSSHAIR LINES (N/S/E/W)           -->
+  <!-- ════════════════════════════════════════════ -->
+  <!-- Vertical axis (N-S) -->
+  <line x1="400" y1="0" x2="400" y2="800"
+        stroke="#FFD700" stroke-width="0.6" opacity="0.05"/>
+  <!-- Horizontal axis (E-W) -->
+  <line x1="0" y1="400" x2="800" y2="400"
+        stroke="#FFD700" stroke-width="0.6" opacity="0.05"/>
+  <!-- Diagonal 45deg lines -->
+  <line x1="0" y1="0" x2="800" y2="800"
+        stroke="#FFD700" stroke-width="0.4" opacity="0.025"/>
+  <line x1="800" y1="0" x2="0" y2="800"
+        stroke="#FFD700" stroke-width="0.4" opacity="0.025"/>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- RADAR SWEEP WEDGE (~30 deg, gold at 5%)      -->
+  <!-- From center 400,400; angle: north to ~30deg  -->
+  <!-- North = up = 270deg in SVG; 30deg arc         -->
+  <!-- Wedge points: center + two arc endpoints       -->
+  <!-- At r=380: North endpoint (400, 20)             -->
+  <!--           30deg CW from north (400+380*sin30, 400-380*cos30) = (590, 71) -->
+  <!-- ════════════════════════════════════════════ -->
+  <path d="M400,400 L400,20 A380,380 0 0,1 590,71 Z"
+        fill="#FFD700" opacity="0.03"/>
+  <!-- Sweep leading edge -->
+  <line x1="400" y1="400" x2="590" y2="71"
+        stroke="#FFD700" stroke-width="0.8" opacity="0.06"/>
+  <!-- Sweep trailing edge -->
+  <line x1="400" y1="400" x2="400" y2="20"
+        stroke="#FFD700" stroke-width="0.6" opacity="0.04"/>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- GRID DOTS AT RING/CROSSHAIR INTERSECTIONS   -->
+  <!-- ════════════════════════════════════════════ -->
+  <g fill="#FFD700" opacity="0.12">
+    <!-- r=60 intersections: N, E, S, W -->
+    <circle cx="400" cy="340" r="1.5"/>
+    <circle cx="460" cy="400" r="1.5"/>
+    <circle cx="400" cy="460" r="1.5"/>
+    <circle cx="340" cy="400" r="1.5"/>
+    <!-- r=120 -->
+    <circle cx="400" cy="280" r="1.5"/>
+    <circle cx="520" cy="400" r="1.5"/>
+    <circle cx="400" cy="520" r="1.5"/>
+    <circle cx="280" cy="400" r="1.5"/>
+    <!-- r=180 -->
+    <circle cx="400" cy="220" r="1.5"/>
+    <circle cx="580" cy="400" r="1.5"/>
+    <circle cx="400" cy="580" r="1.5"/>
+    <circle cx="220" cy="400" r="1.5"/>
+    <!-- r=240 -->
+    <circle cx="400" cy="160" r="1.5"/>
+    <circle cx="640" cy="400" r="1.5"/>
+    <circle cx="400" cy="640" r="1.5"/>
+    <circle cx="160" cy="400" r="1.5"/>
+    <!-- r=300 -->
+    <circle cx="400" cy="100" r="1.5"/>
+    <circle cx="700" cy="400" r="1.5"/>
+    <circle cx="400" cy="700" r="1.5"/>
+    <circle cx="100" cy="400" r="1.5"/>
+    <!-- 45 deg diagonal intersections r=60 -->
+    <circle cx="442" cy="358" r="1"/>
+    <circle cx="442" cy="442" r="1"/>
+    <circle cx="358" cy="442" r="1"/>
+    <circle cx="358" cy="358" r="1"/>
+    <!-- 45 deg diagonal intersections r=120 -->
+    <circle cx="485" cy="315" r="1"/>
+    <circle cx="485" cy="485" r="1"/>
+    <circle cx="315" cy="485" r="1"/>
+    <circle cx="315" cy="315" r="1"/>
+    <!-- 45 deg diagonal intersections r=180 -->
+    <circle cx="527" cy="273" r="1"/>
+    <circle cx="527" cy="527" r="1"/>
+    <circle cx="273" cy="527" r="1"/>
+    <circle cx="273" cy="273" r="1"/>
+  </g>
+
+  <!-- ════════════════════════════════════════════ -->
+  <!-- COORDINATE MARKINGS ALONG EDGES (tiny)       -->
+  <!-- ════════════════════════════════════════════ -->
+  <g font-family="'Courier New', monospace" font-size="8" fill="#FFD700" opacity="0.2">
+    <!-- Top edge — X coordinates -->
+    <text x="100" y="12" text-anchor="middle">100</text>
+    <text x="200" y="12" text-anchor="middle">200</text>
+    <text x="300" y="12" text-anchor="middle">300</text>
+    <text x="400" y="12" text-anchor="middle">400</text>
+    <text x="500" y="12" text-anchor="middle">500</text>
+    <text x="600" y="12" text-anchor="middle">600</text>
+    <text x="700" y="12" text-anchor="middle">700</text>
+    <!-- Bottom edge -->
+    <text x="100" y="796" text-anchor="middle">100</text>
+    <text x="200" y="796" text-anchor="middle">200</text>
+    <text x="300" y="796" text-anchor="middle">300</text>
+    <text x="400" y="796" text-anchor="middle">400</text>
+    <text x="500" y="796" text-anchor="middle">500</text>
+    <text x="600" y="796" text-anchor="middle">600</text>
+    <text x="700" y="796" text-anchor="middle">700</text>
+    <!-- Left edge — Y coordinates -->
+    <text x="8" y="103" text-anchor="start">100</text>
+    <text x="8" y="203" text-anchor="start">200</text>
+    <text x="8" y="303" text-anchor="start">300</text>
+    <text x="8" y="403" text-anchor="start">400</text>
+    <text x="8" y="503" text-anchor="start">500</text>
+    <text x="8" y="603" text-anchor="start">600</text>
+    <text x="8" y="703" text-anchor="start">700</text>
+    <!-- Right edge -->
+    <text x="792" y="103" text-anchor="end">100</text>
+    <text x="792" y="203" text-anchor="end">200</text>
+    <text x="792" y="303" text-anchor="end">300</text>
+    <text x="792" y="403" text-anchor="end">400</text>
+    <text x="792" y="503" text-anchor="end">500</text>
+    <text x="792" y="603" text-anchor="end">600</text>
+    <text x="792" y="703" text-anchor="end">700</text>
+  </g>
+
+  <!-- Cardinal direction labels -->
+  <g font-family="'Helvetica Neue', Arial, sans-serif" font-size="9" font-weight="700"
+     letter-spacing="2" fill="#FFD700" opacity="0.18">
+    <text x="400" y="26" text-anchor="middle">N</text>
+    <text x="400" y="788" text-anchor="middle">S</text>
+    <text x="786" y="404" text-anchor="end">E</text>
+    <text x="14" y="404" text-anchor="start">W</text>
+  </g>
+
+  <!-- Edge tick marks along top/bottom/sides -->
+  <g stroke="#FFD700" stroke-width="0.5" opacity="0.15">
+    <!-- Top/bottom every 100px -->
+    <line x1="100" y1="0" x2="100" y2="6"/><line x1="100" y1="794" x2="100" y2="800"/>
+    <line x1="200" y1="0" x2="200" y2="6"/><line x1="200" y1="794" x2="200" y2="800"/>
+    <line x1="300" y1="0" x2="300" y2="6"/><line x1="300" y1="794" x2="300" y2="800"/>
+    <line x1="400" y1="0" x2="400" y2="6"/><line x1="400" y1="794" x2="400" y2="800"/>
+    <line x1="500" y1="0" x2="500" y2="6"/><line x1="500" y1="794" x2="500" y2="800"/>
+    <line x1="600" y1="0" x2="600" y2="6"/><line x1="600" y1="794" x2="600" y2="800"/>
+    <line x1="700" y1="0" x2="700" y2="6"/><line x1="700" y1="794" x2="700" y2="800"/>
+    <!-- Left/right every 100px -->
+    <line x1="0" y1="100" x2="6" y2="100"/><line x1="794" y1="100" x2="800" y2="100"/>
+    <line x1="0" y1="200" x2="6" y2="200"/><line x1="794" y1="200" x2="800" y2="200"/>
+    <line x1="0" y1="300" x2="6" y2="300"/><line x1="794" y1="300" x2="800" y2="300"/>
+    <line x1="0" y1="400" x2="6" y2="400"/><line x1="794" y1="400" x2="800" y2="400"/>
+    <line x1="0" y1="500" x2="6" y2="500"/><line x1="794" y1="500" x2="800" y2="500"/>
+    <line x1="0" y1="600" x2="6" y2="600"/><line x1="794" y1="600" x2="800" y2="600"/>
+    <line x1="0" y1="700" x2="6" y2="700"/><line x1="794" y1="700" x2="800" y2="700"/>
+    <!-- Sub-ticks every 50px (top/bottom) -->
+    <line x1="50"  y1="0" x2="50"  y2="3"/><line x1="150" y1="0" x2="150" y2="3"/>
+    <line x1="250" y1="0" x2="250" y2="3"/><line x1="350" y1="0" x2="350" y2="3"/>
+    <line x1="450" y1="0" x2="450" y2="3"/><line x1="550" y1="0" x2="550" y2="3"/>
+    <line x1="650" y1="0" x2="650" y2="3"/><line x1="750" y1="0" x2="750" y2="3"/>
+  </g>
+
+  <!-- Center reticle dot -->
+  <circle cx="400" cy="400" r="2.5" fill="#FFD700" opacity="0.15"/>
+  <circle cx="400" cy="400" r="6" fill="none" stroke="#FFD700" stroke-width="0.6" opacity="0.08"/>
+
+</svg>

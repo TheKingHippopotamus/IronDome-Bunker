@@ -1,0 +1,824 @@
+/* ============================================================
+   IRONDOME — TACTICAL ANIMATIONS & VISUAL EFFECTS
+   animations.css — imported alongside global.css
+   ============================================================
+   Design axiom: every effect must earn its place.
+   Subtle enhances; flashy distracts. Military command center
+   aesthetic demands restraint and precision.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   @property DECLARATIONS — CSS-native animatable properties
+   ------------------------------------------------------------ */
+
+@property --radar-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@property --num {
+  syntax: '<integer>';
+  inherits: false;
+  initial-value: 0;
+}
+
+/* ============================================================
+   1. RADAR SWEEP
+   Conic gradient rotating 360°. Applied as a pseudo-element
+   background over hero sections. Gold to transparent.
+   ============================================================ */
+
+@keyframes radar-sweep-full {
+  from { --radar-angle: 0deg; }
+  to   { --radar-angle: 360deg; }
+}
+
+.radar-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.radar-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from var(--radar-angle),
+    transparent 0deg,
+    transparent 270deg,
+    rgba(255, 215, 0, 0.04) 300deg,
+    rgba(255, 215, 0, 0.10) 345deg,
+    rgba(255, 215, 0, 0.03) 360deg
+  );
+  animation: radar-sweep-full 4s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: 50%;
+  transform-origin: center center;
+}
+
+/* ============================================================
+   2. SCAN LINE — Moving horizontal beam
+   A 2px gold line travelling top → bottom over 8 seconds.
+   Mounted via .scan-beam::before on containers.
+   ============================================================ */
+
+@keyframes scan-line {
+  0% {
+    transform: translateY(-2px);
+    opacity: 0;
+  }
+  4% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.scan-beam {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-beam::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.04) 15%,
+    rgba(255, 215, 0, 0.12) 50%,
+    rgba(255, 215, 0, 0.04) 85%,
+    transparent 100%
+  );
+  animation: scan-line 8s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ============================================================
+   3. TYPING CURSOR — Terminal cursor blink
+   .typing-cursor::after renders a blinking block.
+   Use on mono headings or terminal output elements.
+   ============================================================ */
+
+@keyframes blink-cursor {
+  0%, 49.9% { opacity: 1; }
+  50%, 100%  { opacity: 0; }
+}
+
+.typing-cursor::after {
+  content: "\2588"; /* full block █ */
+  display: inline-block;
+  margin-left: 2px;
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  animation: blink-cursor 1s step-end infinite;
+  vertical-align: baseline;
+  line-height: 1;
+}
+
+.typing-cursor-underscore::after {
+  content: "_";
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  animation: blink-cursor 1s step-end infinite;
+}
+
+/* ============================================================
+   4. FADE IN UP — Viewport-triggered entrance
+   Elements with [data-animate] get .visible added by
+   src/scripts/animations.js. Initial state hidden via
+   .fade-in-up, activated state via .fade-in-up.visible.
+   ============================================================ */
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Default hidden state — JS will add .visible */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-left {
+  opacity: 0;
+  transform: translateX(-24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-in-right {
+  opacity: 0;
+  transform: translateX(24px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.fade-in-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* For elements that animate immediately (no JS required) */
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   5. GLOW PULSE — Box-shadow heartbeat
+   Gold box-shadow expanding and contracting.
+   Apply to cards, CTAs, shield icons.
+   ============================================================ */
+
+@keyframes glow-pulse-gold {
+  0%, 100% {
+    box-shadow:
+      0 0 20px rgba(255, 215, 0, 0.05),
+      0 0 40px rgba(255, 215, 0, 0.02),
+      inset 0 0 20px rgba(255, 215, 0, 0);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(255, 215, 0, 0.12),
+      0 0 60px rgba(255, 215, 0, 0.06),
+      inset 0 0 20px rgba(255, 215, 0, 0.02);
+  }
+}
+
+@keyframes glow-pulse-green {
+  0%, 100% {
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 0 12px rgba(52, 211, 153, 0.7),
+      0 0 24px rgba(52, 211, 153, 0.3);
+  }
+}
+
+.glow-pulse {
+  animation: glow-pulse-gold 3s ease-in-out infinite;
+}
+
+.glow-pulse-green {
+  animation: glow-pulse-green 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   6. MATRIX RAIN — CSS-only character cascade accent
+   Pure CSS — not actual characters. Uses background-image
+   gradients to simulate the falling-column effect at
+   near-invisible opacity. Background accent only.
+   ============================================================ */
+
+@keyframes matrix-fall {
+  0%   { background-position: 0 0,    40px 0,    80px 0,    120px 0,    160px 0; }
+  100% { background-position: 0 400px, 40px 320px, 80px 480px, 120px 240px, 160px 360px; }
+}
+
+.matrix-bg {
+  position: relative;
+}
+
+.matrix-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 10px,
+      rgba(52, 211, 153, 0.015) 10px,
+      rgba(52, 211, 153, 0.015) 11px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 14px,
+      rgba(255, 215, 0, 0.008) 14px,
+      rgba(255, 215, 0, 0.008) 15px
+    );
+  background-size: 100% 200px;
+  animation: matrix-fall 12s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+/* ============================================================
+   7. TACTICAL GRID — CSS gradient grid background
+   Thin gold lines at low opacity. 40px spacing.
+   Applied to feature sections and behind content blocks.
+   ============================================================ */
+
+.tactical-grid {
+  background-image:
+    linear-gradient(rgba(255, 215, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: center center;
+}
+
+.tactical-grid-dense {
+  background-image:
+    linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: center center;
+}
+
+/* Dot-pattern variant */
+.tactical-dots {
+  background-image: radial-gradient(
+    circle,
+    rgba(255, 215, 0, 0.08) 1px,
+    transparent 1px
+  );
+  background-size: 24px 24px;
+}
+
+/* ============================================================
+   8. GRADIENT BORDER ANIMATION — Flowing gold border
+   Uses a conic-gradient pseudo-element behind the card.
+   .animated-border requires position: relative and a
+   solid background on the element itself.
+   ============================================================ */
+
+@keyframes border-flow {
+  from { --border-angle: 0deg; }
+  to   { --border-angle: 360deg; }
+}
+
+.animated-border {
+  position: relative;
+  background-clip: padding-box;
+  border: 1px solid transparent;
+}
+
+.animated-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle),
+    rgba(255, 215, 0, 0.0)  0deg,
+    rgba(255, 215, 0, 0.0)  60deg,
+    rgba(255, 215, 0, 0.35) 120deg,
+    rgba(255, 215, 0, 0.60) 180deg,
+    rgba(255, 215, 0, 0.35) 240deg,
+    rgba(255, 215, 0, 0.0)  300deg,
+    rgba(255, 215, 0, 0.0)  360deg
+  );
+  animation: border-flow 4s linear infinite;
+  z-index: -1;
+  border-radius: inherit;
+}
+
+/* Slower, subtler variant for cards */
+.animated-border-slow::before {
+  animation-duration: 8s;
+}
+
+/* ============================================================
+   9. COUNTER / NUMBER ANIMATION
+   Animates CSS custom integer property via @property.
+   Usage: set --num-target as inline style and apply class.
+   ============================================================ */
+
+@keyframes count-up {
+  from { --num: 0; }
+  to   { --num: var(--num-target, 100); }
+}
+
+.count-up {
+  animation: count-up 2s cubic-bezier(0.4, 0, 0.2, 1) both;
+  counter-reset: num var(--num);
+}
+
+.count-up::after {
+  content: counter(num);
+}
+
+/* ============================================================
+   10. PARALLAX SCROLL — CSS perspective-based depth
+   Requires .parallax-container as the scroll parent with
+   perspective set. Children use .parallax-layer-* classes
+   to achieve different scroll speeds.
+   ============================================================ */
+
+.parallax-container {
+  perspective: 1px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transform-style: preserve-3d;
+}
+
+/* Far background — moves slowest */
+.parallax-layer-far {
+  transform: translateZ(-2px) scale(3);
+  transform-origin: center center;
+}
+
+/* Mid distance */
+.parallax-layer-mid {
+  transform: translateZ(-0.5px) scale(1.5);
+  transform-origin: center center;
+}
+
+/* Near foreground — moves fastest (default layer) */
+.parallax-layer-near {
+  transform: translateZ(0);
+}
+
+/* Simpler CSS transform parallax for elements (no container needed) */
+.parallax-slow {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* ============================================================
+   11. HOVER EFFECTS COLLECTION
+   All transitions use the tactical cubic-bezier ease.
+   ------------------------------------------------------------ */
+
+/* Lift — subtle upward translate with shadow deepening */
+.hover-lift {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 215, 0, 0.08);
+}
+
+.hover-lift:active {
+  transform: translateY(-1px);
+}
+
+/* Glow — gold aura on hover */
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow:
+    0 0 20px rgba(255, 215, 0, 0.15),
+    0 0 40px rgba(255, 215, 0, 0.06),
+    0 0 0 1px rgba(255, 215, 0, 0.2);
+}
+
+/* Border gold — border reveals on hover */
+.hover-border-gold {
+  border: 1px solid rgba(255, 215, 0, 0.06);
+  transition: border-color 0.3s ease;
+}
+
+.hover-border-gold:hover {
+  border-color: rgba(255, 215, 0, 0.35);
+}
+
+/* Scale — slight enlargement */
+.hover-scale {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale:active {
+  transform: scale(0.99);
+}
+
+/* Combined tactical card hover — lift + glow + border */
+.hover-tactical {
+  border: 1px solid rgba(255, 215, 0, 0.06);
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.hover-tactical:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.20);
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.08),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(255, 215, 0, 0.06);
+  background-color: var(--color-bg-card-hover, #111827);
+}
+
+/* ============================================================
+   12. PAGE TRANSITION — On load fade-in
+   Applied to .page-content wrapper in Layout.astro.
+   Designed to complement the existing page-enter in global.css
+   with a slightly more refined entry that won't conflict.
+   ============================================================ */
+
+@keyframes page-reveal {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 4px 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Section-level stagger — use on individual sections */
+@keyframes section-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-enter {
+  animation: section-enter 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   13. TEXT REVEAL — Clip-path text entrance
+   Heading text expands from a narrow clip horizontally.
+   Apply .text-reveal to the element; .visible triggers it.
+   Also works as a direct animation class.
+   ============================================================ */
+
+@keyframes text-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+@keyframes text-reveal-up {
+  from {
+    clip-path: inset(0 0 100% 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(0 0 0% 0);
+    opacity: 1;
+  }
+}
+
+/* JS-triggered variant: hidden by default, visible on .visible */
+.text-reveal {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition:
+    clip-path 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s ease;
+}
+
+.text-reveal.visible {
+  clip-path: inset(0 0% 0 0);
+  opacity: 1;
+}
+
+/* Direct animation variant (no JS) */
+.animate-text-reveal {
+  animation: text-reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-text-reveal-up {
+  animation: text-reveal-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   14. SHIELD ROTATION — Slow rocking for shield icons
+   Oscillates ±5° over 6 seconds. Deliberately slow —
+   draws attention without distracting.
+   ============================================================ */
+
+@keyframes shield-rotate {
+  0%   { transform: rotate(0deg); }
+  20%  { transform: rotate(3deg); }
+  40%  { transform: rotate(0deg); }
+  60%  { transform: rotate(-3deg); }
+  80%  { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@keyframes shield-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-4px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-2px) rotate(-1.5deg);
+  }
+}
+
+.shield-rotate {
+  animation: shield-rotate 6s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+.shield-float {
+  animation: shield-float 8s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* ============================================================
+   15. STATUS INDICATOR — System online / secure dots
+   Small blinking dot for "system online" indicators.
+   ============================================================ */
+
+@keyframes status-blink {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+@keyframes status-ping {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Base status dot */
+.status-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-indicator::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: block;
+}
+
+/* Ping ripple effect */
+.status-indicator::after {
+  content: "";
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  animation: status-ping 2s ease-out infinite;
+}
+
+/* Online — green */
+.status-online::before {
+  background-color: var(--color-green, #34d399);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.7);
+  animation: status-blink 2.5s ease-in-out infinite;
+}
+
+.status-online::after {
+  background-color: rgba(52, 211, 153, 0.4);
+}
+
+/* Secure — gold */
+.status-secure::before {
+  background-color: var(--color-gold, #FFD700);
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+  animation: status-blink 3s ease-in-out infinite;
+}
+
+.status-secure::after {
+  background-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Warning — amber */
+.status-warning::before {
+  background-color: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+  animation: status-blink 1.5s ease-in-out infinite;
+}
+
+.status-warning::after {
+  background-color: rgba(245, 158, 11, 0.3);
+}
+
+/* Offline / error — red, no blink */
+.status-offline::before {
+  background-color: var(--color-red, #ef4444);
+  box-shadow: 0 0 4px rgba(239, 68, 68, 0.5);
+}
+
+.status-offline::after {
+  display: none;
+}
+
+/* ============================================================
+   UTILITY MODIFIERS
+   ============================================================ */
+
+/* Animation delays */
+.delay-75   { animation-delay: 0.075s; }
+.delay-100  { animation-delay: 0.1s; }
+.delay-150  { animation-delay: 0.15s; }
+.delay-200  { animation-delay: 0.2s; }
+.delay-300  { animation-delay: 0.3s; }
+.delay-400  { animation-delay: 0.4s; }
+.delay-500  { animation-delay: 0.5s; }
+.delay-600  { animation-delay: 0.6s; }
+.delay-700  { animation-delay: 0.7s; }
+.delay-800  { animation-delay: 0.8s; }
+.delay-1000 { animation-delay: 1.0s; }
+
+/* Transition delays (for JS-triggered CSS transition classes) */
+.transition-delay-100  { transition-delay: 0.1s; }
+.transition-delay-200  { transition-delay: 0.2s; }
+.transition-delay-300  { transition-delay: 0.3s; }
+.transition-delay-400  { transition-delay: 0.4s; }
+.transition-delay-500  { transition-delay: 0.5s; }
+
+/* Animation durations */
+.duration-fast   { animation-duration: 0.3s; }
+.duration-normal { animation-duration: 0.6s; }
+.duration-slow   { animation-duration: 1.2s; }
+.duration-slower { animation-duration: 2.0s; }
+
+/* Repeat control */
+.animate-once     { animation-iteration-count: 1; }
+.animate-twice    { animation-iteration-count: 2; }
+.animate-infinite { animation-iteration-count: infinite; }
+
+/* Fill modes */
+.animate-fill-both     { animation-fill-mode: both; }
+.animate-fill-forwards { animation-fill-mode: forwards; }
+
+/* Paused state (JS can toggle) */
+.animate-paused { animation-play-state: paused; }
+.animate-running { animation-play-state: running; }
+
+/* ============================================================
+   REDUCED MOTION — Accessibility
+   Any user who prefers reduced motion gets no animations.
+   Critical: do not remove this block.
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  /* Ensure JS-triggered visibility classes still work */
+  .fade-in-up,
+  .fade-in-left,
+  .fade-in-right,
+  .text-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}

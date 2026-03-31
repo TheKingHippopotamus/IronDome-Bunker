@@ -1,0 +1,596 @@
+---
+const currentPath = Astro.url.pathname;
+
+const navLinks = [
+  { href: '/',          label: 'Home',     code: '01' },
+  { href: '/features',  label: 'Features', code: '02' },
+  { href: '/security',  label: 'Security', code: '03' },
+  { href: '/docs',      label: 'Docs',     code: '04' },
+  { href: '/about',     label: 'About',    code: '05' },
+];
+
+function isActive(href: string): boolean {
+  if (href === '/') return currentPath === '/';
+  return currentPath.startsWith(href);
+}
+---
+
+<!-- Mobile checkbox toggle — CSS-only, no JS -->
+<input
+  type="checkbox"
+  id="nav-toggle"
+  class="nav-toggle-input"
+  aria-hidden="true"
+/>
+
+<header class="site-header scan-line-animate" role="banner">
+  <div class="header-inner">
+
+    <!-- Brand -->
+    <a href="/" class="brand" aria-label="IronDome — Home">
+      <div class="brand-icon-wrap">
+        <img
+          src="/irondome-favicon.svg"
+          alt=""
+          width="32"
+          height="32"
+          class="brand-icon"
+          aria-hidden="true"
+        />
+        <span class="brand-status-dot" aria-hidden="true"></span>
+      </div>
+      <div class="brand-text-wrap">
+        <span class="brand-name">IRONDOME</span>
+        <span class="brand-sub">SECURE VAULT v2.0</span>
+      </div>
+    </a>
+
+    <!-- Desktop navigation -->
+    <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
+      <ul class="nav-list" role="list">
+        {navLinks.map(link => (
+          <li class="nav-item">
+            <a
+              href={link.href}
+              class={`nav-link ${isActive(link.href) ? 'nav-link--active' : ''}`}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              <span class="nav-link-code" aria-hidden="true">{link.code}</span>
+              <span class="nav-link-label">{link.label}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Header right: CTA + hamburger -->
+    <div class="header-right">
+      <a
+        href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="header-cta"
+        aria-label="View IronDome on GitHub"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+        <span>GitHub</span>
+      </a>
+
+      <!-- Hamburger label (CSS-only toggle) -->
+      <label
+        for="nav-toggle"
+        class="hamburger"
+        aria-label="Toggle navigation menu"
+        role="button"
+        tabindex="0"
+      >
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </label>
+    </div>
+
+  </div><!-- /.header-inner -->
+
+  <!-- Gold scan line bottom border -->
+  <div class="header-border" aria-hidden="true"></div>
+</header>
+
+<!-- Mobile navigation drawer -->
+<nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+  <ul class="mobile-nav-list" role="list">
+    {navLinks.map(link => (
+      <li class="mobile-nav-item">
+        <a
+          href={link.href}
+          class={`mobile-nav-link ${isActive(link.href) ? 'mobile-nav-link--active' : ''}`}
+          aria-current={isActive(link.href) ? 'page' : undefined}
+        >
+          <span class="mobile-nav-code" aria-hidden="true">{link.code} /</span>
+          <span>{link.label}</span>
+          {isActive(link.href) && (
+            <span class="mobile-active-indicator" aria-hidden="true">ACTIVE</span>
+          )}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <div class="mobile-nav-footer">
+    <span class="classification-badge">SECURE CONNECTION</span>
+    <div class="status-dot" aria-hidden="true" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#34d399;"></div>
+  </div>
+</nav>
+
+<!-- Overlay to close mobile nav -->
+<label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
+
+<style>
+  /* ============================================================
+     HEADER COMPONENT STYLES
+     ============================================================ */
+
+  /* Hidden checkbox toggle */
+  .nav-toggle-input {
+    position: absolute;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ── Header shell ─────────────────────────────────────────── */
+  .site-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: rgba(10, 14, 26, 0.95);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: 64px;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  /* ── Brand ────────────────────────────────────────────────── */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    flex-shrink: 0;
+    color: inherit;
+    transition: opacity 150ms ease;
+  }
+
+  .brand:hover {
+    opacity: 0.9;
+    color: inherit;
+  }
+
+  .brand-icon-wrap {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .brand-icon {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+  }
+
+  .brand-status-dot {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #34d399;
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.7);
+    animation: glow-pulse 2s ease-in-out infinite;
+    border: 1px solid rgba(10, 14, 26, 0.8);
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% {
+      box-shadow: 0 0 4px rgba(52, 211, 153, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 10px rgba(52, 211, 153, 1), 0 0 18px rgba(52, 211, 153, 0.4);
+    }
+  }
+
+  .brand-text-wrap {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+
+  .brand-name {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #FFD700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+  }
+
+  .brand-sub {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: #546E7A;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  /* ── Desktop nav ──────────────────────────────────────────── */
+  .desktop-nav {
+    display: none;
+    flex: 1;
+    justify-content: center;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: flex;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    border-radius: 2px;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #78909C;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease;
+    position: relative;
+  }
+
+  .nav-link:hover {
+    color: #FFD700;
+    background-color: rgba(255, 215, 0, 0.04);
+    border-color: rgba(255, 215, 0, 0.08);
+  }
+
+  .nav-link--active {
+    color: #FFD700;
+    background-color: rgba(255, 215, 0, 0.06);
+    border-color: rgba(255, 215, 0, 0.12);
+  }
+
+  /* Active bottom indicator */
+  .nav-link--active::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 25%;
+    right: 25%;
+    height: 1px;
+    background-color: #FFD700;
+    box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+  }
+
+  .nav-link-code {
+    font-size: 0.625rem;
+    color: rgba(255, 215, 0, 0.35);
+    letter-spacing: 0.05em;
+    transition: color 150ms ease;
+  }
+
+  .nav-link:hover .nav-link-code,
+  .nav-link--active .nav-link-code {
+    color: rgba(255, 215, 0, 0.6);
+  }
+
+  /* ── Header right ─────────────────────────────────────────── */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  .header-cta {
+    display: none;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    background-color: transparent;
+    color: #78909C;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    border-radius: 2px;
+    text-decoration: none;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  @media (min-width: 640px) {
+    .header-cta {
+      display: flex;
+    }
+  }
+
+  .header-cta:hover {
+    color: #FFD700;
+    border-color: rgba(255, 215, 0, 0.4);
+    background-color: rgba(255, 215, 0, 0.04);
+  }
+
+  /* ── Hamburger ────────────────────────────────────────────── */
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    border: 1px solid rgba(255, 215, 0, 0.1);
+    border-radius: 2px;
+    background-color: rgba(255, 215, 0, 0.03);
+    transition: border-color 150ms ease;
+    flex-shrink: 0;
+  }
+
+  @media (min-width: 768px) {
+    .hamburger {
+      display: none;
+    }
+  }
+
+  .hamburger:hover {
+    border-color: rgba(255, 215, 0, 0.3);
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 16px;
+    height: 1px;
+    background-color: #78909C;
+    transition:
+      transform 250ms ease,
+      opacity 250ms ease,
+      background-color 150ms ease;
+    transform-origin: center;
+  }
+
+  .hamburger:hover .hamburger-line {
+    background-color: #FFD700;
+  }
+
+  /* Animated X when open */
+  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+    background-color: #FFD700;
+  }
+
+  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+    background-color: #FFD700;
+  }
+
+  /* ── Header bottom border with scan line ─────────────────── */
+  .header-border {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 215, 0, 0.08) 10%,
+      rgba(255, 215, 0, 0.25) 30%,
+      rgba(255, 215, 0, 0.5) 50%,
+      rgba(255, 215, 0, 0.25) 70%,
+      rgba(255, 215, 0, 0.08) 90%,
+      transparent 100%
+    );
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Moving scan dot on the border */
+  .header-border::after {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -10%;
+    width: 20%;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 215, 0, 0.8),
+      transparent
+    );
+    animation: border-scan 4s linear infinite;
+  }
+
+  @keyframes border-scan {
+    from { left: -20%; }
+    to   { left: 120%; }
+  }
+
+  /* ── Mobile nav drawer ────────────────────────────────────── */
+  .mobile-nav {
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color: rgba(10, 14, 26, 0.98);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 300ms ease,
+      visibility 300ms ease;
+    pointer-events: none;
+  }
+
+  .nav-toggle-input:checked ~ .mobile-nav {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-block: 0.5rem;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  .mobile-nav-item {
+    border-bottom: 1px solid rgba(255, 215, 0, 0.04);
+  }
+
+  .mobile-nav-item:last-child {
+    border-bottom: none;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 0;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #78909C;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .mobile-nav-link:hover {
+    color: #FFD700;
+  }
+
+  .mobile-nav-link--active {
+    color: #FFD700;
+  }
+
+  .mobile-nav-code {
+    font-size: 0.625rem;
+    color: rgba(255, 215, 0, 0.35);
+    letter-spacing: 0.08em;
+    min-width: 32px;
+  }
+
+  .mobile-nav-link--active .mobile-nav-code {
+    color: rgba(255, 215, 0, 0.6);
+  }
+
+  .mobile-active-indicator {
+    margin-left: auto;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: rgba(255, 215, 0, 0.5);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+  }
+
+  .mobile-nav-footer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+    border-top: 1px solid rgba(255, 215, 0, 0.06);
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+
+  /* ── Overlay ──────────────────────────────────────────────── */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 98;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+  }
+
+  .nav-toggle-input:checked ~ .nav-overlay {
+    display: block;
+  }
+
+  /* Ensure desktop nav overlay doesn't appear on large screens */
+  @media (min-width: 768px) {
+    .nav-toggle-input:checked ~ .mobile-nav {
+      transform: translateY(-100%);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .nav-toggle-input:checked ~ .nav-overlay {
+      display: none;
+    }
+  }
+</style>

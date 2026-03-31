@@ -1,0 +1,773 @@
+@import "tailwindcss";
+
+/* ============================================================
+   IRONDOME — TACTICAL COMMAND CENTER DESIGN SYSTEM
+   Tailwind CSS v4 global stylesheet
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   CSS CUSTOM PROPERTIES — DESIGN TOKENS
+   ------------------------------------------------------------ */
+:root {
+  /* Background palette */
+  --color-bg-base:        #0a0e1a;
+  --color-bg-card:        #0d1117;
+  --color-bg-card-hover:  #111827;
+  --color-bg-elevated:    #141c2b;
+
+  /* Accent palette */
+  --color-gold:           #FFD700;
+  --color-gold-dim:       rgba(255, 215, 0, 0.6);
+  --color-gold-muted:     rgba(255, 215, 0, 0.12);
+  --color-gold-border:    rgba(255, 215, 0, 0.08);
+  --color-gold-glow:      rgba(255, 215, 0, 0.25);
+
+  /* Text palette */
+  --color-text-primary:   #e8ecf0;
+  --color-text-secondary: #78909C;
+  --color-text-muted:     #546E7A;
+
+  /* Functional accents */
+  --color-green:          #34d399;
+  --color-green-dim:      rgba(52, 211, 153, 0.15);
+  --color-red:            #ef4444;
+  --color-blue:           #3b82f6;
+
+  /* Border radii — tactical: minimal curvature */
+  --radius-sm:   1px;
+  --radius-base: 2px;
+  --radius-md:   2px;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+
+  /* Typography */
+  --font-sans:  ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:  ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+
+  /* Motion */
+  --duration-fast:   150ms;
+  --duration-base:   250ms;
+  --duration-slow:   400ms;
+  --duration-slower: 600ms;
+  --ease-tactical:   cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ------------------------------------------------------------
+   RESET & BASE
+   ------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  font-size: 16px;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+}
+
+body {
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  background-color: var(--color-bg-base);
+  color: var(--color-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* Selections */
+::selection {
+  background-color: var(--color-gold-muted);
+  color: var(--color-gold);
+}
+
+/* Focus ring — accessible + tactical */
+:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Images */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+/* Code baseline */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+/* Lists */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid var(--color-gold-border);
+  margin: var(--space-8) 0;
+}
+
+/* ------------------------------------------------------------
+   CUSTOM SCROLLBAR — DARK TACTICAL
+   ------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-card);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 215, 0, 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 215, 0, 0.2) var(--color-bg-card);
+}
+
+/* ------------------------------------------------------------
+   TYPOGRAPHY SCALE
+   ------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--color-text-primary);
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
+h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1.125rem; }
+h6 { font-size: 1rem; }
+
+p {
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+}
+
+small {
+  font-size: 0.8125rem;
+  color: var(--color-text-muted);
+}
+
+strong {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Section headings with gold accent */
+.section-title {
+  color: var(--color-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+
+/* Monospace display heading variant */
+.display-mono {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------
+   LAYOUT UTILITIES
+   ------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+.container-wide {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 4vw, 2rem);
+}
+
+/* ------------------------------------------------------------
+   TACTICAL THEME UTILITY CLASSES
+   ------------------------------------------------------------ */
+
+/* 1. TACTICAL BORDER — 1px gold border with low opacity */
+.tactical-border {
+  border: 1px solid var(--color-gold-border);
+}
+
+.tactical-border-top {
+  border-top: 1px solid var(--color-gold-border);
+}
+
+.tactical-border-bottom {
+  border-bottom: 1px solid var(--color-gold-border);
+}
+
+.tactical-border-left {
+  border-left: 1px solid var(--color-gold-border);
+}
+
+/* 2. GOLD GLOW — subtle gold text-shadow */
+.gold-glow {
+  text-shadow:
+    0 0 8px rgba(255, 215, 0, 0.6),
+    0 0 20px rgba(255, 215, 0, 0.3),
+    0 0 40px rgba(255, 215, 0, 0.1);
+}
+
+.gold-glow-sm {
+  text-shadow:
+    0 0 4px rgba(255, 215, 0, 0.5),
+    0 0 10px rgba(255, 215, 0, 0.2);
+}
+
+.gold-box-glow {
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.12),
+    0 0 16px rgba(255, 215, 0, 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.gold-box-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(255, 215, 0, 0.25),
+    0 0 24px rgba(255, 215, 0, 0.1),
+    0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* 3. SCAN LINE — animated horizontal scan line overlay */
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.scan-line-animate {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line-animate::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.06) 20%,
+    rgba(255, 215, 0, 0.15) 50%,
+    rgba(255, 215, 0, 0.06) 80%,
+    transparent 100%
+  );
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 4. TERMINAL TEXT — monospace green text */
+.terminal-text {
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.terminal-text--sm {
+  font-family: var(--font-mono);
+  color: var(--color-green);
+  font-size: 0.75rem;
+}
+
+.terminal-prompt::before {
+  content: "$ ";
+  color: var(--color-gold-dim);
+  font-family: var(--font-mono);
+}
+
+/* 5. CLASSIFICATION BADGE — small uppercase gold badge */
+.classification-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.2rem 0.6rem;
+  background-color: rgba(255, 215, 0, 0.06);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  line-height: 1;
+}
+
+.classification-badge--red {
+  background-color: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+}
+
+.classification-badge--green {
+  background-color: rgba(52, 211, 153, 0.08);
+  border-color: rgba(52, 211, 153, 0.2);
+  color: var(--color-green);
+}
+
+/* 6. WARNING STRIPE — diagonal gold/dark repeating gradient */
+.warning-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 215, 0, 0.06) 0px,
+    rgba(255, 215, 0, 0.06) 8px,
+    transparent 8px,
+    transparent 20px
+  );
+}
+
+.warning-stripe-border {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 215, 0, 0.08) 0px,
+    rgba(255, 215, 0, 0.08) 6px,
+    transparent 6px,
+    transparent 16px
+  );
+  border: 1px solid rgba(255, 215, 0, 0.15);
+}
+
+/* Tactical corner accents */
+.tactical-corners {
+  position: relative;
+}
+
+.tactical-corners::before,
+.tactical-corners::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(255, 215, 0, 0.4);
+  border-style: solid;
+}
+
+.tactical-corners::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+.tactical-corners::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* Tactical card */
+.tactical-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-gold-border);
+  border-radius: var(--radius-base);
+  transition:
+    background-color var(--duration-base) var(--ease-tactical),
+    border-color var(--duration-base) var(--ease-tactical),
+    box-shadow var(--duration-base) var(--ease-tactical);
+}
+
+.tactical-card:hover {
+  background-color: var(--color-bg-card-hover);
+  border-color: rgba(255, 215, 0, 0.15);
+  box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Status dot */
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--color-green);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* Gold divider line */
+.gold-divider {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 215, 0, 0.3) 20%,
+    rgba(255, 215, 0, 0.6) 50%,
+    rgba(255, 215, 0, 0.3) 80%,
+    transparent 100%
+  );
+  border: none;
+}
+
+/* Code block tactical style */
+.code-block {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 215, 0, 0.08);
+  border-left: 2px solid var(--color-gold);
+  border-radius: var(--radius-sm);
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-green);
+  overflow-x: auto;
+  line-height: 1.6;
+}
+
+/* Button styles */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: var(--color-gold);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease,
+    transform var(--duration-fast) ease;
+}
+
+.btn-primary:hover {
+  background-color: #ffe033;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  transform: translateY(-1px);
+  color: #000;
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background-color: transparent;
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  cursor: pointer;
+  transition:
+    border-color var(--duration-fast) ease,
+    background-color var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+}
+
+.btn-secondary:hover {
+  border-color: rgba(255, 215, 0, 0.7);
+  background-color: rgba(255, 215, 0, 0.06);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
+  color: var(--color-gold);
+}
+
+/* ------------------------------------------------------------
+   ANIMATION KEYFRAMES
+   ------------------------------------------------------------ */
+
+/* Fade in from below */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gold glow pulse */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+  }
+  50% {
+    opacity: 0.6;
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.9), 0 0 20px rgba(52, 211, 153, 0.4);
+  }
+}
+
+@keyframes gold-glow-pulse {
+  0%, 100% {
+    text-shadow:
+      0 0 8px rgba(255, 215, 0, 0.6),
+      0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  50% {
+    text-shadow:
+      0 0 12px rgba(255, 215, 0, 0.9),
+      0 0 30px rgba(255, 215, 0, 0.5),
+      0 0 50px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* Horizontal scan line sweep */
+@keyframes scan {
+  0%   { top: -2px;   opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 1; }
+  100% { top: 100%;  opacity: 0; }
+}
+
+/* Radar sweep rotation */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Typing cursor blink */
+@keyframes typing-cursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* Blink for status indicators */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Flicker — subtle CRT effect */
+@keyframes flicker {
+  0%   { opacity: 1; }
+  92%  { opacity: 1; }
+  93%  { opacity: 0.8; }
+  94%  { opacity: 1; }
+  96%  { opacity: 0.9; }
+  97%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+/* Slide in from left */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ------------------------------------------------------------
+   ANIMATION UTILITY CLASSES
+   ------------------------------------------------------------ */
+.animate-fade-in-up {
+  animation: fadeInUp var(--duration-slow) var(--ease-tactical) both;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+.animate-gold-glow {
+  animation: gold-glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-radar {
+  animation: radar-sweep 4s linear infinite;
+}
+
+.animate-typing-cursor::after {
+  content: "_";
+  animation: typing-cursor 1s step-end infinite;
+  color: var(--color-gold);
+}
+
+.animate-blink {
+  animation: blink 1.5s step-end infinite;
+}
+
+.animate-flicker {
+  animation: flicker 8s linear infinite;
+}
+
+/* Staggered fade-in delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ------------------------------------------------------------
+   PAGE TRANSITION
+   ------------------------------------------------------------ */
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-content {
+  animation: page-enter var(--duration-slow) var(--ease-tactical) both;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE HELPERS
+   ------------------------------------------------------------ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ------------------------------------------------------------
+   PROSE — Rich text blocks
+   ------------------------------------------------------------ */
+.prose p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1em;
+}
+
+.prose h2 {
+  color: var(--color-text-primary);
+  margin-top: 2em;
+  margin-bottom: 0.75em;
+}
+
+.prose h3 {
+  color: var(--color-gold);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-family: var(--font-mono);
+  letter-spacing: 0.05em;
+}
+
+.prose code {
+  background-color: rgba(52, 211, 153, 0.08);
+  color: var(--color-green);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-size: 0.875em;
+}
+
+.prose pre {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--color-gold-border);
+  border-left: 2px solid var(--color-gold);
+  padding: 1.25rem 1.5rem;
+  overflow-x: auto;
+  border-radius: var(--radius-sm);
+  margin: 1.5em 0;
+}
+
+.prose ul {
+  list-style: none;
+  margin-bottom: 1em;
+}
+
+.prose ul li {
+  padding-left: 1.25em;
+  position: relative;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.375em;
+}
+
+.prose ul li::before {
+  content: ">";
+  position: absolute;
+  left: 0;
+  color: var(--color-gold);
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  top: 0.1em;
+}

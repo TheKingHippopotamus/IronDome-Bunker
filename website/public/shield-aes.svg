@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="aes-gold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFE082"/>
+      <stop offset="100%" stop-color="#FF8F00"/>
+    </linearGradient>
+    <linearGradient id="aes-steel" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#546E7A"/>
+      <stop offset="100%" stop-color="#1C2731"/>
+    </linearGradient>
+    <filter id="aes-glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="1.2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Shield body -->
+  <path d="M24,3 L42,9 L42,26 C42,37 34,44 24,47 C14,44 6,37 6,26 L6,9 Z"
+        fill="url(#aes-steel)" stroke="url(#aes-gold)" stroke-width="1.8" filter="url(#aes-glow)"/>
+  <!-- Shield inner bevel -->
+  <path d="M24,6 L39,11.5 L39,26 C39,35 32,41 24,44 C16,41 9,35 9,26 L9,11.5 Z"
+        fill="none" stroke="url(#aes-gold)" stroke-width="0.5" opacity="0.4"/>
+
+  <!-- Small wings — military badge style -->
+  <!-- Left wing -->
+  <path d="M6,18 C2,16 0,18 1,21 C2,22 4,22 6,21" fill="none" stroke="url(#aes-gold)" stroke-width="1.2" opacity="0.8"/>
+  <line x1="1.5" y1="19.5" x2="6" y2="19.5" stroke="url(#aes-gold)" stroke-width="0.7" opacity="0.6"/>
+  <!-- Right wing -->
+  <path d="M42,18 C46,16 48,18 47,21 C46,22 44,22 42,21" fill="none" stroke="url(#aes-gold)" stroke-width="1.2" opacity="0.8"/>
+  <line x1="46.5" y1="19.5" x2="42" y2="19.5" stroke="url(#aes-gold)" stroke-width="0.7" opacity="0.6"/>
+
+  <!-- Lock body — center of shield -->
+  <rect x="18" y="24" width="12" height="10" rx="1.5" fill="url(#aes-gold)" opacity="0.9"/>
+  <!-- Lock shackle -->
+  <path d="M20,24 L20,20 A4,4 0 0,1 28,20 L28,24" fill="none" stroke="url(#aes-gold)" stroke-width="2" stroke-linecap="round"/>
+  <!-- Lock keyhole -->
+  <circle cx="24" cy="28.5" r="2" fill="#1C2731"/>
+  <rect x="23" y="29.5" width="2" height="2.5" fill="#1C2731"/>
+
+  <!-- "256" text inside shield bottom -->
+  <text x="24" y="41"
+        text-anchor="middle"
+        font-family="'Helvetica Neue', Arial, sans-serif"
+        font-size="6.5" font-weight="900"
+        letter-spacing="0.5"
+        fill="url(#aes-gold)"
+        opacity="0.95">256</text>
+
+</svg>

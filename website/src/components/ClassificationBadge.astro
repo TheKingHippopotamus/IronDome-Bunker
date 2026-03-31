@@ -1,0 +1,69 @@
+---
+type Level = 'top-secret' | 'classified' | 'restricted';
+
+interface Props {
+  text: string;
+  level?: Level;
+}
+
+const { text, level = 'classified' } = Astro.props;
+---
+
+<span class={`classification-badge classification-badge--${level}`} role="img" aria-label={`Classification: ${text}`}>
+  <span class="classification-badge__bracket" aria-hidden="true">[</span>
+  {text}
+  <span class="classification-badge__bracket" aria-hidden="true">]</span>
+</span>
+
+<style>
+  .classification-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.1em;
+    padding: 0.2rem 0.55rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    border-radius: 1px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .classification-badge__bracket {
+    opacity: 0.6;
+    font-weight: 400;
+  }
+
+  /* TOP SECRET — full gold background, dark text, maximum intensity */
+  .classification-badge--top-secret {
+    background-color: #FFD700;
+    border: 1px solid #FFD700;
+    color: #0a0e1a;
+  }
+
+  .classification-badge--top-secret .classification-badge__bracket {
+    color: rgba(10, 14, 26, 0.7);
+    opacity: 1;
+  }
+
+  /* CLASSIFIED — gold outline, gold text, medium intensity */
+  .classification-badge--classified {
+    background-color: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.5);
+    color: #FFD700;
+  }
+
+  /* RESTRICTED — muted outline, slate text, low intensity */
+  .classification-badge--restricted {
+    background-color: transparent;
+    border: 1px solid rgba(120, 144, 156, 0.35);
+    color: #78909C;
+  }
+
+  .classification-badge--restricted .classification-badge__bracket {
+    color: rgba(120, 144, 156, 0.5);
+    opacity: 1;
+  }
+</style>
