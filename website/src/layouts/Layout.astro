@@ -27,7 +27,11 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="IronDome" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary meta -->
@@ -42,7 +46,10 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     <!-- Favicons -->
     <link rel="icon"             type="image/svg+xml" href="/irondome-favicon.svg" />
     <link rel="icon"             type="image/x-icon"  href="/favicon.ico" />
-    <link rel="apple-touch-icon"                      href="/irondome-favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180"      href="/apple-touch-icon.png" />
+
+    <!-- Web App Manifest (PWA) -->
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
     <meta property="og:type"        content="website" />
@@ -118,5 +125,12 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     </main>
 
     <Footer />
+
+    <!-- Service Worker registration for PWA -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }
+    </script>
   </body>
 </html>

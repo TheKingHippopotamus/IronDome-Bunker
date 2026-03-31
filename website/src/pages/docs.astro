@@ -5,8 +5,11 @@ import '../styles/global.css';
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/irondome-favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a0e1a" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content="IronDome CLI Password Vault — Field Manual. Full documentation: installation, commands, auth modes, vault structure, and troubleshooting." />
@@ -784,11 +787,33 @@ import '../styles/global.css';
       }
       @media (max-width: 640px) {
         nav div { gap: 0.75rem; }
-        [style*="grid-template-columns: 2fr 1.5fr 3fr"] {
-          grid-template-columns: 1.5fr 1fr 2fr;
+        [style*="grid-template-columns: 2fr 1.5fr 3fr"],
+        [style*="grid-template-columns: 2fr 3fr"],
+        [style*="grid-template-columns: 1fr 1.2fr 1.4fr"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        [style*="grid-template-columns: repeat(auto-fit"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        [style*="grid-template-columns: repeat(auto-fill"] {
+          grid-template-columns: 1fr !important;
+        }
+
+        section { padding-block: 2.5rem !important; }
+
+        summary {
+          font-size: 0.875rem !important;
+        }
+
+        pre {
+          font-size: 0.75rem !important;
+          overflow-x: auto;
         }
       }
     </style>
 
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}</script>
   </body>
 </html>

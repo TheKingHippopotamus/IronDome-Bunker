@@ -6,8 +6,11 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/irondome-favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a0e1a" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
@@ -1338,5 +1341,41 @@ system_key = PBKDF2HMAC(
       </span>
     </div>
 
+  <style>
+    @media (max-width: 640px) {
+      section { padding-block: 2.5rem !important; }
+      .container { padding-inline: 1rem; }
+
+      [style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      [style*="grid-template-columns:repeat(auto-fill"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      [style*="grid-template-columns:repeat(auto-fit"] {
+        grid-template-columns: 1fr !important;
+      }
+
+      [style*="padding-block: 5rem"] {
+        padding-block: 2.5rem !important;
+      }
+
+      nav .container [style*="gap:1.5rem"] {
+        gap: 0.5rem !important;
+      }
+
+      pre {
+        font-size: 0.7rem !important;
+        padding: 0.75rem !important;
+      }
+    }
+
+    @media (max-width: 400px) {
+      section { padding-block: 2rem !important; }
+    }
+  </style>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}</script>
   </body>
 </html>

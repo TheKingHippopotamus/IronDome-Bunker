@@ -1,16 +1,55 @@
 {
   "name": "IronDome — Fortified CLI Vault",
   "short_name": "IronDome",
-  "description": "Zero-knowledge CLI password vault with AES-256 encryption",
-  "start_url": "/IronDome-Bunker/",
+  "description": "Zero-knowledge CLI password vault with AES-256 encryption. Your credentials never leave your machine.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0a0e1a",
   "theme_color": "#FFD700",
+  "categories": ["security", "utilities", "developer tools"],
+  "lang": "en",
+  "dir": "ltr",
   "icons": [
     {
-      "src": "/IronDome-Bunker/irondome-favicon.svg",
+      "src": "/irondome-favicon.svg",
       "sizes": "any",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/icon-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/Screenshot 2025-04-17 at 11.22.03 AM.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "IronDome CLI Vault — Home"
     }
   ]
 }
