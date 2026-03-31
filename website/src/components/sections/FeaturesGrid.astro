@@ -1,0 +1,285 @@
+---
+import ClassificationBadge from '../ClassificationBadge.astro';
+
+const features = [
+  {
+    title: 'AES-256 Encryption',
+    icon: '/IronDome-Bunker/shield-aes.svg',
+    description: 'Military-grade Fernet encryption. Every entry encrypted with unique key derived via PBKDF2 \u00d7 600,000.',
+  },
+  {
+    title: 'Zero Knowledge',
+    icon: '/IronDome-Bunker/shield-zero.svg',
+    description: 'Master password never stored. Not encrypted, not hashed for storage. Exists only in memory during session.',
+  },
+  {
+    title: 'Hardware Binding',
+    icon: '/IronDome-Bunker/shield-hardware.svg',
+    description: 'System key derived from CPU serial, motherboard UUID, hostname. Vault locked to your machine.',
+  },
+  {
+    title: 'Session Management',
+    icon: '/IronDome-Bunker/shield-session.svg',
+    description: '30-minute auto-timeout. Cross-process sessions. Token file chmod 0600.',
+  },
+  {
+    title: 'Brute Force Protection',
+    icon: '/IronDome-Bunker/shield-brute.svg',
+    description: 'Progressive lockout with exponential backoff. Per-device attempt tracking.',
+  },
+  {
+    title: 'Local Only',
+    icon: '/IronDome-Bunker/shield-local.svg',
+    description: 'Zero network calls. No cloud sync. No phone home. Attack surface: zero.',
+  },
+  {
+    title: 'Recovery System',
+    icon: null,
+    description: '24-word BIP-39 recovery phrase. 256 bits of entropy. Same standard as Bitcoin hardware wallets.',
+  },
+  {
+    title: 'Encrypted Backups',
+    icon: null,
+    description: '`bunker fortify` creates AES-256 encrypted snapshots. Same encryption chain, same hardware binding.',
+  },
+];
+---
+
+<section class="features-grid-section" aria-labelledby="features">
+  <div class="features-grid-section__inner">
+    <!-- Section heading -->
+    <div class="features-grid-section__header">
+      <ClassificationBadge text="TACTICAL CAPABILITIES" level="classified" />
+      <h2 class="features-grid-section__title" id="features">Full Feature Set</h2>
+      <p class="features-grid-section__subtitle">
+        Eight independent defense layers. Each one stops an attacker alone. Together, impenetrable.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="features-grid">
+      {features.map((feature) => (
+        <article class="fg-card">
+          <div class="fg-card__accent" aria-hidden="true"></div>
+
+          <div class="fg-card__icon" aria-hidden="true">
+            {feature.icon ? (
+              <img src={feature.icon} alt="" width="44" height="44" loading="lazy" />
+            ) : (
+              <svg
+                width="44"
+                height="44"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            )}
+          </div>
+
+          <h3 class="fg-card__title">{feature.title}</h3>
+          <p class="fg-card__desc" set:html={feature.description.replace(/`([^`]+)`/g, '<code>$1</code>')} />
+
+          <div class="fg-card__corner-tl" aria-hidden="true"></div>
+          <div class="fg-card__corner-br" aria-hidden="true"></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .features-grid-section {
+    position: relative;
+    padding: 5rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .features-grid-section__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .features-grid-section__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    gap: 0.875rem;
+  }
+
+  .features-grid-section__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .features-grid-section__subtitle {
+    font-size: 0.9375rem;
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0;
+  }
+
+  /* ── Grid ── */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 960px) {
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .features-grid-section {
+      padding: 3.5rem 1rem;
+    }
+  }
+
+  /* ── Card ── */
+  .fg-card {
+    position: relative;
+    background-color: #0D1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    padding: 1.5rem 1.375rem 1.375rem;
+    overflow: hidden;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fg-card:hover {
+    background-color: #111a0e;
+    border-color: rgba(139, 154, 70, 0.35);
+    box-shadow:
+      0 0 0 1px rgba(139, 154, 70, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Gold left-bar accent — animated on hover */
+  .fg-card__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(
+      180deg,
+      rgba(139, 154, 70, 0) 0%,
+      #8B9A46 40%,
+      #8B9A46 60%,
+      rgba(139, 154, 70, 0) 100%
+    );
+    transition: height 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fg-card:hover .fg-card__accent {
+    height: 100%;
+  }
+
+  /* Tactical corner decorations */
+  .fg-card__corner-tl,
+  .fg-card__corner-br {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(139, 154, 70, 0.2);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 250ms ease;
+  }
+
+  .fg-card:hover .fg-card__corner-tl,
+  .fg-card:hover .fg-card__corner-br {
+    border-color: rgba(139, 154, 70, 0.55);
+  }
+
+  .fg-card__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .fg-card__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Icon */
+  .fg-card__icon {
+    color: rgba(139, 154, 70, 0.75);
+    margin-bottom: 0.875rem;
+    transition: color 250ms ease;
+    line-height: 0;
+    width: 44px;
+    height: 44px;
+  }
+
+  .fg-card__icon img {
+    width: 44px;
+    height: 44px;
+    display: block;
+    opacity: 0.75;
+    transition: opacity 250ms ease;
+  }
+
+  .fg-card:hover .fg-card__icon {
+    color: #8B9A46;
+  }
+
+  .fg-card:hover .fg-card__icon img {
+    opacity: 1;
+  }
+
+  /* Title */
+  .fg-card__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  /* Description */
+  .fg-card__desc {
+    font-size: 0.85rem;
+    color: #78909C;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .fg-card__desc :global(code) {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #8B9A46;
+    background: rgba(139, 154, 70, 0.1);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+</style>

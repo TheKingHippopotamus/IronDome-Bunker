@@ -1,0 +1,278 @@
+---
+/**
+ * BadgesStats.astro
+ * Combines README badges and stats bar into a single credibility section.
+ * Social proof via shields.io badges + hard numbers for instant trust.
+ */
+
+interface StatItem {
+  value: string;
+  label: string;
+}
+
+const badges = [
+  {
+    href: "https://pypi.org/project/IronDome/",
+    src: "https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7",
+    alt: "PyPI version",
+  },
+  {
+    href: "https://pypi.org/project/IronDome/",
+    src: "https://img.shields.io/pypi/pyversions/IronDome?style=flat-square&logo=python&logoColor=white",
+    alt: "Python versions",
+  },
+  {
+    href: "https://pypi.org/project/IronDome/",
+    src: "https://img.shields.io/pypi/dm/IronDome?style=flat-square&color=orange&label=downloads",
+    alt: "Downloads",
+  },
+  {
+    href: "https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE",
+    src: "https://img.shields.io/github/license/TheKingHippopotamus/IronDome-Bunker?style=flat-square&color=green",
+    alt: "License",
+  },
+  {
+    href: "https://github.com/TheKingHippopotamus/IronDome-Bunker",
+    src: "https://img.shields.io/github/stars/TheKingHippopotamus/IronDome-Bunker?style=flat-square&logo=github&color=181717",
+    alt: "GitHub stars",
+  },
+  {
+    href: "https://github.com/TheKingHippopotamus/IronDome-Bunker/actions",
+    src: "https://img.shields.io/github/actions/workflow/status/TheKingHippopotamus/IronDome-Bunker/publish.yml?style=flat-square&label=CI&logo=githubactions&logoColor=white",
+    alt: "CI status",
+  },
+];
+
+const platformBadges = [
+  { label: "macOS", icon: "\uF8FF" },
+  { label: "Windows", icon: "\u{1FA9F}" },
+  { label: "Linux", icon: "\uD83D\uDC27" },
+  { label: "Touch ID", icon: "\uD83D\uDD10" },
+  { label: "Windows Hello", icon: "\uD83D\uDC4B" },
+  { label: "Fingerprint", icon: "\uD83E\uDDB6" },
+];
+
+const stats: StatItem[] = [
+  { value: "600,000", label: "PBKDF2 Iterations" },
+  { value: "AES-256", label: "Encryption Standard" },
+  { value: "3", label: "Biometric Platforms" },
+  { value: "ZERO", label: "Network Calls" },
+];
+---
+
+<section class="badges-stats" aria-label="Project credentials and statistics">
+  <!-- Row 1: shields.io badges -->
+  <div class="badges-row">
+    {badges.map((badge) => (
+      <a href={badge.href} target="_blank" rel="noopener noreferrer" class="badge-link">
+        <img src={badge.src} alt={badge.alt} height="18" loading="lazy" />
+      </a>
+    ))}
+  </div>
+
+  <!-- Row 2: platform badges -->
+  <div class="badges-row platform-row">
+    {platformBadges.map((p) => (
+      <span class="platform-badge">
+        <span class="platform-badge__icon" aria-hidden="true">{p.icon}</span>
+        <span class="platform-badge__label">{p.label}</span>
+      </span>
+    ))}
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar" role="region" aria-label="Key statistics">
+    <div class="stats-bar__inner">
+      {stats.map((stat, i) => (
+        <>
+          <div class="stats-bar__item">
+            <span class="stats-bar__value">{stat.value}</span>
+            <span class="stats-bar__label">{stat.label}</span>
+          </div>
+          {i < stats.length - 1 && (
+            <div class="stats-bar__divider" aria-hidden="true"></div>
+          )}
+        </>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section wrapper ── */
+  .badges-stats {
+    width: 100%;
+    background-color: #0A0D06;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.5rem 1rem 0;
+  }
+
+  /* ── Badge rows ── */
+  .badges-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .badge-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .badge-link:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  .badge-link img {
+    height: 18px;
+    display: block;
+  }
+
+  /* ── Platform badges ── */
+  .platform-row {
+    gap: 6px;
+  }
+
+  .platform-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 8px;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 3px;
+    background: rgba(74, 93, 35, 0.1);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #7A8B6A;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .platform-badge__icon {
+    font-size: 0.7rem;
+    line-height: 1;
+  }
+
+  .platform-badge__label {
+    line-height: 1;
+  }
+
+  /* ── Stats bar ── */
+  .stats-bar {
+    width: 100%;
+    border-top: 1px solid rgba(74, 93, 35, 0.25);
+    border-bottom: 1px solid rgba(74, 93, 35, 0.25);
+    background: rgba(10, 13, 6, 0.85);
+    padding: 0.875rem 0;
+    margin-top: 0.5rem;
+  }
+
+  .stats-bar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 960px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 4vw, 2rem);
+  }
+
+  .stats-bar__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .stats-bar__value {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #8B9A46;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-shadow: 0 0 8px rgba(139, 154, 70, 0.45),
+                 0 0 20px rgba(139, 154, 70, 0.15);
+  }
+
+  .stats-bar__label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7A8B6A;
+    white-space: nowrap;
+  }
+
+  /* Vertical divider between stats */
+  .stats-bar__divider {
+    width: 1px;
+    height: 2rem;
+    background-color: rgba(139, 154, 70, 0.3);
+    flex-shrink: 0;
+  }
+
+  /* ── Mobile: <= 640px ── */
+  @media (max-width: 640px) {
+    .badges-stats {
+      gap: 0.5rem;
+      padding: 1rem 0.75rem 0;
+    }
+
+    .badges-row {
+      gap: 3px;
+    }
+
+    .platform-row {
+      gap: 4px;
+    }
+
+    /* Stats become 2x2 grid */
+    .stats-bar__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.625rem 0;
+      justify-items: center;
+    }
+
+    /* Hide dividers on mobile */
+    .stats-bar__divider {
+      display: none;
+    }
+
+    .stats-bar__value {
+      font-size: 1.05rem;
+    }
+
+    .stats-bar__item {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  /* ── Tiny screens: <= 380px ── */
+  @media (max-width: 380px) {
+    .platform-badge {
+      padding: 2px 5px;
+      font-size: 0.55rem;
+    }
+
+    .badge-link img {
+      height: 16px;
+    }
+  }
+</style>

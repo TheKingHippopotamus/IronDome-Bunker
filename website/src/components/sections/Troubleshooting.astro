@@ -1,0 +1,266 @@
+---
+import TacticalHeading from '../TacticalHeading.astro';
+
+const items = [
+  {
+    question: 'Biometric not detected',
+    lines: [
+      { type: 'label', text: 'macOS' },
+      { type: 'text', text: 'Ensure Touch ID is enrolled in System Settings.' },
+      { type: 'label', text: 'Windows' },
+      { type: 'text', text: 'Enable Windows Hello in Settings > Accounts.' },
+      { type: 'label', text: 'Linux' },
+      { type: 'code', text: 'sudo apt install fprintd && sudo fprintd-enroll' },
+      { type: 'label', text: 'macOS (Python binding)' },
+      { type: 'code', text: 'pip install pyobjc-framework-LocalAuthentication' },
+      { type: 'label', text: 'Fallback' },
+      { type: 'text', text: 'Switch to Mode 3 via bunker settings.' },
+    ],
+  },
+  {
+    question: 'Session expired / Permission denied',
+    lines: [
+      { type: 'text', text: 'Sessions expire after 30 minutes of inactivity.' },
+      { type: 'label', text: 'Re-authenticate' },
+      { type: 'code', text: 'irondome open airspace' },
+      { type: 'label', text: 'Increase timeout' },
+      { type: 'code', text: 'session_timeout  in settings.json' },
+    ],
+  },
+  {
+    question: 'Forgot master password',
+    lines: [
+      { type: 'warn', text: 'CRITICAL: Zero-knowledge architecture means no server-side recovery.' },
+      { type: 'text', text: 'Use your 24-word recovery phrase to regain access.' },
+      { type: 'label', text: 'Recovery steps' },
+      { type: 'code', text: 'irondome create bunker' },
+      { type: 'text', text: 'Select "Recover from phrase", enter all 24 words, then set a new master password.' },
+    ],
+  },
+  {
+    question: 'irondome command not found',
+    lines: [
+      { type: 'text', text: 'The pip scripts directory may not be in your PATH.' },
+      { type: 'label', text: 'Verify installation' },
+      { type: 'code', text: 'python -m pip show IronDome' },
+      { type: 'label', text: 'Run directly via module' },
+      { type: 'code', text: 'python -m irondome create bunker' },
+      { type: 'label', text: 'Add to PATH permanently' },
+      { type: 'code', text: 'export PATH="$HOME/.local/bin:$PATH"' },
+    ],
+  },
+];
+---
+
+<section class="troubleshooting" id="troubleshoot" aria-labelledby="troubleshoot-heading">
+  <div class="troubleshooting__container">
+    <TacticalHeading
+      badge="TROUBLESHOOTING"
+      title="Common Issues"
+    />
+
+    <div class="accordion">
+      {items.map((item) => (
+        <details class="accordion__item">
+          <summary class="accordion__summary">
+            <span class="accordion__chevron" aria-hidden="true">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="accordion__question">{item.question}</span>
+          </summary>
+          <div class="accordion__body">
+            {item.lines.map((line) => {
+              if (line.type === 'label') {
+                return <p class="accordion__label">{line.text}</p>;
+              }
+              if (line.type === 'code') {
+                return (
+                  <div class="accordion__terminal">
+                    <code>$ {line.text}</code>
+                  </div>
+                );
+              }
+              if (line.type === 'warn') {
+                return <p class="accordion__warn">{line.text}</p>;
+              }
+              return <p class="accordion__text">{line.text}</p>;
+            })}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .troubleshooting {
+    padding: 6rem 1.5rem;
+    position: relative;
+  }
+
+  .troubleshooting__container {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  /* ---- Accordion ---- */
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 3.5rem;
+  }
+
+  .accordion__item {
+    background-color: #0D1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: border-color 0.25s ease;
+  }
+
+  .accordion__item:hover {
+    border-color: rgba(74, 93, 35, 0.5);
+  }
+
+  .accordion__item[open] {
+    border-color: rgba(74, 93, 35, 0.45);
+  }
+
+  /* ---- Summary (header) ---- */
+  .accordion__summary {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    transition: background-color 0.2s ease;
+  }
+
+  .accordion__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__summary::marker {
+    content: '';
+  }
+
+  .accordion__summary:hover {
+    background-color: rgba(74, 93, 35, 0.08);
+  }
+
+  /* ---- Chevron rotation ---- */
+  .accordion__chevron {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    border-radius: 2px;
+    background-color: rgba(74, 93, 35, 0.15);
+    color: #8B9A46;
+    transition: transform 0.3s ease, background-color 0.25s ease;
+  }
+
+  .accordion__item[open] .accordion__chevron {
+    transform: rotate(180deg);
+    background-color: rgba(74, 93, 35, 0.3);
+  }
+
+  .accordion__question {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- Body (expandable content) ---- */
+  .accordion__body {
+    padding: 0 1.25rem 1.25rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    animation: accordionSlide 0.3s ease;
+  }
+
+  @keyframes accordionSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ---- Content types ---- */
+  .accordion__label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    margin: 0.65rem 0 0.15rem;
+  }
+
+  .accordion__label:first-child {
+    margin-top: 0;
+  }
+
+  .accordion__text {
+    font-size: 0.8125rem;
+    color: #90A4AE;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .accordion__warn {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #FF6B35;
+    line-height: 1.6;
+    margin: 0.25rem 0;
+    padding: 0.5rem 0.75rem;
+    background-color: rgba(255, 107, 53, 0.06);
+    border-left: 2px solid rgba(255, 107, 53, 0.4);
+    border-radius: 0 3px 3px 0;
+  }
+
+  /* ---- Terminal-style code blocks ---- */
+  .accordion__terminal {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(74, 93, 35, 0.15);
+    border-radius: 3px;
+    padding: 0.5rem 0.75rem;
+    margin: 0.2rem 0;
+    overflow-x: auto;
+  }
+
+  .accordion__terminal code {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.78125rem;
+    color: #00FF41;
+    line-height: 1.6;
+    white-space: nowrap;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 600px) {
+    .accordion__body {
+      padding-left: 1.25rem;
+    }
+
+    .accordion__summary {
+      padding: 0.85rem 1rem;
+      font-size: 0.875rem;
+    }
+  }
+</style>

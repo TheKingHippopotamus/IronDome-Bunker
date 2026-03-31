@@ -1,0 +1,351 @@
+---
+/**
+ * Comparison.astro
+ * PSYCHOLOGY: DIFFERENTIATION — Show why IronDome is better than alternatives.
+ * Creates conviction through side-by-side comparison.
+ */
+
+const rows = [
+  {
+    capability: "Data Location",
+    irondome: "Your machine only",
+    cloud: "Their servers",
+  },
+  {
+    capability: "Network Required",
+    irondome: "Never",
+    cloud: "Always",
+  },
+  {
+    capability: "Zero Knowledge",
+    irondome: "True (no server exists)",
+    cloud: '"Trust us"',
+  },
+  {
+    capability: "Hardware Binding",
+    irondome: "Yes \u2014 key tied to device",
+    cloud: "No",
+  },
+  {
+    capability: "Open Source",
+    irondome: "GPL-3.0 (fully auditable)",
+    cloud: "Rarely",
+  },
+  {
+    capability: "Cost",
+    irondome: "Free forever",
+    cloud: "$3\u20135/month",
+  },
+  {
+    capability: "Biometric Auth",
+    irondome: "OS-native (Secure Enclave)",
+    cloud: "Browser plugin",
+  },
+  {
+    capability: "Breach Exposure",
+    irondome: "None (no server target)",
+    cloud: "Full vault at risk",
+  },
+  {
+    capability: "Offline Access",
+    irondome: "Always available",
+    cloud: "Requires internet",
+  },
+];
+---
+
+<section class="comparison" id="compare" aria-labelledby="compare-heading">
+  <!-- Section label -->
+  <div class="comparison__label-wrap">
+    <span class="comparison__label">INTELLIGENCE BRIEFING</span>
+  </div>
+
+  <!-- Heading -->
+  <h2 class="comparison__heading" id="compare-heading">
+    IronDome vs. Cloud Managers
+  </h2>
+
+  <!-- Subtitle -->
+  <p class="comparison__subtitle">
+    Side-by-side comparison. Local-first architecture eliminates entire attack
+    surface categories.
+  </p>
+
+  <!-- Decorative rule -->
+  <div class="comparison__rule" aria-hidden="true"></div>
+
+  <!-- Table container (horizontal scroll on mobile) -->
+  <div class="comparison__table-wrap">
+    <table class="comparison__table" role="table">
+      <thead>
+        <tr>
+          <th class="comparison__th comparison__th--cap">Capability</th>
+          <th class="comparison__th comparison__th--iron">IronDome</th>
+          <th class="comparison__th comparison__th--cloud">Cloud Managers</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row, i) => (
+          <tr class={`comparison__row ${i % 2 === 1 ? "comparison__row--alt" : ""}`}>
+            <td class="comparison__td comparison__td--cap">{row.capability}</td>
+            <td class="comparison__td comparison__td--iron">
+              <span class="comparison__check" aria-hidden="true">&#x2713;</span>
+              <span>{row.irondome}</span>
+            </td>
+            <td class="comparison__td comparison__td--cloud">
+              <span class="comparison__cross" aria-hidden="true">&#x2715;</span>
+              <span>{row.cloud}</span>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Assessment badge -->
+  <div class="comparison__assessment">
+    <span class="comparison__assessment-text">
+      LOCAL-FIRST ARCHITECTURE ELIMINATES ENTIRE ATTACK SURFACE CATEGORIES
+    </span>
+  </div>
+</section>
+
+<style>
+  /* -------------------------------------------------- */
+  /*  Section wrapper                                    */
+  /* -------------------------------------------------- */
+  .comparison {
+    position: relative;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Label / badge                                      */
+  /* -------------------------------------------------- */
+  .comparison__label-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .comparison__label {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8b9a46;
+    border: 1px solid rgba(74, 93, 35, 0.4);
+    border-radius: 2px;
+    padding: 0.25rem 0.75rem;
+    background: rgba(74, 93, 35, 0.08);
+  }
+
+  /* -------------------------------------------------- */
+  /*  Heading                                            */
+  /* -------------------------------------------------- */
+  .comparison__heading {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.875rem;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Subtitle                                           */
+  /* -------------------------------------------------- */
+  .comparison__subtitle {
+    font-size: 0.9375rem;
+    color: #78909c;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 0 1.25rem;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Decorative rule                                    */
+  /* -------------------------------------------------- */
+  .comparison__rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    margin-bottom: 3rem;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(139, 154, 70, 0.15) 15%,
+      rgba(139, 154, 70, 0.5) 50%,
+      rgba(139, 154, 70, 0.15) 85%,
+      transparent 100%
+    );
+  }
+
+  /* -------------------------------------------------- */
+  /*  Table wrapper — horizontal scroll on mobile        */
+  /* -------------------------------------------------- */
+  .comparison__table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid rgba(74, 93, 35, 0.3);
+    border-radius: 2px;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Table                                              */
+  /* -------------------------------------------------- */
+  .comparison__table {
+    width: 100%;
+    min-width: 640px;
+    border-collapse: collapse;
+    background-color: #0d1208;
+    text-align: left;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Table header                                       */
+  /* -------------------------------------------------- */
+  .comparison__th {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid rgba(74, 93, 35, 0.35);
+    background: rgba(139, 154, 70, 0.08);
+  }
+
+  .comparison__th--cap {
+    color: #78909c;
+    width: 28%;
+  }
+
+  .comparison__th--iron {
+    color: #00ff41;
+    width: 36%;
+  }
+
+  .comparison__th--cloud {
+    color: #8b2500;
+    width: 36%;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Table rows                                         */
+  /* -------------------------------------------------- */
+  .comparison__row {
+    transition: background-color 200ms ease;
+  }
+
+  .comparison__row:hover {
+    background-color: rgba(139, 154, 70, 0.05);
+  }
+
+  .comparison__row--alt {
+    background-color: rgba(139, 154, 70, 0.03);
+  }
+
+  .comparison__row--alt:hover {
+    background-color: rgba(139, 154, 70, 0.07);
+  }
+
+  /* -------------------------------------------------- */
+  /*  Table cells                                        */
+  /* -------------------------------------------------- */
+  .comparison__td {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid rgba(74, 93, 35, 0.15);
+    vertical-align: middle;
+  }
+
+  .comparison__td--cap {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #c8d4b0;
+  }
+
+  .comparison__td--iron {
+    color: #c8d4b0;
+  }
+
+  .comparison__td--cloud {
+    color: #78909c;
+  }
+
+  /* Remove bottom border on last row */
+  .comparison__row:last-child .comparison__td {
+    border-bottom: none;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Checkmark & cross icons                            */
+  /* -------------------------------------------------- */
+  .comparison__check,
+  .comparison__cross {
+    display: inline-block;
+    font-weight: 700;
+    margin-right: 0.5rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    vertical-align: middle;
+  }
+
+  .comparison__check {
+    color: #00ff41;
+  }
+
+  .comparison__cross {
+    color: #8b2500;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Assessment badge                                   */
+  /* -------------------------------------------------- */
+  .comparison__assessment {
+    margin-top: 2rem;
+    padding: 0.75rem 1.5rem;
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    border-radius: 2px;
+    background: rgba(0, 255, 65, 0.04);
+  }
+
+  .comparison__assessment-text {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #00ff41;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Responsive                                         */
+  /* -------------------------------------------------- */
+  @media (max-width: 680px) {
+    .comparison {
+      padding: 3.5rem 1rem;
+    }
+
+    .comparison__table-wrap {
+      margin: 0 -0.5rem;
+      width: calc(100% + 1rem);
+    }
+  }
+</style>

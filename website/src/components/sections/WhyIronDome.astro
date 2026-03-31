@@ -1,0 +1,275 @@
+---
+/**
+ * WhyIronDome.astro
+ * PSYCHOLOGY: IDENTITY & TRUST — three unbreakable security principles.
+ */
+
+const principles = [
+  {
+    title: "Zero Knowledge",
+    icon: "/IronDome-Bunker/shield-zero.svg",
+    description:
+      "Your master password never touches disk. Only a salted PBKDF2 hash \u2014 600,000 rounds \u2014 is derived in memory and immediately discarded. Even if someone dumps your filesystem, there is nothing to find.",
+  },
+  {
+    title: "Hardware Bound",
+    icon: "/IronDome-Bunker/shield-hardware.svg",
+    description:
+      "Encryption keys are derived from your machine\u2019s hardware fingerprint. Steal the vault file, copy it anywhere \u2014 it\u2019s encrypted to hardware it will never be on. No hardware, no access. Full stop.",
+  },
+  {
+    title: "Biometric Shield",
+    icon: "/IronDome-Bunker/shield-brute.svg",
+    description:
+      "Touch ID on macOS. Windows Hello on Win11. Fingerprint auth on Linux via PAM. Your body IS the second factor. Three failed attempts locks the vault for 60 minutes.",
+  },
+];
+---
+
+<section class="why-irondome" id="why" aria-labelledby="why-heading">
+  <!-- Section label -->
+  <div class="why-irondome__label-wrap">
+    <span class="why-irondome__label">SECURITY DOCTRINE</span>
+  </div>
+
+  <!-- Heading -->
+  <h2 class="why-irondome__heading" id="why-heading">Why IronDome</h2>
+
+  <!-- Subtitle -->
+  <p class="why-irondome__subtitle">
+    Built on three unbreakable principles. Every design decision traces back to them.
+  </p>
+
+  <!-- Decorative rule -->
+  <div class="why-irondome__rule" aria-hidden="true"></div>
+
+  <!-- Principles grid -->
+  <div class="why-irondome__grid">
+    {principles.map((p) => (
+      <article class="principle-card">
+        <div class="principle-card__accent" aria-hidden="true"></div>
+
+        <div class="principle-card__icon" aria-hidden="true">
+          <img src={p.icon} alt="" width="72" height="72" loading="lazy" />
+        </div>
+
+        <h3 class="principle-card__title">{p.title}</h3>
+        <p class="principle-card__desc">{p.description}</p>
+
+        <div class="principle-card__corner-tl" aria-hidden="true"></div>
+        <div class="principle-card__corner-br" aria-hidden="true"></div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* -------------------------------------------------- */
+  /*  Section wrapper                                    */
+  /* -------------------------------------------------- */
+  .why-irondome {
+    position: relative;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Label / badge                                      */
+  /* -------------------------------------------------- */
+  .why-irondome__label-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .why-irondome__label {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8b9a46;
+    border: 1px solid rgba(74, 93, 35, 0.4);
+    border-radius: 2px;
+    padding: 0.25rem 0.75rem;
+    background: rgba(74, 93, 35, 0.08);
+  }
+
+  /* -------------------------------------------------- */
+  /*  Heading                                            */
+  /* -------------------------------------------------- */
+  .why-irondome__heading {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.875rem;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Subtitle                                           */
+  /* -------------------------------------------------- */
+  .why-irondome__subtitle {
+    font-size: 0.9375rem;
+    color: #78909c;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0 0 1.25rem;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Decorative rule                                    */
+  /* -------------------------------------------------- */
+  .why-irondome__rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    margin-bottom: 3rem;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(139, 154, 70, 0.15) 15%,
+      rgba(139, 154, 70, 0.5) 50%,
+      rgba(139, 154, 70, 0.15) 85%,
+      transparent 100%
+    );
+  }
+
+  /* -------------------------------------------------- */
+  /*  Grid                                               */
+  /* -------------------------------------------------- */
+  .why-irondome__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    width: 100%;
+  }
+
+  @media (max-width: 860px) {
+    .why-irondome__grid {
+      grid-template-columns: 1fr;
+      max-width: 480px;
+    }
+  }
+
+  /* -------------------------------------------------- */
+  /*  Principle card                                     */
+  /* -------------------------------------------------- */
+  .principle-card {
+    position: relative;
+    background-color: #0d1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    padding: 2rem 1.5rem 1.75rem;
+    text-align: left;
+    overflow: hidden;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .principle-card:hover {
+    background-color: #111a0e;
+    border-color: rgba(139, 154, 70, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(139, 154, 70, 0.08),
+      0 0 24px rgba(139, 154, 70, 0.06),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Left-border accent — animated on hover */
+  .principle-card__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(
+      180deg,
+      rgba(139, 154, 70, 0) 0%,
+      #8b9a46 40%,
+      #8b9a46 60%,
+      rgba(139, 154, 70, 0) 100%
+    );
+    transition: height 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .principle-card:hover .principle-card__accent {
+    height: 100%;
+  }
+
+  /* Corner decorations */
+  .principle-card__corner-tl,
+  .principle-card__corner-br {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(139, 154, 70, 0.2);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 250ms ease;
+  }
+
+  .principle-card:hover .principle-card__corner-tl,
+  .principle-card:hover .principle-card__corner-br {
+    border-color: rgba(139, 154, 70, 0.55);
+  }
+
+  .principle-card__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .principle-card__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Icon */
+  .principle-card__icon {
+    margin-bottom: 1.25rem;
+    line-height: 0;
+    opacity: 0.85;
+    transition: opacity 250ms ease;
+  }
+
+  .principle-card__icon img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .principle-card:hover .principle-card__icon {
+    opacity: 1;
+  }
+
+  /* Title */
+  .principle-card__title {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8b9a46;
+    margin: 0 0 0.625rem;
+    line-height: 1.3;
+  }
+
+  /* Description */
+  .principle-card__desc {
+    font-size: 0.85rem;
+    color: #c8d4b0;
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>

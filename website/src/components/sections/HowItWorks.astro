@@ -1,0 +1,201 @@
+---
+import TacticalHeading from '../TacticalHeading.astro';
+
+const steps = [
+  {
+    number: '01',
+    title: 'Create Your Bunker',
+    command: '$ irondome create bunker',
+    description: 'Bootstrap your vault: set master password, configure auth mode, generate hardware-bound keys.',
+  },
+  {
+    number: '02',
+    title: 'Open Airspace',
+    command: '$ irondome open airspace',
+    description: 'Authenticate via biometric or password. Opens a 30-minute session. All vault commands unlocked.',
+  },
+  {
+    number: '03',
+    title: 'Manage Secrets',
+    command: '$ bunker create',
+    description: 'Add, retrieve, search, backup. Full encrypted vault operations from your terminal.',
+  },
+];
+---
+
+<section class="how-it-works" id="howto" aria-labelledby="howto-heading">
+  <div class="how-it-works__container">
+    <TacticalHeading
+      badge="DEPLOYMENT PROTOCOL"
+      title="How It Works"
+      subtitle="Three steps. No accounts. No server configuration. No cloud dependency."
+    />
+
+    <div class="steps-grid">
+      {steps.map((step, i) => (
+        <div class="step-item">
+          <div class="step-card">
+            <span class="step-badge">STEP {step.number}</span>
+            <h3 class="step-title">{step.title}</h3>
+
+            <div class="step-terminal">
+              <div class="step-terminal__bar">
+                <span class="step-terminal__dot" aria-hidden="true" />
+                <span class="step-terminal__dot" aria-hidden="true" />
+                <span class="step-terminal__dot" aria-hidden="true" />
+              </div>
+              <code class="step-terminal__command">{step.command}</code>
+            </div>
+
+            <p class="step-description">{step.description}</p>
+          </div>
+
+          {/* Dashed connector after steps 1 and 2 */}
+          {i < steps.length - 1 && (
+            <div class="step-connector" aria-hidden="true">
+              <svg width="100%" height="2" preserveAspectRatio="none">
+                <line x1="0" y1="1" x2="100%" y2="1" stroke="#8B9A46" stroke-width="2" stroke-dasharray="8 6" />
+              </svg>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .how-it-works {
+    padding: 6rem 1.5rem;
+    position: relative;
+  }
+
+  .how-it-works__container {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ---- Step grid ---- */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: start;
+    gap: 0;
+    margin-top: 4rem;
+  }
+
+  .step-item {
+    display: contents;
+  }
+
+  /* ---- Individual card ---- */
+  .step-card {
+    background-color: #0D1208;
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 4px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    transition: border-color 0.25s ease;
+  }
+
+  .step-card:hover {
+    border-color: rgba(139, 154, 70, 0.45);
+  }
+
+  /* ---- Step badge ---- */
+  .step-badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 0.2rem 0.65rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #0D1208;
+    background-color: #8B9A46;
+    border-radius: 2px;
+    line-height: 1.6;
+  }
+
+  /* ---- Step title ---- */
+  .step-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  /* ---- Mini terminal ---- */
+  .step-terminal {
+    background-color: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(139, 154, 70, 0.15);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .step-terminal__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.4rem 0.65rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(139, 154, 70, 0.08);
+  }
+
+  .step-terminal__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgba(139, 154, 70, 0.35);
+  }
+
+  .step-terminal__command {
+    display: block;
+    padding: 0.75rem 0.85rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: #00FF41;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  /* ---- Description ---- */
+  .step-description {
+    font-size: 0.875rem;
+    color: #78909C;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ---- Dashed connector ---- */
+  .step-connector {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    align-self: center;
+    margin-top: 2rem;
+    width: 48px;
+  }
+
+  .step-connector svg {
+    display: block;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 860px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .step-connector {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,316 @@
+---
+import ClassificationBadge from '../ClassificationBadge.astro';
+
+const threats = [
+  {
+    id: 'T-001',
+    title: 'VAULT FILE STOLEN',
+    level: 'HIGH',
+    color: '#8B2500',
+    scenario: 'Attacker gains filesystem access and copies .passwords.enc from disk.',
+    defense: 'Hardware-bound encryption key. The vault is machine-specific. On any other hardware, decryption produces garbage.',
+  },
+  {
+    id: 'T-002',
+    title: 'BRUTE FORCE ATTACK',
+    level: 'HIGH',
+    color: '#8B2500',
+    scenario: 'Attacker runs a password cracking tool against the vault file offline.',
+    defense: '600,000 PBKDF2 iterations makes each guess ~0.3\u20130.8s. Adaptive lockout. Hardware binding means cracking requires your specific machine.',
+  },
+  {
+    id: 'T-003',
+    title: 'MEMORY DUMP',
+    level: 'MEDIUM',
+    color: '#f59e0b',
+    scenario: 'Malicious process dumps RAM to extract decrypted passwords.',
+    defense: 'Memory locking (mlock) prevents swapping. Signal handlers zero-fill sensitive buffers before exit.',
+  },
+  {
+    id: 'T-004',
+    title: 'CLIPBOARD SNIFFING',
+    level: 'MEDIUM',
+    color: '#f59e0b',
+    scenario: 'Malicious background app reads clipboard after you copy a password.',
+    defense: 'Automatic clipboard clearing after 30 seconds. Overwritten with random bytes, not just emptied.',
+  },
+  {
+    id: 'T-005',
+    title: 'SESSION HIJACKING',
+    level: 'MEDIUM',
+    color: '#f59e0b',
+    scenario: 'Attacker gains access to a live terminal session.',
+    defense: 'Session file chmod 0600. Hard 30-minute timeout. Token randomly generated per login, never reused.',
+  },
+  {
+    id: 'T-006',
+    title: 'MAN-IN-THE-MIDDLE',
+    level: 'NONE',
+    color: '#34d399',
+    scenario: 'Attacker intercepts traffic between the app and a backend.',
+    defense: 'There is no backend. Zero network calls. No traffic to intercept. Attack surface is zero.',
+  },
+  {
+    id: 'T-007',
+    title: 'SHOULDER SURFING',
+    level: 'LOW',
+    color: '#4A6B8B',
+    scenario: 'Someone observes the screen during authentication.',
+    defense: 'Biometric gate authenticates before password. TUI masks all output. Secure terminal echo suppression.',
+  },
+  {
+    id: 'T-008',
+    title: 'SERVER BREACH',
+    level: 'NONE',
+    color: '#34d399',
+    scenario: 'Attacker compromises a cloud server and dumps stored passwords.',
+    defense: 'There is no database. There is no server. There is no cloud. Everything exists only on your local filesystem.',
+  },
+];
+---
+
+<section class="threat-model" aria-labelledby="threats">
+  <div class="threat-model__inner">
+    <!-- Section heading -->
+    <div class="threat-model__header">
+      <ClassificationBadge text="THREAT MODEL" level="top-secret" />
+      <h2 class="threat-model__title" id="threats">What IronDome Defends Against</h2>
+      <p class="threat-model__subtitle">
+        Security without a threat model is theater. These are the real attack vectors.
+      </p>
+    </div>
+
+    <!-- Grid -->
+    <div class="threat-grid">
+      {threats.map((threat) => (
+        <article class="tm-card" style={`--threat-color: ${threat.color};`}>
+          <div class="tm-card__border-accent" aria-hidden="true"></div>
+
+          <div class="tm-card__head">
+            <span class="tm-card__id">{threat.id}</span>
+            <span class="tm-card__level" style={`background-color: ${threat.color}; color: ${threat.level === 'MEDIUM' ? '#0D1208' : '#fff'};`}>
+              {threat.level}
+            </span>
+          </div>
+
+          <h3 class="tm-card__title">{threat.title}</h3>
+
+          <div class="tm-card__block">
+            <span class="tm-card__label">SCENARIO</span>
+            <p class="tm-card__text">{threat.scenario}</p>
+          </div>
+
+          <div class="tm-card__block">
+            <span class="tm-card__label tm-card__label--defense">DEFENSE</span>
+            <p class="tm-card__text tm-card__text--defense">{threat.defense}</p>
+          </div>
+
+          <div class="tm-card__corner-tl" aria-hidden="true"></div>
+          <div class="tm-card__corner-br" aria-hidden="true"></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .threat-model {
+    position: relative;
+    padding: 5rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .threat-model__inner {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .threat-model__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    gap: 0.875rem;
+  }
+
+  .threat-model__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .threat-model__subtitle {
+    font-size: 0.9375rem;
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 560px;
+    margin: 0;
+  }
+
+  /* ── Grid ── */
+  .threat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 400px) {
+    .threat-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .threat-model {
+      padding: 3.5rem 1rem;
+    }
+  }
+
+  /* ── Card ── */
+  .tm-card {
+    position: relative;
+    background-color: #0D1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-left: none;
+    border-radius: 2px;
+    padding: 1.25rem 1.375rem 1.25rem 1.625rem;
+    overflow: hidden;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .tm-card:hover {
+    background-color: #111a0e;
+    border-color: rgba(139, 154, 70, 0.35);
+    box-shadow:
+      0 0 0 1px rgba(139, 154, 70, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Colored left border accent */
+  .tm-card__border-accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background-color: var(--threat-color);
+    opacity: 0.7;
+    transition: opacity 250ms ease;
+  }
+
+  .tm-card:hover .tm-card__border-accent {
+    opacity: 1;
+  }
+
+  /* Tactical corner decorations */
+  .tm-card__corner-tl,
+  .tm-card__corner-br {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(139, 154, 70, 0.2);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 250ms ease;
+  }
+
+  .tm-card:hover .tm-card__corner-tl,
+  .tm-card:hover .tm-card__corner-br {
+    border-color: rgba(139, 154, 70, 0.55);
+  }
+
+  .tm-card__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .tm-card__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Card header row */
+  .tm-card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.625rem;
+  }
+
+  .tm-card__id {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--threat-color);
+    opacity: 0.85;
+  }
+
+  .tm-card__level {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border-radius: 1px;
+    line-height: 1.5;
+  }
+
+  /* Card title */
+  .tm-card__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #e2e8f0;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    margin: 0 0 0.875rem;
+    line-height: 1.3;
+  }
+
+  /* Scenario / Defense blocks */
+  .tm-card__block {
+    margin-bottom: 0.625rem;
+  }
+
+  .tm-card__block:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .tm-card__label {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #78909C;
+    margin-bottom: 0.25rem;
+    opacity: 0.7;
+  }
+
+  .tm-card__label--defense {
+    color: #8B9A46;
+  }
+
+  .tm-card__text {
+    font-size: 0.8125rem;
+    color: #78909C;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .tm-card__text--defense {
+    color: #9CA3AF;
+  }
+</style>
