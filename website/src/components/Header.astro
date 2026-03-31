@@ -25,7 +25,10 @@ function isActive(href: string): boolean {
   aria-hidden="true"
 />
 
-<header class="site-header scan-line-animate" role="banner">
+<header class="site-header" role="banner">
+  <!-- Top edge tactical line -->
+  <div class="header-top-edge" aria-hidden="true"></div>
+
   <div class="header-inner">
 
     <!-- Brand -->
@@ -40,6 +43,11 @@ function isActive(href: string): boolean {
           aria-hidden="true"
         />
         <span class="brand-status-dot" aria-hidden="true"></span>
+        <!-- Corner brackets -->
+        <span class="brand-corner brand-corner--tl" aria-hidden="true"></span>
+        <span class="brand-corner brand-corner--tr" aria-hidden="true"></span>
+        <span class="brand-corner brand-corner--bl" aria-hidden="true"></span>
+        <span class="brand-corner brand-corner--br" aria-hidden="true"></span>
       </div>
       <div class="brand-text-wrap">
         <span class="brand-name">IRONDOME</span>
@@ -67,6 +75,12 @@ function isActive(href: string): boolean {
 
     <!-- Header right: CTA + hamburger -->
     <div class="header-right">
+      <!-- System status indicator -->
+      <div class="system-status" aria-hidden="true">
+        <span class="status-indicator"></span>
+        <span class="status-text">SYS:OK</span>
+      </div>
+
       <a
         href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
         target="_blank"
@@ -77,7 +91,8 @@ function isActive(href: string): boolean {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
         </svg>
-        <span>GitHub</span>
+        <span>DEPLOY</span>
+        <span class="cta-arrow" aria-hidden="true">&rsaquo;</span>
       </a>
 
       <!-- Hamburger label (CSS-only toggle) -->
@@ -96,12 +111,20 @@ function isActive(href: string): boolean {
 
   </div><!-- /.header-inner -->
 
-  <!-- Gold scan line bottom border -->
-  <div class="header-border" aria-hidden="true"></div>
+  <!-- Army scan line bottom border -->
+  <div class="header-border" aria-hidden="true">
+    <div class="header-border-line"></div>
+    <div class="header-border-scan"></div>
+  </div>
 </header>
 
 <!-- Mobile navigation drawer -->
 <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+  <div class="mobile-nav-section-label" aria-hidden="true">
+    <span class="section-label-line"></span>
+    <span class="section-label-text">NAVIGATION</span>
+    <span class="section-label-line"></span>
+  </div>
   <ul class="mobile-nav-list" role="list">
     {navLinks.map(link => (
       <li class="mobile-nav-item">
@@ -110,8 +133,8 @@ function isActive(href: string): boolean {
           class={`mobile-nav-link ${isActive(link.href) ? 'mobile-nav-link--active' : ''}`}
           aria-current={isActive(link.href) ? 'page' : undefined}
         >
-          <span class="mobile-nav-code" aria-hidden="true">{link.code} /</span>
-          <span>{link.label}</span>
+          <span class="mobile-nav-code" aria-hidden="true">CMD:{link.code} //</span>
+          <span class="mobile-nav-label">{link.label}</span>
           {isActive(link.href) && (
             <span class="mobile-active-indicator" aria-hidden="true">ACTIVE</span>
           )}
@@ -119,9 +142,31 @@ function isActive(href: string): boolean {
       </li>
     ))}
   </ul>
+  <div class="mobile-nav-section-label" aria-hidden="true">
+    <span class="section-label-line"></span>
+    <span class="section-label-text">EXTERNAL</span>
+    <span class="section-label-line"></span>
+  </div>
+  <div class="mobile-nav-external">
+    <a
+      href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mobile-external-link"
+    >
+      <span class="mobile-nav-code" aria-hidden="true">EXT:01 //</span>
+      <span>GitHub Repository</span>
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+      </svg>
+    </a>
+  </div>
   <div class="mobile-nav-footer">
-    <span class="classification-badge">SECURE CONNECTION</span>
-    <div class="status-dot" aria-hidden="true" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#34d399;"></div>
+    <div class="mobile-footer-content">
+      <span class="classification-badge">SECURE CONNECTION</span>
+      <span class="mobile-footer-dot" aria-hidden="true"></span>
+    </div>
+    <span class="mobile-footer-id" aria-hidden="true">NODE:7A2F // ENCRYPTED</span>
   </div>
 </nav>
 
@@ -130,8 +175,24 @@ function isActive(href: string): boolean {
 
 <style>
   /* ============================================================
-     HEADER COMPONENT STYLES
+     IRONDOME HEADER — MILITARY COMMAND CENTER HUD
      ============================================================ */
+
+  :root {
+    --army-olive-dark: #4A5D23;
+    --army-olive: #5C7A29;
+    --army-olive-light: #8B9A46;
+    --night-vision: #00FF41;
+    --hud-bg: rgba(10,13,6,0.95);
+    --hud-bg-solid: #0A0D06;
+    --text-primary: #C8D4B0;
+    --text-muted: #7A8B6A;
+    --text-dim: #5A6B4A;
+    --border-subtle: rgba(74,93,35,0.25);
+    --glow-olive: rgba(139,154,70,0.6);
+    --glow-green: rgba(0,255,65,0.5);
+    --mono: ui-monospace, "Cascadia Code", "Fira Code", "Source Code Pro", Menlo, monospace;
+  }
 
   /* Hidden checkbox toggle */
   .nav-toggle-input {
@@ -149,9 +210,27 @@ function isActive(href: string): boolean {
     left: 0;
     right: 0;
     z-index: 100;
-    background-color: rgba(10, 14, 26, 0.95);
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    background: var(--hud-bg);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    box-shadow:
+      0 2px 20px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(139,154,70,0.08);
+  }
+
+  .header-top-edge {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--army-olive-dark) 15%,
+      var(--army-olive) 35%,
+      var(--army-olive-light) 50%,
+      var(--army-olive) 65%,
+      var(--army-olive-dark) 85%,
+      transparent 100%
+    );
+    opacity: 0.5;
   }
 
   .header-inner {
@@ -159,7 +238,7 @@ function isActive(href: string): boolean {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    height: 64px;
+    height: 68px;
     max-width: 1200px;
     margin-inline: auto;
     padding-inline: clamp(1rem, 4vw, 2rem);
@@ -173,52 +252,101 @@ function isActive(href: string): boolean {
     text-decoration: none;
     flex-shrink: 0;
     color: inherit;
-    transition: opacity 150ms ease;
+    transition: opacity 180ms ease;
   }
 
   .brand:hover {
-    opacity: 0.9;
+    opacity: 0.88;
     color: inherit;
   }
 
   .brand-icon-wrap {
     position: relative;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(255, 215, 0, 0.06);
-    border: 1px solid rgba(255, 215, 0, 0.15);
-    border-radius: 2px;
+    background: linear-gradient(135deg, rgba(74,93,35,0.15), rgba(92,122,41,0.08));
+    border: 1px solid rgba(92,122,41,0.35);
+    border-radius: 3px;
     flex-shrink: 0;
   }
 
+  /* Corner bracket decorations */
+  .brand-corner {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-color: var(--army-olive);
+    border-style: solid;
+    border-width: 0;
+    opacity: 0.6;
+  }
+
+  .brand-corner--tl {
+    top: -2px;
+    left: -2px;
+    border-top-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .brand-corner--tr {
+    top: -2px;
+    right: -2px;
+    border-top-width: 1px;
+    border-right-width: 1px;
+  }
+
+  .brand-corner--bl {
+    bottom: -2px;
+    left: -2px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+  }
+
+  .brand-corner--br {
+    bottom: -2px;
+    right: -2px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+  }
+
   .brand-icon {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
+    filter: brightness(0.9) sepia(0.3) hue-rotate(50deg) saturate(1.4);
   }
 
   .brand-status-dot {
     position: absolute;
-    top: -2px;
-    right: -2px;
-    width: 6px;
-    height: 6px;
+    top: -3px;
+    right: -3px;
+    width: 7px;
+    height: 7px;
     border-radius: 50%;
-    background-color: #34d399;
-    box-shadow: 0 0 6px rgba(52, 211, 153, 0.7);
-    animation: glow-pulse 2s ease-in-out infinite;
-    border: 1px solid rgba(10, 14, 26, 0.8);
+    background-color: var(--night-vision);
+    box-shadow:
+      0 0 4px var(--glow-green),
+      0 0 12px rgba(0,255,65,0.3);
+    animation: nightvision-pulse 2s ease-in-out infinite;
+    border: 1.5px solid var(--hud-bg-solid);
   }
 
-  @keyframes glow-pulse {
+  @keyframes nightvision-pulse {
     0%, 100% {
-      box-shadow: 0 0 4px rgba(52, 211, 153, 0.6);
+      box-shadow:
+        0 0 4px rgba(0,255,65,0.4),
+        0 0 8px rgba(0,255,65,0.15);
+      opacity: 0.85;
     }
     50% {
-      box-shadow: 0 0 10px rgba(52, 211, 153, 1), 0 0 18px rgba(52, 211, 153, 0.4);
+      box-shadow:
+        0 0 6px rgba(0,255,65,0.8),
+        0 0 18px rgba(0,255,65,0.35),
+        0 0 30px rgba(0,255,65,0.1);
+      opacity: 1;
     }
   }
 
@@ -229,22 +357,25 @@ function isActive(href: string): boolean {
   }
 
   .brand-name {
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: #FFD700;
-    text-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+    font-family: var(--mono);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    color: var(--army-olive-light);
+    text-shadow:
+      0 0 10px rgba(139,154,70,0.4),
+      0 0 25px rgba(92,122,41,0.15);
+    text-transform: uppercase;
   }
 
   .brand-sub {
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
-    font-size: 0.6rem;
+    font-family: var(--mono);
+    font-size: 0.55rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
-    color: #546E7A;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
     text-transform: uppercase;
-    margin-top: 2px;
+    margin-top: 3px;
   }
 
   /* ── Desktop nav ──────────────────────────────────────────── */
@@ -263,7 +394,7 @@ function isActive(href: string): boolean {
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 2px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -277,86 +408,139 @@ function isActive(href: string): boolean {
     display: flex;
     align-items: center;
     gap: 0.375rem;
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem 0.85rem;
     border-radius: 2px;
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
-    font-size: 0.8rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #78909C;
+    color: var(--text-muted);
     text-decoration: none;
     border: 1px solid transparent;
     transition:
-      color 150ms ease,
-      background-color 150ms ease,
-      border-color 150ms ease;
+      color 180ms ease,
+      background-color 180ms ease,
+      border-color 180ms ease,
+      text-shadow 180ms ease;
     position: relative;
   }
 
   .nav-link:hover {
-    color: #FFD700;
-    background-color: rgba(255, 215, 0, 0.04);
-    border-color: rgba(255, 215, 0, 0.08);
+    color: var(--army-olive-light);
+    background-color: rgba(74,93,35,0.1);
+    border-color: rgba(74,93,35,0.2);
+    text-shadow: 0 0 8px rgba(139,154,70,0.3);
   }
 
   .nav-link--active {
-    color: #FFD700;
-    background-color: rgba(255, 215, 0, 0.06);
-    border-color: rgba(255, 215, 0, 0.12);
+    color: var(--army-olive-light);
+    background-color: rgba(74,93,35,0.12);
+    border-color: rgba(92,122,41,0.25);
+    text-shadow: 0 0 8px rgba(139,154,70,0.4);
   }
 
-  /* Active bottom indicator */
+  /* Active bottom indicator - army green bar with glow */
   .nav-link--active::after {
     content: "";
     position: absolute;
     bottom: -1px;
-    left: 25%;
-    right: 25%;
-    height: 1px;
-    background-color: #FFD700;
-    box-shadow: 0 0 6px rgba(255, 215, 0, 0.6);
+    left: 20%;
+    right: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--army-olive-light), transparent);
+    box-shadow:
+      0 0 6px var(--glow-olive),
+      0 0 12px rgba(139,154,70,0.3);
+    border-radius: 1px;
   }
 
   .nav-link-code {
-    font-size: 0.625rem;
-    color: rgba(255, 215, 0, 0.35);
+    font-size: 0.6rem;
+    color: var(--text-dim);
     letter-spacing: 0.05em;
-    transition: color 150ms ease;
+    opacity: 0.6;
+    transition: opacity 180ms ease, color 180ms ease;
   }
 
   .nav-link:hover .nav-link-code,
   .nav-link--active .nav-link-code {
-    color: rgba(255, 215, 0, 0.6);
+    opacity: 1;
+    color: rgba(139,154,70,0.7);
+  }
+
+  .nav-link-label {
+    position: relative;
+  }
+
+  /* ── System status (desktop) ──────────────────────────────── */
+  .system-status {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    padding: 0 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    border-right: 1px solid var(--border-subtle);
+    padding-right: 0.75rem;
+    margin-right: 0.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .system-status {
+      display: flex;
+    }
+  }
+
+  .status-indicator {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--night-vision);
+    box-shadow: 0 0 6px var(--glow-green);
+    animation: nightvision-pulse 2.5s ease-in-out infinite;
+  }
+
+  .status-text {
+    color: var(--text-dim);
   }
 
   /* ── Header right ─────────────────────────────────────────── */
   .header-right {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     flex-shrink: 0;
   }
 
+  /* GitHub CTA - Military hardware button */
   .header-cta {
     display: none;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.4rem 0.875rem;
-    background-color: transparent;
-    color: #78909C;
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    background: linear-gradient(180deg, rgba(92,122,41,0.2) 0%, rgba(74,93,35,0.12) 100%);
+    color: var(--army-olive-light);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    border: 1px solid rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(92,122,41,0.4);
     border-radius: 2px;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
     transition:
-      color 150ms ease,
-      border-color 150ms ease,
-      background-color 150ms ease;
+      color 200ms ease,
+      border-color 200ms ease,
+      background 200ms ease,
+      box-shadow 200ms ease;
+    box-shadow:
+      0 1px 3px rgba(0,0,0,0.3),
+      inset 0 1px 0 rgba(139,154,70,0.1);
   }
 
   @media (min-width: 640px) {
@@ -365,10 +549,40 @@ function isActive(href: string): boolean {
     }
   }
 
+  .header-cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(139,154,70,0.08), transparent);
+    transform: translateX(-100%);
+    transition: transform 400ms ease;
+  }
+
+  .header-cta:hover::before {
+    transform: translateX(100%);
+  }
+
   .header-cta:hover {
-    color: #FFD700;
-    border-color: rgba(255, 215, 0, 0.4);
-    background-color: rgba(255, 215, 0, 0.04);
+    color: var(--night-vision);
+    border-color: rgba(0,255,65,0.4);
+    background: linear-gradient(180deg, rgba(92,122,41,0.3) 0%, rgba(74,93,35,0.18) 100%);
+    box-shadow:
+      0 1px 8px rgba(0,255,65,0.15),
+      0 0 20px rgba(0,255,65,0.05),
+      inset 0 1px 0 rgba(0,255,65,0.1);
+    text-shadow: 0 0 8px rgba(0,255,65,0.4);
+  }
+
+  .cta-arrow {
+    font-size: 1.1rem;
+    line-height: 1;
+    opacity: 0.6;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .header-cta:hover .cta-arrow {
+    opacity: 1;
+    transform: translateX(2px);
   }
 
   /* ── Hamburger ────────────────────────────────────────────── */
@@ -377,14 +591,17 @@ function isActive(href: string): boolean {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 4px;
-    width: 36px;
-    height: 36px;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
-    border: 1px solid rgba(255, 215, 0, 0.1);
+    border: 1px solid rgba(74,93,35,0.3);
     border-radius: 2px;
-    background-color: rgba(255, 215, 0, 0.03);
-    transition: border-color 150ms ease;
+    background: linear-gradient(180deg, rgba(74,93,35,0.08) 0%, rgba(74,93,35,0.03) 100%);
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      box-shadow 180ms ease;
     flex-shrink: 0;
   }
 
@@ -395,98 +612,124 @@ function isActive(href: string): boolean {
   }
 
   .hamburger:hover {
-    border-color: rgba(255, 215, 0, 0.3);
+    border-color: rgba(92,122,41,0.5);
+    background: rgba(74,93,35,0.12);
+    box-shadow: 0 0 10px rgba(139,154,70,0.1);
   }
 
   .hamburger-line {
     display: block;
-    width: 16px;
-    height: 1px;
-    background-color: #78909C;
+    width: 18px;
+    height: 2px;
+    background-color: var(--army-olive-light);
     transition:
-      transform 250ms ease,
-      opacity 250ms ease,
-      background-color 150ms ease;
+      transform 280ms cubic-bezier(0.4,0,0.2,1),
+      opacity 280ms ease,
+      background-color 180ms ease;
     transform-origin: center;
+    border-radius: 1px;
   }
 
   .hamburger:hover .hamburger-line {
-    background-color: #FFD700;
+    background-color: var(--night-vision);
+    box-shadow: 0 0 4px rgba(0,255,65,0.3);
   }
 
   /* Animated X when open */
+  .nav-toggle-input:checked ~ header .hamburger {
+    border-color: rgba(0,255,65,0.3);
+    background: rgba(0,255,65,0.05);
+  }
+
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(1) {
-    transform: translateY(5px) rotate(45deg);
-    background-color: #FFD700;
+    transform: translateY(7px) rotate(45deg);
+    background-color: var(--night-vision);
+    box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
 
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(2) {
     opacity: 0;
+    transform: scaleX(0);
   }
 
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(3) {
-    transform: translateY(-5px) rotate(-45deg);
-    background-color: #FFD700;
+    transform: translateY(-7px) rotate(-45deg);
+    background-color: var(--night-vision);
+    box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
 
-  /* ── Header bottom border with scan line ─────────────────── */
+  /* ── Header bottom border with scanning line ──────────────── */
   .header-border {
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(255, 215, 0, 0.08) 10%,
-      rgba(255, 215, 0, 0.25) 30%,
-      rgba(255, 215, 0, 0.5) 50%,
-      rgba(255, 215, 0, 0.25) 70%,
-      rgba(255, 215, 0, 0.08) 90%,
-      transparent 100%
-    );
     position: relative;
+    height: 1px;
     overflow: hidden;
   }
 
-  /* Moving scan dot on the border */
-  .header-border::after {
-    content: "";
+  .header-border-line {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(74,93,35,0.15) 10%,
+      rgba(92,122,41,0.35) 30%,
+      rgba(139,154,70,0.5) 50%,
+      rgba(92,122,41,0.35) 70%,
+      rgba(74,93,35,0.15) 90%,
+      transparent 100%
+    );
+  }
+
+  /* Scanning dot animation */
+  .header-border-scan {
     position: absolute;
     top: -1px;
-    left: -10%;
-    width: 20%;
+    left: -15%;
+    width: 15%;
     height: 3px;
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 215, 0, 0.8),
+      var(--night-vision),
       transparent
     );
-    animation: border-scan 4s linear infinite;
+    opacity: 0.7;
+    animation: hud-scan 5s linear infinite;
+    border-radius: 2px;
+    box-shadow: 0 0 8px var(--glow-green);
   }
 
-  @keyframes border-scan {
-    from { left: -20%; }
-    to   { left: 120%; }
+  @keyframes hud-scan {
+    0% { left: -15%; opacity: 0; }
+    5% { opacity: 0.7; }
+    90% { opacity: 0.7; }
+    100% { left: 115%; opacity: 0; }
   }
 
   /* ── Mobile nav drawer ────────────────────────────────────── */
   .mobile-nav {
     position: fixed;
-    top: 65px;
+    top: 71px;
     left: 0;
     right: 0;
     z-index: 99;
-    background-color: rgba(10, 14, 26, 0.98);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-    transform: translateY(-100%);
+    background: rgba(8,10,5,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(74,93,35,0.2);
+    transform: translateY(-110%);
     opacity: 0;
     visibility: hidden;
     transition:
-      transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
       opacity 300ms ease,
       visibility 300ms ease;
     pointer-events: none;
+    max-height: calc(100vh - 71px);
+    overflow-y: auto;
+    box-shadow:
+      0 8px 30px rgba(0,0,0,0.5),
+      inset 0 1px 0 rgba(74,93,35,0.1);
   }
 
   .nav-toggle-input:checked ~ .mobile-nav {
@@ -496,18 +739,44 @@ function isActive(href: string): boolean {
     pointer-events: auto;
   }
 
+  /* Section labels */
+  .mobile-nav-section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem clamp(1.25rem, 4vw, 2rem);
+    padding-bottom: 0.25rem;
+  }
+
+  .section-label-text {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    color: var(--text-dim);
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  .section-label-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border-subtle), transparent);
+  }
+
+  .section-label-line:first-child {
+    background: linear-gradient(90deg, transparent, var(--border-subtle));
+  }
+
   .mobile-nav-list {
     list-style: none;
     margin: 0;
     padding: 0;
-    padding-block: 0.5rem;
-    max-width: 1200px;
-    margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-inline: clamp(1.25rem, 4vw, 2rem);
   }
 
   .mobile-nav-item {
-    border-bottom: 1px solid rgba(255, 215, 0, 0.04);
+    border-bottom: 1px solid rgba(74,93,35,0.08);
   }
 
   .mobile-nav-item:last-child {
@@ -518,54 +787,147 @@ function isActive(href: string): boolean {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.875rem 0;
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
-    font-size: 0.875rem;
+    padding: 0.9rem 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: #78909C;
+    color: var(--text-muted);
     text-decoration: none;
-    transition: color 150ms ease;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      padding-left 180ms ease;
+    border-radius: 2px;
+    border-left: 2px solid transparent;
   }
 
   .mobile-nav-link:hover {
-    color: #FFD700;
+    color: var(--army-olive-light);
+    background-color: rgba(74,93,35,0.06);
+    padding-left: 0.75rem;
   }
 
   .mobile-nav-link--active {
-    color: #FFD700;
+    color: var(--army-olive-light);
+    border-left-color: var(--night-vision);
+    background-color: rgba(74,93,35,0.08);
+    text-shadow: 0 0 10px rgba(139,154,70,0.3);
   }
 
   .mobile-nav-code {
-    font-size: 0.625rem;
-    color: rgba(255, 215, 0, 0.35);
+    font-size: 0.6rem;
+    color: var(--text-dim);
     letter-spacing: 0.08em;
-    min-width: 32px;
+    min-width: 52px;
+    opacity: 0.7;
   }
 
   .mobile-nav-link--active .mobile-nav-code {
-    color: rgba(255, 215, 0, 0.6);
+    color: rgba(0,255,65,0.5);
+    opacity: 1;
+  }
+
+  .mobile-nav-label {
+    flex: 1;
   }
 
   .mobile-active-indicator {
     margin-left: auto;
-    font-size: 0.5625rem;
+    font-size: 0.5rem;
     font-weight: 700;
-    letter-spacing: 0.15em;
-    color: rgba(255, 215, 0, 0.5);
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    letter-spacing: 0.18em;
+    color: var(--hud-bg-solid);
+    background: var(--night-vision);
+    padding: 2px 8px;
+    border-radius: 1px;
+    font-family: var(--mono);
+    box-shadow: 0 0 8px rgba(0,255,65,0.3);
+    animation: active-blink 3s ease-in-out infinite;
   }
 
-  .mobile-nav-footer {
+  @keyframes active-blink {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0.5; }
+  }
+
+  /* External links section */
+  .mobile-nav-external {
+    padding: 0.25rem clamp(1.25rem, 4vw, 2rem);
+    padding-bottom: 0.75rem;
+  }
+
+  .mobile-external-link {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.75rem 0;
-    padding-inline: clamp(1rem, 4vw, 2rem);
-    border-top: 1px solid rgba(255, 215, 0, 0.06);
-    max-width: 1200px;
-    margin-inline: auto;
+    padding: 0.75rem 0.5rem;
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    text-decoration: none;
+    border-radius: 2px;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .mobile-external-link:hover {
+    color: var(--army-olive-light);
+    background-color: rgba(74,93,35,0.06);
+  }
+
+  .mobile-external-link svg {
+    margin-left: auto;
+    opacity: 0.4;
+  }
+
+  /* Mobile nav footer */
+  .mobile-nav-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem clamp(1.25rem, 4vw, 2rem);
+    border-top: 1px solid rgba(74,93,35,0.12);
+    background: rgba(74,93,35,0.03);
+  }
+
+  .mobile-footer-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .classification-badge {
+    font-family: var(--mono);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border: 1px solid rgba(74,93,35,0.2);
+    border-radius: 1px;
+  }
+
+  .mobile-footer-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--night-vision);
+    box-shadow: 0 0 6px var(--glow-green);
+    animation: nightvision-pulse 2s ease-in-out infinite;
+  }
+
+  .mobile-footer-id {
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.12em;
+    color: rgba(90,107,74,0.4);
   }
 
   /* ── Overlay ──────────────────────────────────────────────── */
@@ -574,7 +936,8 @@ function isActive(href: string): boolean {
     position: fixed;
     inset: 0;
     z-index: 98;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(2px);
     cursor: pointer;
   }
 
@@ -585,7 +948,7 @@ function isActive(href: string): boolean {
   /* Ensure desktop nav overlay doesn't appear on large screens */
   @media (min-width: 768px) {
     .nav-toggle-input:checked ~ .mobile-nav {
-      transform: translateY(-100%);
+      transform: translateY(-110%);
       opacity: 0;
       visibility: hidden;
       pointer-events: none;
@@ -594,5 +957,26 @@ function isActive(href: string): boolean {
     .nav-toggle-input:checked ~ .nav-overlay {
       display: none;
     }
+  }
+
+  /* ── Subtle scanline texture overlay ──────────────────────── */
+  .site-header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .site-header > * {
+    position: relative;
+    z-index: 1;
   }
 </style>
