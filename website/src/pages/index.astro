@@ -909,19 +909,26 @@ const ABOUT_URL  = '/IronDome-Bunker/about';
 
     /* ─── Badges section ─────────────────────────────────────── */
     .badges-section {
-      padding: 2rem 0 1rem;
+      padding: 1.5rem 0 0.5rem;
     }
 
     .badges-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.375rem;
+      gap: 4px;
       justify-content: center;
       align-items: center;
+      line-height: 1;
     }
 
-    .badges-row img {
-      height: 20px;
+    .badges-row a,
+    .badges-row a img,
+    .badges-row > img {
+      display: inline-block;
+      height: 18px !important;
+      width: auto !important;
+      max-width: none;
+      vertical-align: middle;
     }
 
     /* ─── Mobile responsive ──────────────────────────────────── */
