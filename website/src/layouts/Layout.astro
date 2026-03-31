@@ -30,14 +30,14 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="IronDome" />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary meta -->
     <title>{fullTitle}</title>
     <meta name="description"        content={description} />
-    <meta name="theme-color"        content="#0a0e1a" />
+    <meta name="theme-color"        content="#0A0D06" />
     <meta name="color-scheme"       content="dark" />
     <meta name="author"             content="King Hippopotamus" />
     <meta name="keywords"           content="password manager, CLI, zero-knowledge, AES-256, encryption, security, open source, Python" />
@@ -108,12 +108,12 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     })} />
   </head>
 
-  <body class="scan-line-animate">
+  <body class="army-ops-bg">
     <!-- Skip to content (accessibility) -->
     <a
       href="#main-content"
       class="sr-only"
-      style="position:absolute;top:0.5rem;left:0.5rem;z-index:9999;padding:0.5rem 1rem;background:var(--color-gold);color:#000;font-family:var(--font-mono);font-size:0.875rem;font-weight:700;border-radius:2px;"
+      style="position:absolute;top:0.5rem;left:0.5rem;z-index:9999;padding:0.5rem 1rem;background:#8B9A46;color:#0A0D06;font-family:var(--font-mono);font-size:0.875rem;font-weight:700;border-radius:2px;text-transform:uppercase;letter-spacing:0.05em;"
     >
       Skip to content
     </a>
@@ -134,3 +134,55 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     </script>
   </body>
 </html>
+
+<style is:global>
+  /* Army Operations Background Effect */
+  .army-ops-bg {
+    background-color: #0A0D06;
+    color: #C8D4B0;
+    position: relative;
+  }
+
+  .army-ops-bg::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0, 255, 65, 0.015) 3px,
+        rgba(0, 255, 65, 0.015) 4px
+      ),
+      radial-gradient(
+        ellipse at 50% 0%,
+        rgba(74, 93, 35, 0.12) 0%,
+        transparent 70%
+      );
+  }
+
+  .army-ops-bg::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(92, 122, 41, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(74, 93, 35, 0.06) 0%, transparent 50%);
+  }
+
+  .army-ops-bg > * {
+    position: relative;
+    z-index: 1;
+  }
+</style>
