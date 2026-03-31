@@ -40,6 +40,11 @@ pip install IronDome
 bunker
 ```
 
+On first launch, choose your security level:
+- Biometric Only (Touch ID / Windows Hello / Fingerprint)
+- Biometric + Master Password (two-factor)
+- Master Password Only (traditional)
+
 Two commands. You're protected.
 
 ---
@@ -58,6 +63,9 @@ Two commands. You're protected.
 - **Hardware-linked keys** — data tied to your machine
 - **Brute force protection** — adaptive lockouts
 - **Auto-timeout** — session expires after 30min
+- **Touch ID / Windows Hello / Fingerprint** support
+- **Two-factor mode** — biometric gate + master password
+- **Emergency recovery key** — printed once at setup, stored offline
 
 </td>
 <td width="50%">
@@ -77,18 +85,66 @@ Two commands. You're protected.
 
 ---
 
+## Biometric Authentication
+
+IronDome integrates with the native biometric stack on each platform — no third-party biometric services, no data transmitted.
+
+### Supported Platforms
+
+| Platform | Mechanism | Requirement |
+|:---------|:---------|:------------|
+| macOS | Touch ID (LocalAuthentication framework) | Touch ID sensor or Apple Watch |
+| Windows | Windows Hello (PIN, fingerprint, face) | Windows Hello-compatible hardware |
+| Linux | fprintd (fingerprint daemon) | Supported fingerprint reader + fprintd installed |
+
+Biometric is optional. If hardware is unavailable, IronDome falls back to Master Password Only mode automatically.
+
+### Two Modes
+
+**Biometric Only** — A cryptographically random vault key is generated at setup and stored in the OS credential store (Keychain on macOS, Windows Credential Manager, libsecret on Linux). Biometric proof unlocks the credential store; the vault key never touches disk unprotected.
+
+**Biometric + Master Password** — Biometric is a gate, not the key. A successful biometric check permits password entry; PBKDF2 still derives the vault key from your master password. This is the higher-assurance mode — compromising biometrics alone is not sufficient to decrypt the vault.
+
+### Recovery Key
+
+When you enroll biometrics, IronDome generates a one-time 24-word recovery phrase (BIP-39 format). Write it down and store it offline. It is the only way to recover the vault if biometric hardware fails or is replaced. IronDome does not store the recovery key.
+
+### Re-authentication
+
+Session re-authentication for sensitive operations (delete, export, backup) uses the same method you enrolled with. If you enrolled with Biometric + Master Password, both factors are required for re-authentication.
+
+---
+
 ## How It Works
 
 ```
+First Launch → Choose Security Level
+  ├── Biometric Only     → Touch ID / Face / Fingerprint
+  │                            │
+  │                      Random vault key generated
+  │                            │
+  │                      Stored in OS Keychain / Credential Store
+  │                            │
+  │                      Biometric proof unlocks key on each session
+  │
+  ├── Biometric + Password → Biometric Gate (must pass)
+  │                            │
+  │                      Master Password entry
+  │                            │
+  │                      PBKDF2-HMAC-SHA256 (600k iterations)
+  │                            │
+  │                      Vault key derived — biometric alone is insufficient
+  │
+  └── Password Only      → Username + Master Password
+                                 │
+                           PBKDF2-HMAC-SHA256 (600k iterations)
+                                 │
+                           Vault key derived (existing flow)
+
+                    ──────────────── common path ────────────────
+
                     ┌─────────────────────────┐
-                    │     Master Password      │
-                    │    (never stored)        │
-                    └───────────┬─────────────┘
-                                │
-                    ┌───────────▼─────────────┐
-                    │   PBKDF2-HMAC-SHA256    │
-                    │   600,000 iterations    │
-                    │   + unique salt         │
+                    │       Vault Key          │
                     └───────────┬─────────────┘
                                 │
                  ┌──────────────┼──────────────┐
@@ -234,7 +290,13 @@ We welcome contributions! Please read:
 
 - Python 3.8+
 - `cryptography` library
+- `keyring` library (biometric / OS credential store integration)
 - Windows, macOS, or Linux
+
+**Optional — platform biometric support:**
+- macOS: `pyobjc-framework-LocalAuthentication` (Touch ID hardware required)
+- Windows: Windows Hello is accessed via the native WinRT API — no extra package
+- Linux: `fprintd` system daemon + a supported fingerprint reader
 
 ---
 

@@ -16,6 +16,7 @@ keywords = [
     "password-manager", "encryption", "aes-256", "security", "cli",
     "cybersecurity", "zero-knowledge", "password-generator", "vault",
     "credential-manager", "fernet", "pbkdf2", "irondome", "bunker",
+    "biometric", "touch-id", "windows-hello", "fingerprint",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -35,7 +36,11 @@ classifiers = [
 ]
 dependencies = [
     "cryptography>=36.0.0",
+    "keyring>=23.0.0",
 ]
+
+[project.optional-dependencies]
+macos = ["pyobjc-framework-LocalAuthentication>=9.0"]
 
 [project.scripts]
 bunker = "password_manager.__main__:main"
