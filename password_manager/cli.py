@@ -164,7 +164,14 @@ def irondome_main() -> None:
         print("Opening airspace...")
         result = auth.authenticate_biometric()
         if result:
-            airspace.open(timeout=timeout)
+            # Determine auth mode for session
+            salt = storage.load_salt()
+            auth_mode = "unknown"
+            if salt:
+                from password_manager.keystore import SecureKeyStore
+                ks = SecureKeyStore(salt=salt)
+                auth_mode = ks.get_auth_mode() or "unknown"
+            airspace.open(timeout=timeout, auth_mode=auth_mode)
             mins = timeout // 60
             print(f"Airspace open. You have {mins} minutes of free access.")
             print("   Run 'bunker' commands freely.")
@@ -203,7 +210,7 @@ def bunker_main() -> None:
 
     # bunker create / bunker -c — quick-create a password entry
     subparsers.add_parser("create", help="Quick-create a bunker entry")
-    subparsers.add_parser("-c", help=argparse.SUPPRESS)
+    subparsers.add_parser("-c", help="Alias for 'create'")
 
     # bunker open / bunker -o [name] — open/list bunkers
     open_parser = subparsers.add_parser("open", help="Open/list bunkers")
@@ -213,7 +220,7 @@ def bunker_main() -> None:
         default=None,
         help="Bunker name to open",
     )
-    open_alias = subparsers.add_parser("-o", help=argparse.SUPPRESS)
+    open_alias = subparsers.add_parser("-o", help="Alias for 'open'")
     open_alias.add_argument("name", nargs="?", default=None)
 
     # bunker fortify — create encrypted backup
@@ -266,12 +273,16 @@ def bunker_main() -> None:
         print("Airspace is closed. Run 'irondome open airspace' first.")
         sys.exit(1)
 
-    # Initialise manager — airspace is already open so SecurePasswordManager
-    # will find the session and skip interactive authentication prompts only
-    # when the underlying SessionManager detects an active session.
-    # If auth still fails (e.g. session file present but keys differ) we abort.
+    # Airspace is open — construct manager without interactive auth prompt,
+    # then authenticate silently using stored credentials.
     from password_manager.manager import SecurePasswordManager
-    manager = SecurePasswordManager()
+    manager = SecurePasswordManager(skip_auth=True)
+
+    # Try to authenticate from airspace session (works for biometric_only)
+    if not manager.authenticate_from_airspace():
+        # For password modes, airspace being open means the user already
+        # authenticated in this session — do interactive auth as fallback
+        manager.initialize_master_account()
 
     if not manager.session.session_authenticated:
         print("Authentication failed.")

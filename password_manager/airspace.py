@@ -46,7 +46,18 @@ class Airspace:
         except (json.JSONDecodeError, IOError):
             return False
 
-    def open(self, timeout: int = None) -> bool:
+    def get_auth_mode(self) -> str:
+        """Return the auth mode stored in the session, or 'unknown'."""
+        if not os.path.exists(self.session_file):
+            return "unknown"
+        try:
+            with open(self.session_file, "r") as f:
+                data = json.load(f)
+            return data.get("auth_mode", "unknown")
+        except (json.JSONDecodeError, IOError):
+            return "unknown"
+
+    def open(self, timeout: int = None, **kwargs) -> bool:
         """
         Create the session file, marking airspace as open.
 
@@ -62,11 +73,13 @@ class Airspace:
                 "opened_at": time.time(),
                 "timeout": effective_timeout,
                 "pid": os.getpid(),
+                "auth_mode": kwargs.get("auth_mode", "unknown"),
             }
             os.makedirs(os.path.dirname(self.session_file), exist_ok=True)
-            with open(self.session_file, "w") as f:
+            # Write with restricted permissions from the start
+            fd = os.open(self.session_file, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+            with os.fdopen(fd, "w") as f:
                 json.dump(data, f)
-            os.chmod(self.session_file, 0o600)
             return True
         except IOError:
             return False

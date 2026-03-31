@@ -16,35 +16,87 @@ from password_manager.utils import get_validated_input, get_validated_int, extra
 class SecurePasswordManager:
     """Main password manager class that integrates all components"""
     
-    def __init__(self):
-        """Initialize the password manager with all components"""
+    def __init__(self, skip_auth=False):
+        """Initialize the password manager with all components
+
+        Args:
+            skip_auth: If True, skip interactive authentication (for CLI
+                       commands that handle auth via airspace session)
+        """
         # Set up storage directory and files
         self.data_dir = os.path.join(os.path.expanduser("~"), ".password_manager")
-        
+
         # Set up logger
         self.log_file = os.path.join(self.data_dir, "password_manager.log")
         self.logger = None
-        
+
         # Set up storage, session and auth managers
         self.storage = PasswordStorage(self.data_dir, self.logger)
         self.login_attempts_file = self.storage.login_attempts_file
-        
+
         # Now that storage has created the directories, set up logger
         self.logger = setup_logger(self.log_file)
-        
+
         # Update logger reference in storage
         self.storage.logger = self.logger
-        
+
         # Create session and auth managers
         self.session = SessionManager(self.login_attempts_file, self.logger)
         self.auth = AuthManager(self.storage, self.session, self.logger)
-        
-        # Initialize master account
-        self.initialize_master_account()
-        
+
+        if not skip_auth:
+            # Initialize master account (interactive auth)
+            self.initialize_master_account()
+
         # Log information only if authenticated
         if self.session.session_authenticated:
-            self.logger.info(f"Password Manager initialized. Data directory: {self.data_dir}")
+            self.logger.info(f"IronDome initialized. Data directory: {self.data_dir}")
+
+    def authenticate_from_airspace(self):
+        """Authenticate using stored credentials when airspace is open.
+
+        This reconstructs the Fernet key without prompting the user,
+        using the auth mode stored in the keystore.
+
+        Returns:
+            True if authentication succeeded, False otherwise
+        """
+        salt = self.storage.load_salt()
+        if not salt:
+            return False
+
+        from password_manager.keystore import SecureKeyStore
+        from password_manager.encryption import create_system_key
+        from cryptography.fernet import Fernet
+
+        keystore = SecureKeyStore(salt=salt, logger=self.logger)
+        self.auth.keystore = keystore
+        auth_mode = keystore.get_auth_mode()
+
+        if auth_mode == "biometric_only":
+            # Retrieve master key from OS keychain
+            master_key = keystore.retrieve_master_key()
+            if not master_key:
+                return False
+            self.auth.fernet = Fernet(master_key)
+
+            # Get username from storage
+            system_key = create_system_key(salt)
+            system_fernet = Fernet(system_key)
+            encrypted_username = self.storage.load_master_username()
+            try:
+                username = system_fernet.decrypt(encrypted_username).decode()
+            except Exception:
+                username = "user"
+
+            self.session.set_authenticated(username)
+            return True
+        else:
+            # For password modes, we can't auto-auth without the password
+            # The airspace session means we trust the caller already authenticated
+            # but we still need the Fernet key which requires the password
+            # So we fall back to interactive auth
+            return False
     
     def initialize_master_account(self):
         """Set up master account with security level selection, or authenticate"""
