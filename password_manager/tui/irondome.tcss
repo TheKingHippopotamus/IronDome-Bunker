@@ -386,6 +386,26 @@ DetailScreen {
     background: #1A1F24;
 }
 
+.field-copy-btn {
+    width: 1fr;
+    color: #E2E8F0;
+    background: #1A1F24;
+    border: none;
+    min-width: 0;
+    height: 3;
+    text-align: left;
+    padding: 0 1;
+}
+
+.field-copy-btn:hover {
+    background: #1E2D3D;
+    color: #00FF41;
+}
+
+.field-copy-btn:focus {
+    border: tall #00FF41;
+}
+
 #detail-actions {
     layout: horizontal;
     height: auto;

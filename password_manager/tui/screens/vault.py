@@ -60,6 +60,9 @@ class VaultScreen(Screen):
             status.entry_count = len(entries)
             status.airspace_open = self._state.airspace_open
             status.time_remaining = self._state.airspace_remaining
+
+            if entries:
+                self.notify(f"Loaded {len(entries)} entries", timeout=2)
         except Exception as exc:
             self.notify(f"Failed to load vault: {exc}", severity="error", timeout=5)
 
@@ -67,6 +70,12 @@ class VaultScreen(Screen):
 
         if self._focus_search:
             self.query_one("#vault-search-input", Input).focus()
+        else:
+            # Focus table so Enter/arrow keys work immediately
+            try:
+                self.query_one("#vault-table", VaultTable).focus()
+            except Exception:
+                pass
 
     def _tick(self) -> None:
         try:

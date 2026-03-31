@@ -11,18 +11,22 @@ class VaultTable(DataTable):
 
     DEFAULT_CSS = ""
 
-    # All entries and currently displayed (filtered) entries
-    _all_entries: list[dict] = []
     filter_term: reactive[str] = reactive("")
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self._all_entries: list = []
+        self._filtered_entries: list = []
 
     def on_mount(self) -> None:
         self.cursor_type = "row"
         self.zebra_stripes = True
         self.add_columns("Service", "Username", "Created", "Strength")
+        self.focus()
 
-    def load_entries(self, entries: list[dict]) -> None:
+    def load_entries(self, entries: list) -> None:
         """Load all entries into the table."""
-        self._all_entries = entries
+        self._all_entries = list(entries)
         self._apply_filter()
 
     def watch_filter_term(self, value: str) -> None:
@@ -43,30 +47,27 @@ class VaultTable(DataTable):
                 or term in e.get("notes", "").lower()
             ]
 
-        for entry in entries:
+        self._filtered_entries = entries
+
+        for i, entry in enumerate(entries):
             strength = self._get_strength_label(entry.get("password", ""))
             self.add_row(
                 entry.get("website", ""),
                 entry.get("username", ""),
                 entry.get("created_at", ""),
                 strength,
-                key=f"{entry.get('website', '')}:{entry.get('username', '')}",
             )
 
     def get_selected_entry(self) -> Optional[dict]:
         """Return the entry dict for the currently selected row."""
-        if self.row_count == 0:
+        if self.row_count == 0 or not self._filtered_entries:
             return None
         try:
-            row_key, _ = self.coordinate_to_cell_key(self.cursor_coordinate)
+            row_idx = self.cursor_coordinate.row
+            if 0 <= row_idx < len(self._filtered_entries):
+                return self._filtered_entries[row_idx]
         except Exception:
-            return None
-
-        key_str = str(row_key)
-        for entry in self._all_entries:
-            entry_key = f"{entry.get('website', '')}:{entry.get('username', '')}"
-            if entry_key == key_str:
-                return entry
+            pass
         return None
 
     @staticmethod
