@@ -106,6 +106,62 @@
       line-height: 1.5;
     }
 
+    /* Try It section */
+    .try-it {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 60px;
+    }
+    .try-it h2 {
+      color: #FFD700;
+      font-size: 0.85rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .try-it .subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 0.85rem;
+      margin-bottom: 20px;
+    }
+    .colab-frame {
+      width: 100%;
+      height: 520px;
+      border: 1px solid rgba(255, 215, 0, 0.15);
+      border-radius: 12px;
+      background: #111827;
+    }
+    .try-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 16px;
+    }
+    .try-actions a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-colab {
+      background: #F9AB00;
+      color: #1a1a1a;
+    }
+    .btn-colab:hover { background: #FFD700; }
+    .btn-github {
+      background: transparent;
+      color: #94a3b8;
+      border: 1px solid rgba(255, 215, 0, 0.2);
+    }
+    .btn-github:hover { color: #FFD700; border-color: rgba(255, 215, 0, 0.4); }
+
     /* Docs section */
     .docs {
       max-width: 900px;
@@ -159,6 +215,7 @@
     <div class="links">
       <a href="https://pypi.org/project/IronDome/">PyPI</a>
       <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker">GitHub</a>
+      <a href="#try">Try It</a>
       <a href="#docs">Docs</a>
       <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md">Contribute</a>
     </div>
@@ -196,6 +253,20 @@
     <div class="card">
       <h3>Local Only</h3>
       <p>No network. No cloud. No telemetry. Everything stays on your machine. Period.</p>
+    </div>
+  </section>
+
+  <section class="try-it" id="try">
+    <h2>Try It Yourself</h2>
+    <p class="subtitle">Real Python environment powered by Google Colab — no install needed</p>
+    <iframe
+      class="colab-frame"
+      src="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
+      allowfullscreen
+    ></iframe>
+    <div class="try-actions">
+      <a class="btn-colab" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">Open in Colab</a>
+      <a class="btn-github" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank">View Source</a>
     </div>
   </section>
 
