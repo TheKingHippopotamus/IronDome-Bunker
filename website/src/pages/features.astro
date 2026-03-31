@@ -5,10 +5,10 @@ import '../styles/global.css';
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/irondome-favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="/IronDome-Bunker/irondome-favicon.svg" />
+    <link rel="icon" href="/IronDome-Bunker/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/IronDome-Bunker/apple-touch-icon.png" />
+    <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
     <meta name="theme-color" content="#0a0e1a" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
@@ -393,13 +393,13 @@ import '../styles/global.css';
     <!-- ═══════════════════════════════════════════ NAV ═══ -->
     <nav>
       <div class="content-wrap" style="display:flex;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1rem;">
-        <a href="/" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;">
-          <img src="/irondome-logo.svg" alt="IronDome" height="28" />
+        <a href="/IronDome-Bunker/" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;">
+          <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" height="28" />
           <span style="font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;color:var(--text);">IRONDOME</span>
         </a>
         <div style="display:flex;gap:2rem;align-items:center;">
-          <a href="/" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
-          <a href="/features" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px;">Features</a>
+          <a href="/IronDome-Bunker/" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
+          <a href="/IronDome-Bunker/features" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px;">Features</a>
           <a href="https://github.com/kinghippo/IronDome" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">GitHub</a>
         </div>
       </div>
@@ -473,7 +473,7 @@ import '../styles/global.css';
           <div style="display:grid;grid-template-columns:1fr;gap:2rem;" class="feat-layout-split-md">
             <div>
               <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.5rem;">
-                <img src="/shield-aes.svg" alt="AES-256" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+                <img src="/IronDome-Bunker/shield-aes.svg" alt="AES-256" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
                 <div>
                   <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">AES-256 Encryption</h3>
                   <p style="color:#94a3b8;margin:0;line-height:1.7;">
@@ -533,7 +533,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           <div class="feat-num">CAPABILITY-02 / ZERO KNOWLEDGE ARCHITECTURE</div>
 
           <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;">
-            <img src="/shield-zero.svg" alt="Zero Knowledge" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+            <img src="/IronDome-Bunker/shield-zero.svg" alt="Zero Knowledge" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
             <div>
               <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Zero Knowledge Architecture</h3>
               <p style="color:#94a3b8;margin:0 0 1rem;line-height:1.7;">
@@ -573,7 +573,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           <div class="feat-num">CAPABILITY-03 / HARDWARE-BOUND KEYS</div>
 
           <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;">
-            <img src="/shield-hardware.svg" alt="Hardware Binding" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+            <img src="/IronDome-Bunker/shield-hardware.svg" alt="Hardware Binding" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
             <div>
               <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Hardware-Bound Keys</h3>
               <p style="color:#94a3b8;margin:0;line-height:1.7;">
@@ -702,7 +702,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           <div class="feat-num">CAPABILITY-05 / SESSION MANAGEMENT</div>
 
           <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;">
-            <img src="/shield-session.svg" alt="Session Management" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+            <img src="/IronDome-Bunker/shield-session.svg" alt="Session Management" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
             <div>
               <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Session Management</h3>
               <p style="color:#94a3b8;margin:0;line-height:1.7;">
@@ -736,7 +736,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           <div class="feat-num">CAPABILITY-06 / BRUTE FORCE PROTECTION</div>
 
           <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;">
-            <img src="/shield-brute.svg" alt="Brute Force Protection" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+            <img src="/IronDome-Bunker/shield-brute.svg" alt="Brute Force Protection" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
             <div>
               <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Brute Force Protection</h3>
               <p style="color:#94a3b8;margin:0;line-height:1.7;">
@@ -1063,12 +1063,12 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
     <footer style="border-top:1px solid #1a2332;padding:2.5rem 0;">
       <div class="content-wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;">
         <div style="display:flex;align-items:center;gap:0.75rem;">
-          <img src="/irondome-logo.svg" alt="IronDome" height="22" />
+          <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" height="22" />
           <span class="label-muted">IRONDOME — ZERO-KNOWLEDGE CLI VAULT</span>
         </div>
         <div style="display:flex;gap:2rem;flex-wrap:wrap;">
-          <a href="/" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
-          <a href="/features" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Features</a>
+          <a href="/IronDome-Bunker/" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
+          <a href="/IronDome-Bunker/features" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Features</a>
           <a href="https://github.com/kinghippo/IronDome" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">GitHub</a>
           <a href="https://pypi.org/project/IronDome/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">PyPI</a>
         </div>
@@ -1127,6 +1127,6 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
       }
     </style>
 
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{})}</script>
+  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/IronDome-Bunker/sw.js').catch(()=>{})}</script>
   </body>
 </html>
