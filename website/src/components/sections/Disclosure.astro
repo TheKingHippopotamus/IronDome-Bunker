@@ -1,0 +1,305 @@
+---
+import TacticalHeading from '../TacticalHeading.astro';
+
+const steps = [
+  {
+    number: '01',
+    color: '#8B2500',
+    title: 'Do NOT open a public GitHub issue',
+    description: 'Public disclosure before a fix puts every user at risk.',
+  },
+  {
+    number: '02',
+    color: '#8B9A46',
+    title: 'Read SECURITY.md on GitHub',
+    description: 'Full disclosure policy, PGP key, scope definitions.',
+  },
+  {
+    number: '03',
+    color: '#34d399',
+    title: 'Submit via GitHub Security Advisories',
+    description: 'Private reporting. Acknowledged within 48 hours.',
+  },
+  {
+    number: '04',
+    color: '#4A6B8B',
+    title: 'Coordinated disclosure — 90-day window',
+    description: 'Patch within 30 days. Full disclosure and researcher credit.',
+  },
+];
+
+const slaRows = [
+  { milestone: 'Initial acknowledgment', sla: '48 hours' },
+  { milestone: 'Triage & severity', sla: '5 business days' },
+  { milestone: 'Critical patch', sla: '7\u201314 days' },
+  { milestone: 'High patch', sla: '30 days' },
+  { milestone: 'Medium/Low patch', sla: '90 days' },
+  { milestone: 'Public disclosure', sla: '30 days after fix' },
+];
+---
+
+<section class="disclosure" id="disclosure" aria-labelledby="disclosure-heading">
+  <div class="disclosure__container">
+    <TacticalHeading
+      badge="VULNERABILITY REPORTING"
+      title="Found a Security Issue?"
+      subtitle="IronDome is open source. Every security report is treated as high priority."
+    />
+
+    <!-- Timeline -->
+    <div class="timeline">
+      {steps.map((step, i) => (
+        <div class="timeline__step">
+          <div class="timeline__marker-col">
+            <span
+              class="timeline__number"
+              style={`background-color: ${step.color}; box-shadow: 0 0 12px ${step.color}44;`}
+            >
+              {step.number}
+            </span>
+            {i < steps.length - 1 && (
+              <div class="timeline__line" aria-hidden="true" />
+            )}
+          </div>
+          <div class="timeline__card" style={`border-left: 2px solid ${step.color};`}>
+            <h3 class="timeline__title">{step.title}</h3>
+            <p class="timeline__desc">{step.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- SLA Table -->
+    <div class="sla">
+      <h3 class="sla__heading">Response SLA</h3>
+      <div class="sla__table-wrap">
+        <table class="sla__table">
+          <thead>
+            <tr>
+              <th>Milestone</th>
+              <th>SLA</th>
+            </tr>
+          </thead>
+          <tbody>
+            {slaRows.map((row) => (
+              <tr>
+                <td>{row.milestone}</td>
+                <td class="sla__value">{row.sla}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .disclosure {
+    padding: 6rem 1.5rem;
+    position: relative;
+  }
+
+  .disclosure__container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* ---- Timeline ---- */
+  .timeline {
+    margin-top: 4rem;
+    display: flex;
+    gap: 0;
+    align-items: flex-start;
+  }
+
+  .timeline__step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .timeline__marker-col {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .timeline__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .timeline__line {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 22px);
+    right: calc(-50% + 22px);
+    height: 2px;
+    background: repeating-linear-gradient(
+      90deg,
+      rgba(139, 154, 70, 0.4) 0px,
+      rgba(139, 154, 70, 0.4) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .timeline__card {
+    background-color: #0D1208;
+    border: 1px solid rgba(139, 154, 70, 0.15);
+    border-radius: 4px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    width: 100%;
+    margin: 0 0.5rem;
+    transition: border-color 0.25s ease;
+  }
+
+  .timeline__card:hover {
+    border-color: rgba(139, 154, 70, 0.35);
+  }
+
+  .timeline__title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
+  }
+
+  .timeline__desc {
+    font-size: 0.8125rem;
+    color: #78909C;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---- SLA Table ---- */
+  .sla {
+    margin-top: 4rem;
+  }
+
+  .sla__heading {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .sla__table-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #0D1208;
+  }
+
+  .sla__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  .sla__table thead th {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(139, 154, 70, 0.25);
+    background-color: rgba(139, 154, 70, 0.06);
+  }
+
+  .sla__table tbody td {
+    padding: 0.6rem 1rem;
+    color: #b0bec5;
+    border-bottom: 1px solid rgba(139, 154, 70, 0.08);
+  }
+
+  .sla__table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .sla__table tbody tr:hover td {
+    background-color: rgba(139, 154, 70, 0.04);
+  }
+
+  .sla__value {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    color: #e2e8f0 !important;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  /* ---- Responsive: vertical on mobile ---- */
+  @media (max-width: 768px) {
+    .timeline {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .timeline__step {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .timeline__marker-col {
+      flex-direction: column;
+      width: 36px;
+      min-width: 36px;
+      margin-bottom: 0;
+      margin-right: 1rem;
+      align-items: center;
+    }
+
+    .timeline__line {
+      position: relative;
+      top: unset;
+      left: unset;
+      right: unset;
+      transform: none;
+      width: 2px;
+      height: 24px;
+      background: repeating-linear-gradient(
+        180deg,
+        rgba(139, 154, 70, 0.4) 0px,
+        rgba(139, 154, 70, 0.4) 6px,
+        transparent 6px,
+        transparent 12px
+      );
+      margin: 0.35rem auto;
+    }
+
+    .timeline__card {
+      margin: 0 0 0.75rem;
+      text-align: left;
+    }
+  }
+</style>
