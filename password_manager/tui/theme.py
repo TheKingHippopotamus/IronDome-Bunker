@@ -46,10 +46,11 @@ STRENGTH_COLORS = {
 # Spinner frames for biometric/loading
 SPINNER_FRAMES = ["\u2819", "\u2839", "\u2831", "\u2838", "\u283c", "\u2834", "\u2826", "\u2827", "\u2807", "\u280f"]
 
-# ASCII logo — compact (used in header and splash)
+# ASCII logo — compact (used in header)
 LOGO_SMALL = "[ IRONDOME ]"
 
-LOGO_LARGE = r"""
+# Block-font wordmark
+LOGO_WORDMARK = r"""
  ██╗██████╗  ██████╗ ███╗   ██╗██████╗  ██████╗ ███╗   ███╗███████╗
  ██║██╔══██╗██╔═══██╗████╗  ██║██╔══██╗██╔═══██╗████╗ ████║██╔════╝
  ██║██████╔╝██║   ██║██╔██╗ ██║██║  ██║██║   ██║██╔████╔██║█████╗
@@ -57,3 +58,33 @@ LOGO_LARGE = r"""
  ██║██║  ██║╚██████╔╝██║ ╚████║██████╔╝╚██████╔╝██║ ╚═╝ ██║███████╗
  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚══════╝
 """
+
+# High-fidelity dome ASCII art (derived from iron_dome_dark.svg)
+# Elements: shield dome arc, radar dish with sweep, pulse rings,
+# interceptor missile trails, explosion burst, military launcher vehicle,
+# HUD targeting overlay, status readouts
+LOGO_DOME = r"""
+                                  ╱ ★ INTERCEPT
+                                ╱
+                    ░ ░ ░ ░ ░ ●══════╗          ✦ ·  ·
+               ░ ░               ░ ░  ║       ✦      · ·
+          ░ ░    ╭━━━━━━━━━━━━━━━━━╮  ║    ✦   ·  ·
+       ░ ░      ╭┫  ◠  ◠  ◠  ◠  ◠ ┣╮ ║  ✦       ·
+     ░ ░       ╭┫  ◠     ◠     ◠    ┣╮  ✦   · ·
+    ░ ░       ╭┫      ┏━━━━━━━┓      ┣╮            ※ THREAT
+   ░ ░       ╭┫       ┃ DOME  ┃       ┣╮          ╱ NEUTRALIZED
+   ░ ░       ┃        ┃ACTIVE ┃        ┃        ✸
+   ░ ░       ┃        ┗━━━━━━━┛        ┃      ╱
+   ░ ░       ┃     · · · ╱╲ · · ·      ┃    ╱
+   ░ ░       ┃    · · · ╱◎ ╲ · · ·     ┃   ╳ ─ ─ TARGET LOCK
+   ░ ░       ┃   · · ·╱╱  ╲╲· · · ·   ┃
+    ░ ░      ╰┫  ━━━╱╱━━━━━━╲╲━━━  ┣╯
+     ░ ░      ╰┫  ╱╱▓▓▓▓▓▓▓▓▓▓╲╲  ┣╯
+       ░ ░     ╰┫┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃┣╯     ┌──────────────┐
+         ░ ░    ┗◯━━━━━◯━━━━━◯━━┛       │ ▲ AIRSPACE   │
+           ░ ░ ░ ░ ░ ░ ░ ░ ░ ░ ░         │   DEFENDED   │
+              ═══════════════════          └──────────────┘
+"""
+
+# Combined logo for splash (dome + wordmark)
+LOGO_LARGE = LOGO_DOME + LOGO_WORDMARK

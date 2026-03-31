@@ -1,4 +1,8 @@
 <p align="center">
+  <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/iron%20dome%20svgs/iron_dome_dark.svg" alt="IronDome" width="300"/>
+</p>
+
+<p align="center">
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome TUI" width="400"/>
 </p>
 
@@ -217,7 +221,33 @@ The TUI adds **zero attack surface** to IronDome's existing security model.
 
 ## Design System
 
-IronDome TUI uses a military/cybersecurity aesthetic:
+Visual DNA derived from the [IronDome dark SVG](../../iron%20dome%20svgs/iron_dome_dark.svg) — military radar, shield dome, pulse rings, interception arcs.
+
+### Splash Art (ASCII)
+
+```
+                    ░░░░░░░░░░░░░░░░░
+               ░░░░░                   ░░░░░
+           ░░░░    ╭─────────────────╮    ░░░░
+        ░░░       ╭╯  ◠   ◠   ◠   ◠  ╰╮       ░░░
+      ░░░        ╭╯ ◠       ◠       ◠  ╰╮        ░░░
+    ░░░         ╭╯     ╭─────────╮      ╰╮         ░░░
+   ░░          ╭╯      │ ◉ DOME  │       ╰╮          ░░
+  ░░          ╭╯       │  ACTIVE │        ╰╮          ░░
+  ░░         ╭╯     ·  · ╱╲ ·  ·  ·      ╰╮         ░░
+  ░░        ╭╯      · · ╱    ╲ · · ·        ╰╮        ░░
+  ░░        │      · · ╱  ╱◎╲  ╲ · ·          │        ░░
+  ░░        │     ────╱──╱────╲──╲────          │       ░░
+   ░░       ╰╮   ┃▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓┃        ╭╯      ░░
+    ░░░       ╰╮  ┗━◯━━━━━━◯━━━━━━◯━━┛       ╭╯     ░░░
+      ░░░       ╰──────────────────────────╯       ░░░
+         ░░░░░                           ░░░░░
+              ░░░░░░░░░░░░░░░░░░░░░░░░░░░
+```
+
+The dome represents the shield + radar from the SVG. Pulse rings (`░`) are the defense perimeter. The vehicle with wheels (`◯`) is the mobile launcher. Radar sweep dots (`·`) show active scanning.
+
+### Color Palette
 
 | Token | Color | Usage |
 |:------|:------|:------|
