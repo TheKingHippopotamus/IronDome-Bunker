@@ -353,9 +353,9 @@ class SecurePasswordManager:
         while True:
             # Check if session is authenticated
             if not self.session.session_authenticated:
-                auth_result = self.auth.authenticate_master_account()
+                auth_result = self.auth.authenticate_biometric()
                 if not auth_result:
-                    print("Exiting Password Manager due to authentication failure.")
+                    print("Exiting due to authentication failure.")
                     break
                 continue  # Show menu after successful authentication
             
@@ -363,28 +363,28 @@ class SecurePasswordManager:
             self.session.update_activity_time()
             
             # Show the main menu
-            print("\n=== Password Manager ===")
-            print(f"Logged in as: {self.session.username}")
-            print("1. Generate a new password")
-            print("2. Save a password")
-            print("3. Find passwords")
-            print("4. List all websites")
-            print("5. Delete a password")
-            print("6. Create backup")
-            print("7. Show storage location")
-            print("8. Logout")
-            print("9. Exit")
+            print("\n=== IronDome ===")
+            print(f"Operator: {self.session.username}")
+            print("1. Create bunker")
+            print("2. Store bunker")
+            print("3. Search bunkers")
+            print("4. Bunker registry")
+            print("5. Destroy bunker")
+            print("6. Fortify (backup)")
+            print("7. Dome status")
+            print("8. Settings")
+            print("9. Close airspace (logout)")
+            print("0. Exit")
             
             choice = get_validated_input(
-                "\nChoose an option (1-9): ", 
-                valid_options=['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-                allow_back=False,  # Can't go back from main menu
+                "\nChoose an option (0-9): ",
+                valid_options=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                allow_back=False,
                 logger=self.logger
             )
-            
-            # Log menu choice
+
             self.logger.debug(f"Menu option selected: {choice}")
-            
+
             if choice == '1':
                 self._handle_generate_password()
             elif choice == '2':
@@ -400,12 +400,18 @@ class SecurePasswordManager:
             elif choice == '7':
                 self._handle_show_storage()
             elif choice == '8':
-                print("Logging out...")
-                self.session.logout()
+                from password_manager.settings import Settings
+                settings = Settings(self.data_dir)
+                settings.run_interactive()
             elif choice == '9':
-                print("Exiting Password Manager.")
+                print("Closing airspace...")
+                self.session.logout()
+                from password_manager.airspace import Airspace
+                Airspace(self.data_dir).close()
+            elif choice == '0':
+                print("Exiting IronDome.")
                 if self.session.username:
-                    self.logger.info(f"User {self.session.username} exited the application")
+                    self.logger.info(f"Operator {self.session.username} exited")
                 break
     
     def _handle_generate_password(self):

@@ -2,35 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-Secure Password Manager
+Secure Password Manager — module entry point.
 
-This program allows you to:
-1. Generate strong, random passwords
-2. Store passwords securely (encrypted) in a local file
-3. Retrieve passwords when needed
-4. Search for passwords by username or website
-
-All data is stored locally in encrypted form at ~/.password_manager/.passwords.enc
+Running `python -m password_manager` is equivalent to the `bunker` command.
+This preserves backward compatibility for users who invoked the package
+directly before the `bunker` / `irondome` CLI entry points were added.
 """
 
-from password_manager.manager import SecurePasswordManager
+from password_manager.cli import bunker_main
 
-def main():
-    """Run the password manager application"""
-    print("=== Secure Password Manager ===")
-    print("All data is stored locally and encrypted")
-    
-    manager = None
-    try:
-        manager = SecurePasswordManager()
-        manager.run_interactive_menu()
-    except KeyboardInterrupt:
-        print("\nProgram interrupted. Exiting...")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        # Don't log the error details to console for security reasons
-        if manager is not None and hasattr(manager, 'logger'):
-            manager.logger.error(f"Unhandled exception: {str(e)}", exc_info=True)
+
+def main() -> None:
+    """Run the password manager application via the bunker CLI entry point."""
+    bunker_main()
+
 
 if __name__ == "__main__":
     main() 
