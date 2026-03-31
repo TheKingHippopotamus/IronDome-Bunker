@@ -18,11 +18,10 @@ class DashboardScreen(Screen):
 
     BINDINGS = [
         Binding("1", "open_vault", "1: Vault", show=True),
-        Binding("2", "open_search", "2: Search", show=True),
-        Binding("3", "open_generator", "3: Generator", show=True),
-        Binding("4", "open_save", "4: New Entry", show=True),
-        Binding("5", "open_backup", "5: Fortify", show=True),
-        Binding("6", "open_settings", "6: Settings", show=True),
+        Binding("2", "open_generator", "2: Generator", show=True),
+        Binding("3", "open_save", "3: New Entry", show=True),
+        Binding("4", "open_backup", "4: Fortify", show=True),
+        Binding("5", "open_settings", "5: Settings", show=True),
         Binding("q", "quit_to_login", "q: Logout", show=True),
         Binding("question_mark", "show_help", "?: Help", show=True),
         Binding("down", "focus_next", "Next", show=False),
@@ -58,11 +57,10 @@ class DashboardScreen(Screen):
         # Quick actions grid
         with Vertical(id="dash-actions"):
             yield Button(f"\\[1] {ICONS['arrow_right']} Vault", id="btn-vault", classes="action-btn")
-            yield Button(f"\\[2] {ICONS['arrow_right']} Search", id="btn-search", classes="action-btn")
-            yield Button(f"\\[3] {ICONS['arrow_right']} Generator", id="btn-generator", classes="action-btn")
-            yield Button(f"\\[4] {ICONS['arrow_right']} Save New", id="btn-save", classes="action-btn")
-            yield Button(f"\\[5] {ICONS['arrow_right']} Fortify", id="btn-backup", classes="action-btn")
-            yield Button(f"\\[6] {ICONS['arrow_right']} Settings", id="btn-settings", classes="action-btn")
+            yield Button(f"\\[2] {ICONS['arrow_right']} Generator", id="btn-generator", classes="action-btn")
+            yield Button(f"\\[3] {ICONS['arrow_right']} New Entry", id="btn-save", classes="action-btn")
+            yield Button(f"\\[4] {ICONS['arrow_right']} Fortify", id="btn-backup", classes="action-btn")
+            yield Button(f"\\[5] {ICONS['arrow_right']} Settings", id="btn-settings", classes="action-btn")
 
         # Activity feed
         with Vertical(id="dash-activity"):
@@ -167,7 +165,6 @@ class DashboardScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         action_map = {
             "btn-vault": self.action_open_vault,
-            "btn-search": self.action_open_search,
             "btn-generator": self.action_open_generator,
             "btn-save": self.action_open_save,
             "btn-backup": self.action_open_backup,
@@ -180,11 +177,6 @@ class DashboardScreen(Screen):
     def action_open_vault(self) -> None:
         from password_manager.tui.screens.vault import VaultScreen
         self.app.push_screen(VaultScreen(self._state))
-
-    def action_open_search(self) -> None:
-        from password_manager.tui.screens.vault import VaultScreen
-        screen = VaultScreen(self._state, focus_search=True)
-        self.app.push_screen(screen)
 
     def action_open_generator(self) -> None:
         from password_manager.tui.screens.generator import GeneratorScreen

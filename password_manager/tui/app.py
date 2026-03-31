@@ -37,6 +37,8 @@ class IronDomeApp(App):
         Binding("ctrl+q", "quit_app", "^Q: Quit", show=True, priority=True),
         Binding("ctrl+l", "lock_vault", "^L: Lock", show=True),
         Binding("question_mark", "show_help", "?: Help", show=True),
+        Binding("tab", "focus_next", "Tab: Next field", show=True),
+        Binding("shift+tab", "focus_previous", "S-Tab: Prev field", show=True),
     ]
 
     def __init__(self, **kwargs) -> None:

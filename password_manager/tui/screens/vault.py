@@ -2,7 +2,7 @@
 
 from textual.binding import Binding
 from textual.screen import Screen
-from textual.widgets import Header, Footer, Input, Static
+from textual.widgets import Header, Footer, Input, Static, DataTable
 from textual.containers import Vertical
 
 from password_manager.tui.theme import ICONS
@@ -21,7 +21,6 @@ class VaultScreen(Screen):
         Binding("c", "copy_password", "c: Copy Pass", show=True),
         Binding("u", "copy_username", "u: Copy User", show=True),
         Binding("n", "new_entry", "n: New", show=True),
-        Binding("enter", "view_detail", "Enter: View", show=True),
         Binding("ctrl+d", "delete_entry", "^D: Delete", show=True),
         Binding("escape", "go_back", "Esc: Back", show=True),
         Binding("question_mark", "show_help", "?: Help", show=True),
@@ -80,8 +79,15 @@ class VaultScreen(Screen):
         if event.input.id == "vault-search-input":
             table = self.query_one("#vault-table", VaultTable)
             table.filter_term = event.value
-            # Update count after filter
             self._update_count(table.row_count)
+
+    def on_data_table_row_selected(self, event: DataTable.RowSelected) -> None:
+        """Open detail view when the user presses Enter on a row."""
+        table = self.query_one("#vault-table", VaultTable)
+        entry = table.get_selected_entry()
+        if entry:
+            from password_manager.tui.screens.detail import DetailScreen
+            self.app.push_screen(DetailScreen(self._state, entry))
 
     def _update_count(self, count: int) -> None:
         total = len(self._state.get_entries())
@@ -126,7 +132,7 @@ class VaultScreen(Screen):
         if entry:
             if copy_with_auto_clear(entry["username"], timeout=0):
                 self.notify(
-                    f"Username copied",
+                    "Username copied",
                     title=entry["website"],
                     timeout=3,
                 )
@@ -134,13 +140,6 @@ class VaultScreen(Screen):
     def action_new_entry(self) -> None:
         from password_manager.tui.screens.save import SaveScreen
         self.app.push_screen(SaveScreen(self._state))
-
-    def action_view_detail(self) -> None:
-        table = self.query_one("#vault-table", VaultTable)
-        entry = table.get_selected_entry()
-        if entry:
-            from password_manager.tui.screens.detail import DetailScreen
-            self.app.push_screen(DetailScreen(self._state, entry))
 
     def action_delete_entry(self) -> None:
         table = self.query_one("#vault-table", VaultTable)
@@ -160,7 +159,6 @@ class VaultScreen(Screen):
         if confirmed:
             if self._state.delete_entry(entry["username"], entry["website"]):
                 self.notify(f"Deleted {entry['website']}", timeout=3)
-                # Reload table
                 table = self.query_one("#vault-table", VaultTable)
                 table.load_entries(self._state.get_entries())
             else:

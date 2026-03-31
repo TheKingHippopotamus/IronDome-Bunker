@@ -28,6 +28,7 @@ class DetailScreen(Screen):
         Binding("escape", "go_back", "Esc: Back", show=True),
         Binding("down", "focus_next", show=False),
         Binding("up", "focus_previous", show=False),
+        Binding("left", "go_back", show=False),
     ]
 
     def __init__(self, app_state, entry: dict, **kwargs) -> None:
@@ -51,17 +52,21 @@ class DetailScreen(Screen):
                 yield Static("Service", classes="field-label")
                 yield Static(self._entry.get("website", ""), classes="field-value")
 
-            # Username
+            # Username — click to copy
             with Horizontal(classes="field-row"):
                 yield Static("Username", classes="field-label")
-                yield Static(self._entry.get("username", ""), classes="field-value", id="username-value")
+                yield Button(
+                    self._entry.get("username", ""),
+                    classes="field-value field-copy-btn",
+                    id="username-value",
+                )
 
-            # Password (masked by default)
+            # Password (masked by default) — click to copy the actual password
             with Horizontal(classes="field-row"):
                 yield Static("Password", classes="field-label")
-                yield Static(
+                yield Button(
                     "\u2022" * 12,
-                    classes="field-value",
+                    classes="field-value field-copy-btn",
                     id="password-value",
                 )
                 yield Static("", id="reveal-timer")
@@ -93,7 +98,6 @@ class DetailScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        # Set strength meter
         strength = calculate_password_strength(self._entry.get("password", ""))
         meter = self.query_one("#strength-display", StrengthMeter)
         meter.strength = strength
@@ -104,6 +108,9 @@ class DetailScreen(Screen):
             "btn-copy-user": self.action_copy_username,
             "btn-reveal": self.action_toggle_reveal,
             "btn-delete": self.action_delete_entry,
+            # Inline click-to-copy field buttons
+            "username-value": self.action_copy_username,
+            "password-value": self.action_copy_password,
         }
         action = actions.get(event.button.id)
         if action:
@@ -122,11 +129,11 @@ class DetailScreen(Screen):
     def action_copy_password(self) -> None:
         timeout = self._state.settings.get("clipboard_timeout", 30)
         if copy_with_auto_clear(self._entry["password"], timeout=timeout):
-            self.notify(f"Password copied — clears in {timeout}s", timeout=3)
+            self.notify(f"Copied! Clears in {timeout}s", timeout=3)
 
     def action_copy_username(self) -> None:
         if copy_with_auto_clear(self._entry["username"], timeout=0):
-            self.notify("Username copied", timeout=3)
+            self.notify("Copied!", timeout=3)
 
     def action_toggle_reveal(self) -> None:
         if self._revealed:
@@ -138,8 +145,8 @@ class DetailScreen(Screen):
         try:
             self._revealed = True
             self._reveal_countdown = 10
-            pw_widget = self.query_one("#password-value")
-            pw_widget.update(self._entry.get("password", ""))
+            pw_widget = self.query_one("#password-value", Button)
+            pw_widget.label = self._entry.get("password", "")
             pw_widget.styles.color = "#00FF41"
             self._update_reveal_timer()
             self._reveal_timer = self.set_interval(1.0, self._tick_reveal)
@@ -152,8 +159,8 @@ class DetailScreen(Screen):
             if self._reveal_timer:
                 self._reveal_timer.stop()
                 self._reveal_timer = None
-            pw_widget = self.query_one("#password-value")
-            pw_widget.update("\u2022" * 12)
+            pw_widget = self.query_one("#password-value", Button)
+            pw_widget.label = "\u2022" * 12
             pw_widget.styles.color = "#4A5568"
             self.query_one("#reveal-timer").update("")
         except Exception:
