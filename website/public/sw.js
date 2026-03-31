@@ -1,9 +1,9 @@
 // IronDome Service Worker — enables PWA install + offline caching
 const CACHE_NAME = 'irondome-v1';
 const PRECACHE = [
-  '/',
-  '/irondome-favicon.svg',
-  '/irondome-logo.svg',
+  '/IronDome-Bunker/',
+  '/IronDome-Bunker/irondome-favicon.svg',
+  '/IronDome-Bunker/irondome-logo.svg',
 ];
 
 self.addEventListener('install', (event) => {
