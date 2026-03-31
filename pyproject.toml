@@ -12,7 +12,11 @@ requires-python = ">=3.8"
 authors = [
     { name = "King Hippopotamus" },
 ]
-keywords = ["password", "manager", "security", "encryption", "cli"]
+keywords = [
+    "password-manager", "encryption", "aes-256", "security", "cli",
+    "cybersecurity", "zero-knowledge", "password-generator", "vault",
+    "credential-manager", "fernet", "pbkdf2", "irondome", "bunker",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
