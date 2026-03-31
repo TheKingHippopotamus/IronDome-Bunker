@@ -9,13 +9,7 @@ from password_manager.tui.theme import STRENGTH_COLORS, COLORS
 class StrengthMeter(Static):
     """Displays a colored bar representing password strength."""
 
-    DEFAULT_CSS = """
-    StrengthMeter {
-        height: 1;
-        width: 100%;
-        padding: 0 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     strength: reactive[str] = reactive("Weak")
     score: reactive[int] = reactive(0)

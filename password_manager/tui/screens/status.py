@@ -11,53 +11,7 @@ from password_manager.tui.widgets.status_bar import StatusBar
 class StatusScreen(Screen):
     """Read-only dome information display."""
 
-    DEFAULT_CSS = """
-    StatusScreen {
-        layout: vertical;
-    }
-
-    #status-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #status-body {
-        margin: 2 4;
-        height: 1fr;
-    }
-
-    .info-section {
-        background: #111518;
-        border: solid #1E2D3D;
-        padding: 1 2;
-        margin: 1 0;
-    }
-
-    .info-section-title {
-        color: #00FF41;
-        text-style: bold;
-        margin-bottom: 1;
-    }
-
-    .info-row {
-        layout: horizontal;
-        height: auto;
-    }
-
-    .info-label {
-        width: 24;
-        color: #4A5568;
-    }
-
-    .info-value {
-        width: 1fr;
-        color: #E2E8F0;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
         ("escape", "go_back", "Back"),

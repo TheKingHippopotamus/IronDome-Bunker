@@ -49,9 +49,13 @@ irondome = "password_manager.cli:irondome_main"
 irondome-tui = "password_manager.tui.app:main"
 
 [project.urls]
-Homepage = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
+Homepage = "https://thekinghippopotamus.github.io/IronDome-Bunker/"
+Documentation = "https://thekinghippopotamus.github.io/IronDome-Bunker/docs"
 Repository = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
 Issues = "https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"
+Changelog = "https://github.com/TheKingHippopotamus/IronDome-Bunker/releases"
+"Security Policy" = "https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md"
+"Live Demo" = "https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
 
 [tool.setuptools.dynamic]
 version = {attr = "password_manager.__version__"}

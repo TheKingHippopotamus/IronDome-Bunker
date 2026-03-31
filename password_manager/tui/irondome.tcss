@@ -6,6 +6,8 @@
 Screen {
     background: #0A0D0F;
     color: #E2E8F0;
+    align: center middle;
+    padding: 1 4;
 }
 
 /* ─── Header ─── */
@@ -17,13 +19,27 @@ Header {
     height: 1;
 }
 
-/* ─── Footer / Status Bar ─── */
+/* ─── Footer ─── */
 
 Footer {
     background: #0D1117;
     color: #94A3B8;
     dock: bottom;
-    height: 1;
+    height: auto;
+}
+
+FooterKey {
+    background: #0D1117;
+    color: #94A3B8;
+}
+
+FooterKey > .footer-key--key {
+    background: #1A1F24;
+    color: #00FF41;
+}
+
+FooterKey > .footer-key--description {
+    color: #94A3B8;
 }
 
 /* ─── Panels & Cards ─── */
@@ -86,10 +102,19 @@ Button.-primary:hover {
     background: #00CC33;
 }
 
+Button.-primary:focus {
+    background: #00CC33;
+    border: tall #00FF41;
+}
+
 Button.-danger {
     background: #FF2020;
     color: #0A0D0F;
     text-style: bold;
+}
+
+Button.-danger:hover {
+    background: #CC1A1A;
 }
 
 /* ─── Input Fields ─── */
@@ -179,187 +204,547 @@ DataTable > .datatable--hover {
 
 /* ─── Splash Screen ─── */
 
-#splash-container {
+SplashScreen {
     align: center middle;
-    width: 100%;
-    height: 100%;
 }
 
-#splash-logo {
-    color: #00FF41;
-    text-align: center;
-    width: auto;
-    content-align: center middle;
-}
-
-#splash-version {
-    color: #4A5568;
-    text-align: center;
-    margin-top: 1;
-}
-
-#splash-progress {
-    width: 50;
-    margin-top: 2;
-}
-
-#splash-status {
-    color: #94A3B8;
-    text-align: center;
-    margin-top: 1;
+#splash-wrapper {
+    width: 80;
+    height: auto;
+    align: center middle;
 }
 
 /* ─── Login Screen ─── */
 
-#login-container {
+LoginScreen {
     align: center middle;
+}
+
+#login-box {
     width: 60;
+    max-width: 90%;
     height: auto;
     background: #111518;
     border: solid #1E2D3D;
     padding: 2 4;
 }
 
-#login-title {
+/* ─── Dashboard ─── */
+
+DashboardScreen {
+    layout: vertical;
+    align: center top;
+}
+
+#dash-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    content-align: center middle;
+    text-align: center;
+}
+
+#dash-stats {
+    layout: horizontal;
+    height: 7;
+    margin: 1 2;
+    max-width: 100;
+}
+
+.stat-card {
+    width: 1fr;
+    height: 100%;
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 1 2;
+    margin: 0 1;
+    content-align: center middle;
+    text-align: center;
+}
+
+.stat-value {
     color: #00FF41;
     text-style: bold;
     text-align: center;
-    width: 100%;
-    margin-bottom: 1;
 }
 
-#login-mode {
-    color: #94A3B8;
+.stat-label {
+    color: #4A5568;
     text-align: center;
-    width: 100%;
-    margin-bottom: 2;
 }
 
-#login-error {
-    color: #FF2020;
-    text-align: center;
-    width: 100%;
-    margin-top: 1;
-}
-
-/* ─── Dashboard ─── */
-
-#dashboard-stats {
-    layout: horizontal;
-    height: 5;
-    margin: 1 0;
-}
-
-#dashboard-actions {
+#dash-actions {
     layout: grid;
     grid-size: 3 2;
     grid-gutter: 1;
-    margin: 1 0;
+    margin: 1 2;
     height: auto;
+    max-width: 100;
 }
 
-#dashboard-activity {
+.action-btn {
+    width: 100%;
+    height: 3;
+}
+
+#dash-activity {
     height: 1fr;
     background: #111518;
     border: solid #1E2D3D;
     padding: 1 2;
-    margin: 1 0;
+    margin: 1 2;
+    max-width: 100;
+}
+
+#activity-title {
+    color: #94A3B8;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+#activity-feed {
+    color: #4A5568;
 }
 
 /* ─── Vault Screen ─── */
 
-#vault-search {
+VaultScreen {
+    layout: vertical;
+}
+
+#vault-header {
     dock: top;
-    height: 3;
-    margin: 0 0 1 0;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
 }
 
-#vault-table-container {
+#vault-search-input {
+    dock: top;
+    margin: 1 4;
+    max-width: 100;
+}
+
+#vault-body {
     height: 1fr;
+    margin: 0 4;
+    max-width: 100;
 }
 
-#vault-count {
+#vault-count-label {
     dock: bottom;
     height: 1;
     color: #4A5568;
     text-align: right;
-    padding: 0 2;
+    padding: 0 4;
 }
 
 /* ─── Detail Screen ─── */
 
-.detail-field {
-    layout: horizontal;
-    height: 3;
-    margin: 0 0 1 0;
+DetailScreen {
+    layout: vertical;
 }
 
-.detail-label {
+#detail-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#detail-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+.field-row {
+    layout: horizontal;
+    height: 3;
+    margin-bottom: 1;
+}
+
+.field-label {
     width: 16;
     color: #4A5568;
     padding: 1 1;
 }
 
-.detail-value {
+.field-value {
     width: 1fr;
     color: #E2E8F0;
     padding: 1 1;
     background: #1A1F24;
 }
 
-.detail-value-masked {
-    color: #4A5568;
+#detail-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 4;
+    align: center middle;
+}
+
+#detail-actions Button {
+    margin: 0 1;
 }
 
 /* ─── Generator Screen ─── */
 
-#generator-output {
+GeneratorScreen {
+    layout: vertical;
+}
+
+#gen-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#gen-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+#gen-output {
     color: #00FF41;
     text-style: bold;
     text-align: center;
     padding: 2;
-    margin: 1;
+    margin: 1 0;
     background: #1A1F24;
     border: solid #1E2D3D;
+    height: 5;
+    content-align: center middle;
 }
 
-#generator-controls {
+#gen-controls {
+    margin: 1 0;
+}
+
+.control-row {
     layout: horizontal;
+    height: 3;
+    margin-bottom: 1;
+    align: left middle;
+}
+
+.control-label {
+    width: 24;
+    color: #94A3B8;
+    padding: 1 1;
+}
+
+#gen-length-input {
+    width: 10;
+}
+
+#gen-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 0;
+    align: center middle;
+}
+
+#gen-actions Button {
+    margin: 0 1;
+}
+
+/* ─── Save Screen ─── */
+
+SaveScreen {
+    layout: vertical;
+}
+
+#save-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#save-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+.form-row {
+    height: auto;
+    margin-bottom: 1;
+}
+
+.form-label {
+    color: #94A3B8;
+    margin-bottom: 0;
+}
+
+.password-row {
+    layout: horizontal;
+    height: auto;
+}
+
+.password-row Input {
+    width: 1fr;
+}
+
+.password-row Button {
+    width: auto;
+    min-width: 12;
+    height: 3;
+    margin-left: 1;
+}
+
+#save-error {
+    color: #FF2020;
+    height: auto;
+    margin-top: 1;
+}
+
+#save-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 0;
+    align: center middle;
+}
+
+#save-actions Button {
+    margin: 0 1;
+}
+
+/* ─── Settings Screen ─── */
+
+SettingsScreen {
+    layout: vertical;
+}
+
+#settings-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#settings-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+.setting-row {
+    layout: horizontal;
+    height: 3;
+    margin-bottom: 1;
+    align: left middle;
+}
+
+.setting-label {
+    width: 30;
+    color: #94A3B8;
+    padding: 1 1;
+}
+
+.setting-input {
+    width: 12;
+}
+
+#settings-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 0;
+    align: center middle;
+}
+
+#settings-actions Button {
+    margin: 0 1;
+}
+
+/* ─── Backup Screen ─── */
+
+BackupScreen {
+    layout: vertical;
+}
+
+#backup-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#backup-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+#backup-status {
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 2;
+    margin: 1 0;
+    height: auto;
+}
+
+.status-row {
+    layout: horizontal;
+    height: auto;
+    margin-bottom: 1;
+}
+
+.status-label {
+    width: 20;
+    color: #4A5568;
+}
+
+.status-value {
+    width: 1fr;
+    color: #E2E8F0;
+}
+
+#backup-progress {
+    margin: 2 0;
+    width: 100%;
+}
+
+#backup-result {
+    color: #94A3B8;
     height: auto;
     margin: 1 0;
 }
 
+#backup-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 0;
+    align: center middle;
+}
+
+#backup-actions Button {
+    margin: 0 1;
+}
+
+/* ─── Status Screen ─── */
+
+StatusScreen {
+    layout: vertical;
+}
+
+#status-title {
+    dock: top;
+    height: 1;
+    background: #0D1117;
+    color: #00FF41;
+    text-style: bold;
+    padding: 0 2;
+    text-align: center;
+}
+
+#status-body {
+    margin: 2 4;
+    height: 1fr;
+    max-width: 100;
+}
+
+.info-section {
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 1 2;
+    margin: 1 0;
+}
+
+.info-section-title {
+    color: #00FF41;
+    text-style: bold;
+    margin-bottom: 1;
+}
+
+.info-row {
+    layout: horizontal;
+    height: auto;
+}
+
+.info-label {
+    width: 24;
+    color: #4A5568;
+}
+
+.info-value {
+    width: 1fr;
+    color: #E2E8F0;
+}
+
 /* ─── Help Overlay ─── */
 
-#help-modal {
+HelpOverlay {
     align: center middle;
-    width: 70;
+}
+
+#help-box {
+    width: 60;
+    max-width: 90%;
     max-height: 80%;
     background: #111518;
     border: solid #00FF41;
-    padding: 2;
-}
-
-#help-title {
-    color: #00FF41;
-    text-style: bold;
-    text-align: center;
-    margin-bottom: 1;
+    padding: 2 4;
+    overflow-y: auto;
 }
 
 /* ─── Lock Overlay ─── */
 
-#lock-overlay {
+LockOverlay {
     align: center middle;
-    width: 100%;
-    height: 100%;
-    background: #0A0D0F 90%;
+    background: #0A0D0F 95%;
 }
 
-#lock-message {
-    color: #FF2020;
-    text-style: bold;
-    text-align: center;
+#lock-container {
+    width: 50;
+    max-width: 90%;
+    height: auto;
+    background: #111518;
+    border: solid #FF2020;
+    padding: 2 4;
+}
+
+/* ─── Confirm Dialog ─── */
+
+ConfirmDialog {
+    align: center middle;
+}
+
+#confirm-box {
+    width: 50;
+    max-width: 90%;
+    height: auto;
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 2 4;
+}
+
+.danger-border {
+    border: solid #FF2020 !important;
 }
 
 /* ─── Notifications ─── */
@@ -400,4 +785,53 @@ Switch:focus {
 
 Switch.-on > .switch--slider {
     color: #00FF41;
+}
+
+/* ─── StatusBar ─── */
+
+StatusBar {
+    dock: bottom;
+    height: 1;
+    background: #0D1117;
+    color: #94A3B8;
+    padding: 0 2;
+}
+
+/* ─── StrengthMeter ─── */
+
+StrengthMeter {
+    height: 1;
+    width: 100%;
+    padding: 0 1;
+}
+
+/* ─── VaultTable ─── */
+
+VaultTable {
+    height: 1fr;
+}
+
+/* ─── Logo ─── */
+
+Logo {
+    color: #00FF41;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    content-align: center middle;
+}
+
+/* ─── Biometric Modal ─── */
+
+BiometricModal {
+    align: center middle;
+}
+
+#biometric-container {
+    width: 50;
+    max-width: 90%;
+    height: 12;
+    background: #111518;
+    border: solid #00FF41;
+    padding: 2 4;
 }

@@ -2,6 +2,7 @@
 
 from typing import Optional
 
+from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Static, Button
 from textual.containers import Vertical, Horizontal
@@ -17,72 +18,16 @@ from password_manager.generator import calculate_password_strength
 class DetailScreen(Screen):
     """View details of a single vault entry."""
 
-    DEFAULT_CSS = """
-    DetailScreen {
-        layout: vertical;
-    }
-
-    #detail-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #detail-body {
-        margin: 2 4;
-        height: 1fr;
-    }
-
-    .field-row {
-        layout: horizontal;
-        height: 3;
-        margin-bottom: 1;
-    }
-
-    .field-label {
-        width: 16;
-        color: #4A5568;
-        padding: 1 1;
-    }
-
-    .field-value {
-        width: 1fr;
-        color: #E2E8F0;
-        padding: 1 1;
-        background: #1A1F24;
-    }
-
-    #password-value {
-        color: #4A5568;
-    }
-
-    #reveal-timer {
-        color: #FFB300;
-        width: auto;
-        padding: 1 1;
-    }
-
-    #detail-actions {
-        layout: horizontal;
-        height: auto;
-        margin: 2 4;
-        align: center middle;
-    }
-
-    #detail-actions Button {
-        margin: 0 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
-        ("escape", "go_back", "Back"),
-        ("c", "copy_password", "Copy Password"),
-        ("u", "copy_username", "Copy Username"),
-        ("space", "toggle_reveal", "Reveal"),
-        ("ctrl+d", "delete_entry", "Delete"),
+        Binding("c", "copy_password", "c: Copy Pass", show=True),
+        Binding("u", "copy_username", "u: Copy User", show=True),
+        Binding("space", "toggle_reveal", "Space: Reveal", show=True),
+        Binding("ctrl+d", "delete_entry", "^D: Delete", show=True),
+        Binding("escape", "go_back", "Esc: Back", show=True),
+        Binding("down", "focus_next", show=False),
+        Binding("up", "focus_previous", show=False),
     ]
 
     def __init__(self, app_state, entry: dict, **kwargs) -> None:
@@ -139,10 +84,10 @@ class DetailScreen(Screen):
 
         # Action buttons
         with Horizontal(id="detail-actions"):
-            yield Button(f"[c] Copy Password", variant="primary", id="btn-copy-pw")
-            yield Button(f"[u] Copy Username", id="btn-copy-user")
-            yield Button(f"[Space] Reveal", id="btn-reveal")
-            yield Button(f"[Ctrl+D] Delete", variant="error", id="btn-delete")
+            yield Button("\\[c] Copy Password", variant="primary", id="btn-copy-pw")
+            yield Button("\\[u] Copy Username", id="btn-copy-user")
+            yield Button("\\[Space] Reveal", id="btn-reveal")
+            yield Button("\\[Ctrl+D] Delete", variant="error", id="btn-delete")
 
         yield StatusBar()
         yield Footer()
@@ -164,6 +109,12 @@ class DetailScreen(Screen):
         if action:
             action()
 
+    def action_focus_next(self) -> None:
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.focus_previous()
+
     def action_go_back(self) -> None:
         self._hide_password()
         self.app.pop_screen()
@@ -184,35 +135,45 @@ class DetailScreen(Screen):
             self._show_password()
 
     def _show_password(self) -> None:
-        self._revealed = True
-        self._reveal_countdown = 10
-        pw_widget = self.query_one("#password-value")
-        pw_widget.update(self._entry.get("password", ""))
-        pw_widget.styles.color = "#00FF41"
-
-        self._update_reveal_timer()
-        self._reveal_timer = self.set_interval(1.0, self._tick_reveal)
+        try:
+            self._revealed = True
+            self._reveal_countdown = 10
+            pw_widget = self.query_one("#password-value")
+            pw_widget.update(self._entry.get("password", ""))
+            pw_widget.styles.color = "#00FF41"
+            self._update_reveal_timer()
+            self._reveal_timer = self.set_interval(1.0, self._tick_reveal)
+        except Exception:
+            pass
 
     def _hide_password(self) -> None:
-        self._revealed = False
-        if self._reveal_timer:
-            self._reveal_timer.stop()
-            self._reveal_timer = None
-
-        pw_widget = self.query_one("#password-value")
-        pw_widget.update("\u2022" * 12)
-        pw_widget.styles.color = "#4A5568"
-        self.query_one("#reveal-timer").update("")
+        try:
+            self._revealed = False
+            if self._reveal_timer:
+                self._reveal_timer.stop()
+                self._reveal_timer = None
+            pw_widget = self.query_one("#password-value")
+            pw_widget.update("\u2022" * 12)
+            pw_widget.styles.color = "#4A5568"
+            self.query_one("#reveal-timer").update("")
+        except Exception:
+            self._revealed = False
 
     def _tick_reveal(self) -> None:
-        self._reveal_countdown -= 1
-        if self._reveal_countdown <= 0:
+        try:
+            self._reveal_countdown -= 1
+            if self._reveal_countdown <= 0:
+                self._hide_password()
+            else:
+                self._update_reveal_timer()
+        except Exception:
             self._hide_password()
-        else:
-            self._update_reveal_timer()
 
     def _update_reveal_timer(self) -> None:
-        self.query_one("#reveal-timer").update(f"[hiding in {self._reveal_countdown}s]")
+        try:
+            self.query_one("#reveal-timer").update(f"hiding in {self._reveal_countdown}s")
+        except Exception:
+            pass
 
     def action_delete_entry(self) -> None:
         from password_manager.tui.screens.confirm import ConfirmDialog

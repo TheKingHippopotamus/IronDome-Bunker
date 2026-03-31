@@ -11,58 +11,7 @@ from password_manager.tui.widgets.status_bar import StatusBar
 class SettingsScreen(Screen):
     """Interactive settings with toggles and numeric inputs."""
 
-    DEFAULT_CSS = """
-    SettingsScreen {
-        layout: vertical;
-    }
-
-    #settings-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #settings-body {
-        margin: 2 4;
-        height: 1fr;
-    }
-
-    .setting-row {
-        layout: horizontal;
-        height: 3;
-        margin-bottom: 1;
-        align: left middle;
-    }
-
-    .setting-label {
-        width: 30;
-        color: #94A3B8;
-        padding: 1 1;
-    }
-
-    .setting-value {
-        width: auto;
-        padding: 1 1;
-    }
-
-    .setting-input {
-        width: 12;
-    }
-
-    #settings-actions {
-        layout: horizontal;
-        height: auto;
-        margin: 2 0;
-        align: center middle;
-    }
-
-    #settings-actions Button {
-        margin: 0 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
         ("escape", "go_back", "Back"),

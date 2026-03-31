@@ -1,5 +1,8 @@
 """Main dashboard — stat cards, quick actions, activity feed."""
 
+import os
+
+from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Static, Button, Header, Footer
 from textual.containers import Horizontal, Vertical
@@ -11,86 +14,19 @@ from password_manager.tui.widgets.status_bar import StatusBar
 class DashboardScreen(Screen):
     """Central hub after authentication. Shows vault stats and quick actions."""
 
-    DEFAULT_CSS = """
-    DashboardScreen {
-        layout: vertical;
-    }
-
-    #dash-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #dash-stats {
-        layout: horizontal;
-        height: 7;
-        margin: 1 2;
-    }
-
-    .stat-card {
-        width: 1fr;
-        height: 100%;
-        background: #111518;
-        border: solid #1E2D3D;
-        padding: 1 2;
-        margin: 0 1;
-        content-align: center middle;
-    }
-
-    .stat-value {
-        color: #00FF41;
-        text-style: bold;
-    }
-
-    .stat-label {
-        color: #4A5568;
-    }
-
-    #dash-actions {
-        layout: grid;
-        grid-size: 3 2;
-        grid-gutter: 1;
-        margin: 1 2;
-        height: auto;
-    }
-
-    .action-btn {
-        width: 100%;
-        height: 3;
-    }
-
-    #dash-activity {
-        height: 1fr;
-        background: #111518;
-        border: solid #1E2D3D;
-        padding: 1 2;
-        margin: 1 2;
-    }
-
-    #activity-title {
-        color: #94A3B8;
-        text-style: bold;
-        margin-bottom: 1;
-    }
-
-    #activity-feed {
-        color: #4A5568;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
-        ("1", "open_vault", "Vault"),
-        ("2", "open_search", "Search"),
-        ("3", "open_generator", "Generator"),
-        ("4", "open_save", "Save New"),
-        ("5", "open_backup", "Backup"),
-        ("6", "open_settings", "Settings"),
-        ("q", "quit_to_login", "Logout"),
-        ("question_mark", "show_help", "Help"),
+        Binding("1", "open_vault", "1: Vault", show=True),
+        Binding("2", "open_search", "2: Search", show=True),
+        Binding("3", "open_generator", "3: Generator", show=True),
+        Binding("4", "open_save", "4: New Entry", show=True),
+        Binding("5", "open_backup", "5: Fortify", show=True),
+        Binding("6", "open_settings", "6: Settings", show=True),
+        Binding("q", "quit_to_login", "q: Logout", show=True),
+        Binding("question_mark", "show_help", "?: Help", show=True),
+        Binding("down", "focus_next", "Next", show=False),
+        Binding("up", "focus_previous", "Prev", show=False),
     ]
 
     def __init__(self, app_state, **kwargs) -> None:
@@ -121,12 +57,12 @@ class DashboardScreen(Screen):
 
         # Quick actions grid
         with Vertical(id="dash-actions"):
-            yield Button(f"[1] {ICONS['arrow_right']} Vault", id="btn-vault", classes="action-btn")
-            yield Button(f"[2] {ICONS['arrow_right']} Search", id="btn-search", classes="action-btn")
-            yield Button(f"[3] {ICONS['arrow_right']} Generator", id="btn-generator", classes="action-btn")
-            yield Button(f"[4] {ICONS['arrow_right']} Save New", id="btn-save", classes="action-btn")
-            yield Button(f"[5] {ICONS['arrow_right']} Fortify", id="btn-backup", classes="action-btn")
-            yield Button(f"[6] {ICONS['arrow_right']} Settings", id="btn-settings", classes="action-btn")
+            yield Button(f"\\[1] {ICONS['arrow_right']} Vault", id="btn-vault", classes="action-btn")
+            yield Button(f"\\[2] {ICONS['arrow_right']} Search", id="btn-search", classes="action-btn")
+            yield Button(f"\\[3] {ICONS['arrow_right']} Generator", id="btn-generator", classes="action-btn")
+            yield Button(f"\\[4] {ICONS['arrow_right']} Save New", id="btn-save", classes="action-btn")
+            yield Button(f"\\[5] {ICONS['arrow_right']} Fortify", id="btn-backup", classes="action-btn")
+            yield Button(f"\\[6] {ICONS['arrow_right']} Settings", id="btn-settings", classes="action-btn")
 
         # Activity feed
         with Vertical(id="dash-activity"):
@@ -137,46 +73,96 @@ class DashboardScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        self._refresh_stats()
+        try:
+            self._refresh_stats()
+        except Exception:
+            pass
         self.set_interval(1.0, self._tick_session)
 
     def _refresh_stats(self) -> None:
-        entries = self._state.get_entries()
-        self.query_one("#stat-entries").update(f"{ICONS['dome_active']} {len(entries)}")
+        try:
+            entries = self._state.get_entries()
+            self.query_one("#stat-entries").update(f"{ICONS['dome_active']} {len(entries)}")
 
-        if self._state.airspace_open:
-            mins = self._state.airspace_remaining // 60
-            self.query_one("#stat-airspace").update(f"{ICONS['airspace_open']} OPEN ({mins}m)")
-        else:
-            self.query_one("#stat-airspace").update(f"{ICONS['airspace_closed']} CLOSED")
+            if self._state.airspace_open:
+                mins = self._state.airspace_remaining // 60
+                self.query_one("#stat-airspace").update(f"{ICONS['airspace_open']} OPEN ({mins}m)")
+            else:
+                self.query_one("#stat-airspace").update(f"{ICONS['airspace_closed']} CLOSED")
 
-        self.query_one("#stat-session").update(
-            f"{ICONS['check']} {self._state.username or 'unknown'}"
-        )
+            self.query_one("#stat-session").update(
+                f"{ICONS['check']} {self._state.username or 'unknown'}"
+            )
 
-        # Update status bar
-        status = self.query_one(StatusBar)
-        status.entry_count = len(entries)
-        status.airspace_open = self._state.airspace_open
-        status.time_remaining = self._state.airspace_remaining
+            status = self.query_one(StatusBar)
+            status.entry_count = len(entries)
+            status.airspace_open = self._state.airspace_open
+            status.time_remaining = self._state.airspace_remaining
+
+            self._refresh_activity_feed()
+        except Exception:
+            pass
+
+    def _refresh_activity_feed(self) -> None:
+        """Read the last 5 interesting lines from the log file and display them."""
+        _INTERESTING = ("login", "save", "delete", "backup", "search")
+        try:
+            log_path = os.path.join(self._state.data_dir, "password_manager.log")
+            if not os.path.exists(log_path):
+                return
+
+            with open(log_path, "r", encoding="utf-8", errors="replace") as fh:
+                lines = fh.readlines()
+
+            # Filter: skip DEBUG lines, keep lines containing interesting keywords
+            filtered = [
+                ln.rstrip()
+                for ln in lines
+                if "DEBUG" not in ln and any(kw in ln.lower() for kw in _INTERESTING)
+            ]
+
+            recent = filtered[-5:] if len(filtered) >= 5 else filtered
+
+            if not recent:
+                return
+
+            # Format: trim the log line to a readable timestamp + message.
+            # Log format is typically:  2024-01-01 12:00:00,123 - root - INFO - message
+            formatted_lines = []
+            for raw in recent:
+                parts = raw.split(" - ", maxsplit=3)
+                if len(parts) == 4:
+                    # parts[0] = timestamp, parts[3] = message
+                    ts = parts[0].strip()[:19]   # "2024-01-01 12:00:00"
+                    msg = parts[3].strip()
+                    formatted_lines.append(f"{ts}  {msg}")
+                else:
+                    formatted_lines.append(raw[:120])
+
+            feed_text = "\n".join(formatted_lines)
+            self.query_one("#activity-feed").update(feed_text)
+        except Exception:
+            pass
 
     def _tick_session(self) -> None:
-        remaining = self._state.airspace_remaining
-        status = self.query_one(StatusBar)
-        status.time_remaining = remaining
-        status.airspace_open = self._state.airspace_open
+        try:
+            remaining = self._state.airspace_remaining
+            status = self.query_one(StatusBar)
+            status.time_remaining = remaining
+            status.airspace_open = self._state.airspace_open
 
-        # Update session stat
-        mins = remaining // 60
-        secs = remaining % 60
-        self.query_one("#stat-session").update(
-            f"{self._state.username}  {mins:02d}:{secs:02d}"
-        )
+            mins = remaining // 60
+            secs = remaining % 60
+            self.query_one("#stat-session").update(
+                f"{self._state.username}  {mins:02d}:{secs:02d}"
+            )
 
-        if remaining <= 0 and self._state.is_authenticated:
-            self._state.logout()
-            from password_manager.tui.state.events import SessionExpired
-            self.post_message(SessionExpired())
+            if remaining <= 0 and self._state.is_authenticated:
+                self._state.logout()
+                from password_manager.tui.state.events import SessionExpired
+                self.post_message(SessionExpired())
+        except Exception:
+            pass
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         action_map = {
@@ -218,7 +204,17 @@ class DashboardScreen(Screen):
 
     def action_quit_to_login(self) -> None:
         self._state.logout()
+        from password_manager.tui.security.clipboard import force_clear
+        force_clear()
         self.app.pop_screen()
+        from password_manager.tui.screens.login import LoginScreen
+        self.app.push_screen(LoginScreen(self._state))
+
+    def action_focus_next(self) -> None:
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.focus_previous()
 
     def action_show_help(self) -> None:
         from password_manager.tui.screens.help import HelpOverlay

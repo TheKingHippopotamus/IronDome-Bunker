@@ -10,40 +10,7 @@ from password_manager.tui.theme import ICONS
 class ConfirmDialog(ModalScreen[bool]):
     """Modal confirmation dialog. Dismisses with True/False."""
 
-    DEFAULT_CSS = """
-    ConfirmDialog {
-        align: center middle;
-    }
-
-    #confirm-box {
-        width: 50;
-        height: auto;
-        background: #111518;
-        border: solid #1E2D3D;
-        padding: 2 4;
-    }
-
-    #confirm-message {
-        color: #E2E8F0;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 2;
-    }
-
-    #confirm-actions {
-        layout: horizontal;
-        align: center middle;
-        height: auto;
-    }
-
-    #confirm-actions Button {
-        margin: 0 1;
-    }
-
-    .danger-border {
-        border: solid #FF2020;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
         ("y", "confirm", "Yes"),
@@ -74,11 +41,11 @@ class ConfirmDialog(ModalScreen[bool]):
                 with Horizontal(id="confirm-actions"):
                     variant = "error" if self._danger else "primary"
                     yield Button(
-                        f"[y] {self._action_label}",
+                        f"\\[y] {self._action_label}",
                         variant=variant,
                         id="btn-confirm",
                     )
-                    yield Button("[n] Cancel", id="btn-cancel")
+                    yield Button("\\[n] Cancel", id="btn-cancel")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-confirm":

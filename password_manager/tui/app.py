@@ -6,12 +6,11 @@ Existing CLI commands (irondome, bunker) remain untouched.
 
 from __future__ import annotations
 
-import os
+import logging
 import sys
-from importlib import resources as importlib_resources
-from pathlib import Path
+import traceback
 
-from textual.app import App, ComposeResult
+from textual.app import App
 from textual.binding import Binding
 
 from password_manager import __version__
@@ -20,6 +19,8 @@ from password_manager.tui.state.events import AuthSuccess, AuthFailed, SessionEx
 from password_manager.tui.security.cleanup import install_signal_handlers
 from password_manager.tui.security.memory import lock_memory
 from password_manager.tui.security.clipboard import force_clear as clipboard_clear
+
+log = logging.getLogger("IronDome.TUI")
 
 
 class IronDomeApp(App):
@@ -30,21 +31,31 @@ class IronDomeApp(App):
 
     CSS_PATH = "irondome.tcss"
 
+    COMMANDS = set()  # Disable built-in command palette (maximize, theme toggle, etc.)
+
     BINDINGS = [
-        Binding("ctrl+q", "quit_app", "Quit", show=True, priority=True),
-        Binding("ctrl+l", "lock_vault", "Lock", show=True),
-        Binding("question_mark", "show_help", "Help"),
-        Binding("ctrl+p", "command_palette", "Commands"),
+        Binding("ctrl+q", "quit_app", "^Q: Quit", show=True, priority=True),
+        Binding("ctrl+l", "lock_vault", "^L: Lock", show=True),
+        Binding("question_mark", "show_help", "?: Help", show=True),
     ]
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.state = AppState()
+        self.dark = True  # Force dark mode — IronDome's military theme is dark-only
+        try:
+            self.state = AppState()
+        except Exception as exc:
+            log.error("Failed to initialize AppState: %s", exc)
+            raise SystemExit(f"IronDome init failed: {exc}") from exc
 
     def on_mount(self) -> None:
         """Start with splash screen, then login."""
-        from password_manager.tui.screens.splash import SplashScreen
-        self.push_screen(SplashScreen())
+        try:
+            from password_manager.tui.screens.splash import SplashScreen
+            self.push_screen(SplashScreen())
+        except Exception as exc:
+            log.error("Failed to mount splash screen: %s", exc)
+            self._fallback_to_login()
 
     # ------------------------------------------------------------------
     # Message handlers
@@ -52,20 +63,28 @@ class IronDomeApp(App):
 
     def on_splash_screen_complete(self, message: "SplashScreen.Complete") -> None:
         """Splash finished — show login."""
-        self.pop_screen()  # Remove splash
-        from password_manager.tui.screens.login import LoginScreen
-        self.push_screen(LoginScreen(self.state))
+        try:
+            self.pop_screen()
+            from password_manager.tui.screens.login import LoginScreen
+            self.push_screen(LoginScreen(self.state))
+        except Exception as exc:
+            log.error("Failed to transition to login: %s", exc)
+            self.notify(f"Navigation error: {exc}", severity="error", timeout=5)
 
     def on_auth_success(self, message: AuthSuccess) -> None:
         """Auth succeeded — show dashboard."""
-        self.pop_screen()  # Remove login
-        from password_manager.tui.screens.dashboard import DashboardScreen
-        self.push_screen(DashboardScreen(self.state))
-        self.notify(
-            f"Welcome back, {message.username}",
-            title="Airspace Open",
-            timeout=3,
-        )
+        try:
+            self.pop_screen()
+            from password_manager.tui.screens.dashboard import DashboardScreen
+            self.push_screen(DashboardScreen(self.state))
+            self.notify(
+                f"Welcome back, {message.username}",
+                title="Airspace Open",
+                timeout=3,
+            )
+        except Exception as exc:
+            log.error("Failed to load dashboard: %s", exc)
+            self.notify(f"Dashboard error: {exc}", severity="error", timeout=5)
 
     def on_auth_failed(self, message: AuthFailed) -> None:
         """Auth failed — notify on login screen."""
@@ -73,12 +92,13 @@ class IronDomeApp(App):
 
     def on_session_expired(self, message: SessionExpired) -> None:
         """Session timed out — lock the app."""
-        # Clear all screens back to a lock overlay
-        while len(self.screen_stack) > 1:
-            self.pop_screen()
-        from password_manager.tui.screens.login import LoginScreen
-        self.push_screen(LoginScreen(self.state))
-        self.notify("Session expired. Please re-authenticate.", severity="warning", timeout=5)
+        try:
+            self._pop_all_screens()
+            from password_manager.tui.screens.login import LoginScreen
+            self.push_screen(LoginScreen(self.state))
+            self.notify("Session expired. Please re-authenticate.", severity="warning", timeout=5)
+        except Exception as exc:
+            log.error("Failed to handle session expiry: %s", exc)
 
     # ------------------------------------------------------------------
     # Actions
@@ -86,24 +106,60 @@ class IronDomeApp(App):
 
     def action_quit_app(self) -> None:
         """Clean exit."""
-        self.state.logout()
-        clipboard_clear()
+        try:
+            self.state.logout()
+        except Exception:
+            pass
+        try:
+            clipboard_clear()
+        except Exception:
+            pass
         self.exit()
 
     def action_lock_vault(self) -> None:
         """Lock vault and return to login."""
-        self.state.logout()
-        clipboard_clear()
-        # Pop all screens
-        while len(self.screen_stack) > 1:
-            self.pop_screen()
-        from password_manager.tui.screens.login import LoginScreen
-        self.push_screen(LoginScreen(self.state))
-        self.notify("Vault locked.", timeout=3)
+        try:
+            self.state.logout()
+            clipboard_clear()
+        except Exception as exc:
+            log.error("Error during lock: %s", exc)
+
+        try:
+            self._pop_all_screens()
+            from password_manager.tui.screens.login import LoginScreen
+            self.push_screen(LoginScreen(self.state))
+            self.notify("Vault locked.", timeout=3)
+        except Exception as exc:
+            log.error("Failed to show lock screen: %s", exc)
+            self.notify(f"Lock error: {exc}", severity="error", timeout=5)
 
     def action_show_help(self) -> None:
-        from password_manager.tui.screens.help import HelpOverlay
-        self.push_screen(HelpOverlay())
+        try:
+            from password_manager.tui.screens.help import HelpOverlay
+            self.push_screen(HelpOverlay())
+        except Exception as exc:
+            self.notify(f"Help unavailable: {exc}", severity="error", timeout=3)
+
+    # ------------------------------------------------------------------
+    # Helpers
+    # ------------------------------------------------------------------
+
+    def _pop_all_screens(self) -> None:
+        """Safely pop all screens back to the default."""
+        while len(self.screen_stack) > 1:
+            try:
+                self.pop_screen()
+            except Exception:
+                break
+
+    def _fallback_to_login(self) -> None:
+        """Emergency fallback — go straight to login."""
+        try:
+            from password_manager.tui.screens.login import LoginScreen
+            self.push_screen(LoginScreen(self.state))
+        except Exception as exc:
+            log.critical("Cannot show login screen: %s", exc)
+            self.exit()
 
 
 def main() -> None:
@@ -119,8 +175,16 @@ def main() -> None:
         print("IronDome TUI requires an interactive terminal.", file=sys.stderr)
         sys.exit(1)
 
-    app = IronDomeApp()
-    app.run()
+    try:
+        app = IronDomeApp()
+        app.run()
+    except KeyboardInterrupt:
+        clipboard_clear()
+    except Exception as exc:
+        clipboard_clear()
+        print(f"\nIronDome TUI crashed: {exc}", file=sys.stderr)
+        log.critical("Unhandled exception: %s\n%s", exc, traceback.format_exc())
+        sys.exit(1)
 
 
 if __name__ == "__main__":

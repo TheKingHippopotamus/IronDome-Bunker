@@ -48,20 +48,7 @@ HELP_TEXT = """\
 class HelpOverlay(ModalScreen):
     """Full help overlay with all keyboard shortcuts."""
 
-    DEFAULT_CSS = """
-    HelpOverlay {
-        align: center middle;
-    }
-
-    #help-box {
-        width: 60;
-        max-height: 80%;
-        background: #111518;
-        border: solid #00FF41;
-        padding: 2 4;
-        overflow-y: auto;
-    }
-    """
+    DEFAULT_CSS = ""
 
     def compose(self):
         with Center():

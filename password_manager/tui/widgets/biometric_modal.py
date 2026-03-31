@@ -15,34 +15,7 @@ class BiometricModal(ModalScreen[bool]):
     Dismisses with True/False based on auth result.
     """
 
-    DEFAULT_CSS = """
-    BiometricModal {
-        align: center middle;
-    }
-
-    #biometric-container {
-        width: 50;
-        height: 12;
-        background: #111518;
-        border: solid #00FF41;
-        padding: 2 4;
-    }
-
-    #biometric-title {
-        color: #00FF41;
-        text-style: bold;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 1;
-    }
-
-    #biometric-hint {
-        color: #94A3B8;
-        text-align: center;
-        width: 100%;
-        margin-top: 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     def __init__(self, bio_type: str = "Biometric", **kwargs) -> None:
         super().__init__(**kwargs)

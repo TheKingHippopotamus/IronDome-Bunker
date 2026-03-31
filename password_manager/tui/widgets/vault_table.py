@@ -9,11 +9,7 @@ from textual.widgets import DataTable
 class VaultTable(DataTable):
     """DataTable specialized for vault entries with search filtering."""
 
-    DEFAULT_CSS = """
-    VaultTable {
-        height: 1fr;
-    }
-    """
+    DEFAULT_CSS = ""
 
     # All entries and currently displayed (filtered) entries
     _all_entries: list[dict] = []

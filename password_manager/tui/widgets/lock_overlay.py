@@ -14,50 +14,7 @@ class LockOverlay(ModalScreen[bool]):
     Dismisses with True if re-auth succeeds, False to quit.
     """
 
-    DEFAULT_CSS = """
-    LockOverlay {
-        align: center middle;
-        background: #0A0D0F 95%;
-    }
-
-    #lock-container {
-        width: 50;
-        height: auto;
-        background: #111518;
-        border: solid #FF2020;
-        padding: 2 4;
-    }
-
-    #lock-title {
-        color: #FF2020;
-        text-style: bold;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 1;
-    }
-
-    #lock-reason {
-        color: #94A3B8;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 2;
-    }
-
-    #lock-password {
-        margin-bottom: 1;
-    }
-
-    #lock-actions {
-        layout: horizontal;
-        height: auto;
-        align: center middle;
-        margin-top: 1;
-    }
-
-    #lock-actions Button {
-        margin: 0 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     def compose(self):
         with Center():

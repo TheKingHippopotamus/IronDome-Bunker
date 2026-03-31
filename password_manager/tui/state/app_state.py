@@ -5,6 +5,7 @@ mutations go through its methods, which delegate to the existing
 password_manager service classes.
 """
 
+import logging
 import os
 from typing import Optional
 
@@ -14,6 +15,8 @@ from password_manager.storage import PasswordStorage
 from password_manager.session import SessionManager
 from password_manager.auth import AuthManager
 from password_manager.logger import setup_logger
+
+log = logging.getLogger("IronDome.TUI.State")
 
 
 class AppState:
@@ -35,7 +38,11 @@ class AppState:
 
     @property
     def is_configured(self) -> bool:
-        return self.storage.master_account_exists()
+        try:
+            return self.storage.master_account_exists()
+        except Exception as exc:
+            log.error("Failed to check vault configuration: %s", exc)
+            return False
 
     @property
     def is_authenticated(self) -> bool:
@@ -47,19 +54,29 @@ class AppState:
 
     @property
     def airspace_open(self) -> bool:
-        return self.airspace.is_open()
+        try:
+            return self.airspace.is_open()
+        except Exception:
+            return False
 
     @property
     def airspace_remaining(self) -> int:
-        return self.airspace.remaining_seconds()
+        try:
+            return self.airspace.remaining_seconds()
+        except Exception:
+            return 0
 
     def get_auth_mode(self) -> Optional[str]:
-        salt = self.storage.load_salt()
-        if not salt:
+        try:
+            salt = self.storage.load_salt()
+            if not salt:
+                return None
+            from password_manager.keystore import SecureKeyStore
+            ks = SecureKeyStore(salt=salt, logger=self.logger)
+            return ks.get_auth_mode()
+        except Exception as exc:
+            log.error("Failed to get auth mode: %s", exc)
             return None
-        from password_manager.keystore import SecureKeyStore
-        ks = SecureKeyStore(salt=salt, logger=self.logger)
-        return ks.get_auth_mode()
 
     # ------------------------------------------------------------------
     # Authentication
@@ -67,13 +84,17 @@ class AppState:
 
     def authenticate_biometric(self) -> bool:
         """Run biometric auth flow. Blocking — call from worker thread."""
-        result = self.auth.authenticate_biometric()
-        if result and self.is_authenticated:
-            self._refresh_vault()
-            timeout = self.settings.get("session_timeout", 1800)
-            auth_mode = self.get_auth_mode() or "unknown"
-            self.airspace.open(timeout=timeout, auth_mode=auth_mode)
-        return result
+        try:
+            result = self.auth.authenticate_biometric()
+            if result and self.is_authenticated:
+                self._refresh_vault()
+                timeout = self.settings.get("session_timeout", 1800)
+                auth_mode = self.get_auth_mode() or "unknown"
+                self.airspace.open(timeout=timeout, auth_mode=auth_mode)
+            return result
+        except Exception as exc:
+            log.error("Biometric auth failed: %s", exc)
+            return False
 
     def authenticate_password(self, username: str, password: str) -> bool:
         """Authenticate with username/password. Blocking — call from worker thread."""
@@ -130,8 +151,11 @@ class AppState:
         return False
 
     def logout(self) -> None:
-        self.session.logout()
-        self.airspace.close()
+        try:
+            self.session.logout()
+            self.airspace.close()
+        except Exception as exc:
+            log.error("Error during logout: %s", exc)
         self._vault_cache.clear()
         self.auth.fernet = None
 
@@ -140,13 +164,21 @@ class AppState:
     # ------------------------------------------------------------------
 
     def _refresh_vault(self) -> None:
-        if self.auth.fernet:
-            self._vault_cache = self.storage.load_passwords(self.auth.fernet)
+        try:
+            if self.auth.fernet:
+                self._vault_cache = self.storage.load_passwords(self.auth.fernet)
+        except Exception as exc:
+            log.error("Failed to refresh vault: %s", exc)
+            self._vault_cache = []
 
-    def get_entries(self) -> list[dict]:
-        if not self._vault_cache and self.auth.fernet:
-            self._refresh_vault()
-        return list(self._vault_cache)
+    def get_entries(self) -> list:
+        try:
+            if not self._vault_cache and self.auth.fernet:
+                self._refresh_vault()
+            return list(self._vault_cache)
+        except Exception as exc:
+            log.error("Failed to get entries: %s", exc)
+            return []
 
     def search_entries(self, term: str) -> list[dict]:
         if len(term) < 2:
@@ -161,39 +193,54 @@ class AppState:
 
     def save_entry(self, username: str, website: str, password: str, notes: str = "") -> bool:
         import time
-        if not self.auth.fernet:
+        try:
+            if not self.auth.fernet:
+                return False
+            entries = self.get_entries()
+            entry = {
+                "username": username,
+                "website": website,
+                "password": password,
+                "notes": notes,
+                "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+            }
+            entries = [e for e in entries if not (e["username"] == username and e["website"] == website)]
+            entries.append(entry)
+            if self.storage.save_passwords(entries, self.auth.fernet):
+                self._vault_cache = entries
+                self.logger.info(f"Saved entry for {username} at {website}")
+                return True
             return False
-        entries = self.get_entries()
-        entry = {
-            "username": username,
-            "website": website,
-            "password": password,
-            "notes": notes,
-            "created_at": time.strftime("%Y-%m-%d %H:%M:%S"),
-        }
-        # Replace existing duplicate
-        entries = [e for e in entries if not (e["username"] == username and e["website"] == website)]
-        entries.append(entry)
-        if self.storage.save_passwords(entries, self.auth.fernet):
-            self._vault_cache = entries
-            self.logger.info(f"Saved entry for {username} at {website}")
-            return True
-        return False
+        except Exception as exc:
+            log.error("Failed to save entry: %s", exc)
+            return False
 
     def delete_entry(self, username: str, website: str) -> bool:
-        if not self.auth.fernet:
+        try:
+            if not self.auth.fernet:
+                return False
+            entries = self.get_entries()
+            new_entries = [e for e in entries if not (e["username"] == username and e["website"] == website)]
+            if len(new_entries) < len(entries):
+                if self.storage.save_passwords(new_entries, self.auth.fernet):
+                    self._vault_cache = new_entries
+                    self.logger.info(f"Deleted entry for {username} at {website}")
+                    return True
             return False
-        entries = self.get_entries()
-        new_entries = [e for e in entries if not (e["username"] == username and e["website"] == website)]
-        if len(new_entries) < len(entries):
-            if self.storage.save_passwords(new_entries, self.auth.fernet):
-                self._vault_cache = new_entries
-                self.logger.info(f"Deleted entry for {username} at {website}")
-                return True
-        return False
+        except Exception as exc:
+            log.error("Failed to delete entry: %s", exc)
+            return False
 
     def create_backup(self) -> Optional[str]:
-        return self.storage.create_backup()
+        try:
+            return self.storage.create_backup()
+        except Exception as exc:
+            log.error("Failed to create backup: %s", exc)
+            return None
 
     def get_storage_info(self) -> dict:
-        return self.storage.get_storage_info()
+        try:
+            return self.storage.get_storage_info()
+        except Exception as exc:
+            log.error("Failed to get storage info: %s", exc)
+            return {"error": str(exc)}

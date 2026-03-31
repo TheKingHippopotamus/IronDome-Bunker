@@ -3,63 +3,20 @@
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Static, Input, Button
 from textual.containers import Vertical, Horizontal
+from textual.binding import Binding
 
 from password_manager.tui.theme import ICONS
 from password_manager.tui.widgets.status_bar import StatusBar
+from password_manager.generator import generate_password
 
 
 class SaveScreen(Screen):
     """Form for saving a new password entry to the vault."""
 
-    DEFAULT_CSS = """
-    SaveScreen {
-        layout: vertical;
-    }
-
-    #save-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #save-body {
-        margin: 2 4;
-        height: 1fr;
-    }
-
-    .form-row {
-        height: auto;
-        margin-bottom: 1;
-    }
-
-    .form-label {
-        color: #94A3B8;
-        margin-bottom: 0;
-    }
-
-    #save-error {
-        color: #FF2020;
-        height: auto;
-        margin-top: 1;
-    }
-
-    #save-actions {
-        layout: horizontal;
-        height: auto;
-        margin: 2 0;
-        align: center middle;
-    }
-
-    #save-actions Button {
-        margin: 0 1;
-    }
-    """
-
     BINDINGS = [
-        ("escape", "go_back", "Back"),
+        Binding("escape", "go_back", "Back", show=True),
+        Binding("down", "focus_next", "Next Field", show=False),
+        Binding("up", "focus_previous", "Prev Field", show=False),
     ]
 
     def __init__(self, app_state, prefill_password: str = "", **kwargs) -> None:
@@ -85,12 +42,14 @@ class SaveScreen(Screen):
 
             with Vertical(classes="form-row"):
                 yield Static("Password *", classes="form-label")
-                yield Input(
-                    placeholder="Enter or generate password",
-                    password=True,
-                    value=self._prefill_password,
-                    id="save-password",
-                )
+                with Horizontal(classes="password-row"):
+                    yield Input(
+                        placeholder="Enter or generate password",
+                        password=True,
+                        value=self._prefill_password,
+                        id="save-password",
+                    )
+                    yield Button("Generate", id="btn-generate-inline")
 
             with Vertical(classes="form-row"):
                 yield Static("Notes (optional)", classes="form-label")
@@ -100,7 +59,6 @@ class SaveScreen(Screen):
 
             with Horizontal(id="save-actions"):
                 yield Button("Save Entry", variant="primary", id="btn-save")
-                yield Button("Generate Password", id="btn-generate")
                 yield Button("Cancel", id="btn-cancel")
 
         yield StatusBar()
@@ -109,14 +67,12 @@ class SaveScreen(Screen):
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-save":
             self._save()
-        elif event.button.id == "btn-generate":
-            from password_manager.tui.screens.generator import GeneratorScreen
-            self.app.push_screen(GeneratorScreen(self._state))
+        elif event.button.id == "btn-generate-inline":
+            self._generate_inline()
         elif event.button.id == "btn-cancel":
             self.action_go_back()
 
     def on_input_submitted(self, event: Input.Submitted) -> None:
-        # Tab through fields on Enter, save on last field
         if event.input.id == "save-website":
             self.query_one("#save-username", Input).focus()
         elif event.input.id == "save-username":
@@ -126,13 +82,37 @@ class SaveScreen(Screen):
         elif event.input.id == "save-notes":
             self._save()
 
+    def _generate_inline(self) -> None:
+        """Generate a password and fill the field — no screen navigation."""
+        try:
+            length = self._state.settings.get("password_length", 20)
+            use_special = self._state.settings.get("use_special_chars", True)
+            use_uppercase = self._state.settings.get("use_uppercase", True)
+            use_digits = self._state.settings.get("use_digits", True)
+
+            result = generate_password(
+                length=length,
+                use_special=use_special,
+                use_uppercase=use_uppercase,
+                use_digits=use_digits,
+            )
+
+            if result:
+                pw_input = self.query_one("#save-password", Input)
+                pw_input.value = result["password"]
+                self.notify(
+                    f"Generated {result['strength']} password ({length} chars)",
+                    timeout=3,
+                )
+        except Exception as exc:
+            self.notify(f"Generation failed: {exc}", severity="error", timeout=3)
+
     def _save(self) -> None:
         website = self.query_one("#save-website", Input).value.strip()
         username = self.query_one("#save-username", Input).value.strip()
         password = self.query_one("#save-password", Input).value
         notes = self.query_one("#save-notes", Input).value.strip()
 
-        # Validate
         if not website:
             self._show_error("Service/website is required.")
             self.query_one("#save-website", Input).focus()
@@ -146,14 +126,26 @@ class SaveScreen(Screen):
             self.query_one("#save-password", Input).focus()
             return
 
-        if self._state.save_entry(username, website, password, notes):
-            self.notify(f"Entry saved for {username} at {website}", timeout=3)
-            self.app.pop_screen()
-        else:
-            self._show_error("Failed to save entry.")
+        try:
+            if self._state.save_entry(username, website, password, notes):
+                self.notify(f"Entry saved for {username} at {website}", timeout=3)
+                self.app.pop_screen()
+            else:
+                self._show_error("Failed to save entry.")
+        except Exception as exc:
+            self._show_error(f"Save error: {exc}")
 
     def _show_error(self, msg: str) -> None:
-        self.query_one("#save-error").update(f"{ICONS['cross']}  {msg}")
+        try:
+            self.query_one("#save-error").update(f"{ICONS['cross']}  {msg}")
+        except Exception:
+            pass
+
+    def action_focus_next(self) -> None:
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.focus_previous()
 
     def action_go_back(self) -> None:
         self.app.pop_screen()

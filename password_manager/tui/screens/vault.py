@@ -1,5 +1,6 @@
 """Vault screen — searchable password list with DataTable."""
 
+from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Input, Static
 from textual.containers import Vertical
@@ -13,48 +14,19 @@ from password_manager.tui.security.clipboard import copy_with_auto_clear
 class VaultScreen(Screen):
     """Browsable vault with inline search, copy, and entry actions."""
 
-    DEFAULT_CSS = """
-    VaultScreen {
-        layout: vertical;
-    }
-
-    #vault-header {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #vault-search-input {
-        dock: top;
-        margin: 1 2;
-    }
-
-    #vault-body {
-        height: 1fr;
-        margin: 0 2;
-    }
-
-    #vault-count-label {
-        dock: bottom;
-        height: 1;
-        color: #4A5568;
-        text-align: right;
-        padding: 0 2;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
-        ("slash", "focus_search", "Search"),
-        ("escape", "go_back", "Back"),
-        ("c", "copy_password", "Copy Password"),
-        ("u", "copy_username", "Copy Username"),
-        ("n", "new_entry", "New"),
-        ("enter", "view_detail", "View"),
-        ("ctrl+d", "delete_entry", "Delete"),
-        ("question_mark", "show_help", "Help"),
+        Binding("slash", "focus_search", "/: Search", show=True),
+        Binding("c", "copy_password", "c: Copy Pass", show=True),
+        Binding("u", "copy_username", "u: Copy User", show=True),
+        Binding("n", "new_entry", "n: New", show=True),
+        Binding("enter", "view_detail", "Enter: View", show=True),
+        Binding("ctrl+d", "delete_entry", "^D: Delete", show=True),
+        Binding("escape", "go_back", "Esc: Back", show=True),
+        Binding("question_mark", "show_help", "?: Help", show=True),
+        Binding("down", "focus_next", show=False),
+        Binding("up", "focus_previous", show=False),
     ]
 
     def __init__(self, app_state, focus_search: bool = False, **kwargs) -> None:
@@ -79,16 +51,18 @@ class VaultScreen(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        table = self.query_one("#vault-table", VaultTable)
-        entries = self._state.get_entries()
-        table.load_entries(entries)
-        self._update_count(len(entries))
+        try:
+            table = self.query_one("#vault-table", VaultTable)
+            entries = self._state.get_entries()
+            table.load_entries(entries)
+            self._update_count(len(entries))
 
-        # Update status bar
-        status = self.query_one(StatusBar)
-        status.entry_count = len(entries)
-        status.airspace_open = self._state.airspace_open
-        status.time_remaining = self._state.airspace_remaining
+            status = self.query_one(StatusBar)
+            status.entry_count = len(entries)
+            status.airspace_open = self._state.airspace_open
+            status.time_remaining = self._state.airspace_remaining
+        except Exception as exc:
+            self.notify(f"Failed to load vault: {exc}", severity="error", timeout=5)
 
         self.set_interval(1.0, self._tick)
 
@@ -96,8 +70,11 @@ class VaultScreen(Screen):
             self.query_one("#vault-search-input", Input).focus()
 
     def _tick(self) -> None:
-        status = self.query_one(StatusBar)
-        status.time_remaining = self._state.airspace_remaining
+        try:
+            status = self.query_one(StatusBar)
+            status.time_remaining = self._state.airspace_remaining
+        except Exception:
+            pass
 
     def on_input_changed(self, event: Input.Changed) -> None:
         if event.input.id == "vault-search-input":
@@ -113,6 +90,12 @@ class VaultScreen(Screen):
         else:
             self.query_one("#vault-count-label").update(f"{count} of {total} entries")
 
+    def action_focus_next(self) -> None:
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.focus_previous()
+
     def action_focus_search(self) -> None:
         self.query_one("#vault-search-input", Input).focus()
 
@@ -120,9 +103,11 @@ class VaultScreen(Screen):
         self.app.pop_screen()
 
     def action_copy_password(self) -> None:
-        table = self.query_one("#vault-table", VaultTable)
-        entry = table.get_selected_entry()
-        if entry:
+        try:
+            table = self.query_one("#vault-table", VaultTable)
+            entry = table.get_selected_entry()
+            if not entry:
+                return
             timeout = self._state.settings.get("clipboard_timeout", 30)
             if copy_with_auto_clear(entry["password"], timeout=timeout):
                 self.notify(
@@ -132,6 +117,8 @@ class VaultScreen(Screen):
                 )
             else:
                 self.notify("Clipboard unavailable", severity="error", timeout=3)
+        except Exception as exc:
+            self.notify(f"Copy failed: {exc}", severity="error", timeout=3)
 
     def action_copy_username(self) -> None:
         table = self.query_one("#vault-table", VaultTable)

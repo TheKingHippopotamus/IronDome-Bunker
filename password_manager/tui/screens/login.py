@@ -1,5 +1,7 @@
 """Login screen — handles all three auth modes."""
 
+import logging
+
 from textual.screen import Screen
 from textual.widgets import Static, Input, Button, LoadingIndicator
 from textual.containers import Center, Vertical, Horizontal
@@ -8,82 +10,13 @@ from textual import work
 from password_manager.tui.theme import ICONS, LOGO_SMALL
 from password_manager.tui.state.events import AuthSuccess, AuthFailed
 
+log = logging.getLogger("IronDome.TUI.Login")
+
 
 class LoginScreen(Screen):
     """Authentication screen supporting biometric, password, and dual-factor modes."""
 
-    DEFAULT_CSS = """
-    LoginScreen {
-        align: center middle;
-    }
-
-    #login-box {
-        width: 60;
-        height: auto;
-        background: #111518;
-        border: solid #1E2D3D;
-        padding: 2 4;
-    }
-
-    #login-header {
-        color: #00FF41;
-        text-style: bold;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 1;
-    }
-
-    #login-auth-mode {
-        color: #94A3B8;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 2;
-    }
-
-    #login-bio-status {
-        color: #94A3B8;
-        text-align: center;
-        width: 100%;
-        height: 3;
-        margin-bottom: 1;
-    }
-
-    #login-username {
-        margin-bottom: 1;
-    }
-
-    #login-password {
-        margin-bottom: 1;
-    }
-
-    #login-error {
-        color: #FF2020;
-        text-align: center;
-        width: 100%;
-        height: auto;
-        margin-top: 1;
-    }
-
-    #login-actions {
-        layout: horizontal;
-        align: center middle;
-        height: auto;
-        margin-top: 2;
-    }
-
-    #login-actions Button {
-        margin: 0 1;
-    }
-
-    #login-spinner {
-        height: 3;
-        margin: 1 0;
-    }
-
-    .hidden {
-        display: none;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
         ("escape", "quit_app", "Quit"),
@@ -102,11 +35,7 @@ class LoginScreen(Screen):
                     id="login-header",
                 )
                 yield Static("Detecting security level...", id="login-auth-mode")
-
-                # Biometric status area
                 yield Static("", id="login-bio-status")
-
-                # Credential inputs (shown for password modes)
                 yield Input(placeholder="Username", id="login-username", classes="hidden")
                 yield Input(
                     placeholder="Master password",
@@ -114,24 +43,24 @@ class LoginScreen(Screen):
                     id="login-password",
                     classes="hidden",
                 )
-
-                # Loading spinner
                 yield Center(LoadingIndicator(id="login-spinner", classes="hidden"))
-
-                # Error display
                 yield Static("", id="login-error")
-
-                # Action buttons
                 with Horizontal(id="login-actions"):
                     yield Button("Unlock Vault", variant="primary", id="btn-unlock")
                     yield Button("Quit", id="btn-quit")
 
     def on_mount(self) -> None:
-        self._detect_auth_mode()
+        try:
+            self._detect_auth_mode()
+        except Exception as exc:
+            log.error("Auth mode detection failed: %s", exc)
+            self._show_error(f"Init error: {exc}")
 
     def _detect_auth_mode(self) -> None:
         if not self._state.is_configured:
-            self.query_one("#login-auth-mode").update("No vault configured. Run 'irondome create bunker' first.")
+            self.query_one("#login-auth-mode").update(
+                "No vault configured. Run 'irondome create bunker' first."
+            )
             self.query_one("#btn-unlock").disabled = True
             return
 
@@ -147,7 +76,7 @@ class LoginScreen(Screen):
 
         if self._auth_mode in ("biometric_only", "biometric_password"):
             self.query_one("#login-bio-status").update(
-                f"Biometric authentication will be requested."
+                "Biometric authentication will be requested."
             )
         if self._auth_mode in ("biometric_password", "password_only", None):
             self.query_one("#login-username").remove_class("hidden")
@@ -177,22 +106,32 @@ class LoginScreen(Screen):
     @work(thread=True)
     def _run_biometric_auth(self) -> None:
         """Run biometric auth in a thread to avoid blocking the UI."""
-        result = self._state.authenticate_biometric()
-        self.app.call_from_thread(self._on_auth_result, result)
+        try:
+            result = self._state.authenticate_biometric()
+            self.app.call_from_thread(self._on_auth_result, result)
+        except Exception as exc:
+            log.error("Biometric auth error: %s", exc)
+            self.app.call_from_thread(self._show_error, f"Biometric error: {exc}")
+            self.app.call_from_thread(self._show_spinner, False)
 
     @work(thread=True)
     def _run_password_auth(self) -> None:
         """Run password auth in a thread."""
-        username = self.query_one("#login-username", Input).value.strip()
-        password = self.query_one("#login-password", Input).value
+        try:
+            username = self.query_one("#login-username", Input).value.strip()
+            password = self.query_one("#login-password", Input).value
 
-        if not password:
-            self.app.call_from_thread(self._show_error, "Password is required.")
+            if not password:
+                self.app.call_from_thread(self._show_error, "Password is required.")
+                self.app.call_from_thread(self._show_spinner, False)
+                return
+
+            result = self._state.authenticate_password(username, password)
+            self.app.call_from_thread(self._on_auth_result, result)
+        except Exception as exc:
+            log.error("Password auth error: %s", exc)
+            self.app.call_from_thread(self._show_error, f"Auth error: {exc}")
             self.app.call_from_thread(self._show_spinner, False)
-            return
-
-        result = self._state.authenticate_password(username, password)
-        self.app.call_from_thread(self._on_auth_result, result)
 
     def _on_auth_result(self, success: bool) -> None:
         self._show_spinner(False)
@@ -202,17 +141,26 @@ class LoginScreen(Screen):
             self._show_error("Authentication failed. Check credentials and try again.")
 
     def _show_error(self, msg: str) -> None:
-        self.query_one("#login-error").update(f"{ICONS['cross']}  {msg}")
+        try:
+            self.query_one("#login-error").update(f"{ICONS['cross']}  {msg}")
+        except Exception:
+            pass
 
     def _clear_error(self) -> None:
-        self.query_one("#login-error").update("")
+        try:
+            self.query_one("#login-error").update("")
+        except Exception:
+            pass
 
     def _show_spinner(self, show: bool) -> None:
-        spinner = self.query_one("#login-spinner")
-        if show:
-            spinner.remove_class("hidden")
-        else:
-            spinner.add_class("hidden")
+        try:
+            spinner = self.query_one("#login-spinner")
+            if show:
+                spinner.remove_class("hidden")
+            else:
+                spinner.add_class("hidden")
+        except Exception:
+            pass
 
     def action_quit_app(self) -> None:
         self.app.exit()

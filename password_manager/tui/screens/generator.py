@@ -1,5 +1,6 @@
 """Password generator screen — live preview with strength meter."""
 
+from textual.binding import Binding
 from textual.screen import Screen
 from textual.widgets import Header, Footer, Static, Input, Button, Switch, Label
 from textual.containers import Vertical, Horizontal
@@ -14,80 +15,15 @@ from password_manager.generator import generate_password
 class GeneratorScreen(Screen):
     """Interactive password generator with real-time preview."""
 
-    DEFAULT_CSS = """
-    GeneratorScreen {
-        layout: vertical;
-    }
-
-    #gen-title {
-        dock: top;
-        height: 1;
-        background: #0D1117;
-        color: #00FF41;
-        text-style: bold;
-        padding: 0 2;
-    }
-
-    #gen-body {
-        margin: 2 4;
-        height: 1fr;
-    }
-
-    #gen-output {
-        color: #00FF41;
-        text-style: bold;
-        text-align: center;
-        padding: 2;
-        margin: 1 0;
-        background: #1A1F24;
-        border: solid #1E2D3D;
-        height: 5;
-        content-align: center middle;
-    }
-
-    #gen-controls {
-        margin: 1 0;
-    }
-
-    .control-row {
-        layout: horizontal;
-        height: 3;
-        margin-bottom: 1;
-        align: left middle;
-    }
-
-    .control-label {
-        width: 24;
-        color: #94A3B8;
-        padding: 1 1;
-    }
-
-    .control-value {
-        width: auto;
-        padding: 1 1;
-    }
-
-    #gen-length-input {
-        width: 10;
-    }
-
-    #gen-actions {
-        layout: horizontal;
-        height: auto;
-        margin: 2 0;
-        align: center middle;
-    }
-
-    #gen-actions Button {
-        margin: 0 1;
-    }
-    """
+    DEFAULT_CSS = ""
 
     BINDINGS = [
-        ("escape", "go_back", "Back"),
-        ("r", "regenerate", "Regenerate"),
-        ("c", "copy_password", "Copy"),
-        ("s", "save_password", "Save"),
+        Binding("r", "regenerate", "r: Regenerate", show=True),
+        Binding("c", "copy_password", "c: Copy", show=True),
+        Binding("s", "save_password", "s: Save Entry", show=True),
+        Binding("escape", "go_back", "Esc: Back", show=True),
+        Binding("down", "focus_next", show=False),
+        Binding("up", "focus_previous", show=False),
     ]
 
     def __init__(self, app_state, **kwargs) -> None:
@@ -137,9 +73,9 @@ class GeneratorScreen(Screen):
                     )
 
             with Horizontal(id="gen-actions"):
-                yield Button("[r] Regenerate", variant="primary", id="btn-regen")
-                yield Button("[c] Copy", id="btn-copy")
-                yield Button("[s] Save as Entry", id="btn-save")
+                yield Button("\\[r] Regenerate", variant="primary", id="btn-regen")
+                yield Button("\\[c] Copy", id="btn-copy")
+                yield Button("\\[s] Save as Entry", id="btn-save")
 
         yield StatusBar()
         yield Footer()
@@ -149,27 +85,30 @@ class GeneratorScreen(Screen):
 
     def _generate(self) -> None:
         try:
-            length = int(self.query_one("#gen-length-input", Input).value)
-            length = max(4, min(200, length))
-        except (ValueError, TypeError):
-            length = 20
+            try:
+                length = int(self.query_one("#gen-length-input", Input).value)
+                length = max(4, min(200, length))
+            except (ValueError, TypeError):
+                length = 20
 
-        use_special = self.query_one("#gen-special", Switch).value
-        use_uppercase = self.query_one("#gen-uppercase", Switch).value
-        use_digits = self.query_one("#gen-digits", Switch).value
+            use_special = self.query_one("#gen-special", Switch).value
+            use_uppercase = self.query_one("#gen-uppercase", Switch).value
+            use_digits = self.query_one("#gen-digits", Switch).value
 
-        result = generate_password(
-            length=length,
-            use_special=use_special,
-            use_uppercase=use_uppercase,
-            use_digits=use_digits,
-        )
+            result = generate_password(
+                length=length,
+                use_special=use_special,
+                use_uppercase=use_uppercase,
+                use_digits=use_digits,
+            )
 
-        if result:
-            self._current_password = result["password"]
-            self.query_one("#gen-output").update(result["password"])
-            meter = self.query_one("#gen-strength", StrengthMeter)
-            meter.strength = result["strength"]
+            if result:
+                self._current_password = result["password"]
+                self.query_one("#gen-output").update(result["password"])
+                meter = self.query_one("#gen-strength", StrengthMeter)
+                meter.strength = result["strength"]
+        except Exception as exc:
+            self.notify(f"Generation failed: {exc}", severity="error", timeout=3)
 
     def on_switch_changed(self, event: Switch.Changed) -> None:
         self._generate()
@@ -185,6 +124,12 @@ class GeneratorScreen(Screen):
             self.action_copy_password()
         elif event.button.id == "btn-save":
             self.action_save_password()
+
+    def action_focus_next(self) -> None:
+        self.focus_next()
+
+    def action_focus_previous(self) -> None:
+        self.focus_previous()
 
     def action_regenerate(self) -> None:
         self._generate()
