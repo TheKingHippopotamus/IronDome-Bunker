@@ -3,6 +3,11 @@ import '../styles/global.css';
 
 const GITHUB_URL = 'https://github.com/TheKingHippopotamus/IronDome-Bunker';
 const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb';
+const PYPI_URL   = 'https://pypi.org/project/IronDome/';
+const DOCS_URL   = '/IronDome-Bunker/docs';
+const FEATURES_URL = '/IronDome-Bunker/features';
+const SECURITY_URL = '/IronDome-Bunker/security';
+const ABOUT_URL  = '/IronDome-Bunker/about';
 ---
 
 <!doctype html>
@@ -31,15 +36,15 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     :root {
       --bg:        #0a0e1a;
       --card-bg:   #0d1117;
-      --gold:      #FFD700;
-      --gold-dim:  #B8960C;
-      --gold-glow: rgba(255,215,0,0.18);
+      --gold:      #8B9A46;
+      --gold-dim:  #6B7A36;
+      --gold-glow: rgba(139,154,70,0.18);
       --text:      #e2e8f0;
       --muted:     #78909C;
       --muted-dim: #546E7A;
       --green:     #34d399;
       --red:       #f87171;
-      --border:    rgba(255,215,0,0.18);
+      --border:    rgba(139,154,70,0.18);
       --max-w:     1100px;
       --font-mono: 'Share Tech Mono', 'Courier New', monospace;
       --font-ui:   'Rajdhani', sans-serif;
@@ -124,7 +129,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       left: 50%;
       transform: translate(-50%, -50%);
       border-radius: 50%;
-      border: 1px solid rgba(255,215,0,0.06);
+      border: 1px solid rgba(139,154,70,0.06);
     }
 
     .radar-sweep-arm {
@@ -134,7 +139,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       width: 50%;
       height: 2px;
       transform-origin: 0% 50%;
-      background: linear-gradient(90deg, rgba(255,215,0,0.55), transparent);
+      background: linear-gradient(90deg, rgba(139,154,70,0.55), transparent);
       animation: radar-sweep 8s linear infinite;
     }
 
@@ -145,7 +150,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       left: 0;
       right: 0;
       height: 60px;
-      background: conic-gradient(from 0deg, rgba(255,215,0,0.12), transparent 60deg);
+      background: conic-gradient(from 0deg, rgba(139,154,70,0.12), transparent 60deg);
       transform-origin: 0% 50%;
     }
 
@@ -168,7 +173,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     /* ─── Terminal ────────────────────────────────────────────── */
     .terminal-window {
       background: #0d1117;
-      border: 1px solid rgba(255,215,0,0.22);
+      border: 1px solid rgba(139,154,70,0.22);
       border-radius: 10px;
       overflow: hidden;
       position: relative;
@@ -180,7 +185,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       display: flex;
       align-items: center;
       gap: 0.75rem;
-      border-bottom: 1px solid rgba(255,215,0,0.12);
+      border-bottom: 1px solid rgba(139,154,70,0.12);
     }
 
     .terminal-dots {
@@ -235,8 +240,8 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .card:hover {
-      border-color: rgba(255,215,0,0.45);
-      box-shadow: 0 0 24px rgba(255,215,0,0.08), 0 4px 24px rgba(0,0,0,0.4);
+      border-color: rgba(139,154,70,0.45);
+      box-shadow: 0 0 24px rgba(139,154,70,0.08), 0 4px 24px rgba(0,0,0,0.4);
       transform: translateY(-2px);
     }
 
@@ -261,7 +266,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       align-items: center;
       gap: 1rem;
       background: rgba(13, 17, 23, 0.9);
-      border: 1px solid rgba(255,215,0,0.3);
+      border: 1px solid rgba(139,154,70,0.3);
       border-radius: 8px;
       padding: 0.75rem 1.25rem;
       font-family: var(--font-mono);
@@ -281,7 +286,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 
     .copy-btn {
       background: none;
-      border: 1px solid rgba(255,215,0,0.3);
+      border: 1px solid rgba(139,154,70,0.3);
       border-radius: 5px;
       padding: 0.25rem 0.55rem;
       cursor: pointer;
@@ -293,7 +298,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .copy-btn:hover {
-      background: rgba(255,215,0,0.12);
+      background: rgba(139,154,70,0.12);
       border-color: var(--gold);
     }
 
@@ -315,27 +320,27 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .btn-outline {
-      border: 1.5px solid rgba(255,215,0,0.5);
+      border: 1.5px solid rgba(139,154,70,0.5);
       color: var(--gold);
       background: transparent;
     }
 
     .btn-outline:hover {
-      background: rgba(255,215,0,0.1);
+      background: rgba(139,154,70,0.1);
       border-color: var(--gold);
-      box-shadow: 0 0 16px rgba(255,215,0,0.15);
+      box-shadow: 0 0 16px rgba(139,154,70,0.15);
     }
 
     .btn-gold {
-      background: linear-gradient(135deg, #FFD700, #FF8F00);
+      background: linear-gradient(135deg, #8B9A46, #5A6B2A);
       color: #0a0e1a;
       border: none;
-      box-shadow: 0 4px 20px rgba(255,143,0,0.35);
+      box-shadow: 0 4px 20px rgba(90,107,42,0.35);
     }
 
     .btn-gold:hover {
-      background: linear-gradient(135deg, #FFE44D, #FFA000);
-      box-shadow: 0 6px 28px rgba(255,143,0,0.55);
+      background: linear-gradient(135deg, #A0B050, #6B7A36);
+      box-shadow: 0 6px 28px rgba(90,107,42,0.55);
       transform: translateY(-1px);
     }
 
@@ -356,8 +361,8 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .why-card:hover {
-      border-color: rgba(255,215,0,0.5);
-      box-shadow: 0 0 40px rgba(255,215,0,0.07), 0 8px 32px rgba(0,0,0,0.4);
+      border-color: rgba(139,154,70,0.5);
+      box-shadow: 0 0 40px rgba(139,154,70,0.07), 0 8px 32px rgba(0,0,0,0.4);
       transform: translateY(-3px);
     }
 
@@ -417,12 +422,12 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     .step-connector-line {
       width: 100%;
       height: 2px;
-      border-top: 2px dashed rgba(255,215,0,0.3);
+      border-top: 2px dashed rgba(139,154,70,0.3);
       position: relative;
     }
 
     .step-connector-arrow {
-      color: rgba(255,215,0,0.5);
+      color: rgba(139,154,70,0.5);
       font-size: 1.2rem;
       position: absolute;
       right: -6px;
@@ -438,8 +443,8 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .step-card:hover {
-      border-color: rgba(255,215,0,0.45);
-      box-shadow: 0 0 28px rgba(255,215,0,0.07);
+      border-color: rgba(139,154,70,0.45);
+      box-shadow: 0 0 28px rgba(139,154,70,0.07);
     }
 
     .step-num {
@@ -447,8 +452,8 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       color: var(--gold);
-      background: rgba(255,215,0,0.1);
-      border: 1px solid rgba(255,215,0,0.25);
+      background: rgba(139,154,70,0.1);
+      border: 1px solid rgba(139,154,70,0.25);
       border-radius: 4px;
       padding: 0.15rem 0.5rem;
       display: inline-block;
@@ -466,7 +471,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 
     .step-terminal {
       background: rgba(0,0,0,0.45);
-      border: 1px solid rgba(255,215,0,0.1);
+      border: 1px solid rgba(139,154,70,0.1);
       border-radius: 5px;
       padding: 0.6rem 0.85rem;
       font-family: var(--font-mono);
@@ -518,8 +523,8 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     }
 
     .feat-card:hover {
-      border-color: rgba(255,215,0,0.4);
-      box-shadow: 0 0 32px rgba(255,215,0,0.07), 0 4px 20px rgba(0,0,0,0.35);
+      border-color: rgba(139,154,70,0.4);
+      box-shadow: 0 0 32px rgba(139,154,70,0.07), 0 4px 20px rgba(0,0,0,0.35);
       transform: translateY(-2px);
     }
 
@@ -553,10 +558,10 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 
     /* ─── Stats bar ──────────────────────────────────────────── */
     .stats-bar {
-      border-top: 1px solid rgba(255,215,0,0.15);
-      border-bottom: 1px solid rgba(255,215,0,0.15);
+      border-top: 1px solid rgba(139,154,70,0.15);
+      border-bottom: 1px solid rgba(139,154,70,0.15);
       padding: 2rem 0;
-      background: rgba(255,215,0,0.02);
+      background: rgba(139,154,70,0.02);
     }
 
     .stats-inner {
@@ -594,7 +599,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     .stat-divider {
       width: 1px;
       height: 40px;
-      background: rgba(255,215,0,0.15);
+      background: rgba(139,154,70,0.15);
     }
 
     @media (max-width: 640px) { .stat-divider { display: none; } }
@@ -603,7 +608,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     .divider {
       border: none;
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), transparent);
+      background: linear-gradient(90deg, transparent, rgba(139,154,70,0.2), transparent);
     }
 
     /* ─── Classified badge ───────────────────────────────────── */
@@ -616,10 +621,10 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--gold);
-      border: 1px solid rgba(255,215,0,0.4);
+      border: 1px solid rgba(139,154,70,0.4);
       border-radius: 3px;
       padding: 0.3rem 0.8rem;
-      background: rgba(255,215,0,0.06);
+      background: rgba(139,154,70,0.06);
     }
 
     .classified-badge::before {
@@ -648,7 +653,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       position: sticky;
       top: 0;
       z-index: 100;
-      border-bottom: 1px solid rgba(255,215,0,0.1);
+      border-bottom: 1px solid rgba(139,154,70,0.1);
       background: rgba(10,14,26,0.92);
       backdrop-filter: blur(12px);
     }
@@ -700,28 +705,223 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 
     .nav-links a:hover { color: var(--gold); }
 
-    .nav-cta {
-      font-family: var(--font-hud);
-      font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: #0a0e1a;
-      background: var(--gold);
-      border: none;
-      border-radius: 5px;
-      padding: 0.4rem 1rem;
-      text-decoration: none;
-      transition: all 0.2s;
+    /* ─── Hamburger button ──────────────────────────────────────── */
+    .mobile-nav-checkbox {
+      position: absolute;
+      width: 0;
+      height: 0;
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .nav-cta:hover {
-      background: #ffe44d;
-      box-shadow: 0 0 18px rgba(255,215,0,0.4);
+    .hamburger-btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      border: 1px solid rgba(139,154,70,0.08);
+      border-radius: 6px;
+      background: rgba(13,17,23,0.8);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .hamburger-btn:hover {
+      border-color: rgba(139,154,70,0.3);
+      background: rgba(139,154,70,0.04);
+    }
+
+    .hamburger-bar {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--muted);
+      border-radius: 1px;
+      transition: transform 0.3s ease, opacity 0.3s ease, background 0.2s;
+      transform-origin: center;
+    }
+
+    .hamburger-btn:hover .hamburger-bar { background: var(--gold); }
+
+    /* X animation when open */
+    .mobile-nav-checkbox:checked ~ nav .hamburger-bar:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background: var(--gold);
+    }
+    .mobile-nav-checkbox:checked ~ nav .hamburger-bar:nth-child(2) {
+      opacity: 0;
+    }
+    .mobile-nav-checkbox:checked ~ nav .hamburger-bar:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background: var(--gold);
+    }
+
+    @media (min-width: 721px) {
+      .hamburger-btn { display: none; }
     }
 
     @media (max-width: 720px) {
       .nav-links { display: none; }
+    }
+
+    /* ─── Mobile drawer ──────────────────────────────────────── */
+    .mobile-drawer {
+      position: fixed;
+      top: 60px;
+      right: -100%;
+      width: min(320px, 85vw);
+      bottom: 0;
+      z-index: 99;
+      background: rgba(10,14,26,0.98);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(139,154,70,0.08);
+      transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .mobile-nav-checkbox:checked ~ .mobile-drawer {
+      right: 0;
+    }
+
+    .mobile-drawer-inner {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .mobile-drawer-section {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mobile-drawer-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.25rem;
+      opacity: 0.7;
+    }
+
+    .mobile-drawer-link {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      padding: 0.75rem;
+      border-radius: 6px;
+      font-family: var(--font-ui);
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .mobile-drawer-link:hover {
+      color: var(--gold);
+      background: rgba(139,154,70,0.04);
+    }
+
+    .mobile-drawer-link svg {
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .mobile-drawer-link:hover svg {
+      opacity: 1;
+      color: var(--gold);
+    }
+
+    .mobile-drawer-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      border-top: 1px solid rgba(139,154,70,0.06);
+      margin-top: auto;
+    }
+
+    .mobile-drawer-badge {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      opacity: 0.5;
+    }
+
+    /* Overlay */
+    .mobile-nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 98;
+      background: rgba(0,0,0,0.6);
+      cursor: pointer;
+    }
+
+    .mobile-nav-checkbox:checked ~ .mobile-nav-overlay {
+      display: block;
+    }
+
+    @media (min-width: 721px) {
+      .mobile-nav-checkbox:checked ~ .mobile-drawer { right: -100%; }
+      .mobile-nav-checkbox:checked ~ .mobile-nav-overlay { display: none; }
+    }
+
+    /* ─── Social icons ───────────────────────────────────────── */
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      justify-content: center;
+    }
+
+    .social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(139,154,70,0.12);
+      color: var(--muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      background: rgba(139,154,70,0.03);
+    }
+
+    .social-icon:hover {
+      color: var(--gold);
+      border-color: rgba(139,154,70,0.5);
+      background: rgba(139,154,70,0.08);
+      box-shadow: 0 0 16px rgba(139,154,70,0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ─── Badges section ─────────────────────────────────────── */
+    .badges-section {
+      padding: 2rem 0 1rem;
+    }
+
+    .badges-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.375rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .badges-row img {
+      height: 20px;
     }
 
     /* ─── Mobile responsive ──────────────────────────────────── */
@@ -744,6 +944,9 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       .stats-inner { gap: 1rem; justify-content: center; }
       .stat-item { min-width: 80px; }
       .container { padding: 0 1rem; }
+      .mobile-drawer { top: 52px; }
+      .social-icon { width: 36px; height: 36px; }
+      .social-icon svg { width: 16px; height: 16px; }
     }
 
     @media (max-width: 400px) {
@@ -779,7 +982,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
     .hero-logo {
       width: clamp(120px, 20vw, 200px);
       height: auto;
-      filter: drop-shadow(0 0 32px rgba(255,215,0,0.25));
+      filter: drop-shadow(0 0 32px rgba(139,154,70,0.25));
       animation: radar-ping 4s ease-in-out infinite;
     }
 
@@ -873,59 +1076,167 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 
     /* ─── Footer ─────────────────────────────────────────────── */
     .footer {
-      border-top: 1px solid rgba(255,215,0,0.1);
-      padding: 2.5rem 1.5rem;
-      text-align: center;
+      background: #060a12;
+      position: relative;
+    }
+
+    .footer-border-top {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(139,154,70,0.3), transparent);
     }
 
     .footer-inner {
       max-width: var(--max-w);
       margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
+      padding: 3rem 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 2rem;
     }
+
+    .footer-brand-col { grid-column: 1; }
 
     .footer-logo {
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      margin-bottom: 0.75rem;
     }
 
-    .footer-logo img { height: 28px; }
+    .footer-logo img { height: 32px; }
 
     .footer-wordmark {
       font-family: var(--font-hud);
-      font-weight: 700;
-      font-size: 0.95rem;
+      font-weight: 900;
+      font-size: 1rem;
       letter-spacing: 0.16em;
       color: var(--gold);
     }
 
-    .footer-links {
-      display: flex;
-      gap: 2rem;
-      list-style: none;
+    .footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
     }
 
-    .footer-links a {
+    .footer-desc {
+      font-size: 0.8rem;
+      color: var(--muted-dim);
+      line-height: 1.6;
+      max-width: 280px;
+    }
+
+    .footer-col-title {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+
+    .footer-link-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .footer-link-list a {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
       color: var(--muted-dim);
       text-decoration: none;
-      text-transform: uppercase;
-      transition: color 0.2s;
+      transition: color 0.15s;
+      letter-spacing: 0.04em;
     }
 
-    .footer-links a:hover { color: var(--gold); }
+    .footer-link-list a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(139,154,70,0.06);
+      background: rgba(0,0,0,0.3);
+    }
+
+    .footer-bottom-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
 
     .footer-copy {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--muted-dim);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-social {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-social-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(139,154,70,0.08);
+      color: var(--muted-dim);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .footer-social-icon:hover {
+      color: var(--gold);
+      border-color: rgba(139,154,70,0.35);
+      background: rgba(139,154,70,0.06);
+    }
+
+    .footer-author {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--muted-dim);
+    }
+
+    .footer-author a {
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0.8;
+    }
+
+    .footer-author a:hover { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .footer-inner {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem 1.5rem;
+      }
+      .footer-brand-col { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 480px) {
+      .footer-inner {
+        grid-template-columns: 1fr;
+        padding: 2rem 1rem 1.5rem;
+      }
+      .footer-bottom-inner {
+        flex-direction: column;
+        text-align: center;
+        padding: 1rem;
+      }
     }
 
     /* ─── Warning stripe (decorative) ───────────────────────── */
@@ -933,17 +1244,17 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       height: 6px;
       background: repeating-linear-gradient(
         -45deg,
-        #FFD700 0px,
-        #FFD700 10px,
-        #1a1200 10px,
-        #1a1200 20px
+        #8B9A46 0px,
+        #8B9A46 10px,
+        #0d1a08 10px,
+        #0d1a08 20px
       );
       opacity: 0.55;
     }
 
     /* ─── Glow text ──────────────────────────────────────────── */
     .glow-gold {
-      text-shadow: 0 0 20px rgba(255,215,0,0.35), 0 0 60px rgba(255,215,0,0.12);
+      text-shadow: 0 0 20px rgba(139,154,70,0.35), 0 0 60px rgba(139,154,70,0.12);
     }
   </style>
 </head>
@@ -951,6 +1262,9 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
 <body>
 
   <!-- ══ NAV ══════════════════════════════════════════════════════ -->
+  <!-- Hidden checkbox for CSS-only hamburger toggle -->
+  <input type="checkbox" id="mobile-nav-toggle" class="mobile-nav-checkbox" aria-hidden="true" />
+
   <nav class="nav-bar">
     <div class="nav-inner">
       <a href="/IronDome-Bunker/" class="nav-logo" aria-label="IronDome home">
@@ -965,11 +1279,86 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
         <li><a href="#demo">Demo</a></li>
       </ul>
 
-      <a href={GITHUB_URL} target="_blank" rel="noopener" class="nav-cta">
-        GitHub
-      </a>
+      <!-- Hamburger button (mobile) -->
+      <label for="mobile-nav-toggle" class="hamburger-btn" aria-label="Toggle navigation menu" role="button" tabindex="0">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </label>
     </div>
   </nav>
+
+  <!-- Mobile navigation drawer -->
+  <div class="mobile-drawer" aria-label="Mobile navigation">
+    <div class="mobile-drawer-inner">
+      <!-- Page navigation -->
+      <div class="mobile-drawer-section">
+        <span class="mobile-drawer-label">Navigation</span>
+        <a href="#why" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span>Why IronDome</span>
+        </a>
+        <a href="#howto" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 17 18 12 13 7"/><polyline points="6 17 11 12 6 7"/></svg>
+          <span>How It Works</span>
+        </a>
+        <a href="#features" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>Features</span>
+        </a>
+        <a href="#demo" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <span>Demo</span>
+        </a>
+      </div>
+
+      <!-- Pages -->
+      <div class="mobile-drawer-section">
+        <span class="mobile-drawer-label">Pages</span>
+        <a href={FEATURES_URL} class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span>Features</span>
+        </a>
+        <a href={SECURITY_URL} class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          <span>Security</span>
+        </a>
+        <a href={DOCS_URL} class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          <span>Docs</span>
+        </a>
+        <a href={ABOUT_URL} class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+          <span>About</span>
+        </a>
+      </div>
+
+      <!-- External links -->
+      <div class="mobile-drawer-section">
+        <span class="mobile-drawer-label">Links</span>
+        <a href={GITHUB_URL} target="_blank" rel="noopener" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href={PYPI_URL} target="_blank" rel="noopener" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.042 0L5.04 3.474v6.947L2.018 8.907V15.4l3.02 1.573V10.42L12.042 14v-3.473L8.02 8.907V5.434L12.042 7V0zm-.084 10.527l3.022 1.573v3.474L12 17.147l-3.022-1.573v-3.474l3.022-1.573h-.042zM12 17.147l7.002 3.474v-6.947l3.022 1.573V8.7l-3.022-1.573v6.553L12 10.207V13.68l4.022 1.573v3.474L12 17.147z"/></svg>
+          <span>PyPI</span>
+        </a>
+        <a href={COLAB_URL} target="_blank" rel="noopener" class="mobile-drawer-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+          <span>Colab Demo</span>
+        </a>
+      </div>
+
+      <div class="mobile-drawer-footer">
+        <span class="mobile-drawer-badge">SECURE CONNECTION</span>
+        <div style="width:6px;height:6px;border-radius:50%;background:#34d399;box-shadow:0 0 6px rgba(52,211,153,0.7);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay to close mobile nav -->
+  <label for="mobile-nav-toggle" class="mobile-nav-overlay" aria-hidden="true"></label>
 
   <!-- ══ HERO ═════════════════════════════════════════════════════ -->
   <section class="hero" aria-label="Hero">
@@ -988,7 +1377,7 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
       <div style="
         position:absolute;inset:0;
         background: radial-gradient(ellipse 70% 60% at 50% 50%,
-          rgba(255,215,0,0.04) 0%,
+          rgba(139,154,70,0.04) 0%,
           rgba(10,14,26,0.0) 60%,
           rgba(10,14,26,1) 100%);
       "></div>
@@ -1061,6 +1450,22 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
             <polygon points="5,3 19,12 5,21"/>
           </svg>
           Open in Colab
+        </a>
+      </div>
+
+      <!-- Social icon links -->
+      <div class="social-icons" aria-label="Social links">
+        <a href={GITHUB_URL} target="_blank" rel="noopener" class="social-icon" aria-label="GitHub" title="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+        </a>
+        <a href={PYPI_URL} target="_blank" rel="noopener" class="social-icon" aria-label="PyPI" title="PyPI">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.042 0L5.04 3.474v6.947L2.018 8.907V15.4l3.02 1.573V10.42L12.042 14v-3.473L8.02 8.907V5.434L12.042 7V0zm-.084 10.527l3.022 1.573v3.474L12 17.147l-3.022-1.573v-3.474l3.022-1.573h-.042zM12 17.147l7.002 3.474v-6.947l3.022 1.573V8.7l-3.022-1.573v6.553L12 10.207V13.68l4.022 1.573v3.474L12 17.147z"/></svg>
+        </a>
+        <a href={COLAB_URL} target="_blank" rel="noopener" class="social-icon" aria-label="Google Colab" title="Google Colab">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+        </a>
+        <a href={DOCS_URL} class="social-icon" aria-label="Documentation" title="Docs">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
         </a>
       </div>
     </div>
@@ -1402,24 +1807,104 @@ const COLAB_URL  = 'https://colab.research.google.com/github/TheKingHippopotamus
   <!-- ══ WARNING STRIPE ══════════════════════════════════════════ -->
   <div class="warning-stripe-bar" role="presentation"></div>
 
+  <!-- ══ BADGES ════════════════════════════════════════════════════ -->
+  <section class="badges-section" aria-label="Project badges">
+    <div class="container" style="text-align:center;">
+      <div class="badges-row">
+        <a href={PYPI_URL} target="_blank" rel="noopener"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI" loading="lazy" /></a>
+        <a href={PYPI_URL} target="_blank" rel="noopener"><img src="https://img.shields.io/pypi/pyversions/IronDome?style=flat-square&logo=python&logoColor=white" alt="Python" loading="lazy" /></a>
+        <a href={PYPI_URL} target="_blank" rel="noopener"><img src="https://img.shields.io/pypi/dm/IronDome?style=flat-square&color=orange&label=downloads" alt="Downloads" loading="lazy" /></a>
+        <a href={GITHUB_URL + '/blob/main/LICENSE'} target="_blank" rel="noopener"><img src="https://img.shields.io/github/license/TheKingHippopotamus/IronDome-Bunker?style=flat-square&color=green" alt="License" loading="lazy" /></a>
+        <a href={GITHUB_URL} target="_blank" rel="noopener"><img src="https://img.shields.io/github/stars/TheKingHippopotamus/IronDome-Bunker?style=flat-square&logo=github&color=181717" alt="Stars" loading="lazy" /></a>
+        <a href={GITHUB_URL + '/actions'} target="_blank" rel="noopener"><img src="https://img.shields.io/github/actions/workflow/status/TheKingHippopotamus/IronDome-Bunker/publish.yml?style=flat-square&label=CI&logo=githubactions&logoColor=white" alt="CI" loading="lazy" /></a>
+      </div>
+      <div class="badges-row" style="margin-top:0.5rem;">
+        <img src="https://img.shields.io/badge/macOS-000000?style=flat-square&logo=apple&logoColor=white" alt="macOS" loading="lazy" />
+        <img src="https://img.shields.io/badge/Windows-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows" loading="lazy" />
+        <img src="https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black" alt="Linux" loading="lazy" />
+        <img src="https://img.shields.io/badge/Touch_ID-000000?style=flat-square&logo=apple&logoColor=white" alt="Touch ID" loading="lazy" />
+        <img src="https://img.shields.io/badge/Windows_Hello-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows Hello" loading="lazy" />
+        <img src="https://img.shields.io/badge/Fingerprint-4A5568?style=flat-square&logo=linux&logoColor=white" alt="Fingerprint" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
   <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
   <footer class="footer" role="contentinfo">
+    <div class="footer-border-top" aria-hidden="true"></div>
+
     <div class="footer-inner">
-      <div class="footer-logo">
-        <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" width="28" height="28" />
-        <span class="footer-wordmark">IRONDOME</span>
+      <!-- Column 1: Brand -->
+      <div class="footer-col footer-brand-col">
+        <div class="footer-logo">
+          <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" width="32" height="32" />
+          <span class="footer-wordmark">IRONDOME</span>
+        </div>
+        <p class="footer-tagline">Built for the paranoid.</p>
+        <p class="footer-desc">
+          Zero-knowledge CLI password vault. AES-256 encryption.
+          Your credentials never leave your machine.
+        </p>
       </div>
 
-      <ul class="footer-links">
-        <li><a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a></li>
-        <li><a href={COLAB_URL} target="_blank" rel="noopener">Colab Demo</a></li>
-        <li><a href="#why">Docs</a></li>
-        <li><a href="#features">Features</a></li>
-      </ul>
+      <!-- Column 2: Navigation -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Navigation</h4>
+        <ul class="footer-link-list">
+          <li><a href="#why">Why IronDome</a></li>
+          <li><a href="#howto">How It Works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#demo">Demo</a></li>
+        </ul>
+      </div>
 
-      <p class="footer-copy">
-        &copy; 2025 IronDome — Zero Knowledge. Local Only. No Compromise.
-      </p>
+      <!-- Column 3: Pages -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Pages</h4>
+        <ul class="footer-link-list">
+          <li><a href={FEATURES_URL}>Features</a></li>
+          <li><a href={SECURITY_URL}>Security</a></li>
+          <li><a href={DOCS_URL}>Documentation</a></li>
+          <li><a href={ABOUT_URL}>About</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Resources -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Resources</h4>
+        <ul class="footer-link-list">
+          <li><a href={GITHUB_URL} target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href={PYPI_URL} target="_blank" rel="noopener">PyPI Package</a></li>
+          <li><a href={COLAB_URL} target="_blank" rel="noopener">Colab Demo</a></li>
+          <li><a href={GITHUB_URL + '/blob/main/CONTRIBUTING.md'} target="_blank" rel="noopener">Contribute</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Footer bottom bar -->
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <p class="footer-copy">
+          &copy; 2025 IronDome — Zero Knowledge. Local Only. No Compromise.
+        </p>
+
+        <!-- Social icons -->
+        <div class="footer-social">
+          <a href={GITHUB_URL} target="_blank" rel="noopener" class="footer-social-icon" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+          <a href={PYPI_URL} target="_blank" rel="noopener" class="footer-social-icon" aria-label="PyPI">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.042 0L5.04 3.474v6.947L2.018 8.907V15.4l3.02 1.573V10.42L12.042 14v-3.473L8.02 8.907V5.434L12.042 7V0zm-.084 10.527l3.022 1.573v3.474L12 17.147l-3.022-1.573v-3.474l3.022-1.573h-.042zM12 17.147l7.002 3.474v-6.947l3.022 1.573V8.7l-3.022-1.573v6.553L12 10.207V13.68l4.022 1.573v3.474L12 17.147z"/></svg>
+          </a>
+          <a href="https://github.com/TheKingHippopotamus" target="_blank" rel="noopener" class="footer-social-icon" aria-label="Creator profile">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </a>
+        </div>
+
+        <p class="footer-author">
+          Created by <a href="https://github.com/TheKingHippopotamus" target="_blank" rel="noopener">King Hippopotamus</a>
+        </p>
+      </div>
     </div>
   </footer>
 
