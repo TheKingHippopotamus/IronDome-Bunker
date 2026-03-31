@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "IronDome"
 dynamic = ["version"]
-description = "Iron Dome - A secure CLI password manager with AES-256 encryption and zero-knowledge architecture"
+description = "IronDome — Fortified CLI vault with AES-256 encryption, biometric auth, and zero-knowledge architecture"
 readme = "README.md"
 license = {text = "GPL-3.0-only"}
 requires-python = ">=3.8"

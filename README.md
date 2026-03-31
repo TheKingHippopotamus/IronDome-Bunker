@@ -2,7 +2,7 @@
   <img src="static/irondome-logo.svg" alt="IronDome" width="500"/>
 </p>
 
-<h3 align="center">Fortified CLI Password Manager — AES-256 | Zero-Knowledge | Hardware-Bound</h3>
+<h3 align="center">Fortified CLI Vault — AES-256 | Zero-Knowledge | Biometric | Hardware-Bound</h3>
 
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=for-the-badge&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
@@ -24,9 +24,9 @@
 
 <br>
 
-> **Your passwords. Your machine. Your rules.**
+> **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts everything locally with AES-256, binds keys to your hardware, and operates on a zero-knowledge model — your master password is never stored. Nothing leaves your device. Ever.
+> IronDome encrypts everything locally with AES-256, binds keys to your hardware, and operates on a zero-knowledge model. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
 
 <br>
 
@@ -37,15 +37,18 @@ pip install IronDome
 ```
 
 ```bash
-bunker
+irondome create bunker     # First-time setup — choose security level
+irondome open airspace     # Authenticate — 30 min free access
+bunker create              # Quick-create a bunker with saved preferences
+bunker open                # List all bunkers
+bunker open github         # Search specific bunker
+irondome close airspace    # Lock everything down
 ```
 
 On first launch, choose your security level:
-- Biometric Only (Touch ID / Windows Hello / Fingerprint)
-- Biometric + Master Password (two-factor)
-- Master Password Only (traditional)
-
-Two commands. You're protected.
+- **Biometric Only** — Touch ID / Windows Hello / Fingerprint (no password needed)
+- **Biometric + Master Password** — two-factor
+- **Master Password Only** — traditional
 
 ---
 
@@ -186,28 +189,45 @@ First Launch → Choose Security Level
 
 ### First-Time Setup
 
-On first run, create your master account:
-1. Enter a master username (min 4 characters)
-2. Create a strong master password (min 8 characters)
-3. Confirm your master password
+```bash
+irondome create bunker
+```
 
-### Main Menu
+Choose your security level, then configure defaults (password length, character sets, etc.).
+
+### CLI Commands
+
+| Command | Action |
+|:--------|:-------|
+| `irondome create bunker` | First-time setup |
+| `irondome open airspace` | Authenticate (biometric/password) — 30 min session |
+| `irondome close airspace` | Lock everything |
+| `irondome status` | Show dome info |
+| `bunker create` / `bunker -c` | Quick-create a bunker with saved preferences |
+| `bunker open` / `bunker -o` | List all bunkers |
+| `bunker open <name>` | Search and show specific bunker |
+| `bunker fortify` | Create encrypted backup |
+| `bunker settings` | Configure defaults |
+| `bunker` | Interactive mode |
+
+### Interactive Menu
 
 ```
-╔══════════════════════════════╗
-║     === Password Manager === ║
-║     Logged in as: nir        ║
-╠══════════════════════════════╣
-║  1. Generate a new password  ║
-║  2. Save a password          ║
-║  3. Find passwords           ║
-║  4. List all websites        ║
-║  5. Delete a password        ║
-║  6. Create backup            ║
-║  7. Show storage location    ║
-║  8. Logout                   ║
-║  9. Exit                     ║
-╚══════════════════════════════╝
+╔═══════════════════════════════╗
+║       === IronDome ===        ║
+║       Operator: nir           ║
+╠═══════════════════════════════╣
+║  1. Create bunker             ║
+║  2. Store bunker              ║
+║  3. Search bunkers            ║
+║  4. Bunker registry           ║
+║  5. Destroy bunker            ║
+║  6. Fortify (backup)          ║
+║  7. Dome status               ║
+║  8. Settings                  ║
+║  9. Close airspace (logout)   ║
+║  0. Exit                      ║
+╚═══════════════════════════════╝
 ```
 
 ---
@@ -244,14 +264,16 @@ On first run, create your master account:
 ```
 ~/.password_manager/
 ├── password_manager.log           # Non-sensitive log
+├── settings.json                  # User preferences
 ├── backups/
-│   └── .passwords_backup_*.enc    # Encrypted backups
+│   └── .passwords_backup_*.enc    # Encrypted backups (fortify)
 └── secrets/                       # Restricted (0o700)
-    ├── .passwords.enc             # Encrypted password DB
+    ├── .passwords.enc             # Encrypted bunker database
     ├── salt.bin                   # Key derivation salt
     ├── .master_user.enc           # Encrypted master user
     ├── .master_hash.enc           # Encrypted master hash
-    └── .login_attempts.dat        # Lockout tracking
+    ├── .login_attempts.dat        # Lockout tracking
+    └── .airspace.session          # Active session (0o600, auto-expires)
 ```
 
 ### Password Strength Scoring
@@ -282,12 +304,17 @@ python -m password_manager
 ```
 password_manager/
 ├── __init__.py       # Package init + version
-├── __main__.py       # Entry point
-├── manager.py        # Main SecurePasswordManager class
-├── auth.py           # Authentication & master account
-├── encryption.py     # Encryption utilities
+├── __main__.py       # Module entry point
+├── cli.py            # CLI argument parser (irondome + bunker commands)
+├── airspace.py       # Airspace session management
+├── biometric.py      # Cross-platform biometric auth (Touch ID/Hello/fprintd)
+├── keystore.py       # OS keychain integration (Keychain/CredMan/libsecret)
+├── settings.py       # User preferences (JSON config)
+├── manager.py        # Main IronDome class
+├── auth.py           # Authentication & master credentials
+├── encryption.py     # AES-256 encryption utilities
 ├── session.py        # Session management & timeout
-├── storage.py        # File storage operations
+├── storage.py        # Encrypted file storage
 ├── generator.py      # Password generation
 ├── utils.py          # Utility functions
 ├── logger.py         # Logging setup
