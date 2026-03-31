@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Utility functions for the Secure Password Manager"""
+"""Utility functions for IronDome"""
 
 import getpass
 import re

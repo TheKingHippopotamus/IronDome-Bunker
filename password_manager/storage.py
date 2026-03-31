@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Storage utilities for the Secure Password Manager"""
+"""Storage utilities for IronDome"""
 
 import os
 import json
@@ -9,7 +9,7 @@ import time
 import shutil
 
 class PasswordStorage:
-    """Handles storage operations for the password manager"""
+    """Handles storage operations for IronDome"""
     
     def __init__(self, data_dir, logger=None):
         """
@@ -132,7 +132,7 @@ class PasswordStorage:
             return json.loads(decrypted_data)
         except Exception as e:
             print(f"❌ Error: Failed to decrypt data: {e}")
-            print("   This usually means the master password was incorrect.")
+            print("   This usually means credentials were incorrect.")
             return []
     
     def save_salt(self, salt):
@@ -268,7 +268,7 @@ class PasswordStorage:
             Path to backup file or None on failure
         """
         if not os.path.exists(self.passwords_file):
-            print("No password file to backup.")
+            print("No bunker data to fortify.")
             return None
         
         # Set up backups directory if it doesn't exist
@@ -291,8 +291,8 @@ class PasswordStorage:
                     dest.write(src.read())
             
             if self.logger:
-                self.logger.info(f"Backup created at: {backup_path}")
-            print(f"✅ Backup created at: {backup_path}")
+                self.logger.info(f"Dome fortified at: {backup_path}")
+            print(f"✅ Dome fortified at: {backup_path}")
             return backup_path
         except Exception as e:
             error_msg = f"Error creating backup: {e}"

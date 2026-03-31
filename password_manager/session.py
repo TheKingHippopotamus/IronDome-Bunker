@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Session management for the Secure Password Manager"""
+"""Session management for IronDome"""
 
 import time
 import json

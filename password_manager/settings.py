@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Settings management for the IronDome password manager"""
+"""Settings management for IronDome"""
 
 import json
 import os

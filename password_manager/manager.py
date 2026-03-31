@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Main manager module for the Secure Password Manager"""
+"""Main manager module for IronDome"""
 
 import os
 import time
@@ -14,10 +14,10 @@ from password_manager.generator import generate_password
 from password_manager.utils import get_validated_input, get_validated_int, extract_domain_name
 
 class SecurePasswordManager:
-    """Main password manager class that integrates all components"""
+    """Main IronDome class that integrates all components"""
     
     def __init__(self, skip_auth=False):
-        """Initialize the password manager with all components
+        """Initialize IronDome with all components
 
         Args:
             skip_auth: If True, skip interactive authentication (for CLI
@@ -151,7 +151,7 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to generate passwords.")
+            print("❌ Airspace must be open to create bunkers.")
             return None
             
         self.session.update_activity_time()
@@ -173,18 +173,18 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to save passwords.")
+            print("❌ Airspace must be open to store bunkers.")
             return False
-            
+
         self.session.update_activity_time()
-            
+
         # Validate inputs
         if not username or not website or not password:
-            print("❌ Error: Username, website, and password are required.")
+            print("❌ Error: Username, service, and password are required.")
             return False
-            
+
         if not self.auth.fernet:
-            print("❌ Error: Encryption not initialized. Can't save password.")
+            print("❌ Error: Encryption not initialized. Can't store bunker.")
             return False
         
         # Load existing passwords
@@ -210,11 +210,11 @@ class SecurePasswordManager:
                     logger=self.logger
                 )
                 if replace != 'y':
-                    print("Password not saved.")
+                    print("Bunker not saved.")
                     return False
                 else:
                     passwords.remove(existing)
-                    self.logger.info(f"Replaced existing password for {username} at {website}")
+                    self.logger.info(f"Replaced existing bunker for {username} at {website}")
                     break
         
         # Add the new entry
@@ -223,9 +223,9 @@ class SecurePasswordManager:
         # Encrypt and save
         if self.storage.save_passwords(passwords, self.auth.fernet):
             # Log but don't include the password
-            self.logger.info(f"Saved password for {username} at {website}")
-            
-            print(f"✅ Password saved successfully for {username} at {website}")
+            self.logger.info(f"Stored bunker for {username} at {website}")
+
+            print(f"✅ Bunker stored for {username} at {website}")
             return True
         else:
             return False
@@ -239,13 +239,13 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to access passwords.")
+            print("❌ Airspace must be open to access bunkers.")
             return []
-            
+
         self.session.update_activity_time()
-            
+
         if not self.auth.fernet:
-            print("❌ Error: Encryption not initialized. Can't load passwords.")
+            print("❌ Error: Encryption not initialized. Can't load bunkers.")
             return []
         
         return self.storage.load_passwords(self.auth.fernet)
@@ -262,13 +262,13 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to search passwords.")
+            print("❌ Airspace must be open to search bunkers.")
             return []
-            
+
         self.session.update_activity_time()
-        
+
         # Log the search
-        self.logger.info(f"Searching for passwords with term: {search_term}")
+        self.logger.info(f"Searching bunkers for: {search_term}")
             
         if not search_term:
             print("Please enter a search term.")
@@ -302,7 +302,7 @@ class SecurePasswordManager:
                 results.append(entry)
         
         # Log search results count (but not the actual results)
-        self.logger.info(f"Found {len(results)} results for search term: {search_term}")
+        self.logger.info(f"Found {len(results)} bunkers for: {search_term}")
         
         return results
     
@@ -315,7 +315,7 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to list websites.")
+            print("❌ Airspace must be open to list bunkers.")
             return []
             
         self.session.update_activity_time()
@@ -340,7 +340,7 @@ class SecurePasswordManager:
             True if successful, False otherwise
         """
         # Validate session and require re-authentication
-        if not self.auth.require_auth_for_sensitive_action("Password deletion"):
+        if not self.auth.require_auth_for_sensitive_action("Bunker destruction"):
             return False
             
         if not username or not website:
@@ -358,27 +358,27 @@ class SecurePasswordManager:
         if len(passwords) < initial_count:
             # Confirm deletion
             confirm = get_validated_input(
-                f"Are you sure you want to delete password for {username} at {website}? (yes/no): ",
+                f"Destroy bunker for {username} at {website}? (yes/no): ",
                 valid_options=['yes', 'no'],
                 default='no',
                 logger=self.logger
             )
-            
+
             if confirm != 'yes':
-                print("Deletion cancelled.")
-                self.logger.info(f"Password deletion cancelled for {username} at {website}")
+                print("Destruction cancelled.")
+                self.logger.info(f"Bunker destruction cancelled for {username} at {website}")
                 return False
-                
+
             # Save the updated list
             if self.storage.save_passwords(passwords, self.auth.fernet):
-                self.logger.info(f"Deleted password for {username} at {website}")
-                print(f"✅ Deleted password for {username} at {website}")
+                self.logger.info(f"Destroyed bunker for {username} at {website}")
+                print(f"✅ Bunker destroyed: {username} at {website}")
                 return True
             else:
                 return False
         else:
-            self.logger.warning(f"Attempted to delete non-existent password for {username} at {website}")
-            print(f"No matching entry found for {username} at {website}")
+            self.logger.warning(f"Attempted to destroy non-existent bunker for {username} at {website}")
+            print(f"No bunker found for {username} at {website}")
             return False
     
     def backup_passwords(self, backup_path=None):
@@ -393,7 +393,7 @@ class SecurePasswordManager:
         """
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to create backups.")
+            print("❌ Airspace must be open to fortify.")
             return False
             
         self.session.update_activity_time()
@@ -401,7 +401,7 @@ class SecurePasswordManager:
         return self.storage.create_backup(backup_path) is not None
     
     def run_interactive_menu(self):
-        """Run an interactive menu for the password manager"""
+        """Run an interactive menu for IronDome"""
         while True:
             # Check if session is authenticated
             if not self.session.session_authenticated:
@@ -470,11 +470,11 @@ class SecurePasswordManager:
         """Handle password generation flow with back option"""
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to generate passwords.")
+            print("❌ Airspace must be open to create bunkers.")
             return
-            
+
         self.session.update_activity_time()
-        
+
         # Get password length
         length = get_validated_int(
             "Password length (recommended 15+): ", 
@@ -525,12 +525,12 @@ class SecurePasswordManager:
         if not pwd_info:  # If generation failed (e.g. session expired)
             return
             
-        print(f"\n🔑 Generated password: {pwd_info['password']}")
+        print(f"\n🔑 Generated: {pwd_info['password']}")
         print(f"🔒 Strength: {pwd_info['strength']}")
-        
+
         # Get save option
         save_option = get_validated_input(
-            "Save this password? (y/n): ", 
+            "Store this bunker? (y/n): ", 
             valid_options=['y', 'n'], 
             default='n',
             logger=self.logger
@@ -550,42 +550,42 @@ class SecurePasswordManager:
             
             # Get website
             while True:
-                website = input("Website/Service name (or 'b' to go back): ").strip()
+                website = input("Service/site name (or 'b' to go back): ").strip()
                 if website.lower() in ['b', 'back']:
                     return
                 if website:
                     break
-                print("⚠️ Website/Service name cannot be empty.")
-            
+                print("⚠️ Service/site name cannot be empty.")
+
             # Get notes
             notes = input("Notes (optional, or 'b' to go back): ")
             if notes.lower() in ['b', 'back']:
                 return
-            
+
             # Final confirmation
             confirm = get_validated_input(
-                f"Confirm saving password for {username} at {website}? (y/n): ", 
-                valid_options=['y', 'n'], 
+                f"Confirm storing bunker for {username} at {website}? (y/n): ",
+                valid_options=['y', 'n'],
                 default='y',
                 logger=self.logger
             )
             if confirm == '_BACK_':
                 return
-            
+
             if confirm == 'y':
                 self.save_password(username, website, pwd_info['password'], notes)
             else:
-                print("Password not saved.")
+                print("Bunker not saved.")
     
     def _handle_save_password(self):
         """Handle save password flow with back option"""
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to save passwords.")
+            print("❌ Airspace must be open to store bunkers.")
             return
-            
+
         self.session.update_activity_time()
-        
+
         # Get username
         while True:
             username = input("Username (or 'b' to go back): ").strip()
@@ -594,16 +594,16 @@ class SecurePasswordManager:
             if username:
                 break
             print("⚠️ Username cannot be empty.")
-        
+
         # Get website
         while True:
-            website = input("Website/Service name (or 'b' to go back): ").strip()
+            website = input("Service/site name (or 'b' to go back): ").strip()
             if website.lower() in ['b', 'back']:
                 return
             if website:
                 break
-            print("⚠️ Website/Service name cannot be empty.")
-        
+            print("⚠️ Service/site name cannot be empty.")
+
         # Get password
         while True:
             password = getpass.getpass("Password (or 'b' to go back): ")
@@ -612,39 +612,39 @@ class SecurePasswordManager:
             if password:
                 break
             print("⚠️ Password cannot be empty.")
-        
+
         # Get notes
         notes = input("Notes (optional, or 'b' to go back): ")
         if notes.lower() in ['b', 'back']:
             return
-        
+
         # Final confirmation
         confirm = get_validated_input(
-            f"Confirm saving password for {username} at {website}? (y/n): ", 
-            valid_options=['y', 'n'], 
+            f"Confirm storing bunker for {username} at {website}? (y/n): ",
+            valid_options=['y', 'n'],
             default='y',
             logger=self.logger
         )
         if confirm == '_BACK_':
             return
-        
+
         if confirm == 'y':
             self.save_password(username, website, password, notes)
         else:
-            print("Password not saved.")
+            print("Bunker not saved.")
     
     def _handle_find_password(self):
         """Handle find password flow with back option"""
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to find passwords.")
+            print("❌ Airspace must be open to search bunkers.")
             return
-            
+
         self.session.update_activity_time()
-        
+
         # Get search term
         while True:
-            search_term = input("Search (username or website, or 'b' to go back): ").strip()
+            search_term = input("Search (username or service, or 'b' to go back): ").strip()
             if search_term.lower() in ['b', 'back']:
                 return
             if search_term:
@@ -670,7 +670,7 @@ class SecurePasswordManager:
                 return
             
             # Re-authenticate to view password
-            if not self.auth.require_auth_for_sensitive_action("Viewing password"):
+            if not self.auth.require_auth_for_sensitive_action("Viewing bunker"):
                 return
                 
             entry = results[int(show_idx) - 1]
@@ -682,69 +682,69 @@ class SecurePasswordManager:
             print(f"Created on: {entry['created_at']}")
             
             # Log viewed password (but don't include the actual password)
-            self.logger.info(f"Viewed password for {entry['username']} at {entry['website']}")
+            self.logger.info(f"Viewed bunker for {entry['username']} at {entry['website']}")
             
             # Pause before returning to menu
             input("\nPress Enter to continue...")
         else:
-            print("No results found.")
+            print("No bunkers found.")
     
     def _handle_list_websites(self):
         """Handle list websites flow with back option"""
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to list websites.")
+            print("❌ Airspace must be open to list bunkers.")
             return
-            
+
         self.session.update_activity_time()
-        
+
         websites = self.list_websites()
         if websites:
-            print("\nList of saved websites/services:")
+            print("\n=== Bunker Registry ===")
             for idx, site in enumerate(websites, 1):
                 print(f"{idx}. {site}")
-            print(f"\nTotal: {len(websites)} websites")
-            
-            self.logger.info(f"Listed {len(websites)} websites")
+            print(f"\nTotal: {len(websites)} bunkers")
+
+            self.logger.info(f"Listed {len(websites)} bunkers")
             
             # Pause before returning to menu
             input("\nPress Enter to continue...")
         else:
-            print("No saved websites.")
+            print("No bunkers stored.")
     
     def _handle_delete_password(self):
         """Handle delete password flow with back option"""
         # Validate session
         if not self.session.session_authenticated:
-            print("❌ You must be logged in to delete passwords.")
+            print("❌ Airspace must be open to destroy bunkers.")
             return
-            
+
         self.session.update_activity_time()
-        
+
         # Get username
         while True:
-            username = input("Username to delete (or 'b' to go back): ").strip()
+            username = input("Username to destroy (or 'b' to go back): ").strip()
             if username.lower() in ['b', 'back']:
                 return
             if username:
                 break
             print("⚠️ Username cannot be empty.")
-        
+
         # Get website
         while True:
-            website = input("Website/Service name (or 'b' to go back): ").strip()
+            website = input("Service/site name (or 'b' to go back): ").strip()
             if website.lower() in ['b', 'back']:
                 return
             if website:
                 break
-            print("⚠️ Website/Service name cannot be empty.")
+            print("⚠️ Service/site name cannot be empty.")
         
         self.delete_password(username, website)
     
     def _handle_show_storage(self):
         """Handle show storage flow with back option"""
         # Validate session and require re-authentication
-        if not self.auth.require_auth_for_sensitive_action("Viewing storage information"):
+        if not self.auth.require_auth_for_sensitive_action("Viewing dome status"):
             return
         
         self.logger.info("Storage information displayed")

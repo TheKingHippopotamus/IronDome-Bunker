@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Biometric authentication module for IronDome password manager.
+Biometric authentication module for IronDome.
 
 Provides cross-platform biometric authentication via:
   - macOS: Touch ID (LocalAuthentication framework via Swift subprocess or pyobjc)

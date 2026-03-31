@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Password generation module for the Secure Password Manager"""
+"""Password generation module for IronDome"""
 
 import secrets
 from password_manager.constants import LOWERCASE, UPPERCASE, DIGITS, SPECIAL_CHARS

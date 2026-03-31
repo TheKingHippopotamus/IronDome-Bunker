@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Logging module for the Secure Password Manager"""
+"""Logging module for IronDome"""
 
 import logging
 import os

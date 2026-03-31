@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Secure Password Manager package"""
+"""IronDome — Secure CLI Password Vault"""
 
-__version__ = "2.1.1"
+__version__ = "2.2.0"

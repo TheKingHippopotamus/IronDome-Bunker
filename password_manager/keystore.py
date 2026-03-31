@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Cross-platform secure credential storage for IronDome password manager.
+Cross-platform secure credential storage for IronDome.
 
 Uses the OS keychain/credential store via the `keyring` library:
   - macOS  : Keychain

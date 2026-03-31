@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Secure Password Manager — module entry point.
+IronDome — module entry point.
 
 Running `python -m password_manager` is equivalent to the `bunker` command.
 This preserves backward compatibility for users who invoked the package
@@ -13,7 +13,7 @@ from password_manager.cli import bunker_main
 
 
 def main() -> None:
-    """Run the password manager application via the bunker CLI entry point."""
+    """Run IronDome via the bunker CLI entry point."""
     bunker_main()
 
 

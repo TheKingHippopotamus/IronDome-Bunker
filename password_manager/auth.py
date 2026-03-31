@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Authentication module for the Secure Password Manager"""
+"""Authentication module for IronDome"""
 
 import getpass
 import binascii
@@ -13,7 +13,7 @@ from password_manager.biometric import BiometricAuth
 from password_manager.keystore import SecureKeyStore
 
 class AuthManager:
-    """Manages authentication for the password manager"""
+    """Manages authentication for IronDome"""
 
     def __init__(self, storage, session, logger=None):
         """
@@ -295,7 +295,7 @@ class AuthManager:
         Returns:
             True if account was created successfully, False otherwise
         """
-        print("\n=== Create Master Account ===")
+        print("\n=== Create Master Credentials ===")
         
         # Get and validate master username
         while True:
@@ -364,12 +364,12 @@ class AuthManager:
             print(f"\n⛔ {login_check['message']}")
             return False
             
-        print("\n=== Login ===")
+        print("\n=== IronDome Login ===")
         
         # Load salt
         salt = self.storage.load_salt()
         if not salt:
-            print("❌ Error: Salt file missing. Password manager needs to be reset.")
+            print("❌ Error: Salt file missing. IronDome needs to be reset.")
             return False
             
         # Create system key for decryption

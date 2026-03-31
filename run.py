@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Run script for the Secure Password Manager
+Run script for IronDome
 """
 
 from password_manager.__main__ import main

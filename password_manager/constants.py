@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Constants for the Secure Password Manager"""
+"""Constants for IronDome"""
 
 # Define character sets for password generation
 LOWERCASE = list("abcdefghijklmnopqrstuvwxyz")

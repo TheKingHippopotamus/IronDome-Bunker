@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Encryption utilities for the Secure Password Manager"""
+"""Encryption utilities for IronDome"""
 
 import base64
 import getpass
