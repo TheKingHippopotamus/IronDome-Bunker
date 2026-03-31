@@ -9,7 +9,7 @@
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/pyversions/IronDome?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
   <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE"><img src="https://img.shields.io/github/license/TheKingHippopotamus/IronDome-Bunker?style=for-the-badge&color=green" alt="License"></a>
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/dm/IronDome?style=for-the-badge&color=orange&label=downloads" alt="Downloads"></a>
-  <a href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"><img src="https://img.shields.io/badge/Try_It-Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white" alt="Open in Colab"></a>
+  <a href="https://colab.research.google.com/drive/1nC4ePtw5LF-GTMEPm-_13EXLUtEEgm7p?usp=sharing"><img src="https://img.shields.io/badge/Try_It-Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white" alt="Open in Colab"></a>
 </p>
 
 <p align="center">
@@ -46,6 +46,24 @@ On first launch, choose your security level:
 - Master Password Only (traditional)
 
 Two commands. You're protected.
+
+---
+
+## Interactive Presentation
+
+<a href="https://colab.research.google.com/drive/1nC4ePtw5LF-GTMEPm-_13EXLUtEEgm7p?usp=sharing"><img src="https://img.shields.io/badge/Open_Full_Presentation-Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&logoColor=white" alt="Open Presentation"></a>
+
+Test every corner of IronDome directly in your browser — no install required:
+
+| Section | What You'll Test |
+|---------|-----------------|
+| Architecture | Module map, security model, CLI commands, machine identity |
+| Encryption Engine | PBKDF2 benchmarks, Fernet AES-256, zero-knowledge proof, tamper detection |
+| Password Generation | All configs, strength scoring, entropy, CSPRNG guarantees |
+| Vault Operations | CRUD, search, backup, 1000-entry stress test |
+| Authentication | Login flow, brute force lockout, adaptive scaling, timing attacks |
+| Airspace Open/Close | Full CLI workflow simulation, session management |
+| Error Handling | Missing files, corrupt data, wrong keys, recovery keys |
 
 ---
 
