@@ -39,7 +39,7 @@ class SplashScreen(Screen):
                 yield Static(self._status_messages[0], id="splash-status")
 
     def on_mount(self) -> None:
-        self._timer = self.set_interval(0.06, self._tick)
+        self._timer = self.set_interval(0.03, self._tick)
 
     def _tick(self) -> None:
         try:

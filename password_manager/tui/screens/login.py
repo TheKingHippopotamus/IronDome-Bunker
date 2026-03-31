@@ -52,6 +52,15 @@ class LoginScreen(Screen):
     def on_mount(self) -> None:
         try:
             self._detect_auth_mode()
+            # Auto-trigger biometric immediately — no waiting for button click
+            if self._auth_mode in ("biometric_only", "biometric_password"):
+                self._attempt_auth()
+            elif self._auth_mode in ("password_only", None):
+                # Focus password field for immediate typing
+                try:
+                    self.query_one("#login-password", Input).focus()
+                except Exception:
+                    pass
         except Exception as exc:
             log.error("Auth mode detection failed: %s", exc)
             self._show_error(f"Init error: {exc}")
