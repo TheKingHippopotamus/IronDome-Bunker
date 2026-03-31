@@ -1,12 +1,6 @@
 <p align="center">
-  <img src="static/king-hippo.svg" alt="King Hippopotamus" width="200"/>
+  <img src="static/irondome-logo.svg" alt="IronDome" width="500"/>
 </p>
-
-<h1 align="center">
-  <br>
-  IronDome
-  <br>
-</h1>
 
 <h3 align="center">Fortified CLI Password Manager — AES-256 | Zero-Knowledge | Hardware-Bound</h3>
 
@@ -232,27 +226,6 @@ We welcome contributions! Please read:
 - [CONTRIBUTING.md](CONTRIBUTING.md) — development guidelines and PR process
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — community standards
 - [SECURITY.md](SECURITY.md) — vulnerability reporting
-
----
-
-## Screenshots & Demo
-
-### Application Interface
-
-![Login Screen](static/Screenshot%202025-04-17%20at%2011.44.00.png)
-*Secure authentication login*
-
-![Dashboard](static/Screenshot%202025-04-17%20at%2011.48.49.png)
-*Main dashboard interface*
-
-![Password Details](static/Screenshot%202025-04-17%20at%2011.51.02.png)
-*Password details view*
-
-### Video Demo
-
-[![Watch the demo](https://img.youtube.com/vi/9hPm1w-NM2Q/0.jpg)](https://youtu.be/9hPm1w-NM2Q)
-
-*Click the image above to watch the full demonstration*
 
 ---
 

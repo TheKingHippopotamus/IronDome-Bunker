@@ -55,14 +55,7 @@
       padding: 80px 24px 60px;
       background: radial-gradient(ellipse at center top, rgba(255, 215, 0, 0.06) 0%, transparent 60%);
     }
-    .hero img { width: 140px; margin-bottom: 24px; }
-    .hero h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      color: #FFD700;
-      letter-spacing: 4px;
-      margin-bottom: 12px;
-    }
+    .hero .logo { width: min(500px, 90vw); margin-bottom: 32px; }
     .hero p {
       color: #94a3b8;
       font-size: 1.15rem;
@@ -97,6 +90,10 @@
       border: 1px solid rgba(255, 215, 0, 0.1);
       border-radius: 10px;
       padding: 24px;
+      transition: border-color 0.3s;
+    }
+    .features .card:hover {
+      border-color: rgba(255, 215, 0, 0.35);
     }
     .features .card h3 {
       color: #FFD700;
@@ -107,32 +104,6 @@
       color: #94a3b8;
       font-size: 0.9rem;
       line-height: 1.5;
-    }
-
-    /* Source preview */
-    .source-section {
-      max-width: 900px;
-      margin: 0 auto 40px;
-      padding: 0 24px;
-    }
-    .source-section h2 {
-      color: #FFD700;
-      font-size: 0.85rem;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 16px;
-    }
-    .source-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .source-grid simple-spawn {
-      background: #111827;
-      border: 1px solid rgba(255, 215, 0, 0.1);
-      border-radius: 10px;
-      overflow: hidden;
     }
 
     /* Docs section */
@@ -167,12 +138,12 @@
       color: #475569;
       font-size: 0.85rem;
     }
+    footer img { width: 40px; margin-bottom: 8px; }
     footer a { color: #FFD700; text-decoration: none; }
 
     @media (max-width: 700px) {
       .features { grid-template-columns: 1fr; }
-      .source-grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2.2rem; }
+      .hero .logo { width: 80vw; }
       nav .links { gap: 12px; }
       nav .links a { font-size: 0.8rem; }
     }
@@ -194,8 +165,7 @@
   </nav>
 
   <section class="hero">
-    <img src="static/king-hippo.svg" alt="IronDome">
-    <h1>IRONDOME</h1>
+    <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
     <p>Military-grade CLI password manager. AES-256 encryption, zero-knowledge architecture, hardware-bound keys. Your passwords never leave your machine.</p>
     <div class="install-box">
       <span>$</span> pip install IronDome <span>&&</span> bunker
@@ -213,7 +183,7 @@
     </div>
     <div class="card">
       <h3>Hardware Bound</h3>
-      <p>Encryption keys are derived from your machine's hardware identifiers. Data is tied to your device.</p>
+      <p>Encryption keys derived from your machine's hardware identifiers. Data is tied to your device.</p>
     </div>
     <div class="card">
       <h3>Brute Force Shield</h3>
@@ -229,14 +199,6 @@
     </div>
   </section>
 
-  <section class="source-section">
-    <h2>Source Preview</h2>
-    <div class="source-grid">
-      <simple-spawn src="./password_manager/__init__.py" shadow></simple-spawn>
-      <simple-spawn src="./pyproject.toml" shadow></simple-spawn>
-    </div>
-  </section>
-
   <section class="docs" id="docs">
     <h2>Documentation</h2>
     <div class="docs-container">
@@ -245,6 +207,8 @@
   </section>
 
   <footer>
+    <img src="static/king-hippo.svg" alt="King Hippopotamus">
+    <br>
     Created by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a>
     &bull; Powered by <a href="https://www.npmjs.com/package/sst-spawn">SST</a>
   </footer>
