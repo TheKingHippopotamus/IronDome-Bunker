@@ -9,6 +9,7 @@
   <meta property="og:description" content="AES-256 encryption, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
   <meta property="og:image" content="static/irondome-favicon.svg">
   <link rel="icon" type="image/svg+xml" href="static/irondome-favicon.svg">
+  <link rel="apple-touch-icon" href="static/irondome-favicon.svg">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -60,8 +61,8 @@
       text-transform: uppercase;
     }
     nav .brand img {
-      width: 36px;
-      height: 36px;
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
       border: 1px solid rgba(255, 215, 0, 0.3);
     }
@@ -619,11 +620,11 @@
     }
 
     /* Color hierarchy */
-    .wf-dollar   { color: #546E7A; }        /* gray — $ prompt, never same as commands */
-    .wf-install  { color: #FFD700; }        /* gold — pip install */
-    .wf-sys      { color: #4FC3F7; }        /* cyan — irondome commands */
+    .wf-dollar   { color: #ef5350; }        /* RED — $ prompt */
+    .wf-install  { color: #34d399; }        /* green — all commands */
+    .wf-sys      { color: #34d399; }        /* green — irondome commands */
     .wf-bunker   { color: #34d399; }        /* green — bunker commands */
-    .wf-arg      { color: #ce93d8; }        /* purple — arguments */
+    .wf-arg      { color: #ce93d8; }        /* purple — continuation arguments */
     .wf-comment  { color: #37474F; margin-left: auto; white-space: nowrap; }
     .wf-info     { color: #546E7A; font-style: italic; font-size: 0.78rem; }
     .wf-error    { color: #ef5350; font-size: 0.78rem; }
@@ -674,7 +675,7 @@
   <!-- ═══════════════════════════════════════════ -->
   <nav>
     <a class="brand" href="#">
-      <img src="static/irondome-favicon.svg" alt="IronDome">
+      <img src="static/irondome-logo.svg" alt="IronDome">
       IronDome
     </a>
     <div class="links">
@@ -725,18 +726,19 @@
       </div>
       <div class="wf-body">
 
-        <!-- INSTALL -->
+        <!-- ── LAYER 1: INSTALL ── -->
+        <div class="wf-line no-hover"><span class="wf-phase">Install</span></div>
         <div class="wf-line" onclick="copyCmd('pip install IronDome')">
-          <span class="wf-tree">  </span>
+          <span class="wf-tree">  └── </span>
           <span class="wf-dollar">$</span> <span class="wf-install">pip install IronDome</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
 
-        <!-- SETUP PHASE -->
-        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Setup</span></div>
+        <!-- ── LAYER 2: IRONDOME (System Control) ── -->
+        <div class="wf-line no-hover"><span class="wf-phase">irondome</span> <span class="wf-info" style="font-style:normal">&mdash; System Control</span></div>
         <div class="wf-line" onclick="copyCmd('irondome create bunker')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-sys">irondome create bunker</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome create</span> <span class="wf-arg">bunker</span>
           <span class="wf-comment"># first-time setup</span>
         </div>
         <div class="wf-line no-hover">
@@ -745,33 +747,80 @@
         </div>
         <div class="wf-line no-hover">
           <span class="wf-tree">  │   ├── </span>
-          <span class="wf-info">Configure defaults (length, chars)</span>
+          <span class="wf-info">Configure defaults (password length, chars)</span>
         </div>
         <div class="wf-line no-hover">
           <span class="wf-tree">  │   └── </span>
-          <span class="wf-info">Save recovery key (shown once)</span>
+          <span class="wf-info">Save recovery key (shown once, store offline)</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
-
-        <!-- AUTHENTICATE PHASE -->
-        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Airspace Open &mdash; 30 min</span></div>
         <div class="wf-line" onclick="copyCmd('irondome open airspace')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-sys">irondome open airspace</span>
-          <span class="wf-comment"># authenticate once</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome open</span> <span class="wf-arg">airspace</span>
+          <span class="wf-comment"># authenticate &rarr; 30 min session</span>
         </div>
-        <div class="wf-line no-hover">
-          <span class="wf-tree">  │   └── </span>
-          <span class="wf-info">Biometric / password &rarr; 30 min free access</span>
+        <div class="wf-line" onclick="copyCmd('irondome close airspace')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome close</span> <span class="wf-arg">airspace</span>
+          <span class="wf-comment"># lock everything down</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('irondome status')">
+          <span class="wf-tree">  └── </span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome status</span>
+          <span class="wf-comment"># dome info, session timer, biometric</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
 
-        <!-- OPERATE PHASE -->
-        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Bunker Operations</span></div>
+        <!-- ── LAYER 3: BUNKER (Data Operations) ── -->
+        <div class="wf-line no-hover"><span class="wf-phase">bunker</span> <span class="wf-info" style="font-style:normal">&mdash; Bunker Operations (requires open airspace)</span></div>
         <div class="wf-line" onclick="copyCmd('bunker create')">
           <span class="wf-tree">  ├── </span>
           <span class="wf-dollar">$</span> <span class="wf-bunker">bunker create</span>
-          <span class="wf-comment"># generate &amp; store — no re-auth</span>
+          <span class="wf-comment"># generate password &amp; store bunker</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker open')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span>
+          <span class="wf-comment"># list all bunkers</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker open github')">
+          <span class="wf-tree">  │   └── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span> <span class="wf-arg">github</span>
+          <span class="wf-comment"># search by name</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker open admin@')">
+          <span class="wf-tree">  │   └── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span> <span class="wf-arg">admin@</span>
+          <span class="wf-comment"># search by username</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker fortify')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker fortify</span>
+          <span class="wf-comment"># create encrypted backup</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker settings')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker settings</span>
+          <span class="wf-comment"># change defaults (no airspace needed)</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker')">
+          <span class="wf-tree">  └── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker</span>
+          <span class="wf-comment"># interactive mode (full menu)</span>
+        </div>
+        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
+
+        <!-- ── LAYER 4: WORKFLOW EXAMPLE ── -->
+        <div class="wf-line no-hover"><span class="wf-phase">Example Session</span></div>
+        <div class="wf-line" onclick="copyCmd('irondome open airspace')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome open</span> <span class="wf-arg">airspace</span>
+          <span class="wf-comment"># Touch ID &rarr; 30 min</span>
+        </div>
+        <div class="wf-line" onclick="copyCmd('bunker create')">
+          <span class="wf-tree">  ├── </span>
+          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker create</span>
+          <span class="wf-comment"># no re-auth needed</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker create')">
           <span class="wf-tree">  ├── </span>
@@ -781,43 +830,22 @@
         <div class="wf-line" onclick="copyCmd('bunker open github')">
           <span class="wf-tree">  ├── </span>
           <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span> <span class="wf-arg">github</span>
-          <span class="wf-comment"># search &amp; retrieve</span>
-        </div>
-        <div class="wf-line" onclick="copyCmd('bunker open')">
-          <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker open</span>
-          <span class="wf-comment"># list all bunkers</span>
+          <span class="wf-comment"># instant access</span>
         </div>
         <div class="wf-line" onclick="copyCmd('bunker fortify')">
           <span class="wf-tree">  ├── </span>
           <span class="wf-dollar">$</span> <span class="wf-bunker">bunker fortify</span>
-          <span class="wf-comment"># encrypted backup</span>
+          <span class="wf-comment"># backup</span>
         </div>
-        <div class="wf-line" onclick="copyCmd('bunker settings')">
-          <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-bunker">bunker settings</span>
-          <span class="wf-comment"># configure defaults</span>
-        </div>
-        <div class="wf-line" onclick="copyCmd('irondome status')">
-          <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-sys">irondome status</span>
-          <span class="wf-comment"># dome info &amp; timer</span>
-        </div>
-        <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
-
-        <!-- LOCK DOWN -->
-        <div class="wf-line no-hover"><span class="wf-tree">  │</span><span class="wf-phase">Lock Down</span></div>
         <div class="wf-line" onclick="copyCmd('irondome close airspace')">
           <span class="wf-tree">  ├── </span>
-          <span class="wf-dollar">$</span> <span class="wf-sys">irondome close airspace</span>
-          <span class="wf-comment"># seal everything</span>
+          <span class="wf-dollar">$</span> <span class="wf-sys">irondome close</span> <span class="wf-arg">airspace</span>
+          <span class="wf-comment"># done, lock down</span>
         </div>
         <div class="wf-line no-hover"><span class="wf-tree">  │</span></div>
-
-        <!-- BLOCKED -->
         <div class="wf-line no-hover">
           <span class="wf-tree">  └── </span>
-          <span class="wf-bunker" style="opacity:0.4">bunker open</span>
+          <span class="wf-dollar">$</span> <span style="color:#34d399;opacity:0.4"> bunker open</span>
           <span class="wf-comment" style="color:#ef5350"># blocked</span>
         </div>
         <div class="wf-line no-hover">
