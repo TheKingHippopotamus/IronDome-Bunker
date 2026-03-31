@@ -126,18 +126,66 @@
       font-size: 0.85rem;
       margin-bottom: 20px;
     }
-    .colab-frame {
-      width: 100%;
-      height: 520px;
+    .colab-preview {
+      position: relative;
+    }
+    .colab-terminal {
+      background: #0d1117;
       border: 1px solid rgba(255, 215, 0, 0.15);
       border-radius: 12px;
-      background: #111827;
+      overflow: hidden;
     }
+    .term-bar {
+      background: #1c1c1e;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .term-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .term-title {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-left: 8px;
+    }
+    .term-body {
+      padding: 20px 24px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+    .blink {
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .btn-try {
+      display: block;
+      margin: 20px auto 0;
+      width: fit-content;
+      padding: 14px 32px;
+      background: #F9AB00;
+      color: #1a1a1a;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.5px;
+    }
+    .btn-try:hover { background: #FFD700; transform: translateY(-1px); }
     .try-actions {
       display: flex;
       gap: 12px;
       justify-content: center;
-      margin-top: 16px;
+      margin-top: 12px;
     }
     .try-actions a {
       display: inline-flex;
@@ -150,11 +198,6 @@
       font-weight: 600;
       transition: all 0.2s;
     }
-    .btn-colab {
-      background: #F9AB00;
-      color: #1a1a1a;
-    }
-    .btn-colab:hover { background: #FFD700; }
     .btn-github {
       background: transparent;
       color: #94a3b8;
@@ -259,14 +302,47 @@
   <section class="try-it" id="try">
     <h2>Try It Yourself</h2>
     <p class="subtitle">Real Python environment powered by Google Colab — no install needed</p>
-    <iframe
-      class="colab-frame"
-      src="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
-      allowfullscreen
-    ></iframe>
+    <div class="colab-preview">
+      <div class="colab-terminal">
+        <div class="term-bar">
+          <span class="term-dot" style="background:#ff5f57"></span>
+          <span class="term-dot" style="background:#febc2e"></span>
+          <span class="term-dot" style="background:#28c840"></span>
+          <span class="term-title">IronDome — Live Session</span>
+        </div>
+        <div class="term-body">
+          <div><span style="color:#64748b">$</span> <span style="color:#34d399">pip install IronDome</span></div>
+          <div style="color:#94a3b8">Successfully installed IronDome-1.1.0</div>
+          <div>&nbsp;</div>
+          <div><span style="color:#64748b">$</span> <span style="color:#34d399">bunker</span></div>
+          <div>&nbsp;</div>
+          <div style="color:#FFD700">=== IronDome Password Manager ===</div>
+          <div style="color:#64748b">Version 1.1.0</div>
+          <div>&nbsp;</div>
+          <div>Enter master username: <span style="color:#34d399">demo_user</span></div>
+          <div>Create master password: <span style="color:#34d399">********</span></div>
+          <div>&nbsp;</div>
+          <div style="color:#34d399">Master account created successfully!</div>
+          <div style="color:#64748b">Encryption keys generated and bound to this machine.</div>
+          <div>&nbsp;</div>
+          <div style="color:#FFD700">=== Password Manager ===</div>
+          <div>Logged in as: <span style="color:#34d399">demo_user</span></div>
+          <div>&nbsp;</div>
+          <div>1. Generate a new password</div>
+          <div>2. Save a password</div>
+          <div>3. Find passwords</div>
+          <div>4. List all websites</div>
+          <div style="color:#94a3b8">...</div>
+          <div>&nbsp;</div>
+          <div class="term-cursor">Choose option (1-8): <span class="blink">_</span></div>
+        </div>
+      </div>
+      <a class="btn-try" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">
+        Run It Live on Google Colab
+      </a>
+    </div>
     <div class="try-actions">
-      <a class="btn-colab" href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank">Open in Colab</a>
-      <a class="btn-github" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank">View Source</a>
+      <a class="btn-github" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank">View Source on GitHub</a>
     </div>
   </section>
 
