@@ -1,54 +1,8 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/IronDome-Bunker/irondome-favicon.svg" />
-    <link rel="icon" href="/IronDome-Bunker/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/IronDome-Bunker/apple-touch-icon.png" />
-    <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
-    <meta name="theme-color" content="#0a0e1a" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content="IronDome CLI Password Vault — Field Manual. Full documentation: installation, commands, auth modes, vault structure, and troubleshooting." />
-    <title>IronDome — Field Manual</title>
-  </head>
-
-  <body>
-
-    <!-- ============================================================
-         NAV BAR
-         ============================================================ -->
-    <nav style="border-bottom: 1px solid var(--color-gold-border); background-color: rgba(10, 14, 26, 0.96); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 50;">
-      <div class="container" style="display: flex; align-items: center; justify-content: space-between; height: 3.25rem;">
-        <a href="/IronDome-Bunker/" style="display: flex; align-items: center; gap: 0.625rem; text-decoration: none;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
-            <circle cx="12" cy="12" r="10" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
-            <circle cx="12" cy="12" r="6" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
-            <circle cx="12" cy="12" r="2" fill="#FFD700"/>
-            <line x1="12" y1="2" x2="12" y2="7" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
-            <line x1="12" y1="17" x2="12" y2="22" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
-            <line x1="2" y1="12" x2="7" y2="12" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
-            <line x1="17" y1="12" x2="22" y2="12" stroke="#FFD700" stroke-width="1.5" opacity="0.5"/>
-          </svg>
-          <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.9375rem; color: var(--color-text-primary); letter-spacing: 0.04em;">IRONDOME</span>
-        </a>
-        <div style="display: flex; align-items: center; gap: 1.5rem;">
-          <a href="/IronDome-Bunker/" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-text-secondary); text-transform: uppercase; transition: color var(--duration-fast) ease;">Home</a>
-          <a href="/IronDome-Bunker/docs" style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; color: var(--color-gold); text-transform: uppercase;">Docs</a>
-          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank" rel="noopener" class="btn-secondary" style="padding: 0.3rem 0.75rem; font-size: 0.7rem;">
-            GitHub
-          </a>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ============================================================
-         MAIN
-         ============================================================ -->
-    <main class="page-content">
+<Layout title="Field Manual" description="IronDome CLI Password Vault — Field Manual. Full documentation: installation, commands, auth modes, vault structure, and troubleshooting.">
 
       <!-- ----------------------------------------------------------
            SECTION 1 — PAGE HEADER
@@ -747,73 +701,43 @@ import '../styles/global.css';
         </div>
       </section>
 
-    </main>
+</Layout>
 
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer style="border-top: 1px solid var(--color-gold-border); padding: 2.5rem 0; background-color: var(--color-bg-card);">
-      <div class="container">
-        <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;">
-          <div style="display: flex; align-items: center; gap: 0.625rem;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="flex-shrink: 0;">
-              <circle cx="12" cy="12" r="10" stroke="#FFD700" stroke-width="1.5" opacity="0.3"/>
-              <circle cx="12" cy="12" r="6" stroke="#FFD700" stroke-width="1.5" opacity="0.6"/>
-              <circle cx="12" cy="12" r="2" fill="#FFD700"/>
-            </svg>
-            <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.875rem; color: var(--color-text-primary);">IRONDOME</span>
-            <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">/ Zero-Knowledge CLI Vault</span>
-          </div>
-          <div style="display: flex; align-items: center; gap: 1.5rem;">
-            <a href="/IronDome-Bunker/" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.08em;">Home</a>
-            <a href="/IronDome-Bunker/docs" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.08em;">Docs</a>
-            <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker" target="_blank" rel="noopener" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.08em;">GitHub</a>
-          </div>
-          <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-text-muted);">FIELD MANUAL v1.0</span>
-        </div>
-      </div>
-    </footer>
+<!-- Expand/collapse animation for details chevrons -->
+<style>
+  details[open] .chevron {
+    transform: rotate(180deg);
+  }
+  details > summary {
+    cursor: pointer;
+  }
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+  @media (max-width: 640px) {
+    [style*="grid-template-columns: 2fr 1.5fr 3fr"],
+    [style*="grid-template-columns: 2fr 3fr"],
+    [style*="grid-template-columns: 1fr 1.2fr 1.4fr"] {
+      grid-template-columns: 1fr !important;
+    }
 
-    <!-- Expand/collapse animation for details chevrons -->
-    <style>
-      details[open] .chevron {
-        transform: rotate(180deg);
-      }
-      details > summary {
-        cursor: pointer;
-      }
-      details > summary::-webkit-details-marker {
-        display: none;
-      }
-      @media (max-width: 640px) {
-        nav div { gap: 0.75rem; }
-        [style*="grid-template-columns: 2fr 1.5fr 3fr"],
-        [style*="grid-template-columns: 2fr 3fr"],
-        [style*="grid-template-columns: 1fr 1.2fr 1.4fr"] {
-          grid-template-columns: 1fr !important;
-        }
+    [style*="grid-template-columns: repeat(auto-fit"] {
+      grid-template-columns: 1fr !important;
+    }
 
-        [style*="grid-template-columns: repeat(auto-fit"] {
-          grid-template-columns: 1fr !important;
-        }
+    [style*="grid-template-columns: repeat(auto-fill"] {
+      grid-template-columns: 1fr !important;
+    }
 
-        [style*="grid-template-columns: repeat(auto-fill"] {
-          grid-template-columns: 1fr !important;
-        }
+    section { padding-block: 2.5rem !important; }
 
-        section { padding-block: 2.5rem !important; }
+    summary {
+      font-size: 0.875rem !important;
+    }
 
-        summary {
-          font-size: 0.875rem !important;
-        }
-
-        pre {
-          font-size: 0.75rem !important;
-          overflow-x: auto;
-        }
-      }
-    </style>
-
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/IronDome-Bunker/sw.js').catch(()=>{})}</script>
-  </body>
-</html>
+    pre {
+      font-size: 0.75rem !important;
+      overflow-x: auto;
+    }
+  }
+</style>

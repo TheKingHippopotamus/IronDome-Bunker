@@ -1,20 +1,13 @@
 ---
-import '../styles/global.css';
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/IronDome-Bunker/irondome-favicon.svg" />
-    <link rel="icon" href="/IronDome-Bunker/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/IronDome-Bunker/apple-touch-icon.png" />
-    <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
-    <meta name="theme-color" content="#0A0D06" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Features — IronDome Password Vault</title>
-    <meta name="description" content="Every layer of defense, explained. Military-grade AES-256 encryption, zero-knowledge architecture, hardware-bound keys, and biometric authentication." />
-    <style>
+<Layout
+  title="Features"
+  description="Every layer of defense, explained. Military-grade AES-256 encryption, zero-knowledge architecture, hardware-bound keys, and biometric authentication."
+>
+
+<style>
       :root {
         --bg: #0A0D06;
         --gold: #8B9A46;
@@ -26,40 +19,6 @@ import '../styles/global.css';
         --green: #34d399;
         --red: #f87171;
         --mono: 'Courier New', 'Lucida Console', monospace;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-      }
-
-      /* ── Scanline texture overlay ── */
-      body::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background-image: repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(0, 0, 0, 0.04) 2px,
-          rgba(0, 0, 0, 0.04) 4px
-        );
-        pointer-events: none;
-        z-index: 9999;
       }
 
       /* ── Typography ── */
@@ -281,16 +240,6 @@ import '../styles/global.css';
         letter-spacing: 0.02em;
       }
 
-      /* ── Nav ── */
-      nav {
-        border-bottom: 1px solid #1A2610;
-        background: rgba(10, 13, 6, 0.95);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        backdrop-filter: blur(8px);
-      }
-
       /* ── Section title ── */
       .section-title {
         font-size: 1.75rem;
@@ -380,30 +329,7 @@ import '../styles/global.css';
         }
       }
 
-      /* ── Scrollbar ── */
-      ::-webkit-scrollbar { width: 6px; height: 6px; }
-      ::-webkit-scrollbar-track { background: var(--bg); }
-      ::-webkit-scrollbar-thumb { background: #1A2610; border-radius: 3px; }
-      ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
     </style>
-  </head>
-
-  <body>
-
-    <!-- ═══════════════════════════════════════════ NAV ═══ -->
-    <nav>
-      <div class="content-wrap" style="display:flex;align-items:center;justify-content:space-between;padding-top:1rem;padding-bottom:1rem;">
-        <a href="/IronDome-Bunker/" style="display:flex;align-items:center;gap:0.75rem;text-decoration:none;">
-          <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" height="28" />
-          <span style="font-family:var(--mono);font-size:0.85rem;font-weight:700;letter-spacing:0.08em;color:var(--text);">IRONDOME</span>
-        </a>
-        <div style="display:flex;gap:2rem;align-items:center;">
-          <a href="/IronDome-Bunker/" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
-          <a href="/IronDome-Bunker/features" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold);padding-bottom:2px;">Features</a>
-          <a href="https://github.com/kinghippo/IronDome" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">GitHub</a>
-        </div>
-      </div>
-    </nav>
 
     <!-- ═══════════════════════════════════════════ PAGE HEADER ═══ -->
     <header style="padding:5rem 0 4rem;background:radial-gradient(ellipse 120% 80% at 50% -20%,rgba(139,154,70,0.06) 0%,transparent 70%);">
@@ -1059,23 +985,6 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
       </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════ FOOTER ═══ -->
-    <footer style="border-top:1px solid #1A2610;padding:2.5rem 0;">
-      <div class="content-wrap" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.5rem;">
-        <div style="display:flex;align-items:center;gap:0.75rem;">
-          <img src="/IronDome-Bunker/irondome-logo.svg" alt="IronDome" height="22" />
-          <span class="label-muted">IRONDOME — ZERO-KNOWLEDGE CLI VAULT</span>
-        </div>
-        <div style="display:flex;gap:2rem;flex-wrap:wrap;">
-          <a href="/IronDome-Bunker/" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Home</a>
-          <a href="/IronDome-Bunker/features" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">Features</a>
-          <a href="https://github.com/kinghippo/IronDome" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">GitHub</a>
-          <a href="https://pypi.org/project/IronDome/" target="_blank" rel="noopener" style="font-family:var(--mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;">PyPI</a>
-        </div>
-        <span class="label-muted">GPL-3.0 — FREE FOREVER</span>
-      </div>
-    </footer>
-
     <style>
       @keyframes pulse {
         0%, 100% { opacity: 1; }
@@ -1098,13 +1007,6 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
         /* Reduce section padding */
         section {
           padding-block: 2.5rem !important;
-        }
-
-        /* Fix nav on mobile */
-        nav .container,
-        nav [style*="display:flex"] {
-          flex-wrap: wrap !important;
-          gap: 0.5rem !important;
         }
 
         /* Stack flex containers */
@@ -1153,12 +1055,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           font-size: 1.25rem !important;
         }
 
-        nav {
-          padding: 0.5rem !important;
-        }
       }
     </style>
 
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/IronDome-Bunker/sw.js').catch(()=>{})}</script>
-  </body>
-</html>
+</Layout>
