@@ -79,8 +79,6 @@
 
 <!-- ═══ BASE ═══ -->
 <circle cx="375" cy="375" r="340" fill="url(#bg)" stroke="url(#rG)" stroke-width="2.5"/>
-<circle cx="375" cy="375" r="346" fill="none" stroke="#b0c4d8" stroke-width="1" opacity=".45"/>
-<circle cx="375" cy="375" r="354" fill="none" stroke="#8aa0b8" stroke-width=".5" stroke-dasharray="3 8" opacity=".2"/>
 
 <g clip-path="url(#cl)">
 <rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".08"/>
