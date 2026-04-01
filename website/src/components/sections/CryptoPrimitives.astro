@@ -65,7 +65,7 @@ import TacticalHeading from '../TacticalHeading.astro';
       <article class="crypto-card crypto-card--encryption">
         <div class="crypto-card__header">
           <span class="crypto-badge crypto-badge--encryption">SYMMETRIC ENCRYPTION</span>
-          <h3 class="crypto-card__headline">Fernet &mdash; AES-256-CBC + HMAC-SHA256</h3>
+          <h3 class="crypto-card__headline">Fernet &mdash; AES-128-CBC + HMAC-SHA256</h3>
         </div>
 
         <p class="crypto-card__body">
@@ -77,15 +77,15 @@ import TacticalHeading from '../TacticalHeading.astro';
         <div class="crypto-props-grid">
           <div class="crypto-prop">
             <span class="crypto-prop__label">Algorithm</span>
-            <span class="crypto-prop__value">AES-256-CBC</span>
+            <span class="crypto-prop__value">AES-128-CBC</span>
           </div>
           <div class="crypto-prop">
             <span class="crypto-prop__label">Authentication</span>
             <span class="crypto-prop__value">HMAC-SHA256</span>
           </div>
           <div class="crypto-prop">
-            <span class="crypto-prop__label">Key size</span>
-            <span class="crypto-prop__value">256 bits</span>
+            <span class="crypto-prop__label">Key material</span>
+            <span class="crypto-prop__value">128-bit AES + 128-bit HMAC</span>
           </div>
           <div class="crypto-prop">
             <span class="crypto-prop__label">IV</span>
