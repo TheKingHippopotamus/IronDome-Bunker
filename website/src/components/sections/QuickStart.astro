@@ -1,0 +1,416 @@
+---
+import TacticalHeading from '../TacticalHeading.astro';
+
+const systemCommands = [
+  { command: 'irondome create bunker', description: 'First-time vault setup' },
+  { command: 'irondome open airspace', description: 'Authenticate, start 30-min session' },
+  { command: 'irondome close airspace', description: 'Lock immediately' },
+  { command: 'irondome status', description: 'Display vault health' },
+];
+
+const vaultCommands = [
+  { command: 'bunker create', description: 'Add new password entry' },
+  { command: 'bunker open', description: 'List all entries' },
+  { command: 'bunker open [name]', description: 'Search entries' },
+  { command: 'bunker fortify', description: 'Create encrypted backup' },
+  { command: 'bunker settings', description: 'Open preferences' },
+];
+
+const authModes = [
+  {
+    mode: '01',
+    title: 'Biometric Only',
+    detail: 'Fastest login, key in OS keychain',
+    recommended: false,
+  },
+  {
+    mode: '02',
+    title: 'Biometric + Password',
+    detail: 'Two independent factors',
+    recommended: true,
+  },
+  {
+    mode: '03',
+    title: 'Password Only',
+    detail: 'Traditional, works everywhere',
+    recommended: false,
+  },
+];
+---
+
+<section class="quickstart" id="docs" aria-labelledby="docs-heading">
+  <div class="quickstart__container">
+    <TacticalHeading
+      badge="FIELD MANUAL"
+      title="Quick Start & Commands"
+      subtitle="Everything you need to deploy IronDome."
+    />
+
+    <!-- Quick Start Steps -->
+    <div class="qs-steps">
+      <div class="qs-step">
+        <span class="qs-step__badge">1</span>
+        <div class="qs-step__body">
+          <h3 class="qs-step__title">Install</h3>
+          <code class="qs-step__code">pip install IronDome</code>
+          <p class="qs-step__note">Requires Python 3.8&ndash;3.13</p>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <span class="qs-step__badge">2</span>
+        <div class="qs-step__body">
+          <h3 class="qs-step__title">Create bunker</h3>
+          <code class="qs-step__code">irondome create bunker</code>
+          <p class="qs-step__note">Set master password, choose auth mode, get recovery phrase</p>
+        </div>
+      </div>
+
+      <div class="qs-step">
+        <span class="qs-step__badge">3</span>
+        <div class="qs-step__body">
+          <h3 class="qs-step__title">Start using</h3>
+          <div class="qs-step__code-group">
+            <code class="qs-step__code">irondome open airspace</code>
+            <code class="qs-step__code">bunker create</code>
+          </div>
+          <p class="qs-step__note">Session persists 30 minutes</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Command Reference -->
+    <div class="qs-tables">
+      <div class="qs-table-wrap">
+        <h3 class="qs-table__title">System Commands</h3>
+        <table class="qs-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {systemCommands.map((row) => (
+              <tr>
+                <td><code>{row.command}</code></td>
+                <td>{row.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="qs-table-wrap">
+        <h3 class="qs-table__title">Vault Commands</h3>
+        <table class="qs-table">
+          <thead>
+            <tr>
+              <th>Command</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {vaultCommands.map((row) => (
+              <tr>
+                <td><code>{row.command}</code></td>
+                <td>{row.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Auth Modes -->
+    <div class="qs-auth">
+      <h3 class="qs-auth__heading">Authentication Modes</h3>
+      <div class="qs-auth__grid">
+        {authModes.map((auth) => (
+          <div class:list={['qs-auth-card', { 'qs-auth-card--recommended': auth.recommended }]}>
+            <span class="qs-auth-card__mode">MODE {auth.mode}</span>
+            <h4 class="qs-auth-card__title">{auth.title}</h4>
+            <p class="qs-auth-card__detail">{auth.detail}</p>
+            {auth.recommended && (
+              <span class="qs-auth-card__rec">Recommended</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .quickstart {
+    padding: 6rem 1.5rem;
+    position: relative;
+  }
+
+  .quickstart__container {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Mono font shorthand ── */
+  @define-scope {
+    --mono: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+  }
+
+  /* ── Quick Start Steps ── */
+  .qs-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 3.5rem;
+  }
+
+  .qs-step {
+    display: flex;
+    gap: 1rem;
+    background-color: #0D1208;
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 4px;
+    padding: 1.25rem 1.25rem;
+    transition: border-color 0.25s ease;
+  }
+
+  .qs-step:hover {
+    border-color: rgba(139, 154, 70, 0.45);
+  }
+
+  .qs-step__badge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #8B9A46;
+    color: #0D1208;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    border-radius: 2px;
+    line-height: 1;
+  }
+
+  .qs-step__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .qs-step__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .qs-step__code {
+    display: block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #00FF41;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(139, 154, 70, 0.12);
+    border-radius: 2px;
+    padding: 0.35rem 0.6rem;
+    white-space: nowrap;
+    overflow-x: auto;
+  }
+
+  .qs-step__code-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .qs-step__note {
+    font-size: 0.75rem;
+    color: #78909C;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── Command Tables ── */
+  .qs-tables {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .qs-table-wrap {
+    background-color: #0D1208;
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .qs-table__title {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid rgba(139, 154, 70, 0.15);
+  }
+
+  .qs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  .qs-table thead th {
+    background-color: rgba(139, 154, 70, 0.08);
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #78909C;
+    padding: 0.6rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(139, 154, 70, 0.12);
+  }
+
+  .qs-table tbody td {
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid rgba(139, 154, 70, 0.06);
+    color: #94a3b8;
+    vertical-align: middle;
+  }
+
+  .qs-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .qs-table tbody tr:hover {
+    background-color: rgba(139, 154, 70, 0.04);
+  }
+
+  .qs-table code {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #00FF41;
+    white-space: nowrap;
+  }
+
+  /* ── Auth Modes ── */
+  .qs-auth {
+    margin-top: 3rem;
+  }
+
+  .qs-auth__heading {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .qs-auth__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .qs-auth-card {
+    background-color: #0D1208;
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 4px;
+    padding: 1.25rem 1.125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    position: relative;
+    transition: border-color 0.25s ease;
+  }
+
+  .qs-auth-card:hover {
+    border-color: rgba(139, 154, 70, 0.45);
+  }
+
+  .qs-auth-card--recommended {
+    border-color: rgba(139, 154, 70, 0.45);
+    box-shadow: 0 0 0 1px rgba(139, 154, 70, 0.08);
+  }
+
+  .qs-auth-card__mode {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #78909C;
+  }
+
+  .qs-auth-card__title {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin: 0;
+  }
+
+  .qs-auth-card__detail {
+    font-size: 0.8125rem;
+    color: #78909C;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .qs-auth-card__rec {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #0D1208;
+    background-color: #8B9A46;
+    border-radius: 2px;
+    line-height: 1.6;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 860px) {
+    .qs-steps {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .qs-tables {
+      grid-template-columns: 1fr;
+    }
+
+    .qs-auth__grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .quickstart {
+      padding: 3.5rem 1rem;
+    }
+
+    .qs-step {
+      padding: 1rem;
+    }
+  }
+</style>

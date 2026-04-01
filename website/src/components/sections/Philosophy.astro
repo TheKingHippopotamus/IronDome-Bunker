@@ -1,0 +1,256 @@
+---
+import ClassificationBadge from '../ClassificationBadge.astro';
+
+const principles = [
+  {
+    number: '01',
+    title: 'Defense in Depth',
+    description:
+      'Multiple independent security layers. Password worthless without system key. System key worthless without salt. Compromise one layer — you still have nothing.',
+  },
+  {
+    number: '02',
+    title: 'Least Privilege',
+    description:
+      'Every file has minimum permissions. <code>secrets/</code> is <code>0700</code>. Session file is <code>0600</code>. No process runs elevated. Minimized blast radius.',
+  },
+  {
+    number: '03',
+    title: 'Zero Trust',
+    description:
+      'Does not trust the network, cloud services, or external auth providers. Only trust boundary is your local machine.',
+  },
+  {
+    number: '04',
+    title: 'Open Source GPL-3.0',
+    description:
+      'Every line of crypto code is public. Any researcher can audit. Claims mean nothing without verifiable source code.',
+  },
+  {
+    number: '05',
+    title: 'OWASP Compliant',
+    description:
+      '600,000 PBKDF2 iterations. 256-bit keys. Authenticated encryption. No MD5. No SHA1. No ECB mode.',
+  },
+  {
+    number: '06',
+    title: 'No Secrets in Logs',
+    description:
+      'Audit log records operations, not values. "Password retrieved for github.com" is logged. The actual password never appears in any log.',
+  },
+];
+---
+
+<section class="philosophy" id="philosophy" aria-labelledby="philosophy-heading">
+  <div class="philosophy__container">
+    <div class="philosophy__header">
+      <ClassificationBadge text="DESIGN PHILOSOPHY" level="classified" />
+      <h2 class="philosophy__title" id="philosophy-heading">Security Principles</h2>
+      <p class="philosophy__subtitle">
+        Not marketing claims. Each principle is enforced architecturally.
+      </p>
+    </div>
+
+    <div class="philosophy__grid">
+      {principles.map((principle) => (
+        <article class="phil-card">
+          <div class="phil-card__accent" aria-hidden="true"></div>
+
+          <span class="phil-card__number" aria-hidden="true">{principle.number}</span>
+          <h3 class="phil-card__title">{principle.title}</h3>
+          <p class="phil-card__desc" set:html={principle.description} />
+
+          <div class="phil-card__corner-tl" aria-hidden="true"></div>
+          <div class="phil-card__corner-br" aria-hidden="true"></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .philosophy {
+    position: relative;
+    padding: 5rem 1.5rem;
+    overflow: hidden;
+  }
+
+  .philosophy__container {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  .philosophy__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: 3.5rem;
+    gap: 0.875rem;
+  }
+
+  .philosophy__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .philosophy__subtitle {
+    font-size: 0.9375rem;
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 520px;
+    margin: 0;
+  }
+
+  /* ── Grid ── */
+  .philosophy__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  @media (max-width: 960px) {
+    .philosophy__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .philosophy__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .philosophy {
+      padding: 3.5rem 1rem;
+    }
+  }
+
+  /* ── Card ── */
+  .phil-card {
+    position: relative;
+    background-color: #0D1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    padding: 1.5rem 1.375rem 1.375rem;
+    overflow: hidden;
+    transition:
+      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .phil-card:hover {
+    background-color: #111a0e;
+    border-color: rgba(139, 154, 70, 0.35);
+    box-shadow:
+      0 0 0 1px rgba(139, 154, 70, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Left-bar accent — animated on hover */
+  .phil-card__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 0%;
+    background: linear-gradient(
+      180deg,
+      rgba(139, 154, 70, 0) 0%,
+      #8B9A46 40%,
+      #8B9A46 60%,
+      rgba(139, 154, 70, 0) 100%
+    );
+    transition: height 350ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .phil-card:hover .phil-card__accent {
+    height: 100%;
+  }
+
+  /* Tactical corner decorations */
+  .phil-card__corner-tl,
+  .phil-card__corner-br {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(139, 154, 70, 0.2);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 250ms ease;
+  }
+
+  .phil-card:hover .phil-card__corner-tl,
+  .phil-card:hover .phil-card__corner-br {
+    border-color: rgba(139, 154, 70, 0.55);
+  }
+
+  .phil-card__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .phil-card__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Number badge */
+  .phil-card__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: #0D1208;
+    background-color: rgba(139, 154, 70, 0.85);
+    border-radius: 2px;
+    margin-bottom: 0.875rem;
+    transition: background-color 250ms ease;
+  }
+
+  .phil-card:hover .phil-card__number {
+    background-color: #8B9A46;
+  }
+
+  /* Title */
+  .phil-card__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    margin: 0 0 0.5rem;
+    line-height: 1.3;
+  }
+
+  /* Description */
+  .phil-card__desc {
+    font-size: 0.85rem;
+    color: #78909C;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .phil-card__desc :global(code) {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #8B9A46;
+    background: rgba(139, 154, 70, 0.1);
+    padding: 0.1em 0.35em;
+    border-radius: 2px;
+  }
+</style>

@@ -1,0 +1,429 @@
+---
+import TacticalHeading from '../TacticalHeading.astro';
+
+const permissions = [
+  {
+    file: 'secrets/',
+    mode: '0700',
+    symbolic: 'rwx------',
+    level: 'red' as const,
+    note: 'Inaccessible to all other users',
+  },
+  {
+    file: '.passwords.enc',
+    mode: '0600',
+    symbolic: 'rw-------',
+    level: 'red' as const,
+    note: 'Only owning user can read/write',
+  },
+  {
+    file: '.airspace.session',
+    mode: '0600',
+    symbolic: 'rw-------',
+    level: 'red' as const,
+    note: 'Owner-only. Expires in 30 minutes',
+  },
+  {
+    file: 'salt.bin',
+    mode: '0600',
+    symbolic: 'rw-------',
+    level: 'amber' as const,
+    note: 'Protected to prevent modification',
+  },
+  {
+    file: 'settings.json',
+    mode: '0644',
+    symbolic: 'rw-r--r--',
+    level: 'green' as const,
+    note: 'No sensitive data, UI preferences only',
+  },
+  {
+    file: 'password_manager.log',
+    mode: '0644',
+    symbolic: 'rw-r--r--',
+    level: 'green' as const,
+    note: 'Passwords never written to logs',
+  },
+];
+---
+
+<section class="fs-section" id="filesystem" aria-labelledby="fs-heading">
+  <div class="fs-section__container">
+    <TacticalHeading
+      badge="FILE SYSTEM SECURITY"
+      title="Vault Structure on Disk"
+      subtitle="Every file has a reason to exist and a permission level that matches its sensitivity."
+    />
+
+    <!-- Terminal window -->
+    <div class="fs-terminal">
+      <div class="fs-terminal__bar">
+        <div class="fs-terminal__dots" aria-hidden="true">
+          <span class="fs-terminal__dot"></span>
+          <span class="fs-terminal__dot"></span>
+          <span class="fs-terminal__dot"></span>
+        </div>
+        <span class="fs-terminal__title">~/.password_manager/</span>
+        <span class="fs-terminal__cmd">ls -la</span>
+      </div>
+
+      <div class="fs-terminal__body">
+        <pre class="fs-tree"><code><span class="fs-tree__dir">~/.password_manager/</span>
+<span class="fs-tree__branch">├──</span> <span class="fs-tree__file">password_manager.log</span>         <span class="fs-tree__comment"># non-sensitive audit trail</span>
+<span class="fs-tree__branch">├──</span> <span class="fs-tree__file">settings.json</span>                <span class="fs-tree__comment"># user preferences, no secrets</span>
+<span class="fs-tree__branch">├──</span> <span class="fs-tree__dir">backups/</span>
+<span class="fs-tree__branch">│   └──</span> <span class="fs-tree__file">.passwords_backup_*.enc</span>  <span class="fs-tree__comment"># AES-256 encrypted backups</span>
+<span class="fs-tree__branch">└──</span> <span class="fs-tree__dir">secrets/</span>                      <span class="fs-tree__comment"># chmod 0700 — owner only</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.passwords.enc</span>            <span class="fs-tree__comment"># vault — Fernet AES-256</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">salt.bin</span>                  <span class="fs-tree__comment"># PBKDF2 salt (32 bytes)</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.master_user.enc</span>          <span class="fs-tree__comment"># encrypted master username</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.master_hash.enc</span>          <span class="fs-tree__comment"># encrypted PBKDF2 hash</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.login_attempts.dat</span>       <span class="fs-tree__comment"># lockout counter</span>
+<span class="fs-tree__branch">    └──</span> <span class="fs-tree__file">.airspace.session</span>         <span class="fs-tree__comment"># chmod 0600 — session token</span></code></pre>
+
+        <!-- Tactical corner decorations -->
+        <div class="fs-terminal__corner-tl" aria-hidden="true"></div>
+        <div class="fs-terminal__corner-tr" aria-hidden="true"></div>
+        <div class="fs-terminal__corner-bl" aria-hidden="true"></div>
+        <div class="fs-terminal__corner-br" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <!-- Permission table -->
+    <div class="fs-table-wrap">
+      <table class="fs-table">
+        <thead>
+          <tr>
+            <th class="fs-table__th">File</th>
+            <th class="fs-table__th">Mode</th>
+            <th class="fs-table__th">Permissions</th>
+            <th class="fs-table__th">Access Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          {permissions.map((perm) => (
+            <tr class="fs-table__row">
+              <td class="fs-table__td fs-table__td--file">
+                <code>{perm.file}</code>
+              </td>
+              <td class="fs-table__td fs-table__td--mode">
+                <code>{perm.mode}</code>
+                <span class="fs-table__symbolic">({perm.symbolic})</span>
+              </td>
+              <td class="fs-table__td fs-table__td--badge">
+                <span class={`fs-badge fs-badge--${perm.level}`}>
+                  {perm.level === 'red' ? 'RESTRICTED' : perm.level === 'amber' ? 'PROTECTED' : 'PUBLIC'}
+                </span>
+              </td>
+              <td class="fs-table__td fs-table__td--note">
+                {perm.note}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .fs-section {
+    padding: 6rem 1.5rem;
+    position: relative;
+  }
+
+  .fs-section__container {
+    max-width: 1120px;
+    margin: 0 auto;
+  }
+
+  /* ── Terminal window ── */
+  .fs-terminal {
+    margin-top: 3.5rem;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .fs-terminal__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.85rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(74, 93, 35, 0.15);
+  }
+
+  .fs-terminal__dots {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .fs-terminal__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: rgba(139, 154, 70, 0.35);
+  }
+
+  .fs-terminal__title {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.75rem;
+    color: #78909C;
+    letter-spacing: 0.02em;
+  }
+
+  .fs-terminal__cmd {
+    margin-left: auto;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    color: rgba(139, 154, 70, 0.6);
+    letter-spacing: 0.04em;
+  }
+
+  .fs-terminal__body {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem 1.75rem;
+    overflow-x: auto;
+  }
+
+  /* Tactical corner decorations on terminal body */
+  .fs-terminal__corner-tl,
+  .fs-terminal__corner-tr,
+  .fs-terminal__corner-bl,
+  .fs-terminal__corner-br {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: rgba(139, 154, 70, 0.25);
+    border-style: solid;
+    pointer-events: none;
+  }
+
+  .fs-terminal__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .fs-terminal__corner-tr {
+    top: 0;
+    right: 0;
+    border-width: 1px 1px 0 0;
+  }
+
+  .fs-terminal__corner-bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 1px 1px;
+  }
+
+  .fs-terminal__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* ── File tree ── */
+  .fs-tree {
+    margin: 0;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    white-space: pre;
+    color: #00FF41;
+  }
+
+  .fs-tree__dir {
+    color: #00FF41;
+    font-weight: 600;
+  }
+
+  .fs-tree__branch {
+    color: rgba(0, 255, 65, 0.4);
+  }
+
+  .fs-tree__file {
+    color: #00FF41;
+  }
+
+  .fs-tree__comment {
+    color: #5A6B4A;
+  }
+
+  /* ── Permission table ── */
+  .fs-table-wrap {
+    margin-top: 2.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .fs-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8125rem;
+  }
+
+  .fs-table__th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    border-bottom: 1px solid rgba(74, 93, 35, 0.25);
+    white-space: nowrap;
+  }
+
+  .fs-table__row {
+    transition: background-color 200ms ease;
+  }
+
+  .fs-table__row:hover {
+    background-color: rgba(139, 154, 70, 0.04);
+  }
+
+  .fs-table__td {
+    padding: 0.7rem 1rem;
+    border-bottom: 1px solid rgba(74, 93, 35, 0.12);
+    vertical-align: middle;
+  }
+
+  .fs-table__td--file code {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #e2e8f0;
+    white-space: nowrap;
+  }
+
+  .fs-table__td--mode {
+    white-space: nowrap;
+  }
+
+  .fs-table__td--mode code {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    color: #8B9A46;
+  }
+
+  .fs-table__symbolic {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    color: #78909C;
+    margin-left: 0.4rem;
+  }
+
+  .fs-table__td--note {
+    color: #78909C;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* ── Permission badges ── */
+  .fs-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    border-radius: 2px;
+    white-space: nowrap;
+    line-height: 1.6;
+  }
+
+  .fs-badge--red {
+    color: #FF4444;
+    background-color: rgba(255, 68, 68, 0.08);
+    border: 1px solid rgba(255, 68, 68, 0.3);
+  }
+
+  .fs-badge--amber {
+    color: #FFB020;
+    background-color: rgba(255, 176, 32, 0.08);
+    border: 1px solid rgba(255, 176, 32, 0.3);
+  }
+
+  .fs-badge--green {
+    color: #00CC66;
+    background-color: rgba(0, 204, 102, 0.08);
+    border: 1px solid rgba(0, 204, 102, 0.3);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .fs-section {
+      padding: 4rem 1rem;
+    }
+
+    .fs-terminal__body {
+      padding: 1rem 1.25rem;
+    }
+
+    .fs-tree {
+      font-size: 0.6875rem;
+    }
+
+    .fs-table__th,
+    .fs-table__td {
+      padding: 0.55rem 0.65rem;
+    }
+
+    .fs-table__td--note {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .fs-section {
+      padding: 3.5rem 1rem;
+    }
+
+    .fs-terminal__body {
+      padding: 1rem;
+    }
+
+    .fs-tree {
+      font-size: 0.625rem;
+      line-height: 1.65;
+    }
+
+    /* Stack table on small screens */
+    .fs-table thead {
+      display: none;
+    }
+
+    .fs-table,
+    .fs-table tbody,
+    .fs-table__row,
+    .fs-table__td {
+      display: block;
+    }
+
+    .fs-table__row {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(74, 93, 35, 0.15);
+    }
+
+    .fs-table__td {
+      padding: 0.2rem 0;
+      border-bottom: none;
+    }
+
+    .fs-table__td--badge {
+      margin-top: 0.3rem;
+    }
+
+    .fs-table__td--note {
+      margin-top: 0.15rem;
+      font-size: 0.75rem;
+      opacity: 0.85;
+    }
+  }
+</style>

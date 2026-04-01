@@ -1,23 +1,36 @@
 ---
-const currentPath = Astro.url.pathname;
-
-const base = '/IronDome-Bunker';
-
-const navLinks = [
-  { href: `${base}/`,          label: 'Home',     code: '01' },
-  { href: `${base}/features`,  label: 'Features', code: '02' },
-  { href: `${base}/security`,  label: 'Security', code: '03' },
-  { href: `${base}/docs`,      label: 'Docs',     code: '04' },
-  { href: `${base}/about`,     label: 'About',    code: '05' },
+const desktopLinks = [
+  { href: '#why',      label: 'Why IronDome', code: '01' },
+  { href: '#features', label: 'Features',     code: '02' },
+  { href: '#security', label: 'Security',     code: '03' },
+  { href: '#docs',     label: 'Docs',         code: '04' },
+  { href: '#about',    label: 'About',        code: '05' },
 ];
 
-function isActive(href: string): boolean {
-  if (href === `${base}/`) return currentPath === `${base}/` || currentPath === '/';
-  return currentPath.startsWith(href);
-}
+const mobileSections = [
+  { href: '#why',      label: 'Why IronDome', code: '01', icon: 'shield' },
+  { href: '#howto',    label: 'How It Works', code: '02', icon: 'chevron' },
+  { href: '#features', label: 'Features',     code: '03', icon: 'grid' },
+  { href: '#demo',     label: 'Demo',         code: '04', icon: 'terminal' },
+  { href: '#security', label: 'Security',     code: '05', icon: 'lock' },
+  { href: '#crypto',   label: 'Crypto',       code: '06', icon: 'key' },
+  { href: '#threats',  label: 'Threats',      code: '07', icon: 'alert' },
+];
+
+const mobileResources = [
+  { href: '#docs',        label: 'Docs',  code: '01', icon: 'document' },
+  { href: '#about',       label: 'About', code: '02', icon: 'info' },
+  { href: '#troubleshoot', label: 'FAQ',  code: '03', icon: 'help' },
+];
+
+const mobileExternal = [
+  { href: 'https://github.com/TheKingHippopotamus/IronDome-Bunker', label: 'GitHub', code: '01', icon: 'github' },
+  { href: 'https://pypi.org/project/irondome/', label: 'PyPI', code: '02', icon: 'package' },
+  { href: 'https://colab.research.google.com/', label: 'Colab', code: '03', icon: 'play' },
+];
 ---
 
-<!-- Mobile checkbox toggle — CSS-only, no JS -->
+<!-- Mobile checkbox toggle — CSS-only, no JS needed for open -->
 <input
   type="checkbox"
   id="nav-toggle"
@@ -26,7 +39,6 @@ function isActive(href: string): boolean {
 />
 
 <header class="site-header" role="banner">
-  <!-- Top edge tactical line -->
   <div class="header-top-edge" aria-hidden="true"></div>
 
   <div class="header-inner">
@@ -37,13 +49,12 @@ function isActive(href: string): boolean {
         <img
           src="/IronDome-Bunker/irondome-favicon.svg"
           alt=""
-          width="32"
-          height="32"
+          width="28"
+          height="28"
           class="brand-icon"
           aria-hidden="true"
         />
         <span class="brand-status-dot" aria-hidden="true"></span>
-        <!-- Corner brackets -->
         <span class="brand-corner brand-corner--tl" aria-hidden="true"></span>
         <span class="brand-corner brand-corner--tr" aria-hidden="true"></span>
         <span class="brand-corner brand-corner--bl" aria-hidden="true"></span>
@@ -51,20 +62,16 @@ function isActive(href: string): boolean {
       </div>
       <div class="brand-text-wrap">
         <span class="brand-name">IRONDOME</span>
-        <span class="brand-sub">SECURE VAULT v2.0</span>
+        <span class="brand-sub">BUNKER v2.0</span>
       </div>
     </a>
 
     <!-- Desktop navigation -->
     <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
       <ul class="nav-list" role="list">
-        {navLinks.map(link => (
+        {desktopLinks.map(link => (
           <li class="nav-item">
-            <a
-              href={link.href}
-              class={`nav-link ${isActive(link.href) ? 'nav-link--active' : ''}`}
-              aria-current={isActive(link.href) ? 'page' : undefined}
-            >
+            <a href={link.href} class="nav-link">
               <span class="nav-link-code" aria-hidden="true">{link.code}</span>
               <span class="nav-link-label">{link.label}</span>
             </a>
@@ -75,7 +82,6 @@ function isActive(href: string): boolean {
 
     <!-- Header right: CTA + hamburger -->
     <div class="header-right">
-      <!-- System status indicator -->
       <div class="system-status" aria-hidden="true">
         <span class="status-indicator"></span>
         <span class="status-text">SYS:OK</span>
@@ -109,9 +115,9 @@ function isActive(href: string): boolean {
       </label>
     </div>
 
-  </div><!-- /.header-inner -->
+  </div>
 
-  <!-- Army scan line bottom border -->
+  <!-- Bottom border with scan line -->
   <div class="header-border" aria-hidden="true">
     <div class="header-border-line"></div>
     <div class="header-border-scan"></div>
@@ -120,47 +126,69 @@ function isActive(href: string): boolean {
 
 <!-- Mobile navigation drawer -->
 <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+
+  <!-- SECTIONS -->
   <div class="mobile-nav-section-label" aria-hidden="true">
     <span class="section-label-line"></span>
-    <span class="section-label-text">NAVIGATION</span>
+    <span class="section-label-text">SECTIONS</span>
     <span class="section-label-line"></span>
   </div>
   <ul class="mobile-nav-list" role="list">
-    {navLinks.map(link => (
+    {mobileSections.map(link => (
       <li class="mobile-nav-item">
-        <a
-          href={link.href}
-          class={`mobile-nav-link ${isActive(link.href) ? 'mobile-nav-link--active' : ''}`}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-        >
-          <span class="mobile-nav-code" aria-hidden="true">CMD:{link.code} //</span>
+        <a href={link.href} class="mobile-nav-link drawer-link">
+          <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
+          <span class="mobile-nav-code" aria-hidden="true">{link.code}</span>
           <span class="mobile-nav-label">{link.label}</span>
-          {isActive(link.href) && (
-            <span class="mobile-active-indicator" aria-hidden="true">ACTIVE</span>
-          )}
+          <span class="mobile-nav-arrow" aria-hidden="true">&rsaquo;</span>
         </a>
       </li>
     ))}
   </ul>
+
+  <!-- RESOURCES -->
+  <div class="mobile-nav-section-label" aria-hidden="true">
+    <span class="section-label-line"></span>
+    <span class="section-label-text">RESOURCES</span>
+    <span class="section-label-line"></span>
+  </div>
+  <ul class="mobile-nav-list" role="list">
+    {mobileResources.map(link => (
+      <li class="mobile-nav-item">
+        <a href={link.href} class="mobile-nav-link drawer-link">
+          <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
+          <span class="mobile-nav-code" aria-hidden="true">{link.code}</span>
+          <span class="mobile-nav-label">{link.label}</span>
+          <span class="mobile-nav-arrow" aria-hidden="true">&rsaquo;</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <!-- EXTERNAL -->
   <div class="mobile-nav-section-label" aria-hidden="true">
     <span class="section-label-line"></span>
     <span class="section-label-text">EXTERNAL</span>
     <span class="section-label-line"></span>
   </div>
   <div class="mobile-nav-external">
-    <a
-      href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="mobile-external-link"
-    >
-      <span class="mobile-nav-code" aria-hidden="true">EXT:01 //</span>
-      <span>GitHub Repository</span>
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
-      </svg>
-    </a>
+    {mobileExternal.map(link => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mobile-external-link"
+      >
+        <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
+        <span class="mobile-nav-code" aria-hidden="true">EXT:{link.code}</span>
+        <span>{link.label}</span>
+        <svg class="ext-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+        </svg>
+      </a>
+    ))}
   </div>
+
   <div class="mobile-nav-footer">
     <div class="mobile-footer-content">
       <span class="classification-badge">SECURE CONNECTION</span>
@@ -173,9 +201,22 @@ function isActive(href: string): boolean {
 <!-- Overlay to close mobile nav -->
 <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
 
+<!-- Auto-close drawer on link click -->
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const toggle = document.getElementById('nav-toggle') as HTMLInputElement;
+    if (!toggle) return;
+    document.querySelectorAll('.drawer-link').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle.checked = false;
+      });
+    });
+  });
+</script>
+
 <style>
   /* ============================================================
-     IRONDOME HEADER — MILITARY COMMAND CENTER HUD
+     IRONDOME HEADER — MILITARY COMMAND CENTER HUD (SPA)
      ============================================================ */
 
   :root {
@@ -238,32 +279,29 @@ function isActive(href: string): boolean {
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    height: 68px;
+    height: 56px;
     max-width: 1200px;
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 2rem);
+    padding-inline: clamp(0.75rem, 4vw, 2rem);
   }
 
   /* ── Brand ────────────────────────────────────────────────── */
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
     text-decoration: none;
     flex-shrink: 0;
     color: inherit;
     transition: opacity 180ms ease;
   }
 
-  .brand:hover {
-    opacity: 0.88;
-    color: inherit;
-  }
+  .brand:hover { opacity: 0.88; color: inherit; }
 
   .brand-icon-wrap {
     position: relative;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -273,48 +311,23 @@ function isActive(href: string): boolean {
     flex-shrink: 0;
   }
 
-  /* Corner bracket decorations */
   .brand-corner {
     position: absolute;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-color: var(--army-olive);
     border-style: solid;
     border-width: 0;
     opacity: 0.6;
   }
-
-  .brand-corner--tl {
-    top: -2px;
-    left: -2px;
-    border-top-width: 1px;
-    border-left-width: 1px;
-  }
-
-  .brand-corner--tr {
-    top: -2px;
-    right: -2px;
-    border-top-width: 1px;
-    border-right-width: 1px;
-  }
-
-  .brand-corner--bl {
-    bottom: -2px;
-    left: -2px;
-    border-bottom-width: 1px;
-    border-left-width: 1px;
-  }
-
-  .brand-corner--br {
-    bottom: -2px;
-    right: -2px;
-    border-bottom-width: 1px;
-    border-right-width: 1px;
-  }
+  .brand-corner--tl { top: -2px; left: -2px; border-top-width: 1px; border-left-width: 1px; }
+  .brand-corner--tr { top: -2px; right: -2px; border-top-width: 1px; border-right-width: 1px; }
+  .brand-corner--bl { bottom: -2px; left: -2px; border-bottom-width: 1px; border-left-width: 1px; }
+  .brand-corner--br { bottom: -2px; right: -2px; border-bottom-width: 1px; border-right-width: 1px; }
 
   .brand-icon {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     object-fit: contain;
     filter: brightness(0.9) sepia(0.3) hue-rotate(50deg) saturate(1.4);
   }
@@ -323,31 +336,18 @@ function isActive(href: string): boolean {
     position: absolute;
     top: -3px;
     right: -3px;
-    width: 7px;
-    height: 7px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background-color: var(--night-vision);
-    box-shadow:
-      0 0 4px var(--glow-green),
-      0 0 12px rgba(0,255,65,0.3);
-    animation: nightvision-pulse 2s ease-in-out infinite;
+    box-shadow: 0 0 4px var(--glow-green), 0 0 12px rgba(0,255,65,0.3);
+    animation: nv-pulse 2s ease-in-out infinite;
     border: 1.5px solid var(--hud-bg-solid);
   }
 
-  @keyframes nightvision-pulse {
-    0%, 100% {
-      box-shadow:
-        0 0 4px rgba(0,255,65,0.4),
-        0 0 8px rgba(0,255,65,0.15);
-      opacity: 0.85;
-    }
-    50% {
-      box-shadow:
-        0 0 6px rgba(0,255,65,0.8),
-        0 0 18px rgba(0,255,65,0.35),
-        0 0 30px rgba(0,255,65,0.1);
-      opacity: 1;
-    }
+  @keyframes nv-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(0,255,65,0.4), 0 0 8px rgba(0,255,65,0.15); opacity: 0.85; }
+    50% { box-shadow: 0 0 6px rgba(0,255,65,0.8), 0 0 18px rgba(0,255,65,0.35); opacity: 1; }
   }
 
   .brand-text-wrap {
@@ -358,24 +358,22 @@ function isActive(href: string): boolean {
 
   .brand-name {
     font-family: var(--mono);
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     font-weight: 800;
     letter-spacing: 0.18em;
     color: var(--army-olive-light);
-    text-shadow:
-      0 0 10px rgba(139,154,70,0.4),
-      0 0 25px rgba(92,122,41,0.15);
+    text-shadow: 0 0 10px rgba(139,154,70,0.4), 0 0 25px rgba(92,122,41,0.15);
     text-transform: uppercase;
   }
 
   .brand-sub {
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     font-weight: 600;
     letter-spacing: 0.25em;
     color: var(--text-dim);
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 2px;
   }
 
   /* ── Desktop nav ──────────────────────────────────────────── */
@@ -386,9 +384,7 @@ function isActive(href: string): boolean {
   }
 
   @media (min-width: 768px) {
-    .desktop-nav {
-      display: flex;
-    }
+    .desktop-nav { display: flex; }
   }
 
   .nav-list {
@@ -400,29 +396,21 @@ function isActive(href: string): boolean {
     padding: 0;
   }
 
-  .nav-item {
-    position: relative;
-  }
-
   .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 0.85rem;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
     border-radius: 2px;
     font-family: var(--mono);
-    font-size: 0.78rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-muted);
     text-decoration: none;
     border: 1px solid transparent;
-    transition:
-      color 180ms ease,
-      background-color 180ms ease,
-      border-color 180ms ease,
-      text-shadow 180ms ease;
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, text-shadow 180ms ease;
     position: relative;
   }
 
@@ -433,54 +421,27 @@ function isActive(href: string): boolean {
     text-shadow: 0 0 8px rgba(139,154,70,0.3);
   }
 
-  .nav-link--active {
-    color: var(--army-olive-light);
-    background-color: rgba(74,93,35,0.12);
-    border-color: rgba(92,122,41,0.25);
-    text-shadow: 0 0 8px rgba(139,154,70,0.4);
-  }
-
-  /* Active bottom indicator - army green bar with glow */
-  .nav-link--active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    left: 20%;
-    right: 20%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, var(--army-olive-light), transparent);
-    box-shadow:
-      0 0 6px var(--glow-olive),
-      0 0 12px rgba(139,154,70,0.3);
-    border-radius: 1px;
-  }
-
   .nav-link-code {
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     color: var(--text-dim);
     letter-spacing: 0.05em;
-    opacity: 0.6;
+    opacity: 0.5;
     transition: opacity 180ms ease, color 180ms ease;
   }
 
-  .nav-link:hover .nav-link-code,
-  .nav-link--active .nav-link-code {
+  .nav-link:hover .nav-link-code {
     opacity: 1;
     color: rgba(139,154,70,0.7);
   }
 
-  .nav-link-label {
-    position: relative;
-  }
-
-  /* ── System status (desktop) ──────────────────────────────── */
+  /* ── System status ────────────────────────────────────────── */
   .system-status {
     display: none;
     align-items: center;
     gap: 6px;
     padding: 0 0.5rem;
     font-family: var(--mono);
-    font-size: 0.6rem;
+    font-size: 0.55rem;
     color: var(--text-dim);
     letter-spacing: 0.1em;
     border-right: 1px solid var(--border-subtle);
@@ -489,9 +450,7 @@ function isActive(href: string): boolean {
   }
 
   @media (min-width: 768px) {
-    .system-status {
-      display: flex;
-    }
+    .system-status { display: flex; }
   }
 
   .status-indicator {
@@ -500,31 +459,26 @@ function isActive(href: string): boolean {
     border-radius: 50%;
     background: var(--night-vision);
     box-shadow: 0 0 6px var(--glow-green);
-    animation: nightvision-pulse 2.5s ease-in-out infinite;
-  }
-
-  .status-text {
-    color: var(--text-dim);
+    animation: nv-pulse 2.5s ease-in-out infinite;
   }
 
   /* ── Header right ─────────────────────────────────────────── */
   .header-right {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     flex-shrink: 0;
   }
 
-  /* GitHub CTA - Military hardware button */
   .header-cta {
     display: none;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.45rem 1rem;
+    padding: 0.35rem 0.85rem;
     background: linear-gradient(180deg, rgba(92,122,41,0.2) 0%, rgba(74,93,35,0.12) 100%);
     color: var(--army-olive-light);
     font-family: var(--mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -533,20 +487,12 @@ function isActive(href: string): boolean {
     text-decoration: none;
     position: relative;
     overflow: hidden;
-    transition:
-      color 200ms ease,
-      border-color 200ms ease,
-      background 200ms ease,
-      box-shadow 200ms ease;
-    box-shadow:
-      0 1px 3px rgba(0,0,0,0.3),
-      inset 0 1px 0 rgba(139,154,70,0.1);
+    transition: color 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139,154,70,0.1);
   }
 
   @media (min-width: 640px) {
-    .header-cta {
-      display: flex;
-    }
+    .header-cta { display: flex; }
   }
 
   .header-cta::before {
@@ -557,33 +503,23 @@ function isActive(href: string): boolean {
     transform: translateX(-100%);
     transition: transform 400ms ease;
   }
-
-  .header-cta:hover::before {
-    transform: translateX(100%);
-  }
+  .header-cta:hover::before { transform: translateX(100%); }
 
   .header-cta:hover {
     color: var(--night-vision);
     border-color: rgba(0,255,65,0.4);
     background: linear-gradient(180deg, rgba(92,122,41,0.3) 0%, rgba(74,93,35,0.18) 100%);
-    box-shadow:
-      0 1px 8px rgba(0,255,65,0.15),
-      0 0 20px rgba(0,255,65,0.05),
-      inset 0 1px 0 rgba(0,255,65,0.1);
+    box-shadow: 0 1px 8px rgba(0,255,65,0.15), 0 0 20px rgba(0,255,65,0.05), inset 0 1px 0 rgba(0,255,65,0.1);
     text-shadow: 0 0 8px rgba(0,255,65,0.4);
   }
 
   .cta-arrow {
-    font-size: 1.1rem;
+    font-size: 1rem;
     line-height: 1;
     opacity: 0.6;
     transition: opacity 180ms ease, transform 180ms ease;
   }
-
-  .header-cta:hover .cta-arrow {
-    opacity: 1;
-    transform: translateX(2px);
-  }
+  .header-cta:hover .cta-arrow { opacity: 1; transform: translateX(2px); }
 
   /* ── Hamburger ────────────────────────────────────────────── */
   .hamburger {
@@ -591,24 +527,19 @@ function isActive(href: string): boolean {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
+    gap: 4px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
     border: 1px solid rgba(74,93,35,0.3);
     border-radius: 2px;
     background: linear-gradient(180deg, rgba(74,93,35,0.08) 0%, rgba(74,93,35,0.03) 100%);
-    transition:
-      border-color 180ms ease,
-      background 180ms ease,
-      box-shadow 180ms ease;
+    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     flex-shrink: 0;
   }
 
   @media (min-width: 768px) {
-    .hamburger {
-      display: none;
-    }
+    .hamburger { display: none; }
   }
 
   .hamburger:hover {
@@ -619,13 +550,10 @@ function isActive(href: string): boolean {
 
   .hamburger-line {
     display: block;
-    width: 18px;
-    height: 2px;
+    width: 16px;
+    height: 1.5px;
     background-color: var(--army-olive-light);
-    transition:
-      transform 280ms cubic-bezier(0.4,0,0.2,1),
-      opacity 280ms ease,
-      background-color 180ms ease;
+    transition: transform 280ms cubic-bezier(0.4,0,0.2,1), opacity 280ms ease, background-color 180ms ease;
     transform-origin: center;
     border-radius: 1px;
   }
@@ -640,20 +568,17 @@ function isActive(href: string): boolean {
     border-color: rgba(0,255,65,0.3);
     background: rgba(0,255,65,0.05);
   }
-
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(5.5px) rotate(45deg);
     background-color: var(--night-vision);
     box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
-
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(2) {
     opacity: 0;
     transform: scaleX(0);
   }
-
   .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-5.5px) rotate(-45deg);
     background-color: var(--night-vision);
     box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
@@ -670,29 +595,18 @@ function isActive(href: string): boolean {
     inset: 0;
     background: linear-gradient(
       90deg,
-      transparent 0%,
-      rgba(74,93,35,0.15) 10%,
-      rgba(92,122,41,0.35) 30%,
-      rgba(139,154,70,0.5) 50%,
-      rgba(92,122,41,0.35) 70%,
-      rgba(74,93,35,0.15) 90%,
-      transparent 100%
+      transparent 0%, rgba(74,93,35,0.15) 10%, rgba(92,122,41,0.35) 30%,
+      rgba(139,154,70,0.5) 50%, rgba(92,122,41,0.35) 70%, rgba(74,93,35,0.15) 90%, transparent 100%
     );
   }
 
-  /* Scanning dot animation */
   .header-border-scan {
     position: absolute;
     top: -1px;
     left: -15%;
     width: 15%;
     height: 3px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      var(--night-vision),
-      transparent
-    );
+    background: linear-gradient(90deg, transparent, var(--night-vision), transparent);
     opacity: 0.7;
     animation: hud-scan 5s linear infinite;
     border-radius: 2px;
@@ -709,7 +623,7 @@ function isActive(href: string): boolean {
   /* ── Mobile nav drawer ────────────────────────────────────── */
   .mobile-nav {
     position: fixed;
-    top: 71px;
+    top: 59px;
     left: 0;
     right: 0;
     z-index: 99;
@@ -725,11 +639,9 @@ function isActive(href: string): boolean {
       opacity 300ms ease,
       visibility 300ms ease;
     pointer-events: none;
-    max-height: calc(100vh - 71px);
+    max-height: calc(100vh - 59px);
     overflow-y: auto;
-    box-shadow:
-      0 8px 30px rgba(0,0,0,0.5),
-      inset 0 1px 0 rgba(74,93,35,0.1);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(74,93,35,0.1);
   }
 
   .nav-toggle-input:checked ~ .mobile-nav {
@@ -743,14 +655,13 @@ function isActive(href: string): boolean {
   .mobile-nav-section-label {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.875rem clamp(1.25rem, 4vw, 2rem);
-    padding-bottom: 0.25rem;
+    gap: 0.6rem;
+    padding: 0.6rem clamp(1rem, 4vw, 1.5rem) 0.2rem;
   }
 
   .section-label-text {
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     font-weight: 700;
     letter-spacing: 0.25em;
     color: var(--text-dim);
@@ -763,7 +674,6 @@ function isActive(href: string): boolean {
     height: 1px;
     background: linear-gradient(90deg, var(--border-subtle), transparent);
   }
-
   .section-label-line:first-child {
     background: linear-gradient(90deg, transparent, var(--border-subtle));
   }
@@ -771,34 +681,27 @@ function isActive(href: string): boolean {
   .mobile-nav-list {
     list-style: none;
     margin: 0;
-    padding: 0;
-    padding-inline: clamp(1.25rem, 4vw, 2rem);
+    padding: 0 clamp(1rem, 4vw, 1.5rem);
   }
 
   .mobile-nav-item {
-    border-bottom: 1px solid rgba(74,93,35,0.08);
+    border-bottom: 1px solid rgba(74,93,35,0.06);
   }
-
-  .mobile-nav-item:last-child {
-    border-bottom: none;
-  }
+  .mobile-nav-item:last-child { border-bottom: none; }
 
   .mobile-nav-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.9rem 0.5rem;
+    gap: 0.6rem;
+    padding: 0.55rem 0.4rem;
     font-family: var(--mono);
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--text-muted);
     text-decoration: none;
-    transition:
-      color 180ms ease,
-      background-color 180ms ease,
-      padding-left 180ms ease;
+    transition: color 180ms ease, background-color 180ms ease, padding-left 180ms ease;
     border-radius: 2px;
     border-left: 2px solid transparent;
   }
@@ -806,73 +709,92 @@ function isActive(href: string): boolean {
   .mobile-nav-link:hover {
     color: var(--army-olive-light);
     background-color: rgba(74,93,35,0.06);
-    padding-left: 0.75rem;
+    padding-left: 0.6rem;
+    border-left-color: var(--army-olive-light);
   }
 
-  .mobile-nav-link--active {
-    color: var(--army-olive-light);
-    border-left-color: var(--night-vision);
-    background-color: rgba(74,93,35,0.08);
-    text-shadow: 0 0 10px rgba(139,154,70,0.3);
+  /* Icons via CSS pseudo-elements using data-icon attribute */
+  .mobile-nav-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    transition: color 180ms ease;
   }
+  .mobile-nav-link:hover .mobile-nav-icon { color: var(--army-olive-light); }
+
+  /* Shield */
+  .mobile-nav-icon[data-icon="shield"]::before { content: "\1F6E1"; font-size: 0.65rem; }
+  /* Chevron */
+  .mobile-nav-icon[data-icon="chevron"]::before { content: "\00BB"; font-size: 1rem; color: inherit; }
+  /* Grid */
+  .mobile-nav-icon[data-icon="grid"]::before { content: "\2637"; font-size: 0.8rem; }
+  /* Terminal */
+  .mobile-nav-icon[data-icon="terminal"]::before { content: ">_"; font-family: var(--mono); font-size: 0.5rem; font-weight: 800; }
+  /* Lock */
+  .mobile-nav-icon[data-icon="lock"]::before { content: "\1F512"; font-size: 0.6rem; }
+  /* Key */
+  .mobile-nav-icon[data-icon="key"]::before { content: "\1F511"; font-size: 0.6rem; }
+  /* Alert */
+  .mobile-nav-icon[data-icon="alert"]::before { content: "\26A0"; font-size: 0.7rem; }
+  /* Document */
+  .mobile-nav-icon[data-icon="document"]::before { content: "\1F4C4"; font-size: 0.6rem; }
+  /* Info */
+  .mobile-nav-icon[data-icon="info"]::before { content: "\2139"; font-size: 0.75rem; font-weight: 800; }
+  /* Help */
+  .mobile-nav-icon[data-icon="help"]::before { content: "?"; font-family: var(--mono); font-size: 0.7rem; font-weight: 800; }
+  /* GitHub */
+  .mobile-nav-icon[data-icon="github"]::before { content: "\2B22"; font-size: 0.7rem; }
+  /* Package */
+  .mobile-nav-icon[data-icon="package"]::before { content: "\1F4E6"; font-size: 0.6rem; }
+  /* Play */
+  .mobile-nav-icon[data-icon="play"]::before { content: "\25B6"; font-size: 0.6rem; }
 
   .mobile-nav-code {
-    font-size: 0.6rem;
+    font-size: 0.5rem;
     color: var(--text-dim);
     letter-spacing: 0.08em;
-    min-width: 52px;
-    opacity: 0.7;
+    min-width: 20px;
+    opacity: 0.6;
   }
 
-  .mobile-nav-link--active .mobile-nav-code {
-    color: rgba(0,255,65,0.5);
-    opacity: 1;
-  }
+  .mobile-nav-label { flex: 1; }
 
-  .mobile-nav-label {
-    flex: 1;
-  }
-
-  .mobile-active-indicator {
+  .mobile-nav-arrow {
     margin-left: auto;
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    color: var(--hud-bg-solid);
-    background: var(--night-vision);
-    padding: 2px 8px;
-    border-radius: 1px;
-    font-family: var(--mono);
-    box-shadow: 0 0 8px rgba(0,255,65,0.3);
-    animation: active-blink 3s ease-in-out infinite;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    opacity: 0.4;
+    transition: opacity 180ms ease, transform 180ms ease, color 180ms ease;
+  }
+  .mobile-nav-link:hover .mobile-nav-arrow {
+    opacity: 1;
+    transform: translateX(2px);
+    color: var(--night-vision);
   }
 
-  @keyframes active-blink {
-    0%, 90%, 100% { opacity: 1; }
-    95% { opacity: 0.5; }
-  }
-
-  /* External links section */
+  /* External links */
   .mobile-nav-external {
-    padding: 0.25rem clamp(1.25rem, 4vw, 2rem);
-    padding-bottom: 0.75rem;
+    padding: 0.15rem clamp(1rem, 4vw, 1.5rem) 0.5rem;
   }
 
   .mobile-external-link {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 0.5rem;
+    gap: 0.6rem;
+    padding: 0.5rem 0.4rem;
     font-family: var(--mono);
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--text-muted);
     text-decoration: none;
     border-radius: 2px;
-    transition:
-      color 180ms ease,
-      background-color 180ms ease;
+    transition: color 180ms ease, background-color 180ms ease;
   }
 
   .mobile-external-link:hover {
@@ -880,9 +802,9 @@ function isActive(href: string): boolean {
     background-color: rgba(74,93,35,0.06);
   }
 
-  .mobile-external-link svg {
+  .ext-arrow {
     margin-left: auto;
-    opacity: 0.4;
+    opacity: 0.35;
   }
 
   /* Mobile nav footer */
@@ -890,42 +812,42 @@ function isActive(href: string): boolean {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem clamp(1.25rem, 4vw, 2rem);
-    border-top: 1px solid rgba(74,93,35,0.12);
+    padding: 0.5rem clamp(1rem, 4vw, 1.5rem);
+    border-top: 1px solid rgba(74,93,35,0.1);
     background: rgba(74,93,35,0.03);
   }
 
   .mobile-footer-content {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
   }
 
   .classification-badge {
     font-family: var(--mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     color: var(--text-dim);
     text-transform: uppercase;
-    padding: 3px 8px;
+    padding: 2px 6px;
     border: 1px solid rgba(74,93,35,0.2);
     border-radius: 1px;
   }
 
   .mobile-footer-dot {
     display: inline-block;
-    width: 6px;
-    height: 6px;
+    width: 5px;
+    height: 5px;
     border-radius: 50%;
     background: var(--night-vision);
     box-shadow: 0 0 6px var(--glow-green);
-    animation: nightvision-pulse 2s ease-in-out infinite;
+    animation: nv-pulse 2s ease-in-out infinite;
   }
 
   .mobile-footer-id {
     font-family: var(--mono);
-    font-size: 0.5rem;
+    font-size: 0.45rem;
     letter-spacing: 0.12em;
     color: rgba(90,107,74,0.4);
   }
@@ -945,7 +867,6 @@ function isActive(href: string): boolean {
     display: block;
   }
 
-  /* Ensure desktop nav overlay doesn't appear on large screens */
   @media (min-width: 768px) {
     .nav-toggle-input:checked ~ .mobile-nav {
       transform: translateY(-110%);
@@ -953,23 +874,16 @@ function isActive(href: string): boolean {
       visibility: hidden;
       pointer-events: none;
     }
-
-    .nav-toggle-input:checked ~ .nav-overlay {
-      display: none;
-    }
+    .nav-toggle-input:checked ~ .nav-overlay { display: none; }
   }
 
-  /* ── Subtle scanline texture overlay ──────────────────────── */
+  /* ── Scanline texture ─────────────────────────────────────── */
   .site-header::before {
     content: "";
     position: absolute;
     inset: 0;
     background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0,0,0,0.03) 2px,
-      rgba(0,0,0,0.03) 4px
+      0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
     );
     pointer-events: none;
     z-index: 0;

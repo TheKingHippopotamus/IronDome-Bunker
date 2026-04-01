@@ -1,37 +1,45 @@
 @import "tailwindcss";
 
 /* ============================================================
-   IRONDOME — TACTICAL COMMAND CENTER DESIGN SYSTEM
+   IRONDOME — ARMY TACTICAL COMMAND CENTER DESIGN SYSTEM
    Tailwind CSS v4 global stylesheet
    ============================================================ */
 
 /* ------------------------------------------------------------
-   CSS CUSTOM PROPERTIES — DESIGN TOKENS
+   CSS CUSTOM PROPERTIES — ARMY DESIGN TOKENS
    ------------------------------------------------------------ */
 :root {
-  /* Background palette */
-  --color-bg-base:        #0a0e1a;
-  --color-bg-card:        #0d1117;
-  --color-bg-card-hover:  #111827;
-  --color-bg-elevated:    #141c2b;
+  /* Background palette — deep forest dark */
+  --color-bg-base:        #0A0D06;
+  --color-bg-card:        #0D1208;
+  --color-bg-card-hover:  #141E0B;
+  --color-bg-elevated:    #1A2610;
 
-  /* Accent palette */
-  --color-gold:           #FFD700;
-  --color-gold-dim:       rgba(255, 215, 0, 0.6);
-  --color-gold-muted:     rgba(255, 215, 0, 0.12);
-  --color-gold-border:    rgba(255, 215, 0, 0.08);
-  --color-gold-glow:      rgba(255, 215, 0, 0.25);
+  /* Army accent palette */
+  --color-army:           #4A5D23;
+  --color-army-light:     #5C7A29;
+  --color-army-bright:    #8B9A46;
+  --color-army-glow:      rgba(139, 154, 70, 0.25);
+  --color-army-border:    rgba(74, 93, 35, 0.25);
+  --color-army-muted:     rgba(139, 154, 70, 0.12);
 
-  /* Text palette */
-  --color-text-primary:   #e8ecf0;
-  --color-text-secondary: #78909C;
-  --color-text-muted:     #546E7A;
+  /* Text palette — olive-tinted grays */
+  --color-text-primary:   #C8D4B0;
+  --color-text-secondary: #7A8B6A;
+  --color-text-muted:     #5A6B4A;
 
   /* Functional accents */
-  --color-green:          #34d399;
-  --color-green-dim:      rgba(52, 211, 153, 0.15);
-  --color-red:            #ef4444;
-  --color-blue:           #3b82f6;
+  --color-green:          #00FF41;
+  --color-green-dim:      rgba(0, 255, 65, 0.15);
+  --color-red:            #8B2500;
+  --color-blue:           #4A6B8B;
+
+  /* Legacy aliases — backwards compat */
+  --color-gold:           var(--color-army-bright);
+  --color-gold-dim:       rgba(139, 154, 70, 0.6);
+  --color-gold-muted:     var(--color-army-muted);
+  --color-gold-border:    var(--color-army-border);
+  --color-gold-glow:      var(--color-army-glow);
 
   /* Border radii — tactical: minimal curvature */
   --radius-sm:   1px;
@@ -93,13 +101,13 @@ body {
 
 /* Selections */
 ::selection {
-  background-color: var(--color-gold-muted);
-  color: var(--color-gold);
+  background-color: var(--color-army-muted);
+  color: var(--color-army-bright);
 }
 
 /* Focus ring — accessible + tactical */
 :focus-visible {
-  outline: 1px solid var(--color-gold);
+  outline: 1px solid var(--color-army-bright);
   outline-offset: 2px;
 }
 
@@ -118,7 +126,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-gold);
+  color: var(--color-army-bright);
 }
 
 /* Code baseline */
@@ -139,12 +147,12 @@ ol {
 /* Horizontal rule */
 hr {
   border: none;
-  border-top: 1px solid var(--color-gold-border);
+  border-top: 1px solid var(--color-army-border);
   margin: var(--space-8) 0;
 }
 
 /* ------------------------------------------------------------
-   CUSTOM SCROLLBAR — DARK TACTICAL
+   CUSTOM SCROLLBAR — ARMY GREEN TACTICAL
    ------------------------------------------------------------ */
 ::-webkit-scrollbar {
   width: 6px;
@@ -156,18 +164,18 @@ hr {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 215, 0, 0.2);
+  background: rgba(74, 93, 35, 0.4);
   border-radius: 0;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 215, 0, 0.4);
+  background: rgba(92, 122, 41, 0.6);
 }
 
 /* Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 215, 0, 0.2) var(--color-bg-card);
+  scrollbar-color: rgba(74, 93, 35, 0.4) var(--color-bg-card);
 }
 
 /* ------------------------------------------------------------
@@ -203,9 +211,9 @@ strong {
   color: var(--color-text-primary);
 }
 
-/* Section headings with gold accent */
+/* Section headings with army accent */
 .section-title {
-  color: var(--color-gold);
+  color: var(--color-army-bright);
   text-transform: uppercase;
   letter-spacing: 0.12em;
   font-size: 0.8125rem;
@@ -238,51 +246,51 @@ strong {
 }
 
 /* ------------------------------------------------------------
-   TACTICAL THEME UTILITY CLASSES
+   TACTICAL THEME UTILITY CLASSES — ARMY EDITION
    ------------------------------------------------------------ */
 
-/* 1. TACTICAL BORDER — 1px gold border with low opacity */
+/* 1. TACTICAL BORDER — 1px army border with low opacity */
 .tactical-border {
-  border: 1px solid var(--color-gold-border);
+  border: 1px solid var(--color-army-border);
 }
 
 .tactical-border-top {
-  border-top: 1px solid var(--color-gold-border);
+  border-top: 1px solid var(--color-army-border);
 }
 
 .tactical-border-bottom {
-  border-bottom: 1px solid var(--color-gold-border);
+  border-bottom: 1px solid var(--color-army-border);
 }
 
 .tactical-border-left {
-  border-left: 1px solid var(--color-gold-border);
+  border-left: 1px solid var(--color-army-border);
 }
 
-/* 2. GOLD GLOW — subtle gold text-shadow */
+/* 2. ARMY GLOW — subtle olive text-shadow */
 .gold-glow {
   text-shadow:
-    0 0 8px rgba(255, 215, 0, 0.6),
-    0 0 20px rgba(255, 215, 0, 0.3),
-    0 0 40px rgba(255, 215, 0, 0.1);
+    0 0 8px rgba(139, 154, 70, 0.6),
+    0 0 20px rgba(139, 154, 70, 0.3),
+    0 0 40px rgba(139, 154, 70, 0.1);
 }
 
 .gold-glow-sm {
   text-shadow:
-    0 0 4px rgba(255, 215, 0, 0.5),
-    0 0 10px rgba(255, 215, 0, 0.2);
+    0 0 4px rgba(139, 154, 70, 0.5),
+    0 0 10px rgba(139, 154, 70, 0.2);
 }
 
 .gold-box-glow {
   box-shadow:
-    0 0 0 1px rgba(255, 215, 0, 0.12),
-    0 0 16px rgba(255, 215, 0, 0.06),
+    0 0 0 1px rgba(74, 93, 35, 0.2),
+    0 0 16px rgba(74, 93, 35, 0.1),
     0 4px 24px rgba(0, 0, 0, 0.4);
 }
 
 .gold-box-glow:hover {
   box-shadow:
-    0 0 0 1px rgba(255, 215, 0, 0.25),
-    0 0 24px rgba(255, 215, 0, 0.1),
+    0 0 0 1px rgba(92, 122, 41, 0.35),
+    0 0 24px rgba(92, 122, 41, 0.15),
     0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -321,9 +329,9 @@ strong {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 215, 0, 0.06) 20%,
-    rgba(255, 215, 0, 0.15) 50%,
-    rgba(255, 215, 0, 0.06) 80%,
+    rgba(139, 154, 70, 0.06) 20%,
+    rgba(139, 154, 70, 0.15) 50%,
+    rgba(139, 154, 70, 0.06) 80%,
     transparent 100%
   );
   animation: scan 6s linear infinite;
@@ -331,7 +339,7 @@ strong {
   z-index: 2;
 }
 
-/* 4. TERMINAL TEXT — monospace green text */
+/* 4. TERMINAL TEXT — monospace night-vision green text */
 .terminal-text {
   font-family: var(--font-mono);
   color: var(--color-green);
@@ -347,19 +355,19 @@ strong {
 
 .terminal-prompt::before {
   content: "$ ";
-  color: var(--color-gold-dim);
+  color: var(--color-army-light);
   font-family: var(--font-mono);
 }
 
-/* 5. CLASSIFICATION BADGE — small uppercase gold badge */
+/* 5. CLASSIFICATION BADGE — army stencil style */
 .classification-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
   padding: 0.2rem 0.6rem;
-  background-color: rgba(255, 215, 0, 0.06);
-  border: 1px solid rgba(255, 215, 0, 0.2);
-  color: var(--color-gold);
+  background-color: rgba(74, 93, 35, 0.12);
+  border: 1px solid rgba(74, 93, 35, 0.35);
+  color: var(--color-army-bright);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 700;
@@ -370,23 +378,23 @@ strong {
 }
 
 .classification-badge--red {
-  background-color: rgba(239, 68, 68, 0.08);
-  border-color: rgba(239, 68, 68, 0.25);
-  color: #ef4444;
+  background-color: rgba(139, 37, 0, 0.12);
+  border-color: rgba(139, 37, 0, 0.35);
+  color: #B83300;
 }
 
 .classification-badge--green {
-  background-color: rgba(52, 211, 153, 0.08);
-  border-color: rgba(52, 211, 153, 0.2);
+  background-color: rgba(0, 255, 65, 0.08);
+  border-color: rgba(0, 255, 65, 0.2);
   color: var(--color-green);
 }
 
-/* 6. WARNING STRIPE — diagonal gold/dark repeating gradient */
+/* 6. WARNING STRIPE — diagonal army/dark repeating gradient */
 .warning-stripe {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(255, 215, 0, 0.06) 0px,
-    rgba(255, 215, 0, 0.06) 8px,
+    rgba(74, 93, 35, 0.08) 0px,
+    rgba(74, 93, 35, 0.08) 8px,
     transparent 8px,
     transparent 20px
   );
@@ -395,12 +403,12 @@ strong {
 .warning-stripe-border {
   background-image: repeating-linear-gradient(
     -45deg,
-    rgba(255, 215, 0, 0.08) 0px,
-    rgba(255, 215, 0, 0.08) 6px,
+    rgba(74, 93, 35, 0.1) 0px,
+    rgba(74, 93, 35, 0.1) 6px,
     transparent 6px,
     transparent 16px
   );
-  border: 1px solid rgba(255, 215, 0, 0.15);
+  border: 1px solid rgba(74, 93, 35, 0.2);
 }
 
 /* Tactical corner accents */
@@ -414,7 +422,7 @@ strong {
   position: absolute;
   width: 12px;
   height: 12px;
-  border-color: rgba(255, 215, 0, 0.4);
+  border-color: rgba(92, 122, 41, 0.5);
   border-style: solid;
 }
 
@@ -433,7 +441,7 @@ strong {
 /* Tactical card */
 .tactical-card {
   background-color: var(--color-bg-card);
-  border: 1px solid var(--color-gold-border);
+  border: 1px solid var(--color-army-border);
   border-radius: var(--radius-base);
   transition:
     background-color var(--duration-base) var(--ease-tactical),
@@ -443,8 +451,8 @@ strong {
 
 .tactical-card:hover {
   background-color: var(--color-bg-card-hover);
-  border-color: rgba(255, 215, 0, 0.15);
-  box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.4);
+  border-color: rgba(74, 93, 35, 0.4);
+  box-shadow: 0 0 0 1px rgba(74, 93, 35, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Status dot */
@@ -453,29 +461,29 @@ strong {
   height: 6px;
   border-radius: 50%;
   background-color: var(--color-green);
-  box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+  box-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
   animation: glow-pulse 2s ease-in-out infinite;
 }
 
-/* Gold divider line */
+/* Army divider line */
 .gold-divider {
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 215, 0, 0.3) 20%,
-    rgba(255, 215, 0, 0.6) 50%,
-    rgba(255, 215, 0, 0.3) 80%,
+    rgba(92, 122, 41, 0.3) 20%,
+    rgba(139, 154, 70, 0.6) 50%,
+    rgba(92, 122, 41, 0.3) 80%,
     transparent 100%
   );
   border: none;
 }
 
-/* Code block tactical style */
+/* Code block — night vision style */
 .code-block {
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 215, 0, 0.08);
-  border-left: 2px solid var(--color-gold);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(74, 93, 35, 0.15);
+  border-left: 2px solid var(--color-army);
   border-radius: var(--radius-sm);
   padding: var(--space-4) var(--space-6);
   font-family: var(--font-mono);
@@ -485,22 +493,25 @@ strong {
   line-height: 1.6;
 }
 
-/* Button styles */
+/* Button styles — army olive hardware switch */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  background-color: var(--color-gold);
-  color: #000;
+  background-color: var(--color-army);
+  color: #C8D4B0;
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
-  border: 1px solid transparent;
+  border: 1px solid rgba(92, 122, 41, 0.5);
   cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(139, 154, 70, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.4);
   transition:
     background-color var(--duration-fast) ease,
     box-shadow var(--duration-fast) ease,
@@ -508,14 +519,20 @@ strong {
 }
 
 .btn-primary:hover {
-  background-color: #ffe033;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  background-color: var(--color-army-light);
+  box-shadow:
+    inset 0 1px 0 rgba(139, 154, 70, 0.3),
+    0 0 20px rgba(74, 93, 35, 0.4),
+    0 4px 8px rgba(0, 0, 0, 0.5);
   transform: translateY(-1px);
-  color: #000;
+  color: #DDE5CC;
 }
 
 .btn-primary:active {
   transform: translateY(0);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.3),
+    0 1px 2px rgba(0, 0, 0, 0.4);
 }
 
 .btn-secondary {
@@ -524,14 +541,14 @@ strong {
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
   background-color: transparent;
-  color: var(--color-gold);
+  color: var(--color-army-bright);
   font-family: var(--font-mono);
   font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(255, 215, 0, 0.3);
+  border: 1px solid rgba(74, 93, 35, 0.4);
   cursor: pointer;
   transition:
     border-color var(--duration-fast) ease,
@@ -540,10 +557,10 @@ strong {
 }
 
 .btn-secondary:hover {
-  border-color: rgba(255, 215, 0, 0.7);
-  background-color: rgba(255, 215, 0, 0.06);
-  box-shadow: 0 0 12px rgba(255, 215, 0, 0.15);
-  color: var(--color-gold);
+  border-color: rgba(92, 122, 41, 0.7);
+  background-color: rgba(74, 93, 35, 0.12);
+  box-shadow: 0 0 12px rgba(74, 93, 35, 0.2);
+  color: var(--color-army-bright);
 }
 
 /* ------------------------------------------------------------
@@ -562,29 +579,29 @@ strong {
   }
 }
 
-/* Gold glow pulse */
+/* Night vision glow pulse */
 @keyframes glow-pulse {
   0%, 100% {
     opacity: 1;
-    box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+    box-shadow: 0 0 6px rgba(0, 255, 65, 0.6);
   }
   50% {
     opacity: 0.6;
-    box-shadow: 0 0 12px rgba(52, 211, 153, 0.9), 0 0 20px rgba(52, 211, 153, 0.4);
+    box-shadow: 0 0 12px rgba(0, 255, 65, 0.9), 0 0 20px rgba(0, 255, 65, 0.4);
   }
 }
 
 @keyframes gold-glow-pulse {
   0%, 100% {
     text-shadow:
-      0 0 8px rgba(255, 215, 0, 0.6),
-      0 0 20px rgba(255, 215, 0, 0.3);
+      0 0 8px rgba(139, 154, 70, 0.6),
+      0 0 20px rgba(139, 154, 70, 0.3);
   }
   50% {
     text-shadow:
-      0 0 12px rgba(255, 215, 0, 0.9),
-      0 0 30px rgba(255, 215, 0, 0.5),
-      0 0 50px rgba(255, 215, 0, 0.2);
+      0 0 12px rgba(139, 154, 70, 0.9),
+      0 0 30px rgba(139, 154, 70, 0.5),
+      0 0 50px rgba(139, 154, 70, 0.2);
   }
 }
 
@@ -659,7 +676,7 @@ strong {
 .animate-typing-cursor::after {
   content: "_";
   animation: typing-cursor 1s step-end infinite;
-  color: var(--color-gold);
+  color: var(--color-army-bright);
 }
 
 .animate-blink {
@@ -725,7 +742,7 @@ strong {
 }
 
 .prose h3 {
-  color: var(--color-gold);
+  color: var(--color-army-bright);
   margin-top: 1.5em;
   margin-bottom: 0.5em;
   font-family: var(--font-mono);
@@ -733,7 +750,7 @@ strong {
 }
 
 .prose code {
-  background-color: rgba(52, 211, 153, 0.08);
+  background-color: rgba(0, 255, 65, 0.06);
   color: var(--color-green);
   padding: 0.15em 0.4em;
   border-radius: var(--radius-sm);
@@ -741,13 +758,14 @@ strong {
 }
 
 .prose pre {
-  background-color: rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--color-gold-border);
-  border-left: 2px solid var(--color-gold);
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--color-army-border);
+  border-left: 2px solid var(--color-army);
   padding: 1.25rem 1.5rem;
   overflow-x: auto;
   border-radius: var(--radius-sm);
   margin: 1.5em 0;
+  color: var(--color-green);
 }
 
 .prose ul {
@@ -766,7 +784,7 @@ strong {
   content: ">";
   position: absolute;
   left: 0;
-  color: var(--color-gold);
+  color: var(--color-army-bright);
   font-family: var(--font-mono);
   font-size: 0.8em;
   top: 0.1em;
@@ -776,7 +794,7 @@ strong {
    MOBILE RESPONSIVE — SMARTPHONE OPTIMIZATIONS
    ------------------------------------------------------------ */
 
-/* ── Tablets & small laptops (max-width: 768px) ────────────── */
+/* -- Tablets & small laptops (max-width: 768px) -------------- */
 @media (max-width: 768px) {
   .container,
   .container-wide {
@@ -804,7 +822,7 @@ strong {
   }
 }
 
-/* ── Phones (max-width: 640px) ─────────────────────────────── */
+/* -- Phones (max-width: 640px) ------------------------------- */
 @media (max-width: 640px) {
   html {
     font-size: 15px;
@@ -834,8 +852,8 @@ strong {
 
   .gold-glow {
     text-shadow:
-      0 0 6px rgba(255, 215, 0, 0.5),
-      0 0 12px rgba(255, 215, 0, 0.2);
+      0 0 6px rgba(139, 154, 70, 0.5),
+      0 0 12px rgba(139, 154, 70, 0.2);
   }
 
   .code-block {
@@ -858,7 +876,7 @@ strong {
   }
 }
 
-/* ── Small phones (max-width: 400px) ──────────────────────── */
+/* -- Small phones (max-width: 400px) ------------------------- */
 @media (max-width: 400px) {
   html {
     font-size: 14px;
@@ -879,7 +897,7 @@ strong {
   }
 }
 
-/* ── Touch-friendly targets ────────────────────────────────── */
+/* -- Touch-friendly targets ---------------------------------- */
 @media (pointer: coarse) {
   .btn-primary,
   .btn-secondary,
@@ -900,7 +918,7 @@ strong {
   }
 }
 
-/* ── Safe area insets for notched phones ───────────────────── */
+/* -- Safe area insets for notched phones --------------------- */
 @supports (padding: env(safe-area-inset-bottom)) {
   body {
     padding-left: env(safe-area-inset-left);
@@ -913,7 +931,7 @@ strong {
   }
 }
 
-/* ── Prevent text overflow everywhere on mobile ───────────── */
+/* -- Prevent text overflow everywhere on mobile -------------- */
 @media (max-width: 768px) {
   * {
     max-width: 100%;
@@ -935,7 +953,7 @@ strong {
   }
 }
 
-/* ── PWA standalone mode adjustments ──────────────────────── */
+/* -- PWA standalone mode adjustments ------------------------- */
 @media (display-mode: standalone) {
   .site-header {
     padding-top: env(safe-area-inset-top, 0);

@@ -1,0 +1,386 @@
+---
+/**
+ * SecurityArch.astro
+ * Architecture overview section with ASCII diagram in a terminal window.
+ * Shows the full security stack from user input to encrypted vault.
+ * Builds deep trust by exposing every engineered layer.
+ */
+---
+
+<section class="security-arch" id="security" aria-label="Architecture overview">
+  <div class="security-arch__inner">
+    <!-- Section label -->
+    <span class="security-arch__label">ARCHITECTURE OVERVIEW</span>
+
+    <!-- Heading -->
+    <h2 class="security-arch__heading">The Full Security Stack</h2>
+
+    <!-- Subtitle -->
+    <p class="security-arch__subtitle">
+      Every component of IronDome's security model, from user input to encrypted vault. No gaps. No shortcuts.
+    </p>
+
+    <!-- Terminal window -->
+    <div class="terminal">
+      <!-- Title bar -->
+      <div class="terminal__bar">
+        <div class="terminal__dots">
+          <span class="terminal__dot terminal__dot--red"></span>
+          <span class="terminal__dot terminal__dot--yellow"></span>
+          <span class="terminal__dot terminal__dot--green"></span>
+        </div>
+        <span class="terminal__title">irondome-arch.diagram</span>
+        <span class="terminal__status">
+          <span class="terminal__status-dot" aria-hidden="true"></span>
+          LIVE
+        </span>
+      </div>
+
+      <!-- Diagram body -->
+      <div class="terminal__body">
+        <pre class="terminal__diagram" aria-label="IronDome security architecture diagram"><code
+>&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502;                    <span class="hl-label">USER INPUT</span>                            &#x2502;
+&#x2502;          &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;    &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;               &#x2502;
+&#x2502;          &#x2502;<span class="hl-label">BIOMETRIC</span> &#x2502;&#x2500;&#x2500;&#x2500;&#x25B6;&#x2502;<span class="hl-label">MASTER</span>        &#x2502;               &#x2502;
+&#x2502;          &#x2502;<span class="hl-label">GATE</span>      &#x2502;    &#x2502;<span class="hl-label">PASSWORD</span>      &#x2502;               &#x2502;
+&#x2502;          &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;               &#x2502;
+&#x2502;                                &#x2502;                         &#x2502;
+&#x2502;                    &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BC;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;              &#x2502;
+&#x2502;                    &#x2502;<span class="hl-label">PBKDF2-HMAC-SHA-256</span>   &#x2502;              &#x2502;
+&#x2502;                    &#x2502;<span class="hl-label">&#x00D7; 600,000 iterations</span>  &#x2502;              &#x2502;
+&#x2502;                    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;              &#x2502;
+&#x2502;                                &#x2502;                         &#x2502;
+&#x2502;   &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;    &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BC;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;               &#x2502;
+&#x2502;   &#x2502;<span class="hl-label">HARDWARE</span>    &#x2502;&#x2500;&#x2500;&#x2500;&#x25B6;&#x2502;<span class="hl-label">DERIVED KEY</span>        &#x2502;               &#x2502;
+&#x2502;   &#x2502;<span class="hl-label">IDENTITY</span>    &#x2502;    &#x2502;                   &#x2502;               &#x2502;
+&#x2502;   &#x2502;            &#x2502;    &#x2502;    <span class="hl-value">Fernet</span>         &#x2502;               &#x2502;
+&#x2502;   &#x2502; <span class="hl-dim">system key</span> &#x2502;    &#x2502; <span class="hl-value">AES-256-CBC</span>      &#x2502;               &#x2502;
+&#x2502;   &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;    &#x2502; <span class="hl-value">+ HMAC-SHA256</span>    &#x2502;               &#x2502;
+&#x2502;                     &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x252C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;               &#x2502;
+&#x2502;                               &#x2502;                          &#x2502;
+&#x2502;                    &#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x25BC;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;               &#x2502;
+&#x2502;                    &#x2502;  <span class="hl-label">ENCRYPTED VAULT</span>    &#x2502;               &#x2502;
+&#x2502;                    &#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;                &#x2502;
+&#x2502;                                                          &#x2502;
+&#x2502;   <span class="hl-dim">.airspace.session (chmod 0600) &#x2014; 30min TTL</span>            &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ── Section ── */
+  .security-arch {
+    width: 100%;
+    padding: 5rem 1rem;
+    background-color: #0A0D06;
+    display: flex;
+    justify-content: center;
+  }
+
+  .security-arch__inner {
+    width: 100%;
+    max-width: 760px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  /* ── Section label ── */
+  .security-arch__label {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    padding: 0.2rem 0.6rem;
+    background-color: rgba(139, 154, 70, 0.08);
+    border: 1px solid rgba(139, 154, 70, 0.2);
+    border-radius: 1px;
+    line-height: 1;
+  }
+
+  /* ── Heading ── */
+  .security-arch__heading {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    color: #e8ecf0;
+    text-align: center;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Subtitle ── */
+  .security-arch__subtitle {
+    font-size: 1rem;
+    color: #78909C;
+    text-align: center;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Terminal window ── */
+  .terminal {
+    width: 100%;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Tactical corners */
+  .terminal::before,
+  .terminal::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-color: rgba(74, 93, 35, 0.5);
+    border-style: solid;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .terminal::before {
+    top: -1px;
+    left: -1px;
+    border-width: 1px 0 0 1px;
+  }
+
+  .terminal::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* ── Title bar ── */
+  .terminal__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.875rem;
+    background: rgba(0, 0, 0, 0.85);
+    border-bottom: 1px solid rgba(74, 93, 35, 0.2);
+  }
+
+  .terminal__dots {
+    display: flex;
+    gap: 5px;
+  }
+
+  .terminal__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .terminal__dot--red {
+    background-color: #ff5f57;
+  }
+
+  .terminal__dot--yellow {
+    background-color: #febc2e;
+  }
+
+  .terminal__dot--green {
+    background-color: #28c840;
+  }
+
+  .terminal__title {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    color: #78909C;
+    letter-spacing: 0.04em;
+    flex: 1;
+  }
+
+  .terminal__status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #28c840;
+    text-transform: uppercase;
+  }
+
+  .terminal__status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #28c840;
+    box-shadow: 0 0 6px rgba(40, 200, 64, 0.7);
+    animation: status-pulse 2s ease-in-out infinite;
+  }
+
+  /* ── Terminal body ── */
+  .terminal__body {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1.25rem 1.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+  }
+
+  /* Scan-line animation overlay */
+  .terminal__body::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(74, 93, 35, 0.08) 20%,
+      rgba(74, 93, 35, 0.2) 50%,
+      rgba(74, 93, 35, 0.08) 80%,
+      transparent 100%
+    );
+    animation: arch-scan 6s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* Scan-line static overlay */
+  .terminal__body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.04) 2px,
+      rgba(0, 0, 0, 0.04) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* ── Diagram ── */
+  .terminal__diagram {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: #00FF41;
+    white-space: pre;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    tab-size: 4;
+  }
+
+  .terminal__diagram code {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    padding: 0;
+  }
+
+  /* ── Highlighted labels ── */
+  .terminal__diagram :global(.hl-label) {
+    color: #8B9A46;
+    font-weight: 600;
+  }
+
+  .terminal__diagram :global(.hl-value) {
+    color: #00FF41;
+    font-weight: 400;
+  }
+
+  .terminal__diagram :global(.hl-dim) {
+    color: #5a6a3a;
+    font-weight: 400;
+  }
+
+  /* ── Keyframes ── */
+  @keyframes arch-scan {
+    0%   { top: -2px;  opacity: 0; }
+    5%   { opacity: 1; }
+    95%  { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  @keyframes status-pulse {
+    0%, 100% {
+      opacity: 1;
+      box-shadow: 0 0 6px rgba(40, 200, 64, 0.7);
+    }
+    50% {
+      opacity: 0.5;
+      box-shadow: 0 0 12px rgba(40, 200, 64, 1), 0 0 20px rgba(40, 200, 64, 0.4);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .security-arch {
+      padding: 3.5rem 0.875rem;
+    }
+
+    .terminal__body {
+      padding: 1rem;
+    }
+
+    .terminal__diagram {
+      font-size: 0.6875rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .security-arch {
+      padding: 3rem 0.75rem;
+    }
+
+    .terminal__body {
+      padding: 0.75rem;
+    }
+
+    .terminal__diagram {
+      font-size: 0.5625rem;
+      line-height: 1.35;
+    }
+
+    .security-arch__subtitle {
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .terminal__diagram {
+      font-size: 0.5rem;
+    }
+
+    .terminal__bar {
+      padding: 0.375rem 0.625rem;
+    }
+  }
+
+  /* ── Reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    .terminal__body::before {
+      animation: none;
+      display: none;
+    }
+
+    .terminal__status-dot {
+      animation: none;
+    }
+  }
+</style>

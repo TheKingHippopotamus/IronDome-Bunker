@@ -1,0 +1,265 @@
+---
+import ClassificationBadge from '../ClassificationBadge.astro';
+---
+
+<section class="cta" id="deploy" aria-labelledby="cta-heading">
+  <div class="cta__container">
+    <div class="cta__header">
+      <ClassificationBadge text="DEPLOYMENT READY" level="classified" />
+      <h2 class="cta__title" id="cta-heading">Audit the code yourself.</h2>
+      <p class="cta__subtitle">
+        Every cryptographic claim on this page is backed by real code. GPL-3.0. No obfuscation. Read the source&nbsp;&mdash; then decide if you trust it.
+      </p>
+    </div>
+
+    <div class="cta__install">
+      <div class="cta__install-label" aria-hidden="true">$ install</div>
+      <div class="cta__install-command">
+        <code>pip install IronDome</code>
+        <button
+          class="cta__copy"
+          type="button"
+          aria-label="Copy install command"
+          data-command="pip install IronDome"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="cta__actions">
+      <a
+        class="cta__btn cta__btn--primary"
+        href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View Source
+      </a>
+      <a
+        class="cta__btn cta__btn--outline"
+        href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Read SECURITY.md
+      </a>
+      <a
+        class="cta__btn cta__btn--outline"
+        href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Open in Colab
+      </a>
+    </div>
+
+    <p class="cta__footer">GPL-3.0 &mdash; No warranties. No server. No excuses.</p>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const btn = document.querySelector('.cta__copy') as HTMLButtonElement | null;
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const cmd = btn.getAttribute('data-command') ?? '';
+      navigator.clipboard.writeText(cmd).then(() => {
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ── Section ── */
+  .cta {
+    position: relative;
+    padding: 6rem 1.5rem 5rem;
+    overflow: hidden;
+  }
+
+  .cta__container {
+    max-width: 720px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2.5rem;
+  }
+
+  /* ── Header ── */
+  .cta__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.875rem;
+  }
+
+  .cta__title {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .cta__subtitle {
+    font-size: 0.9375rem;
+    color: #78909C;
+    line-height: 1.65;
+    max-width: 540px;
+    margin: 0;
+  }
+
+  /* ── Install box ── */
+  .cta__install {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid rgba(74, 93, 35, 0.5);
+    border-radius: 2px;
+    background-color: #0D1208;
+    overflow: hidden;
+  }
+
+  .cta__install-label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(139, 154, 70, 0.6);
+    padding: 0.5rem 1rem 0;
+  }
+
+  .cta__install-command {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1rem 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .cta__install-command code {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.95rem;
+    color: #C8D4B0;
+    letter-spacing: 0.01em;
+    user-select: all;
+  }
+
+  .cta__copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 1px solid rgba(74, 93, 35, 0.35);
+    border-radius: 2px;
+    background: transparent;
+    color: #78909C;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      color 200ms ease,
+      border-color 200ms ease,
+      background-color 200ms ease;
+  }
+
+  .cta__copy:hover {
+    color: #C8D4B0;
+    border-color: rgba(139, 154, 70, 0.5);
+    background-color: rgba(139, 154, 70, 0.08);
+  }
+
+  .cta__copy.copied {
+    color: #8B9A46;
+    border-color: rgba(139, 154, 70, 0.6);
+  }
+
+  /* ── Buttons ── */
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.875rem;
+  }
+
+  .cta__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.75rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition:
+      background-color 200ms ease,
+      border-color 200ms ease,
+      color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .cta__btn--primary {
+    background-color: #8B9A46;
+    color: #0D1208;
+    border: 1px solid #8B9A46;
+  }
+
+  .cta__btn--primary:hover {
+    background-color: #9cad50;
+    border-color: #9cad50;
+    box-shadow: 0 0 20px rgba(139, 154, 70, 0.25);
+  }
+
+  .cta__btn--outline {
+    background: transparent;
+    color: #C8D4B0;
+    border: 1px solid rgba(74, 93, 35, 0.5);
+  }
+
+  .cta__btn--outline:hover {
+    border-color: rgba(139, 154, 70, 0.6);
+    color: #e2e8f0;
+    background-color: rgba(139, 154, 70, 0.06);
+  }
+
+  /* ── Footer ── */
+  .cta__footer {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: rgba(120, 144, 156, 0.5);
+    margin: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 560px) {
+    .cta {
+      padding: 4rem 1rem 3.5rem;
+    }
+
+    .cta__actions {
+      flex-direction: column;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .cta__btn {
+      width: 100%;
+    }
+  }
+</style>

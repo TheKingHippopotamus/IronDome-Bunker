@@ -1,0 +1,488 @@
+---
+/**
+ * About.astro
+ * PSYCHOLOGY: HUMAN CONNECTION — people trust people, not just products.
+ * Show the creator, build personal connection.
+ */
+
+const specs = [
+  { label: "Version", value: "2.2.1" },
+  { label: "License", value: "GPL-3.0" },
+  { label: "Python", value: "3.8\u20133.13" },
+  { label: "Encryption", value: "AES-256-CBC" },
+  { label: "Key Derivation", value: "PBKDF2 \u00d7 600,000" },
+  { label: "Platforms", value: "macOS \u00b7 Windows \u00b7 Linux" },
+  { label: "Dependencies", value: "cryptography + keyring" },
+  { label: "Network Calls", value: "Zero. Ever." },
+];
+
+const socials = [
+  {
+    label: "GitHub",
+    href: "https://github.com/TheKingHippopotamus",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>`,
+  },
+  {
+    label: "PyPI",
+    href: "https://pypi.org/user/king.hippo/",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.042 0L5.07 3.468v4.194L1.263 9.72v7.86l6.97 3.468L15.205 18v-3.468l6.97-3.468V3.468L12.042 0zm-.126 2.1l5.063 2.52-5.063 2.52-5.064-2.52L11.916 2.1zM5.7 6.312l5.064 2.52v5.868L5.7 12.18V6.312zm12.432 0v5.868l-5.064 2.52V8.832l5.064-2.52zM4.578 10.62l5.064 2.52v5.868l-5.064-2.52V10.62zm14.676 0v5.868l-5.064 2.52V13.14l5.064-2.52z"/></svg>`,
+  },
+  {
+    label: "X",
+    href: "https://x.com/lmlyhnyr",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/kinghippo-a9b1a429b",
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
+  },
+];
+---
+
+<section class="about" id="about" aria-labelledby="about-heading">
+  <!-- Section label -->
+  <div class="about__label-wrap">
+    <span class="about__label">OPERATOR PROFILE</span>
+  </div>
+
+  <!-- Heading -->
+  <h2 class="about__heading" id="about-heading">About IronDome</h2>
+
+  <!-- Decorative rule -->
+  <div class="about__rule" aria-hidden="true"></div>
+
+  <!-- Quote block -->
+  <blockquote class="about__quote">
+    <p>
+      &ldquo;IronDome exists because your passwords shouldn&rsquo;t live on someone
+      else&rsquo;s server. Every cloud-based password manager asks you to trust their
+      infrastructure, their employees, their security practices. IronDome asks you to
+      trust math.&rdquo;
+    </p>
+    <cite>&mdash; Design Principle #1</cite>
+  </blockquote>
+
+  <!-- Creator card -->
+  <div class="creator-card">
+    <div class="creator-card__left">
+      <!-- Avatar frame -->
+      <div class="creator-card__avatar-frame">
+        <div class="creator-card__avatar-border" aria-hidden="true"></div>
+        <img
+          src="/IronDome-Bunker/king-hippo.svg"
+          alt="King Hippopotamus avatar"
+          class="creator-card__avatar"
+          width="96"
+          height="96"
+          loading="lazy"
+        />
+        <div class="creator-card__avatar-corner-tl" aria-hidden="true"></div>
+        <div class="creator-card__avatar-corner-br" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="creator-card__right">
+      <div class="creator-card__header">
+        <h3 class="creator-card__name">King Hippopotamus</h3>
+        <span class="creator-card__badge">
+          <span class="creator-card__badge-dot" aria-hidden="true"></span>
+          CREATOR / ACTIVE
+        </span>
+      </div>
+
+      <p class="creator-card__bio">
+        Security-focused developer. Built IronDome because every cloud password
+        manager is a liability waiting to happen.
+      </p>
+
+      <div class="creator-card__socials">
+        {socials.map((s) => (
+          <a
+            href={s.href}
+            class="creator-card__social-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={s.label}
+            title={s.label}
+          >
+            <Fragment set:html={s.icon} />
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="creator-card__corner-tl" aria-hidden="true"></div>
+    <div class="creator-card__corner-br" aria-hidden="true"></div>
+  </div>
+
+  <!-- Technical specs -->
+  <div class="specs-grid">
+    {specs.map((s) => (
+      <div class="specs-grid__item">
+        <span class="specs-grid__label">{s.label}</span>
+        <span class="specs-grid__value">{s.value}</span>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* -------------------------------------------------- */
+  /*  Section wrapper                                    */
+  /* -------------------------------------------------- */
+  .about {
+    position: relative;
+    width: 100%;
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Label / badge                                      */
+  /* -------------------------------------------------- */
+  .about__label-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .about__label {
+    display: inline-block;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8b9a46;
+    border: 1px solid rgba(74, 93, 35, 0.4);
+    border-radius: 2px;
+    padding: 0.25rem 0.75rem;
+    background: rgba(74, 93, 35, 0.08);
+  }
+
+  /* -------------------------------------------------- */
+  /*  Heading                                            */
+  /* -------------------------------------------------- */
+  .about__heading {
+    font-size: clamp(1.75rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #e2e8f0;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.25rem;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Decorative rule                                    */
+  /* -------------------------------------------------- */
+  .about__rule {
+    width: 100%;
+    max-width: 480px;
+    height: 1px;
+    margin-bottom: 3rem;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(139, 154, 70, 0.15) 15%,
+      rgba(139, 154, 70, 0.5) 50%,
+      rgba(139, 154, 70, 0.15) 85%,
+      transparent 100%
+    );
+  }
+
+  /* -------------------------------------------------- */
+  /*  Quote block                                        */
+  /* -------------------------------------------------- */
+  .about__quote {
+    position: relative;
+    max-width: 720px;
+    margin: 0 0 3rem;
+    padding: 1.5rem 1.75rem;
+    border-left: 3px solid #8b9a46;
+    background: rgba(13, 18, 8, 0.6);
+    text-align: left;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .about__quote p {
+    font-size: 0.9375rem;
+    color: #c8d4b0;
+    line-height: 1.75;
+    margin: 0 0 0.75rem;
+    font-style: italic;
+  }
+
+  .about__quote cite {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: #8b9a46;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Creator card                                       */
+  /* -------------------------------------------------- */
+  .creator-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.75rem;
+    width: 100%;
+    max-width: 720px;
+    background-color: #0d1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    text-align: left;
+    overflow: hidden;
+    transition:
+      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .creator-card:hover {
+    border-color: rgba(139, 154, 70, 0.4);
+    box-shadow:
+      0 0 0 1px rgba(139, 154, 70, 0.08),
+      0 0 24px rgba(139, 154, 70, 0.06),
+      0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Corner decorations */
+  .creator-card__corner-tl,
+  .creator-card__corner-br {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-color: rgba(139, 154, 70, 0.2);
+    border-style: solid;
+    pointer-events: none;
+    transition: border-color 250ms ease;
+  }
+
+  .creator-card:hover .creator-card__corner-tl,
+  .creator-card:hover .creator-card__corner-br {
+    border-color: rgba(139, 154, 70, 0.55);
+  }
+
+  .creator-card__corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 1px 0 0 1px;
+  }
+
+  .creator-card__corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Avatar frame */
+  .creator-card__avatar-frame {
+    position: relative;
+    width: 96px;
+    height: 96px;
+    flex-shrink: 0;
+  }
+
+  .creator-card__avatar-border {
+    position: absolute;
+    inset: -3px;
+    border: 2px solid rgba(139, 154, 70, 0.35);
+    border-radius: 2px;
+  }
+
+  .creator-card__avatar {
+    display: block;
+    width: 96px;
+    height: 96px;
+    border-radius: 2px;
+    object-fit: cover;
+  }
+
+  .creator-card__avatar-corner-tl,
+  .creator-card__avatar-corner-br {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-color: #8b9a46;
+    border-style: solid;
+    pointer-events: none;
+  }
+
+  .creator-card__avatar-corner-tl {
+    top: -3px;
+    left: -3px;
+    border-width: 2px 0 0 2px;
+  }
+
+  .creator-card__avatar-corner-br {
+    bottom: -3px;
+    right: -3px;
+    border-width: 0 2px 2px 0;
+  }
+
+  /* Right column */
+  .creator-card__right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .creator-card__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.625rem;
+  }
+
+  .creator-card__name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #e2e8f0;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .creator-card__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8b9a46;
+    background: rgba(74, 93, 35, 0.12);
+    border: 1px solid rgba(74, 93, 35, 0.3);
+    border-radius: 2px;
+    padding: 0.2rem 0.5rem;
+    white-space: nowrap;
+  }
+
+  .creator-card__badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4caf50;
+    box-shadow: 0 0 6px rgba(76, 175, 80, 0.5);
+    flex-shrink: 0;
+  }
+
+  .creator-card__bio {
+    font-size: 0.875rem;
+    color: #c8d4b0;
+    line-height: 1.65;
+    margin: 0 0 1rem;
+  }
+
+  /* Social links */
+  .creator-card__socials {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .creator-card__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(74, 93, 35, 0.3);
+    border-radius: 2px;
+    color: #78909c;
+    background: rgba(74, 93, 35, 0.06);
+    transition:
+      color 200ms ease,
+      border-color 200ms ease,
+      background-color 200ms ease;
+    text-decoration: none;
+  }
+
+  .creator-card__social-link:hover {
+    color: #8b9a46;
+    border-color: rgba(139, 154, 70, 0.5);
+    background: rgba(74, 93, 35, 0.15);
+  }
+
+  /* -------------------------------------------------- */
+  /*  Technical specs grid                               */
+  /* -------------------------------------------------- */
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    width: 100%;
+    max-width: 720px;
+    background: rgba(74, 93, 35, 0.15);
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .specs-grid__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 0.875rem;
+    background: #0a0e06;
+    text-align: left;
+  }
+
+  .specs-grid__label {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono",
+      Menlo, Monaco, "Courier New", monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8b9a46;
+  }
+
+  .specs-grid__value {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #c8d4b0;
+    line-height: 1.4;
+  }
+
+  /* -------------------------------------------------- */
+  /*  Responsive                                         */
+  /* -------------------------------------------------- */
+  @media (max-width: 768px) {
+    .creator-card {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .creator-card__header {
+      justify-content: center;
+    }
+
+    .creator-card__socials {
+      justify-content: center;
+    }
+
+    .specs-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .specs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

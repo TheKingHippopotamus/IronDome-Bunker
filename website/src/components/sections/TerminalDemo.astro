@@ -1,0 +1,582 @@
+---
+/**
+ * TerminalDemo.astro — sections/
+ * PSYCHOLOGY: PROOF. A live terminal animation proves the product works.
+ *
+ * Animation strategy:
+ *   - Each .line starts at opacity:0 / translateY(4px)
+ *   - @keyframes reveal fires with staggered --d (delay) per line
+ *   - animation-fill-mode: forwards holds the visible state
+ *   - IntersectionObserver triggers [data-state="running"] on first view
+ *   - Replay button resets state → idle → running
+ *
+ * CSS-only staggered reveal. No JS framework required.
+ */
+---
+
+<section class="demo-section" id="demo" aria-labelledby="demo-heading">
+
+  <!-- Section label -->
+  <div class="demo-label" aria-hidden="true">FIELD DEMONSTRATION</div>
+  <h2 class="demo-heading" id="demo-heading">See It in Action</h2>
+
+  <!-- Screen-reader description -->
+  <p class="sr-only">
+    Animated terminal session demonstrating IronDome CLI commands: opening an
+    airspace with biometric auth, creating an encrypted credential, and
+    retrieving it from the bunker.
+  </p>
+
+  <!-- Terminal wrapper — animation controlled via data-state -->
+  <div class="term-wrap" id="term-demo" data-state="idle">
+
+    <!-- ── Terminal window ────────────────────────────────────── -->
+    <div class="term-window">
+
+      <!-- Tactical corners -->
+      <div class="tc tc--tl" aria-hidden="true"></div>
+      <div class="tc tc--tr" aria-hidden="true"></div>
+      <div class="tc tc--bl" aria-hidden="true"></div>
+      <div class="tc tc--br" aria-hidden="true"></div>
+
+      <!-- Title bar -->
+      <div class="term-titlebar" aria-hidden="true">
+        <div class="term-dots">
+          <span class="dot dot--red"></span>
+          <span class="dot dot--yel"></span>
+          <span class="dot dot--grn"></span>
+        </div>
+        <span class="term-title">irondome &mdash; demo session</span>
+      </div>
+
+      <!-- Terminal body -->
+      <div class="term-body" aria-hidden="true">
+
+        <!-- Scanline overlay -->
+        <div class="scanlines" aria-hidden="true"></div>
+
+        <!-- ════════════════════════════════════════════════════
+             BLOCK 1 — open airspace
+             ════════════════════════════════════════════════════ -->
+        <div class="line" style="--d:0s;">
+          <span class="prompt">$</span>
+          <span class="cmd"> irondome open airspace</span>
+        </div>
+
+        <div class="line" style="--d:0.7s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="out"> Biometric authentication required...</span>
+        </div>
+
+        <div class="line" style="--d:1.4s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="chk"> ✓</span>
+          <span class="out"> Touch ID verified</span>
+        </div>
+
+        <div class="line" style="--d:1.9s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="out"> Session opened — 30 min TTL</span>
+        </div>
+
+        <!-- spacer -->
+        <div class="line line--spacer" style="--d:2.4s;" aria-hidden="true"></div>
+
+        <!-- ════════════════════════════════════════════════════
+             BLOCK 2 — bunker create
+             ════════════════════════════════════════════════════ -->
+        <div class="line" style="--d:2.7s;">
+          <span class="prompt">$</span>
+          <span class="cmd"> bunker create</span>
+        </div>
+
+        <div class="line line--indent" style="--d:3.2s;">
+          <span class="out">  Service: </span>
+          <span class="val">github.com</span>
+        </div>
+
+        <div class="line line--indent" style="--d:3.6s;">
+          <span class="out">  Username: </span>
+          <span class="val">kinghippo</span>
+        </div>
+
+        <div class="line line--indent" style="--d:4.0s;">
+          <span class="out">  Password: </span>
+          <span class="val">[auto-generated 32 chars]</span>
+        </div>
+
+        <div class="line" style="--d:4.6s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="chk"> ✓</span>
+          <span class="out"> Entry encrypted (AES-256-CBC)</span>
+        </div>
+
+        <div class="line" style="--d:5.1s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="chk"> ✓</span>
+          <span class="out"> HMAC-SHA256 signature attached</span>
+        </div>
+
+        <div class="line" style="--d:5.6s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="chk"> ✓</span>
+          <span class="out"> Vault updated — 1 entry</span>
+        </div>
+
+        <!-- spacer -->
+        <div class="line line--spacer" style="--d:6.1s;" aria-hidden="true"></div>
+
+        <!-- ════════════════════════════════════════════════════
+             BLOCK 3 — bunker open github (box)
+             ════════════════════════════════════════════════════ -->
+        <div class="line" style="--d:6.4s;">
+          <span class="prompt">$</span>
+          <span class="cmd"> bunker open github</span>
+        </div>
+
+        <div class="line line--box" style="--d:7.0s;">
+          <span class="box-chr">  ┌─────────────────────────────────────┐</span>
+        </div>
+        <div class="line line--box" style="--d:7.0s;">
+          <span class="box-chr">  │</span>
+          <span class="box-txt"> github.com                          </span>
+          <span class="box-chr">│</span>
+        </div>
+        <div class="line line--box" style="--d:7.3s;">
+          <span class="box-chr">  │</span>
+          <span class="box-txt"> User: kinghippo                     </span>
+          <span class="box-chr">│</span>
+        </div>
+        <div class="line line--box" style="--d:7.5s;">
+          <span class="box-chr">  │</span>
+          <span class="box-txt"> Pass: ••••••••••••••••••••••••••••  </span>
+          <span class="box-chr">│</span>
+        </div>
+        <div class="line line--box" style="--d:7.7s;">
+          <span class="box-chr">  │</span>
+          <span class="box-txt"> Created: 2025-04-17 14:30:22       </span>
+          <span class="box-chr">│</span>
+        </div>
+        <div class="line line--box" style="--d:7.9s;">
+          <span class="box-chr">  └─────────────────────────────────────┘</span>
+        </div>
+
+        <div class="line" style="--d:8.3s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="out"> Password copied to clipboard</span>
+        </div>
+
+        <div class="line" style="--d:8.7s;">
+          <span class="tag">[IRONDOME]</span>
+          <span class="out"> Clipboard auto-clear in 30s</span>
+        </div>
+
+        <!-- spacer -->
+        <div class="line line--spacer" style="--d:9.1s;" aria-hidden="true"></div>
+
+        <!-- Final prompt with blinking cursor -->
+        <div class="line line--final" style="--d:9.4s;">
+          <span class="prompt">$</span>
+          <span class="cursor" aria-hidden="true">█</span>
+        </div>
+
+      </div><!-- /.term-body -->
+    </div><!-- /.term-window -->
+
+    <!-- Replay button -->
+    <button
+      class="replay-btn"
+      id="term-demo-replay"
+      type="button"
+      aria-label="Replay terminal demo animation"
+      title="Replay demo"
+    >
+      <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+      </svg>
+      <span>REPLAY</span>
+    </button>
+
+  </div><!-- /.term-wrap -->
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCOPED STYLES
+     ═══════════════════════════════════════════════════════════════ -->
+<style>
+  /* ── Keyframes ──────────────────────────────────────────────── */
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes cursor-blink {
+    0%, 49%  { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+
+  @keyframes scan-drift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 4px; }
+  }
+
+  /* ── Section ────────────────────────────────────────────────── */
+  .demo-section {
+    padding: 5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .demo-label {
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #8B9A46;
+    margin-bottom: 0.75rem;
+  }
+
+  .demo-heading {
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 800;
+    color: #C8D4B0;
+    margin: 0 0 2.5rem;
+    text-align: center;
+  }
+
+  /* Screen-reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* ── Terminal wrapper ───────────────────────────────────────── */
+  .term-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+  }
+
+  /* ── Terminal window ────────────────────────────────────────── */
+  .term-window {
+    position: relative;
+    background-color: #0D1208;
+    border: 1px solid rgba(74, 93, 35, 0.25);
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(74, 93, 35, 0.08),
+      0 4px 32px rgba(0, 0, 0, 0.55),
+      0 0 60px rgba(74, 93, 35, 0.06);
+  }
+
+  /* ── Tactical corners ───────────────────────────────────────── */
+  .tc {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: rgba(74, 93, 35, 0.45);
+    border-style: solid;
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  .tc--tl { top: -1px;    left: -1px;    border-width: 2px 0 0 2px; }
+  .tc--tr { top: -1px;    right: -1px;   border-width: 2px 2px 0 0; }
+  .tc--bl { bottom: -1px; left: -1px;    border-width: 0 0 2px 2px; }
+  .tc--br { bottom: -1px; right: -1px;   border-width: 0 2px 2px 0; }
+
+  /* ── Title bar ──────────────────────────────────────────────── */
+  .term-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.55rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(74, 93, 35, 0.15);
+    user-select: none;
+  }
+
+  .term-dots {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+  }
+
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .dot--red { background-color: #ff5f57; }
+  .dot--yel { background-color: #ffbd2e; }
+  .dot--grn { background-color: #28c840; }
+
+  .term-title {
+    flex: 1;
+    text-align: center;
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(200, 212, 176, 0.5);
+  }
+
+  /* ── Terminal body ──────────────────────────────────────────── */
+  .term-body {
+    position: relative;
+    padding: 1.25rem 1.5rem 1.5rem;
+    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, "Courier New", monospace;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    overflow: hidden;
+  }
+
+  /* Scanline overlay */
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 255, 65, 0.015) 2px,
+      rgba(0, 255, 65, 0.015) 4px
+    );
+    animation: scan-drift 0.4s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Lines — base (hidden) ──────────────────────────────────── */
+  .line {
+    display: flex;
+    align-items: baseline;
+    white-space: pre;
+    opacity: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Running state: staggered reveal via --d custom property */
+  [data-state="running"] .line {
+    animation: reveal 0.3s ease-out var(--d, 0s) both;
+  }
+
+  /* Done state: keep everything visible */
+  [data-state="done"] .line {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Line variants ──────────────────────────────────────────── */
+  .line--spacer {
+    height: 0.6rem;
+  }
+
+  .line--indent {
+    padding-left: 0;
+  }
+
+  .line--box {
+    align-items: center;
+  }
+
+  /* ── Color tokens ───────────────────────────────────────────── */
+  .prompt {
+    color: #00FF41;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .cmd {
+    color: #C8D4B0;
+  }
+
+  .tag {
+    color: #8B9A46;
+    flex-shrink: 0;
+  }
+
+  .out {
+    color: #C8D4B0;
+  }
+
+  .chk {
+    color: #00FF41;
+    flex-shrink: 0;
+  }
+
+  .val {
+    color: #00FF41;
+  }
+
+  /* Box drawing */
+  .box-chr {
+    color: rgba(74, 93, 35, 0.5);
+  }
+
+  .box-txt {
+    color: #C8D4B0;
+  }
+
+  /* ── Blinking cursor ────────────────────────────────────────── */
+  .cursor {
+    color: #00FF41;
+    margin-left: 0.25em;
+  }
+
+  [data-state="running"] .line--final .cursor {
+    animation:
+      reveal 0.3s ease-out var(--d, 9.4s) both,
+      cursor-blink 1s step-end calc(var(--d, 9.4s) + 0.3s) infinite;
+  }
+
+  [data-state="done"] .line--final .cursor {
+    animation: cursor-blink 1s step-end 0s infinite;
+    opacity: 1;
+  }
+
+  /* ── Replay button ──────────────────────────────────────────── */
+  .replay-btn {
+    position: absolute;
+    bottom: 0.875rem;
+    right: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.65rem;
+    background-color: rgba(74, 93, 35, 0.08);
+    color: rgba(139, 154, 70, 0.55);
+    border: 1px solid rgba(74, 93, 35, 0.2);
+    border-radius: 1px;
+    font-family: ui-monospace, "SF Mono", "Fira Code", Menlo, monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 10;
+    transition:
+      color 150ms ease,
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+
+  .replay-btn:hover {
+    color: #00FF41;
+    border-color: rgba(0, 255, 65, 0.35);
+    background-color: rgba(0, 255, 65, 0.06);
+  }
+
+  .replay-btn:focus-visible {
+    outline: 1px solid rgba(0, 255, 65, 0.6);
+    outline-offset: 2px;
+  }
+
+  .replay-btn svg {
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ─────────────────────────────────────────────── */
+  @media (max-width: 480px) {
+    .demo-section {
+      padding: 3.5rem 1rem;
+    }
+
+    .term-body {
+      padding: 0.875rem 0.875rem 1.125rem;
+      font-size: 0.68rem;
+    }
+
+    .term-titlebar {
+      padding: 0.4rem 0.625rem;
+    }
+
+    .term-title {
+      font-size: 0.55rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+    }
+
+    .replay-btn {
+      bottom: 0.625rem;
+      right: 0.625rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .term-body {
+      font-size: 0.6rem;
+      padding: 0.75rem 0.625rem;
+    }
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SCRIPT — IntersectionObserver + Replay
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+  (function () {
+    const TOTAL_MS = 10500; // last line at 9.4s + buffer
+
+    const wrap = document.getElementById('term-demo') as HTMLElement | null;
+    const btn  = document.getElementById('term-demo-replay') as HTMLButtonElement | null;
+
+    if (!wrap) return;
+
+    function start(): void {
+      wrap!.setAttribute('data-state', 'running');
+      setTimeout(() => {
+        if (wrap!.getAttribute('data-state') === 'running') {
+          wrap!.setAttribute('data-state', 'done');
+        }
+      }, TOTAL_MS);
+    }
+
+    function replay(): void {
+      wrap!.setAttribute('data-state', 'idle');
+      void (wrap as HTMLElement).offsetWidth; // force reflow
+      start();
+    }
+
+    // Fire on first intersection
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting && wrap!.getAttribute('data-state') === 'idle') {
+            start();
+            obs.unobserve(wrap!);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    obs.observe(wrap);
+
+    if (btn) btn.addEventListener('click', replay);
+  })();
+</script>
