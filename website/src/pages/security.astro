@@ -7,37 +7,6 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
 <Layout title={title} description={description}>
 
     <!-- ============================================================
-         CLASSIFICATION TOPBAR
-         ============================================================ -->
-    <div
-      style="
-        background: repeating-linear-gradient(
-          -45deg,
-          rgba(239,68,68,0.18) 0px,
-          rgba(239,68,68,0.18) 10px,
-          rgba(239,68,68,0.06) 10px,
-          rgba(239,68,68,0.06) 20px
-        );
-        border-bottom: 1px solid rgba(139,68,68,0.4);
-        padding: 0.5rem 1.5rem;
-        text-align: center;
-      "
-    >
-      <span
-        style="
-          font-family: var(--font-mono);
-          font-size: 0.6875rem;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          color: #ef4444;
-          text-transform: uppercase;
-        "
-      >
-        &#9724; TOP SECRET // SECURITY ARCHITECTURE // EYES ONLY &#9724;
-      </span>
-    </div>
-
-    <!-- ============================================================
          MAIN CONTENT
          ============================================================ -->
 
@@ -1206,35 +1175,6 @@ system_key = PBKDF2HMAC(
         </div>
       </section>
 
-    <!-- Classification bottom bar (mirrors top) -->
-    <div
-      style="
-        background: repeating-linear-gradient(
-          -45deg,
-          rgba(239,68,68,0.18) 0px,
-          rgba(239,68,68,0.18) 10px,
-          rgba(239,68,68,0.06) 10px,
-          rgba(239,68,68,0.06) 20px
-        );
-        border-top: 1px solid rgba(139,68,68,0.4);
-        padding: 0.5rem 1.5rem;
-        text-align: center;
-      "
-    >
-      <span
-        style="
-          font-family: var(--font-mono);
-          font-size: 0.6875rem;
-          font-weight: 700;
-          letter-spacing: 0.18em;
-          color: #ef4444;
-          text-transform: uppercase;
-        "
-      >
-        &#9724; TOP SECRET // SECURITY ARCHITECTURE // EYES ONLY &#9724;
-      </span>
-    </div>
-
   <style>
     @media (max-width: 768px) {
       [style*="grid-template-columns"] {
@@ -1261,9 +1201,6 @@ system_key = PBKDF2HMAC(
         padding-inline: 1rem !important;
       }
 
-      nav .container [style*="gap"] {
-        gap: 0.5rem !important;
-      }
     }
 
     @media (max-width: 480px) {
