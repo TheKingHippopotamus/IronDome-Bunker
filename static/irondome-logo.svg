@@ -160,6 +160,18 @@
   <circle cx="386" cy="276" r="2" fill="#f44336" opacity=".6" class="blink"/>
 </g>
 
+<!-- ═══ DOME ═══ -->
+<path class="shP" d="M65 430 Q375 15 685 430" fill="url(#shF)"/>
+<path class="dBr" d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dGl)" stroke-width="20" opacity=".22"/>
+<path d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dG)" stroke-width="3.5" stroke-linecap="round"/>
+<path d="M110 430 Q375 70 640 430" fill="none" stroke="#8B9A46" stroke-width=".8" opacity=".15" stroke-dasharray="5 10"/>
+<path d="M150 430 Q375 120 600 430" fill="none" stroke="#6B7A36" stroke-width=".5" opacity=".08" stroke-dasharray="3 12"/>
+<g opacity=".25" stroke="#8B9A46" stroke-width=".8">
+  <line x1="115" y1="318" x2="128" y2="326"/><line x1="158" y1="248" x2="172" y2="258"/>
+  <line x1="218" y1="178" x2="232" y2="190"/><line x1="290" y1="120" x2="300" y2="134"/>
+  <line x1="460" y1="120" x2="450" y2="134"/><line x1="532" y1="178" x2="518" y2="190"/>
+  <line x1="592" y1="248" x2="578" y2="258"/><line x1="635" y1="318" x2="622" y2="326"/>
+</g>
 
 <!-- ════════════════════════════════════════════════════════════ -->
 <!-- ═══ REAL IRON DOME RADAR — ELM-2084 ON 6-WHEEL TRUCK ═══ -->
