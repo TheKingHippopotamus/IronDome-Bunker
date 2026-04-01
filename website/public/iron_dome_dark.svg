@@ -11,7 +11,7 @@
   @keyframes trl{to{stroke-dashoffset:-24}}
   @keyframes etrl{to{stroke-dashoffset:28}}
   @keyframes scan{0%{transform:translateY(-220px);opacity:0}8%{opacity:.1}92%{opacity:.1}100%{transform:translateY(220px);opacity:0}}
-  @keyframes tGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(144,202,249,.25))}50%{filter:drop-shadow(0 0 10px rgba(144,202,249,.55))}}
+  @keyframes tGlow{0%,100%{filter:drop-shadow(0 0 3px rgba(168,184,106,.25))}50%{filter:drop-shadow(0 0 10px rgba(168,184,106,.55))}}
   @keyframes blink{0%,49%{opacity:1}50%,100%{opacity:.3}}
   @keyframes warn{0%,100%{opacity:.5}50%{opacity:1}}
   @keyframes shP{0%,100%{opacity:.08}50%{opacity:.2}}
@@ -34,19 +34,19 @@
   .scrF{animation:scrF 2s ease-in-out infinite}
 </style>
 <defs>
-  <radialGradient id="bg" cx="50%" cy="42%" r="56%"><stop offset="0%" stop-color="#243a55"/><stop offset="55%" stop-color="#1c3048"/><stop offset="100%" stop-color="#14243c"/></radialGradient>
-  <linearGradient id="dG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d47a1" stop-opacity=".12"/><stop offset="25%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="50%" stop-color="#90caf9"/><stop offset="75%" stop-color="#1e88e5" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".12"/></linearGradient>
-  <linearGradient id="dGl" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1565c0" stop-opacity="0"/><stop offset="35%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="50%" stop-color="#bbdefb" stop-opacity=".5"/><stop offset="65%" stop-color="#42a5f5" stop-opacity=".35"/><stop offset="100%" stop-color="#1565c0" stop-opacity="0"/></linearGradient>
-  <radialGradient id="shF" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".06"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".01"/></radialGradient>
-  <linearGradient id="iG" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#1565c0"/><stop offset="60%" stop-color="#42a5f5"/><stop offset="100%" stop-color="#e3f2fd"/></linearGradient>
+  <radialGradient id="bg" cx="50%" cy="42%" r="56%"><stop offset="0%" stop-color="#1A2610"/><stop offset="55%" stop-color="#141D0A"/><stop offset="100%" stop-color="#0D1208"/></radialGradient>
+  <linearGradient id="dG" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#3A4A22" stop-opacity=".12"/><stop offset="25%" stop-color="#6B7A36" stop-opacity=".8"/><stop offset="50%" stop-color="#A8B86A"/><stop offset="75%" stop-color="#6B7A36" stop-opacity=".8"/><stop offset="100%" stop-color="#3A4A22" stop-opacity=".12"/></linearGradient>
+  <linearGradient id="dGl" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#4e5e2c" stop-opacity="0"/><stop offset="35%" stop-color="#8B9A46" stop-opacity=".35"/><stop offset="50%" stop-color="#C8D4B0" stop-opacity=".5"/><stop offset="65%" stop-color="#8B9A46" stop-opacity=".35"/><stop offset="100%" stop-color="#4e5e2c" stop-opacity="0"/></linearGradient>
+  <radialGradient id="shF" cx="50%" cy="35%" r="55%"><stop offset="0%" stop-color="#4e5e2c" stop-opacity=".06"/><stop offset="100%" stop-color="#3A4A22" stop-opacity=".01"/></radialGradient>
+  <linearGradient id="iG" x1="0" y1="1" x2="1" y2="0"><stop offset="0%" stop-color="#4e5e2c"/><stop offset="60%" stop-color="#8B9A46"/><stop offset="100%" stop-color="#D4DFC0"/></linearGradient>
   <linearGradient id="eG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#b71c1c" stop-opacity=".3"/><stop offset="100%" stop-color="#f44336"/></linearGradient>
   <linearGradient id="eG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#c62828" stop-opacity=".25"/><stop offset="100%" stop-color="#e53935"/></linearGradient>
   <radialGradient id="bm1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="15%" stop-color="#fffde7"/><stop offset="40%" stop-color="#ffb300"/><stop offset="65%" stop-color="#ff6f00"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
   <radialGradient id="bm1o" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ff9800" stop-opacity=".45"/><stop offset="100%" stop-color="#ff6f00" stop-opacity="0"/></radialGradient>
   <radialGradient id="bm2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#fff"/><stop offset="20%" stop-color="#fff9c4"/><stop offset="50%" stop-color="#ffa726"/><stop offset="100%" stop-color="#e65100" stop-opacity="0"/></radialGradient>
-  <linearGradient id="gnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2c4458"/><stop offset="100%" stop-color="#203448"/></linearGradient>
-  <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a4a6f" stop-opacity=".85"/><stop offset="100%" stop-color="#1a2e48" stop-opacity=".95"/></linearGradient>
-  <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1565c0" stop-opacity=".55"/><stop offset="50%" stop-color="#42a5f5" stop-opacity=".12"/><stop offset="100%" stop-color="#1565c0" stop-opacity=".55"/></linearGradient>
+  <linearGradient id="gnG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A2610"/><stop offset="100%" stop-color="#141D0A"/></linearGradient>
+  <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2E3D1C" stop-opacity=".85"/><stop offset="100%" stop-color="#1A2610" stop-opacity=".95"/></linearGradient>
+  <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4e5e2c" stop-opacity=".55"/><stop offset="50%" stop-color="#8B9A46" stop-opacity=".12"/><stop offset="100%" stop-color="#4e5e2c" stop-opacity=".55"/></linearGradient>
 
   <!-- Military olive/green vehicle gradients -->
   <linearGradient id="oliveBody" x1="0" y1="0" x2="0" y2="1">
@@ -66,9 +66,9 @@
     <stop offset="0%" stop-color="#809050"/><stop offset="30%" stop-color="#728548"/><stop offset="100%" stop-color="#5f7038"/>
   </linearGradient>
   <!-- Screen -->
-  <radialGradient id="scrG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".4"/></radialGradient>
+  <radialGradient id="scrG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4e5e2c" stop-opacity=".8"/><stop offset="100%" stop-color="#3A4A22" stop-opacity=".4"/></radialGradient>
   <!-- Scan cone -->
-  <linearGradient id="scC" x1="0" y1="1" x2=".5" y2="0"><stop offset="0%" stop-color="#42a5f5" stop-opacity=".3"/><stop offset="100%" stop-color="#42a5f5" stop-opacity="0"/></linearGradient>
+  <linearGradient id="scC" x1="0" y1="1" x2=".5" y2="0"><stop offset="0%" stop-color="#8B9A46" stop-opacity=".3"/><stop offset="100%" stop-color="#8B9A46" stop-opacity="0"/></linearGradient>
 
   <filter id="gl" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="3.5"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   <filter id="glH" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur in="SourceGraphic" stdDeviation="7"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -79,14 +79,14 @@
 
 <!-- ═══ BASE ═══ -->
 <circle cx="375" cy="375" r="340" fill="url(#bg)" stroke="url(#rG)" stroke-width="2.5"/>
-<circle cx="375" cy="375" r="346" fill="none" stroke="#1e3a5c" stroke-width="1" opacity=".55"/>
-<circle cx="375" cy="375" r="354" fill="none" stroke="#1a3a5c" stroke-width=".5" stroke-dasharray="3 8" opacity=".25"/>
+<circle cx="375" cy="375" r="346" fill="none" stroke="#2A3A1A" stroke-width="1" opacity=".55"/>
+<circle cx="375" cy="375" r="354" fill="none" stroke="#253518" stroke-width=".5" stroke-dasharray="3 8" opacity=".25"/>
 
 <g clip-path="url(#cl)">
 <rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".4"/>
 
 <!-- Grid -->
-<g opacity=".07" stroke="#42a5f5" stroke-width=".5">
+<g opacity=".07" stroke="#8B9A46" stroke-width=".5">
   <line x1="36" y1="150" x2="714" y2="150"/><line x1="36" y1="225" x2="714" y2="225"/>
   <line x1="36" y1="300" x2="714" y2="300"/><line x1="36" y1="375" x2="714" y2="375"/>
   <line x1="36" y1="450" x2="714" y2="450"/>
@@ -98,18 +98,18 @@
 
 <!-- Star of David -->
 <g opacity=".08">
-  <polygon points="375,155 455,325 295,325" fill="none" stroke="#64b5f6" stroke-width="1.2"/>
-  <polygon points="375,385 295,215 455,215" fill="none" stroke="#64b5f6" stroke-width="1.2"/>
+  <polygon points="375,155 455,325 295,325" fill="none" stroke="#8B9A46" stroke-width="1.2"/>
+  <polygon points="375,385 295,215 455,215" fill="none" stroke="#8B9A46" stroke-width="1.2"/>
 </g>
 
 <!-- Scan bar -->
-<rect class="scan" x="36" y="373" width="678" height="2.5" fill="#42a5f5" opacity=".08" rx="1"/>
+<rect class="scan" x="36" y="373" width="678" height="2.5" fill="#8B9A46" opacity=".08" rx="1"/>
 
 <!-- ═══ GROUND ═══ -->
 <rect x="36" y="430" width="678" height="300" fill="url(#gnG)"/>
-<line x1="36" y1="430" x2="714" y2="430" stroke="#1e3a5f" stroke-width="1.2" opacity=".6"/>
+<line x1="36" y1="430" x2="714" y2="430" stroke="#2A3A1A" stroke-width="1.2" opacity=".6"/>
 <!-- Sand/dirt texture -->
-<g opacity=".03" stroke="#8d6e63" stroke-width=".3">
+<g opacity=".03" stroke="#5A6B4A" stroke-width=".3">
   <line x1="36" y1="470" x2="714" y2="470"/>
   <line x1="36" y1="510" x2="714" y2="510"/>
 </g>
@@ -127,7 +127,7 @@
     L500,378 L508,378 L508,360 L514,360 L514,345 L518,335 L522,345 L522,360 L532,360 L532,378 L548,378 L548,395 L565,395
     L565,385 L572,385 L572,370 L577,362 L582,370 L582,385 L598,385 L598,398 L618,398 L618,408 L640,408 L640,415 L665,415 L665,422 L690,422 L690,430 L714,430 Z
   " fill="url(#cG)"/>
-  <g fill="#64b5f6" opacity=".55">
+  <g fill="#8B9A46" opacity=".55">
     <rect x="120" y="358" width="4" height="5" rx=".5"/><rect x="120" y="370" width="4" height="5" rx=".5"/>
     <rect x="170" y="340" width="4" height="5" rx=".5"/><rect x="170" y="352" width="4" height="5" rx=".5"/>
     <rect x="238" y="334" width="4" height="5" rx=".5"/><rect x="238" y="348" width="4" height="5" rx=".5"/>
@@ -140,9 +140,9 @@
     <rect x="575" y="368" width="4" height="5" rx=".5"/>
   </g>
   <!-- Antenna masts -->
-  <line x1="312" y1="292" x2="312" y2="274" stroke="#37474f" stroke-width="1.2"/>
+  <line x1="312" y1="292" x2="312" y2="274" stroke="#3A4A22" stroke-width="1.2"/>
   <circle cx="312" cy="272" r="2" fill="#f44336" opacity=".6" class="blink"/>
-  <line x1="386" y1="295" x2="386" y2="278" stroke="#37474f" stroke-width="1.2"/>
+  <line x1="386" y1="295" x2="386" y2="278" stroke="#3A4A22" stroke-width="1.2"/>
   <circle cx="386" cy="276" r="2" fill="#f44336" opacity=".6" class="blink"/>
 </g>
 
@@ -150,9 +150,9 @@
 <path class="shP" d="M65 430 Q375 15 685 430" fill="url(#shF)"/>
 <path class="dBr" d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dGl)" stroke-width="20" opacity=".22"/>
 <path d="M65 430 Q375 15 685 430" fill="none" stroke="url(#dG)" stroke-width="3.5" stroke-linecap="round"/>
-<path d="M110 430 Q375 70 640 430" fill="none" stroke="#42a5f5" stroke-width=".8" opacity=".15" stroke-dasharray="5 10"/>
-<path d="M150 430 Q375 120 600 430" fill="none" stroke="#1e88e5" stroke-width=".5" opacity=".08" stroke-dasharray="3 12"/>
-<g opacity=".25" stroke="#64b5f6" stroke-width=".8">
+<path d="M110 430 Q375 70 640 430" fill="none" stroke="#8B9A46" stroke-width=".8" opacity=".15" stroke-dasharray="5 10"/>
+<path d="M150 430 Q375 120 600 430" fill="none" stroke="#6B7A36" stroke-width=".5" opacity=".08" stroke-dasharray="3 12"/>
+<g opacity=".25" stroke="#8B9A46" stroke-width=".8">
   <line x1="115" y1="318" x2="128" y2="326"/><line x1="158" y1="248" x2="172" y2="258"/>
   <line x1="218" y1="178" x2="232" y2="190"/><line x1="290" y1="120" x2="300" y2="134"/>
   <line x1="460" y1="120" x2="450" y2="134"/><line x1="532" y1="178" x2="518" y2="190"/>
@@ -168,7 +168,7 @@
   <!-- Truck cab -->
   <path d="M68,498 L68,475 L78,468 L108,468 L115,478 L115,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Cab windshield -->
-  <path d="M80,472 L105,472 L110,480 L110,490 L80,490 Z" fill="#1a2a3a" opacity=".5"/>
+  <path d="M80,472 L105,472 L110,480 L110,490 L80,490 Z" fill="#1A2610" opacity=".5"/>
   <line x1="95" y1="472" x2="95" y2="490" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
   <!-- Cab details -->
   <rect x="70" y="492" width="8" height="4" rx="1" fill="#6b7a42" opacity=".4"/>
@@ -222,16 +222,16 @@
   </g>
 
   <!-- Radar pulses -->
-  <circle class="p1" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width="1.2" opacity=".5"/>
-  <circle class="p2" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width="1" opacity=".4"/>
-  <circle class="p3" cx="160" cy="374" r="20" fill="none" stroke="#42a5f5" stroke-width=".7" opacity=".3"/>
+  <circle class="p1" cx="160" cy="374" r="20" fill="none" stroke="#8B9A46" stroke-width="1.2" opacity=".5"/>
+  <circle class="p2" cx="160" cy="374" r="20" fill="none" stroke="#8B9A46" stroke-width="1" opacity=".4"/>
+  <circle class="p3" cx="160" cy="374" r="20" fill="none" stroke="#8B9A46" stroke-width=".7" opacity=".3"/>
 
   <!-- Detection beams -->
   <g opacity=".28">
-    <path d="M160 365 Q180 300 250 240" stroke="#90caf9" fill="none" stroke-width="1.2" opacity=".5"/>
-    <path d="M160 365 Q190 280 300 210" stroke="#64b5f6" fill="none" stroke-width="1" opacity=".4"/>
-    <path d="M160 365 Q200 260 350 180" stroke="#42a5f5" fill="none" stroke-width=".8" opacity=".3"/>
-    <path d="M160 365 Q210 250 400 160" stroke="#1e88e5" fill="none" stroke-width=".6" opacity=".2"/>
+    <path d="M160 365 Q180 300 250 240" stroke="#A8B86A" fill="none" stroke-width="1.2" opacity=".5"/>
+    <path d="M160 365 Q190 280 300 210" stroke="#8B9A46" fill="none" stroke-width="1" opacity=".4"/>
+    <path d="M160 365 Q200 260 350 180" stroke="#8B9A46" fill="none" stroke-width=".8" opacity=".3"/>
+    <path d="M160 365 Q210 250 400 160" stroke="#6B7A36" fill="none" stroke-width=".6" opacity=".2"/>
   </g>
 
   <!-- Status light -->
@@ -249,7 +249,7 @@
   <!-- Truck cab -->
   <path d="M278,498 L278,476 L288,468 L318,468 L325,478 L325,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Cab windshield -->
-  <path d="M290,472 L315,472 L320,480 L320,492 L290,492 Z" fill="#1a2a3a" opacity=".5"/>
+  <path d="M290,472 L315,472 L320,480 L320,492 L290,492 Z" fill="#1A2610" opacity=".5"/>
   <line x1="305" y1="472" x2="305" y2="492" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
   <!-- Headlight -->
   <rect x="278" y="490" width="6" height="4" rx="1" fill="#fff3e0" opacity=".15"/>
@@ -269,7 +269,7 @@
 
   <!-- Door -->
   <rect x="404" y="470" width="16" height="28" rx="1" fill="#3a4a22" stroke="#4a5a2e" stroke-width=".5"/>
-  <circle cx="417" cy="484" r="1.2" fill="#546e7a"/>
+  <circle cx="417" cy="484" r="1.2" fill="#5A6B4A"/>
 
   <!-- Ventilation slits -->
   <g stroke="#4a5a2e" stroke-width=".5" opacity=".5">
@@ -278,10 +278,10 @@
   </g>
 
   <!-- SCREEN DISPLAYS (visible through window) -->
-  <rect x="355" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" stroke="#0d47a1" stroke-width=".5"/>
-  <rect x="377" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" style="animation-delay:.3s" stroke="#0d47a1" stroke-width=".5"/>
+  <rect x="355" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" stroke="#3A4A22" stroke-width=".5"/>
+  <rect x="377" y="464" width="18" height="14" rx="1.5" fill="url(#scrG)" class="scrF" style="animation-delay:.3s" stroke="#3A4A22" stroke-width=".5"/>
   <!-- Screen data lines -->
-  <g stroke="#42a5f5" stroke-width=".4">
+  <g stroke="#8B9A46" stroke-width=".4">
     <line x1="358" y1="469" x2="368" y2="469" opacity=".5"/>
     <line x1="358" y1="472" x2="365" y2="472" opacity=".3"/>
     <line x1="380" y1="469" x2="390" y2="469" opacity=".5"/>
@@ -293,7 +293,7 @@
   <line x1="370" y1="456" x2="370" y2="430" stroke="#4a5a2e" stroke-width="1.5"/>
   <line x1="362" y1="434" x2="378" y2="434" stroke="#4a5a2e" stroke-width="1"/>
   <line x1="365" y1="438" x2="375" y2="438" stroke="#4a5a2e" stroke-width=".8"/>
-  <circle cx="370" cy="428" r="2.5" fill="#42a5f5" opacity=".5" filter="url(#gl)"/>
+  <circle cx="370" cy="428" r="2.5" fill="#8B9A46" opacity=".5" filter="url(#gl)"/>
 
   <!-- Satellite dish on top -->
   <path d="M342 456 Q342 442 352 435" stroke="#5d6b3a" fill="none" stroke-width="1.5" stroke-linecap="round"/>
@@ -378,8 +378,8 @@
       <circle cx="33" cy="-22" r="3" fill="#2a4a2e" opacity=".5"/>
 
       <!-- Just-fired tube glow (top-left tube = empty, fired) -->
-      <circle cx="-33" cy="-22" r="6.5" fill="#42a5f5" opacity=".08"/>
-      <circle cx="-33" cy="-22" r="10" fill="#90caf9" opacity=".04" filter="url(#gl)"/>
+      <circle cx="-33" cy="-22" r="6.5" fill="#8B9A46" opacity=".08"/>
+      <circle cx="-33" cy="-22" r="10" fill="#A8B86A" opacity=".04" filter="url(#gl)"/>
     </g>
 
     <!-- Side markings -->
@@ -444,41 +444,41 @@
 <path class="trl" d="M540 395 Q510 350 470 300 Q440 265 370 225" fill="none" stroke="url(#iG)" stroke-width="2.8" stroke-dasharray="7 5" stroke-linecap="round"/>
 
 <g transform="translate(345,215) rotate(206)">
-  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
-  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
-  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
-  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
-  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
-  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
-  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
-  <circle cx="-10" cy="0" r="7" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="4" fill="#90caf9" opacity=".5"/>
-  <circle cx="-8" cy="0" r="2" fill="#e3f2fd" opacity=".3"/>
+  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#8B9A46" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#8B9A46"/>
+  <polygon points="23,-5 23,0 35,0" fill="#8B9A46"/>
+  <circle cx="32" cy="0" r="2.5" fill="#A8B86A"/>
+  <circle cx="32" cy="0" r="1" fill="#D4DFC0"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#3A4A22"/>
+  <polygon points="16,5 12,10 20,5" fill="#3A4A22"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#3A4A22"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#3A4A22"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#3A4A22"/>
+  <circle cx="-10" cy="0" r="7" fill="#8B9A46" opacity=".4" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="4" fill="#A8B86A" opacity=".5"/>
+  <circle cx="-8" cy="0" r="2" fill="#D4DFC0" opacity=".3"/>
 </g>
 
 <!-- TAMIR INTERCEPTOR 1B — coming from BELOW-RIGHT, facing LEFT (head-on) -->
 <path class="trl" d="M520 430 Q490 370 440 290 Q410 255 355 218" fill="none" stroke="url(#iG)" stroke-width="2.5" stroke-dasharray="6 4" stroke-linecap="round" style="animation-delay:.3s"/>
 
 <g transform="translate(338,222) rotate(218)">
-  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
-  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
-  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
-  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
-  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
-  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
-  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
-  <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".45"/>
+  <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#8B9A46" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#8B9A46"/>
+  <polygon points="23,-5 23,0 35,0" fill="#8B9A46"/>
+  <circle cx="32" cy="0" r="2.5" fill="#A8B86A"/>
+  <circle cx="32" cy="0" r="1" fill="#D4DFC0"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#3A4A22"/>
+  <polygon points="16,5 12,10 20,5" fill="#3A4A22"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#3A4A22"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#3A4A22"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#3A4A22"/>
+  <circle cx="-10" cy="0" r="6" fill="#8B9A46" opacity=".35" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#A8B86A" opacity=".45"/>
 </g>
 
 <!-- ═══ EXPLOSION 1 (where all 3 meet) ═══ -->
@@ -517,11 +517,11 @@
     <animate attributeName="opacity" values=".6;0" dur="1.8s" repeatCount="indefinite"/>
   </rect>
   <!-- Blue debris -->
-  <rect x="20" y="6" width="4" height="1.5" fill="#1976d2" opacity=".6">
+  <rect x="20" y="6" width="4" height="1.5" fill="#4e5e2c" opacity=".6">
     <animate attributeName="x" values="20;44" dur="2.2s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values=".6;0" dur="2.2s" repeatCount="indefinite"/>
   </rect>
-  <rect x="-12" y="18" width="5" height="1.5" fill="#1565c0" opacity=".5">
+  <rect x="-12" y="18" width="5" height="1.5" fill="#4e5e2c" opacity=".5">
     <animate attributeName="y" values="18;42" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values=".5;0" dur="2s" repeatCount="indefinite"/>
   </rect>
@@ -598,40 +598,40 @@
 <path class="trl" d="M590 370 Q560 320 510 260 Q480 225 450 165" fill="none" stroke="url(#iG)" stroke-width="2.5" stroke-dasharray="7 5" stroke-linecap="round" style="animation-delay:.2s"/>
 
 <g transform="translate(445,163) rotate(200)">
-  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
-  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
-  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
-  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
-  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
-  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
-  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
-  <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".5"/>
+  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#8B9A46" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#8B9A46"/>
+  <polygon points="21,-5 21,0 33,0" fill="#8B9A46"/>
+  <circle cx="30" cy="0" r="2.2" fill="#A8B86A"/>
+  <circle cx="30" cy="0" r=".9" fill="#D4DFC0"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#3A4A22"/>
+  <polygon points="14,5 10,10 18,5" fill="#3A4A22"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#3A4A22"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#3A4A22"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#3A4A22"/>
+  <circle cx="-10" cy="0" r="6" fill="#8B9A46" opacity=".4" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#A8B86A" opacity=".5"/>
 </g>
 
 <!-- TAMIR INTERCEPTOR 2B — from BELOW-RIGHT, facing LEFT (head-on) -->
 <path class="trl" d="M570 400 Q545 345 500 275 Q472 240 442 172" fill="none" stroke="url(#iG)" stroke-width="2.2" stroke-dasharray="6 4" stroke-linecap="round" style="animation-delay:.5s"/>
 
 <g transform="translate(438,170) rotate(212)">
-  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
-  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
-  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
-  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
-  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
-  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
-  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
-  <circle cx="-10" cy="0" r="5.5" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3" fill="#90caf9" opacity=".45"/>
+  <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#4e5e2c"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#8B9A46" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#8B9A46"/>
+  <polygon points="21,-5 21,0 33,0" fill="#8B9A46"/>
+  <circle cx="30" cy="0" r="2.2" fill="#A8B86A"/>
+  <circle cx="30" cy="0" r=".9" fill="#D4DFC0"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#3A4A22"/>
+  <polygon points="14,5 10,10 18,5" fill="#3A4A22"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#3A4A22"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#3A4A22"/>
+  <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#3A4A22"/>
+  <circle cx="-10" cy="0" r="5.5" fill="#8B9A46" opacity=".35" filter="url(#gl)"/>
+  <circle cx="-9" cy="0" r="3" fill="#A8B86A" opacity=".45"/>
 </g>
 
 <!-- ═══ EXPLOSION 2 ═══ -->
@@ -659,7 +659,7 @@
     <animate attributeName="y" values="-18;-40" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values=".6;0" dur="2s" repeatCount="indefinite"/>
   </rect>
-  <rect x="16" y="4" width="4" height="1.5" fill="#1976d2" opacity=".5">
+  <rect x="16" y="4" width="4" height="1.5" fill="#4e5e2c" opacity=".5">
     <animate attributeName="x" values="16;36" dur="2s" repeatCount="indefinite"/>
     <animate attributeName="opacity" values=".5;0" dur="2s" repeatCount="indefinite"/>
   </rect>
@@ -678,7 +678,7 @@
 </g>
 
 <!-- ═══ SYSTEM LINKS ═══ -->
-<g opacity=".1" stroke="#42a5f5" stroke-width=".7" stroke-dasharray="2 5">
+<g opacity=".1" stroke="#8B9A46" stroke-width=".7" stroke-dasharray="2 5">
   <line x1="208" y1="498" x2="278" y2="498"/>
   <line x1="423" y1="498" x2="490" y2="498"/>
   <path d="M160 365 Q270 280 330 190" fill="none"/>
@@ -693,23 +693,23 @@
 </g><!-- clip -->
 
 <!-- Outer ring -->
-<g opacity=".25" stroke="#42a5f5" stroke-width="1.2">
+<g opacity=".25" stroke="#8B9A46" stroke-width="1.2">
   <line x1="375" y1="30" x2="375" y2="42"/><line x1="375" y1="708" x2="375" y2="720"/>
   <line x1="30" y1="375" x2="42" y2="375"/><line x1="708" y1="375" x2="720" y2="375"/>
 </g>
-<g opacity=".14" stroke="#42a5f5" stroke-width=".8">
+<g opacity=".14" stroke="#8B9A46" stroke-width=".8">
   <line x1="617" y1="133" x2="612" y2="138"/><line x1="133" y1="133" x2="138" y2="138"/>
   <line x1="617" y1="617" x2="612" y2="612"/><line x1="133" y1="617" x2="138" y2="612"/>
 </g>
 
 <!-- ═══ TYPOGRAPHY ═══ -->
 <g class="tGlow">
-  <text x="375" y="575" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="42" fill="#e3f2fd" letter-spacing="10">IRON DOME</text>
-  <text x="375" y="625" text-anchor="middle" font-family="Rajdhani" font-weight="500" font-size="12" fill="#78909c" letter-spacing="6">ADVANCED DEFENSE SHIELD SYSTEM</text>
+  <text x="375" y="575" text-anchor="middle" font-family="Orbitron" font-weight="900" font-size="42" fill="#D4DFC0" letter-spacing="10">IRON DOME</text>
+  <text x="375" y="625" text-anchor="middle" font-family="Rajdhani" font-weight="500" font-size="12" fill="#8B9A46" letter-spacing="6">ADVANCED DEFENSE SHIELD SYSTEM</text>
 </g>
-<line x1="150" y1="560" x2="258" y2="560" stroke="#1e88e5" stroke-width=".6" opacity=".3"/>
-<line x1="492" y1="560" x2="600" y2="560" stroke="#1e88e5" stroke-width=".6" opacity=".3"/>
-<polygon points="264,560 269,556 274,560 269,564" fill="#42a5f5" opacity=".3"/>
-<polygon points="476,560 481,556 486,560 481,564" fill="#42a5f5" opacity=".3"/>
+<line x1="150" y1="560" x2="258" y2="560" stroke="#6B7A36" stroke-width=".6" opacity=".3"/>
+<line x1="492" y1="560" x2="600" y2="560" stroke="#6B7A36" stroke-width=".6" opacity=".3"/>
+<polygon points="264,560 269,556 274,560 269,564" fill="#8B9A46" opacity=".3"/>
+<polygon points="476,560 481,556 486,560 481,564" fill="#8B9A46" opacity=".3"/>
 
 </svg>
