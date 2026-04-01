@@ -48,23 +48,39 @@
   <linearGradient id="cG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2a4a6f" stop-opacity=".85"/><stop offset="100%" stop-color="#1a2e48" stop-opacity=".95"/></linearGradient>
   <linearGradient id="rG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1565c0" stop-opacity=".55"/><stop offset="50%" stop-color="#42a5f5" stop-opacity=".12"/><stop offset="100%" stop-color="#1565c0" stop-opacity=".55"/></linearGradient>
 
-  <!-- Military olive/green vehicle gradients -->
-  <linearGradient id="oliveBody" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#728548"/><stop offset="40%" stop-color="#5f7038"/><stop offset="100%" stop-color="#4e5e2c"/>
-  </linearGradient>
-  <linearGradient id="oliveDark" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#5f7038"/><stop offset="100%" stop-color="#3e4e24"/>
-  </linearGradient>
-  <linearGradient id="oliveLight" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#809050"/><stop offset="100%" stop-color="#728548"/>
-  </linearGradient>
-  <linearGradient id="oliveChassis" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#4e5e2c"/><stop offset="100%" stop-color="#3a4a22"/>
-  </linearGradient>
-  <!-- Radar panel gradient -->
-  <linearGradient id="radarPanel" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#809050"/><stop offset="30%" stop-color="#728548"/><stop offset="100%" stop-color="#5f7038"/>
-  </linearGradient>
+  <!-- Tiger-stripe army camouflage patterns -->
+  <pattern id="camoBody" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(-15)">
+    <rect width="40" height="40" fill="#5f7038"/>
+    <path d="M0 8 Q5 4 10 8 Q15 12 20 6 Q25 2 30 7 Q35 12 40 8 L40 14 Q35 18 30 13 Q25 8 20 12 Q15 18 10 14 Q5 10 0 14 Z" fill="#4a3b22"/>
+    <path d="M0 22 Q8 18 14 22 Q20 26 26 20 Q32 16 40 22 L40 28 Q32 24 26 28 Q20 32 14 28 Q8 24 0 28 Z" fill="#2c2416"/>
+    <path d="M0 34 Q6 30 12 34 Q18 38 24 32 Q30 28 40 34 L40 40 Q30 36 24 40 Q18 40 12 38 Q6 36 0 40 Z" fill="#6b7a42"/>
+    <rect x="5" y="2" width="8" height="3" rx="1" fill="#8b7d5c" opacity=".5"/>
+    <rect x="22" y="16" width="10" height="3" rx="1" fill="#c2b280" opacity=".35"/>
+  </pattern>
+  <pattern id="camoDark" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(10)">
+    <rect width="40" height="40" fill="#3e4e24"/>
+    <path d="M0 6 Q7 2 14 6 Q21 10 28 5 Q35 0 40 6 L40 12 Q35 8 28 12 Q21 16 14 12 Q7 8 0 12 Z" fill="#2c2416"/>
+    <path d="M0 20 Q5 16 12 20 Q19 24 26 18 Q33 14 40 20 L40 26 Q33 22 26 26 Q19 30 12 26 Q5 22 0 26 Z" fill="#4a3b22"/>
+    <path d="M0 34 Q8 30 16 34 Q24 38 32 32 Q38 28 40 34 L40 40 Q38 36 32 38 Q24 40 16 38 Q8 34 0 40 Z" fill="#5a6b30"/>
+  </pattern>
+  <pattern id="camoLight" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(-25)">
+    <rect width="40" height="40" fill="#728548"/>
+    <path d="M0 10 Q6 5 12 10 Q18 15 24 8 Q30 3 40 10 L40 16 Q30 12 24 16 Q18 21 12 16 Q6 11 0 16 Z" fill="#4a3b22"/>
+    <path d="M0 28 Q8 23 16 28 Q24 33 32 26 Q38 21 40 28 L40 34 Q38 30 32 34 Q24 38 16 34 Q8 30 0 34 Z" fill="#c2b280" opacity=".4"/>
+    <rect x="2" y="4" width="6" height="2" rx="1" fill="#8b7d5c" opacity=".4"/>
+  </pattern>
+  <pattern id="camoChassis" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(5)">
+    <rect width="40" height="40" fill="#3a4a22"/>
+    <path d="M0 8 Q5 4 10 8 Q15 12 20 6 Q25 2 32 8 Q38 12 40 8 L40 14 Q38 18 32 14 Q25 10 20 14 Q15 18 10 14 Q5 10 0 14 Z" fill="#2c2416"/>
+    <path d="M0 26 Q7 22 14 26 Q21 30 28 24 Q35 20 40 26 L40 32 Q35 28 28 32 Q21 36 14 32 Q7 28 0 32 Z" fill="#4e3d20"/>
+  </pattern>
+  <!-- Radar panel gradient with camo -->
+  <pattern id="radarPanel" patternUnits="userSpaceOnUse" width="40" height="40" patternTransform="rotate(-10)">
+    <rect width="40" height="40" fill="#728548"/>
+    <path d="M0 8 Q8 3 16 8 Q24 13 32 6 Q38 2 40 8 L40 14 Q38 10 32 14 Q24 19 16 14 Q8 9 0 14 Z" fill="#4a3b22"/>
+    <path d="M0 24 Q6 20 12 24 Q18 28 24 22 Q30 18 40 24 L40 30 Q30 26 24 30 Q18 34 12 30 Q6 26 0 30 Z" fill="#8b7d5c" opacity=".5"/>
+    <path d="M0 36 Q10 32 20 36 Q30 40 40 36 L40 40 L0 40 Z" fill="#5a6b30"/>
+  </pattern>
   <!-- Screen -->
   <radialGradient id="scrG" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1565c0" stop-opacity=".8"/><stop offset="100%" stop-color="#0d47a1" stop-opacity=".4"/></radialGradient>
   <!-- Scan cone -->
@@ -79,8 +95,6 @@
 
 <!-- ═══ BASE ═══ -->
 <circle cx="375" cy="375" r="340" fill="url(#bg)" stroke="url(#rG)" stroke-width="2.5"/>
-<circle cx="375" cy="375" r="346" fill="none" stroke="#1e3a5c" stroke-width="1" opacity=".55"/>
-<circle cx="375" cy="375" r="354" fill="none" stroke="#1a3a5c" stroke-width=".5" stroke-dasharray="3 8" opacity=".25"/>
 
 <g clip-path="url(#cl)">
 <rect x="36" y="36" width="678" height="678" filter="url(#ns)" opacity=".4"/>
@@ -164,16 +178,16 @@
 <!-- ════════════════════════════════════════════════════════════ -->
 <g>
   <!-- Truck chassis -->
-  <rect x="68" y="498" width="140" height="22" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <rect x="68" y="498" width="140" height="22" rx="3" fill="url(#camoChassis)" stroke="#2a3618" stroke-width=".8"/>
   <!-- Truck cab -->
-  <path d="M68,498 L68,475 L78,468 L108,468 L115,478 L115,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <path d="M68,498 L68,475 L78,468 L108,468 L115,478 L115,498" fill="url(#camoBody)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Cab windshield -->
   <path d="M80,472 L105,472 L110,480 L110,490 L80,490 Z" fill="#1a2a3a" opacity=".5"/>
   <line x1="95" y1="472" x2="95" y2="490" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
   <!-- Cab details -->
   <rect x="70" y="492" width="8" height="4" rx="1" fill="#6b7a42" opacity=".4"/>
   <!-- Truck bed -->
-  <rect x="115" y="478" width="93" height="22" rx="2" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <rect x="115" y="478" width="93" height="22" rx="2" fill="url(#camoBody)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Bed side panels -->
   <line x1="135" y1="480" x2="135" y2="498" stroke="#4a5a2e" stroke-width=".5"/>
   <line x1="165" y1="480" x2="165" y2="498" stroke="#4a5a2e" stroke-width=".5"/>
@@ -188,14 +202,14 @@
   <line x1="100" y1="520" x2="100" y2="528" stroke="#222" stroke-width="1.5"/>
 
   <!-- Pedestal base on truck bed -->
-  <rect x="145" y="458" width="30" height="22" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+  <rect x="145" y="458" width="30" height="22" rx="2" fill="url(#camoDark)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Rotation mechanism -->
   <ellipse cx="160" cy="458" rx="18" ry="4" fill="#3a4a22" stroke="#4a5a2e" stroke-width=".5"/>
 
   <!-- ELM-2084 FLAT RADAR PANEL (big rectangular) -->
   <g>
     <!-- Panel support arm -->
-    <rect x="155" y="388" width="10" height="72" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+    <rect x="155" y="388" width="10" height="72" rx="2" fill="url(#camoDark)" stroke="#3a4a22" stroke-width=".8"/>
     <!-- THE BIG PANEL -->
     <rect x="112" y="355" width="96" height="38" rx="3" fill="url(#radarPanel)" stroke="#4a5a2e" stroke-width="1.2"/>
     <!-- Panel face detail (antenna array pattern) -->
@@ -245,9 +259,9 @@
 <!-- ══════════════════════════════════════════════════════════ -->
 <g>
   <!-- Truck chassis -->
-  <rect x="278" y="498" width="145" height="22" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <rect x="278" y="498" width="145" height="22" rx="3" fill="url(#camoChassis)" stroke="#2a3618" stroke-width=".8"/>
   <!-- Truck cab -->
-  <path d="M278,498 L278,476 L288,468 L318,468 L325,478 L325,498" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width=".8"/>
+  <path d="M278,498 L278,476 L288,468 L318,468 L325,478 L325,498" fill="url(#camoBody)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Cab windshield -->
   <path d="M290,472 L315,472 L320,480 L320,492 L290,492 Z" fill="#1a2a3a" opacity=".5"/>
   <line x1="305" y1="472" x2="305" y2="492" stroke="#2a3618" stroke-width=".5" opacity=".5"/>
@@ -257,7 +271,7 @@
   <circle cx="285" cy="472" r="2" fill="#4caf50" opacity=".7" class="blink"/>
 
   <!-- SHELTER CONTAINER (the big box) -->
-  <rect x="325" y="456" width="98" height="44" rx="3" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width="1"/>
+  <rect x="325" y="456" width="98" height="44" rx="3" fill="url(#camoBody)" stroke="#3a4a22" stroke-width="1"/>
   <!-- Container panel lines -->
   <line x1="350" y1="458" x2="350" y2="498" stroke="#4a5a2e" stroke-width=".6"/>
   <line x1="375" y1="458" x2="375" y2="498" stroke="#4a5a2e" stroke-width=".6"/>
@@ -312,7 +326,7 @@
 <!-- ══════════════════════════════════════════════════════════════════ -->
 <g>
   <!-- Trailer bed -->
-  <rect x="490" y="498" width="155" height="18" rx="3" fill="url(#oliveChassis)" stroke="#2a3618" stroke-width=".8"/>
+  <rect x="490" y="498" width="155" height="18" rx="3" fill="url(#camoChassis)" stroke="#2a3618" stroke-width=".8"/>
   <!-- Trailer tongue/hitch -->
   <line x1="490" y1="508" x2="472" y2="508" stroke="#3a4a22" stroke-width="2.5"/>
   <circle cx="470" cy="508" r="3" fill="none" stroke="#3a4a22" stroke-width="1.5"/>
@@ -333,9 +347,9 @@
   <!-- LAUNCH BOX (tilted upward ~20deg) -->
   <g transform="translate(565,460) rotate(-18)">
     <!-- Main rectangular housing -->
-    <rect x="-55" y="-40" width="110" height="75" rx="4" fill="url(#oliveBody)" stroke="#3a4a22" stroke-width="1.2"/>
+    <rect x="-55" y="-40" width="110" height="75" rx="4" fill="url(#camoBody)" stroke="#3a4a22" stroke-width="1.2"/>
     <!-- Top face -->
-    <rect x="-55" y="-40" width="110" height="8" rx="4" fill="url(#oliveLight)" stroke="#4a5a2e" stroke-width=".5"/>
+    <rect x="-55" y="-40" width="110" height="8" rx="4" fill="url(#camoLight)" stroke="#4a5a2e" stroke-width=".5"/>
     <!-- Side panel lines -->
     <line x1="-55" y1="-20" x2="-55" y2="35" stroke="#4a5a2e" stroke-width=".6"/>
     <line x1="55" y1="-20" x2="55" y2="35" stroke="#3a4a22" stroke-width=".6"/>
@@ -386,7 +400,7 @@
   </g>
 
   <!-- Hydraulic mount connecting box to trailer -->
-  <rect x="540" y="480" width="50" height="20" rx="2" fill="url(#oliveDark)" stroke="#3a4a22" stroke-width=".8"/>
+  <rect x="540" y="480" width="50" height="20" rx="2" fill="url(#camoDark)" stroke="#3a4a22" stroke-width=".8"/>
   <!-- Mount detail -->
   <line x1="548" y1="484" x2="548" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
   <line x1="558" y1="484" x2="558" y2="496" stroke="#4a5a2e" stroke-width=".6"/>
@@ -445,20 +459,21 @@
 
 <g transform="translate(345,215) rotate(206)">
   <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
-  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
-  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
-  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
-  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
-  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#e8f0fe"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#1976d2" opacity=".5"/>
+  <rect x="2" y="-5" width="8" height="10" rx="1" fill="#ffffff" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#e0e8f0"/>
+  <polygon points="23,-5 23,0 35,0" fill="#ffffff"/>
+  <circle cx="32" cy="0" r="2.5" fill="#ffffff"/>
+  <circle cx="32" cy="0" r="1" fill="#90caf9"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#1565c0"/>
+  <polygon points="16,5 12,10 20,5" fill="#1565c0"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#1976d2"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#1976d2"/>
   <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
   <circle cx="-10" cy="0" r="7" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="4" fill="#90caf9" opacity=".5"/>
-  <circle cx="-8" cy="0" r="2" fill="#e3f2fd" opacity=".3"/>
+  <circle cx="-9" cy="0" r="4" fill="#ffffff" opacity=".5"/>
+  <circle cx="-8" cy="0" r="2" fill="#e3f2fd" opacity=".5"/>
 </g>
 
 <!-- TAMIR INTERCEPTOR 1B — coming from BELOW-RIGHT, facing LEFT (head-on) -->
@@ -466,19 +481,20 @@
 
 <g transform="translate(338,222) rotate(218)">
   <rect x="-5" y="-5" width="28" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="28" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="23,-5 23,5 35,0" fill="#42a5f5"/>
-  <polygon points="23,-5 23,0 35,0" fill="#64b5f6"/>
-  <circle cx="32" cy="0" r="2.5" fill="#90caf9"/>
-  <circle cx="32" cy="0" r="1" fill="#e3f2fd"/>
-  <polygon points="16,-5 12,-10 20,-5" fill="#0d47a1"/>
-  <polygon points="16,5 12,10 20,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -12,-11 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -12,11 0,5" fill="#0d47a1"/>
+  <rect x="-5" y="-5" width="28" height="5.5" rx="3" fill="#e8f0fe"/>
+  <rect x="-5" y="-1" width="28" height="1.5" fill="#1976d2" opacity=".5"/>
+  <rect x="2" y="-5" width="8" height="10" rx="1" fill="#ffffff" opacity=".3"/>
+  <polygon points="23,-5 23,5 35,0" fill="#e0e8f0"/>
+  <polygon points="23,-5 23,0 35,0" fill="#ffffff"/>
+  <circle cx="32" cy="0" r="2.5" fill="#ffffff"/>
+  <circle cx="32" cy="0" r="1" fill="#90caf9"/>
+  <polygon points="16,-5 12,-10 20,-5" fill="#1565c0"/>
+  <polygon points="16,5 12,10 20,5" fill="#1565c0"/>
+  <polygon points="-5,-5 -12,-11 0,-5" fill="#1976d2"/>
+  <polygon points="-5,5 -12,11 0,5" fill="#1976d2"/>
   <ellipse cx="-7" cy="0" rx="2" ry="3.5" fill="#0a3670"/>
   <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".45"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#ffffff" opacity=".45"/>
 </g>
 
 <!-- ═══ EXPLOSION 1 (where all 3 meet) ═══ -->
@@ -599,19 +615,20 @@
 
 <g transform="translate(445,163) rotate(200)">
   <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
-  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
-  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
-  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
-  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
-  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#e8f0fe"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#1976d2" opacity=".5"/>
+  <rect x="2" y="-5" width="7" height="10" rx="1" fill="#ffffff" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#e0e8f0"/>
+  <polygon points="21,-5 21,0 33,0" fill="#ffffff"/>
+  <circle cx="30" cy="0" r="2.2" fill="#ffffff"/>
+  <circle cx="30" cy="0" r=".9" fill="#90caf9"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#1565c0"/>
+  <polygon points="14,5 10,10 18,5" fill="#1565c0"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#1976d2"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#1976d2"/>
   <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
   <circle cx="-10" cy="0" r="6" fill="#42a5f5" opacity=".4" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3.5" fill="#90caf9" opacity=".5"/>
+  <circle cx="-9" cy="0" r="3.5" fill="#ffffff" opacity=".5"/>
 </g>
 
 <!-- TAMIR INTERCEPTOR 2B — from BELOW-RIGHT, facing LEFT (head-on) -->
@@ -619,19 +636,20 @@
 
 <g transform="translate(438,170) rotate(212)">
   <rect x="-5" y="-5" width="26" height="10" rx="3" fill="#1565c0"/>
-  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#1976d2"/>
-  <rect x="-5" y="-1" width="26" height="1.5" fill="#42a5f5" opacity=".3"/>
-  <polygon points="21,-5 21,5 33,0" fill="#42a5f5"/>
-  <polygon points="21,-5 21,0 33,0" fill="#64b5f6"/>
-  <circle cx="30" cy="0" r="2.2" fill="#90caf9"/>
-  <circle cx="30" cy="0" r=".9" fill="#e3f2fd"/>
-  <polygon points="14,-5 10,-10 18,-5" fill="#0d47a1"/>
-  <polygon points="14,5 10,10 18,5" fill="#0d47a1"/>
-  <polygon points="-5,-5 -11,-10 0,-5" fill="#0d47a1"/>
-  <polygon points="-5,5 -11,10 0,5" fill="#0d47a1"/>
+  <rect x="-5" y="-5" width="26" height="5.5" rx="3" fill="#e8f0fe"/>
+  <rect x="-5" y="-1" width="26" height="1.5" fill="#1976d2" opacity=".5"/>
+  <rect x="2" y="-5" width="7" height="10" rx="1" fill="#ffffff" opacity=".3"/>
+  <polygon points="21,-5 21,5 33,0" fill="#e0e8f0"/>
+  <polygon points="21,-5 21,0 33,0" fill="#ffffff"/>
+  <circle cx="30" cy="0" r="2.2" fill="#ffffff"/>
+  <circle cx="30" cy="0" r=".9" fill="#90caf9"/>
+  <polygon points="14,-5 10,-10 18,-5" fill="#1565c0"/>
+  <polygon points="14,5 10,10 18,5" fill="#1565c0"/>
+  <polygon points="-5,-5 -11,-10 0,-5" fill="#1976d2"/>
+  <polygon points="-5,5 -11,10 0,5" fill="#1976d2"/>
   <ellipse cx="-7" cy="0" rx="2" ry="3" fill="#0a3670"/>
   <circle cx="-10" cy="0" r="5.5" fill="#42a5f5" opacity=".35" filter="url(#gl)"/>
-  <circle cx="-9" cy="0" r="3" fill="#90caf9" opacity=".45"/>
+  <circle cx="-9" cy="0" r="3" fill="#ffffff" opacity=".45"/>
 </g>
 
 <!-- ═══ EXPLOSION 2 ═══ -->
