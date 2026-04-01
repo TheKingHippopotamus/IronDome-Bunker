@@ -3,7 +3,7 @@ import ClassificationBadge from '../ClassificationBadge.astro';
 
 const features = [
   {
-    title: 'AES-256 Encryption',
+    title: 'AES-128 Encryption',
     icon: '/IronDome-Bunker/shield-aes.svg',
     description: 'Military-grade Fernet encryption. Every entry encrypted with unique key derived via PBKDF2 \u00d7 600,000.',
   },
@@ -25,7 +25,7 @@ const features = [
   {
     title: 'Brute Force Protection',
     icon: '/IronDome-Bunker/shield-brute.svg',
-    description: 'Progressive lockout with exponential backoff. Per-device attempt tracking.',
+    description: 'Progressive lockout. Per-device attempt tracking.',
   },
   {
     title: 'Local Only',
@@ -40,7 +40,7 @@ const features = [
   {
     title: 'Encrypted Backups',
     icon: null,
-    description: '`bunker fortify` creates AES-256 encrypted snapshots. Same encryption chain, same hardware binding.',
+    description: '`bunker fortify` creates AES-128 encrypted snapshots. Same encryption chain, same hardware binding.',
   },
 ];
 ---
