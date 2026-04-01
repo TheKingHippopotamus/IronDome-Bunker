@@ -8,6 +8,7 @@ const desktopLinks = [
 ];
 
 const mobileSections = [
+  { href: '#hero',     label: 'Home',         code: '00', icon: 'home' },
   { href: '#why',      label: 'Why IronDome', code: '01', icon: 'shield' },
   { href: '#howto',    label: 'How It Works', code: '02', icon: 'chevron' },
   { href: '#features', label: 'Features',     code: '03', icon: 'grid' },
@@ -203,15 +204,17 @@ const mobileExternal = [
 
 <!-- Auto-close drawer on link click -->
 <script>
-  document.addEventListener('astro:page-load', () => {
+  function initDrawerClose() {
     const toggle = document.getElementById('nav-toggle') as HTMLInputElement;
     if (!toggle) return;
-    document.querySelectorAll('.drawer-link').forEach(link => {
+    document.querySelectorAll('.mobile-nav a, .mobile-external-link').forEach(link => {
       link.addEventListener('click', () => {
         toggle.checked = false;
       });
     });
-  });
+  }
+  document.addEventListener('DOMContentLoaded', initDrawerClose);
+  document.addEventListener('astro:page-load', initDrawerClose);
 </script>
 
 <style>
