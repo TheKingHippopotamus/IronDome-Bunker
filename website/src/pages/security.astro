@@ -1,23 +1,10 @@
 ---
-const title = "Security Architecture — IronDome";
+import Layout from '../layouts/Layout.astro';
+const title = "Security Architecture";
 const description = "Defense in depth. Every decision explained. Zero-knowledge CLI password vault security architecture, cryptographic primitives, and threat model.";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/IronDome-Bunker/irondome-favicon.svg" />
-    <link rel="icon" href="/IronDome-Bunker/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/IronDome-Bunker/apple-touch-icon.png" />
-    <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
-    <meta name="theme-color" content="#0A0D06" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="stylesheet" href="/IronDome-Bunker/src/styles/global.css" />
-  </head>
-  <body>
+<Layout title={title} description={description}>
 
     <!-- ============================================================
          CLASSIFICATION TOPBAR
@@ -51,48 +38,8 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
     </div>
 
     <!-- ============================================================
-         NAV
-         ============================================================ -->
-    <nav
-      style="
-        border-bottom: 1px solid rgba(74,93,35,0.25);
-        background-color: rgba(10,13,6,0.95);
-        backdrop-filter: blur(8px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      "
-    >
-      <div class="container" style="display:flex;align-items:center;justify-content:space-between;padding-block:0.875rem;">
-        <a
-          href="/IronDome-Bunker/"
-          style="
-            font-family: var(--font-mono);
-            font-size: 0.875rem;
-            font-weight: 700;
-            color: #8B9A46;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-          "
-        >
-          <span style="color: #5A6B4A;">&#8592;</span>
-          IronDome
-        </a>
-        <div style="display:flex;align-items:center;gap:1.5rem;">
-          <span class="classification-badge classification-badge--red">
-            &#9632; CLASSIFIED
-          </span>
-        </div>
-      </div>
-    </nav>
-
-    <!-- ============================================================
          MAIN CONTENT
          ============================================================ -->
-    <main class="page-content">
 
       <!-- ──────────────────────────────────────────────────────────
            SECTION 1 — HERO HEADER
@@ -1259,59 +1206,6 @@ system_key = PBKDF2HMAC(
         </div>
       </section>
 
-    </main>
-
-    <!-- ============================================================
-         FOOTER
-         ============================================================ -->
-    <footer
-      style="
-        border-top: 1px solid rgba(74,93,35,0.25);
-        padding-block: 2rem;
-        background-color: #0D1208;
-      "
-    >
-      <div
-        class="container"
-        style="
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          flex-wrap: wrap;
-          gap: 1rem;
-        "
-      >
-        <div style="display:flex;align-items:center;gap:1rem;">
-          <span
-            style="
-              font-family: var(--font-mono);
-              font-size: 0.75rem;
-              color: #5A6B4A;
-            "
-          >IronDome &copy; 2024 — GPL-3.0</span>
-          <span class="classification-badge">&#9632; ZERO KNOWLEDGE</span>
-        </div>
-        <nav style="display:flex;align-items:center;gap:1.25rem;">
-          <a
-            href="/IronDome-Bunker/"
-            style="font-family:var(--font-mono);font-size:0.75rem;color:#5A6B4A;letter-spacing:0.06em;text-transform:uppercase;"
-          >Home</a>
-          <a
-            href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="font-family:var(--font-mono);font-size:0.75rem;color:#5A6B4A;letter-spacing:0.06em;text-transform:uppercase;"
-          >GitHub</a>
-          <a
-            href="https://github.com/thekinghippopotamus/Secure_CLI_Password_Manager/blob/main/SECURITY.md"
-            target="_blank"
-            rel="noopener noreferrer"
-            style="font-family:var(--font-mono);font-size:0.75rem;color:#8B9A46;letter-spacing:0.06em;text-transform:uppercase;"
-          >Security Policy</a>
-        </nav>
-      </div>
-    </footer>
-
     <!-- Classification bottom bar (mirrors top) -->
     <div
       style="
@@ -1382,6 +1276,5 @@ system_key = PBKDF2HMAC(
       }
     }
   </style>
-  <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/IronDome-Bunker/sw.js').catch(()=>{})}</script>
-  </body>
-</html>
+
+</Layout>
