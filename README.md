@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome" width="500"/>
 </p>
 
-<h3 align="center">Fortified Password Vault — TUI | AES-256 | Zero-Knowledge | Biometric | Hardware-Bound</h3>
+<h3 align="center">Fortified Password Vault — TUI | AES-128-CBC | Zero-Knowledge | Biometric | Machine-Specific</h3>
 
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
@@ -41,7 +41,7 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts everything locally with AES-256, binds keys to your hardware, and operates on a zero-knowledge model. Full terminal UI with military-grade aesthetics. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
+> IronDome encrypts everything locally with AES-128-CBC (Fernet), derives keys from machine identity, and operates on a zero-knowledge model. Full terminal UI with military-grade aesthetics. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
 
 <br>
 
@@ -116,15 +116,15 @@ bunker settings                  # Configure preferences
 
 | Feature | Implementation |
 |:--------|:--------------|
-| **Encryption** | AES-256-CBC via Fernet |
+| **Encryption** | AES-128-CBC via Fernet |
 | **Key Derivation** | PBKDF2-HMAC-SHA256 × 600,000 |
 | **Zero Knowledge** | Master password never stored |
-| **Hardware Binding** | Keys tied to machine identity |
+| **Hardware Binding** | Keys derived from machine identity |
 | **Brute Force** | Adaptive lockout per device |
 | **Sessions** | 30-min auto-timeout |
 | **Biometrics** | Touch ID / Hello / fprintd |
 | **Two-Factor** | Biometric gate + password |
-| **Recovery** | 24-word BIP-39 phrase |
+| **Recovery** | 24-character hex recovery code |
 
 </td>
 <td width="50%">
@@ -188,7 +188,7 @@ bunker settings                  # Configure preferences
 
 | Component | Standard |
 |:----------|:---------|
-| **Symmetric Encryption** | AES-256-CBC (Fernet — includes HMAC) |
+| **Symmetric Encryption** | AES-128-CBC (Fernet — includes HMAC) |
 | **Key Derivation** | PBKDF2-HMAC-SHA256 × 600,000 (OWASP 2023) |
 | **Password Hashing** | PBKDF2-HMAC-SHA256 + unique salt |
 | **Random Generation** | Python `secrets` (CSPRNG) |
@@ -211,7 +211,7 @@ bunker settings                  # Configure preferences
 
 | Threat | Defense |
 |:-------|:-------|
-| Vault file stolen | Hardware-bound key — useless on other machines |
+| Vault file stolen | Machine-specific key — useless on other machines |
 | Brute force | 600k PBKDF2 + adaptive lockout |
 | Memory dump | Memory locking + signal handlers |
 | Clipboard sniffing | Auto-clear after 30 seconds |
@@ -227,7 +227,7 @@ bunker settings                  # Configure preferences
 ├── backups/
 │   └── .passwords_backup_*.enc    # Encrypted backups
 └── secrets/                       # chmod 0700
-    ├── .passwords.enc             # Encrypted vault (AES-256)
+    ├── .passwords.enc             # Encrypted vault (AES-128-CBC)
     ├── salt.bin                   # Key derivation salt
     ├── .master_user.enc           # Encrypted master user
     ├── .master_hash.enc           # Encrypted PBKDF2 hash
@@ -262,7 +262,7 @@ pip install IronDome → irondome
            ┌───────────┼───────────┐
            ▼                       ▼
    Machine-Specific Key    User-Specific Key
-   (hardware-bound)        (user+pass+salt)
+   (machine-specific)      (user+pass+salt)
            │                       │
            ▼                       ▼
    Encrypts master         Encrypts password
@@ -286,7 +286,7 @@ Test every corner of IronDome in your browser — encryption, vault operations, 
 | **Data location** | Your machine only | Their servers |
 | **Network required** | Never | Always |
 | **Zero knowledge** | True — no server exists | "Trust us" |
-| **Hardware binding** | Keys tied to your machine | No |
+| **Hardware binding** | Keys derived from machine identity | No |
 | **Interface** | Full TUI + CLI | Browser plugin |
 | **Open source** | GPL-3.0 — audit everything | Rarely |
 | **Cost** | Free forever | $3-5/month |
@@ -321,7 +321,7 @@ password_manager/
 ├── cli.py               # CLI parser (irondome-cli + bunker commands)
 ├── manager.py           # Core IronDome class
 ├── auth.py              # Authentication & master credentials
-├── encryption.py        # AES-256 encryption utilities
+├── encryption.py        # Fernet/AES-128-CBC encryption utilities
 ├── biometric.py         # Cross-platform biometric auth
 ├── keystore.py          # OS keychain integration
 ├── airspace.py          # Session management

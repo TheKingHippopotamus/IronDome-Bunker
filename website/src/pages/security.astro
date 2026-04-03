@@ -101,7 +101,7 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
 
           <!-- Meta badges row -->
           <div style="display:flex;align-items:center;justify-content:center;gap:0.875rem;flex-wrap:wrap;">
-            <span class="classification-badge">&#9632; AES-256-CBC</span>
+            <span class="classification-badge">&#9632; AES-128-CBC</span>
             <span class="classification-badge">&#9632; PBKDF2-SHA256</span>
             <span class="classification-badge">&#9632; Zero Network</span>
             <span class="classification-badge">&#9632; OWASP 2023</span>
@@ -206,7 +206,7 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
 <span style="color:#8B9A46;">&#x2502;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2518;</span>  <span style="color:#8B9A46;">&#x2502;</span>
 <span style="color:#8B9A46;">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:#8B9A46;">&#x2502;</span>
 <span style="color:#8B9A46;">&#x2502;</span>                                       <span style="color:var(--color-green);">Fernet</span>       <span style="color:#8B9A46;">&#x2502;</span>
-<span style="color:#8B9A46;">&#x2502;</span>                                    <span style="color:var(--color-green);">AES-256-CBC</span>    <span style="color:#8B9A46;">&#x2502;</span>
+<span style="color:#8B9A46;">&#x2502;</span>                                    <span style="color:var(--color-green);">AES-128-CBC</span>    <span style="color:#8B9A46;">&#x2502;</span>
 <span style="color:#8B9A46;">&#x2502;</span>                                     <span style="color:var(--color-green);">+ HMAC-SHA256</span>  <span style="color:#8B9A46;">&#x2502;</span>
 <span style="color:#8B9A46;">&#x2502;</span>                                           <span style="color:#78909C;">&#x2502;</span>         <span style="color:#8B9A46;">&#x2502;</span>
 <span style="color:#8B9A46;">&#x2502;</span>                                    <span style="color:#78909C;">&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2524;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;</span>  <span style="color:#8B9A46;">&#x2502;</span>
@@ -268,7 +268,7 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
               </div>
 
               <p style="margin-bottom:1.25rem;max-width:680px;">
-                Password-Based Key Derivation Function 2. Transforms your master password into a 256-bit cryptographic key by running it through HMAC-SHA256 in a tight loop — 600,000 times. Each iteration depends on the last. You cannot skip iterations. There is no shortcut.
+                Password-Based Key Derivation Function 2. Transforms your master password into a 256-bit derived key by running it through HMAC-SHA256 in a tight loop — 600,000 times. Each iteration depends on the last. You cannot skip iterations. There is no shortcut.
               </p>
 
               <!-- Why 600k -->
@@ -300,8 +300,8 @@ const description = "Defense in depth. Every decision explained. Zero-knowledge 
               <pre class="code-block" style="overflow-x:auto;"><span style="color:#5A6B4A;"># Key derivation — irondome/crypto.py</span>
 key = PBKDF2HMAC(
     algorithm=hashes.SHA256(),
-    length=32,            <span style="color:#5A6B4A;"># 256-bit output</span>
-    salt=salt,            <span style="color:#5A6B4A;"># 32 random bytes, stored in salt.bin</span>
+    length=32,            <span style="color:#5A6B4A;"># 256-bit output (split: 16B HMAC + 16B AES)</span>
+    salt=salt,            <span style="color:#5A6B4A;"># 16 random bytes, stored in salt.bin</span>
     iterations=600_000,   <span style="color:#5A6B4A;"># OWASP 2023 minimum</span>
 ).derive(master_password.encode())
 <span style="color:#5A6B4A;">
@@ -309,7 +309,7 @@ key = PBKDF2HMAC(
 # produces completely different derived keys. This is intentional.</span></pre>
             </div>
 
-            <!-- Fernet / AES-256 -->
+            <!-- Fernet / AES-128-CBC -->
             <div
               class="tactical-card tactical-corners"
               style="padding:2rem 2rem 2rem 1.75rem;border-left:3px solid var(--color-green);"
@@ -318,7 +318,7 @@ key = PBKDF2HMAC(
                 <div>
                   <span class="classification-badge classification-badge--green" style="margin-bottom:0.625rem;display:inline-flex;">SYMMETRIC ENCRYPTION</span>
                   <h3 style="font-family:var(--font-mono);font-size:1.25rem;color:var(--color-green);margin:0;">
-                    Fernet — AES-256-CBC + HMAC-SHA256
+                    Fernet — AES-128-CBC + HMAC-SHA256
                   </h3>
                 </div>
                 <div
@@ -334,15 +334,15 @@ key = PBKDF2HMAC(
               </div>
 
               <p style="margin-bottom:1.25rem;max-width:680px;">
-                Fernet is a high-level symmetric encryption scheme that wraps AES-256-CBC with HMAC-SHA256 message authentication. The critical property: it provides <strong>authenticated encryption</strong>. An attacker who modifies ciphertext cannot decrypt it — the HMAC will fail first. This prevents tampering, padding oracle attacks, and bitflip attacks simultaneously.
+                Fernet is a high-level symmetric encryption scheme that uses AES-128-CBC with HMAC-SHA256 message authentication. The 32-byte PBKDF2 output is split: 16 bytes for HMAC-SHA256 signing and 16 bytes for AES-128 encryption. The critical property: it provides <strong>authenticated encryption</strong>. An attacker who modifies ciphertext cannot decrypt it — the HMAC will fail first. This prevents tampering, padding oracle attacks, and bitflip attacks simultaneously.
               </p>
 
               <!-- What Fernet includes -->
               <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;margin-bottom:1.25rem;">
                 {[
-                  { label: "Algorithm", value: "AES-256-CBC" },
+                  { label: "Algorithm", value: "AES-128-CBC" },
                   { label: "Authentication", value: "HMAC-SHA256" },
-                  { label: "Key size", value: "256 bits" },
+                  { label: "Key material", value: "128-bit AES + 128-bit HMAC" },
                   { label: "IV", value: "Random 128-bit per op" },
                   { label: "Format", value: "Self-describing token" },
                   { label: "Tamper detection", value: "Yes — always" },
@@ -381,7 +381,7 @@ key = PBKDF2HMAC(
 Version    | 0x80           <span style="color:#5A6B4A;"># 1 byte  — protocol version</span>
 Timestamp  | uint64 BE      <span style="color:#5A6B4A;"># 8 bytes — when encrypted</span>
 IV         | random bytes   <span style="color:#5A6B4A;"># 16 bytes — unique per write</span>
-Ciphertext | AES-256-CBC    <span style="color:#5A6B4A;"># variable length</span>
+Ciphertext | AES-128-CBC    <span style="color:#5A6B4A;"># variable length</span>
 HMAC       | SHA256         <span style="color:#5A6B4A;"># 32 bytes — covers ALL fields above</span>
 <span style="color:#5A6B4A;">
 # If HMAC does not verify → decryption NEVER starts.
@@ -404,7 +404,7 @@ HMAC       | SHA256         <span style="color:#5A6B4A;"># 32 bytes — covers A
               </div>
 
               <p style="margin-bottom:1.25rem;max-width:680px;">
-                The vault is encrypted twice. The derived key (from your password) is one layer. The system key is the second — derived from hardware identifiers unique to your machine: CPU serial, motherboard UUID, machine hostname, and OS-level user identity. These are hashed together with a salt and passed through PBKDF2 to produce a 256-bit system key.
+                The vault is encrypted twice. The derived key (from your password) is one layer. The system key is the second — derived from machine identifiers unique to your device: CPU serial, motherboard UUID, machine hostname, and OS-level user identity. These are hashed together with a salt and passed through PBKDF2 to produce a second derived key.
               </p>
 
               <div
@@ -427,7 +427,7 @@ HMAC       | SHA256         <span style="color:#5A6B4A;"># 32 bytes — covers A
                   "
                 >// WHAT THIS MEANS FOR AN ATTACKER</p>
                 <p style="font-size:0.9rem;margin:0;">
-                  Stealing the vault file gives an attacker nothing. They also need your master password. But even with your master password, they need the exact hardware it was created on. The vault is <strong>physically bound to your machine</strong>. Copy the file to a different computer — it won't open. This is not copy protection. This is a security property.
+                  Stealing the vault file gives an attacker nothing. They also need your master password. But even with your master password, they need to replicate the exact machine identity it was created on. The vault is <strong>cryptographically tied to your machine identity</strong>. Copy the file to a different computer — it won't open. This is not copy protection. This is a security property.
                 </p>
               </div>
 
@@ -479,7 +479,7 @@ system_key = PBKDF2HMAC(
                 level: "HIGH",
                 levelColor: "#ef4444",
                 scenario: "Attacker gains filesystem access and copies .passwords.enc from disk.",
-                defense: "Hardware-bound encryption key. The vault is machine-specific. On any other hardware, decryption produces garbage. The file has zero value without the source machine.",
+                defense: "Machine-specific encryption key derived from machine identity. The vault is machine-specific. On any other hardware, decryption produces garbage. The file has zero value without the source machine.",
                 icon: "&#9632;",
               },
               {
@@ -709,10 +709,10 @@ system_key = PBKDF2HMAC(
 <span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:#7A8B6A;">password_manager.log</span>        <span style="color:#546E7A;"># non-sensitive audit trail</span>
 <span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:#7A8B6A;">settings.json</span>               <span style="color:#546E7A;"># user preferences, no secrets</span>
 <span style="color:#78909C;">&#x251C;&#x2500;&#x2500;</span> <span style="color:#7A8B6A;">backups/</span>
-<span style="color:#78909C;">&#x2502;   &#x2514;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords_backup_*.enc</span>    <span style="color:#546E7A;"># AES-256 encrypted backups</span>
+<span style="color:#78909C;">&#x2502;   &#x2514;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords_backup_*.enc</span>    <span style="color:#546E7A;"># AES-128-CBC encrypted backups</span>
 <span style="color:#78909C;">&#x2514;&#x2500;&#x2500;</span> <span style="color:#8B9A46;">secrets/</span>                        <span style="color:#ef4444;"># chmod 0700 — owner only</span>
-<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords.enc</span>             <span style="color:#546E7A;"># vault — Fernet AES-256</span>
-<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">salt.bin</span>                   <span style="color:#546E7A;"># PBKDF2 salt (32 bytes)</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.passwords.enc</span>             <span style="color:#546E7A;"># vault — Fernet AES-128-CBC</span>
+<span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">salt.bin</span>                   <span style="color:#546E7A;"># PBKDF2 salt (16 bytes)</span>
 <span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.master_user.enc</span>           <span style="color:#546E7A;"># encrypted master username</span>
 <span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:var(--color-green);">.master_hash.enc</span>           <span style="color:#546E7A;"># encrypted PBKDF2 hash</span>
 <span style="color:#78909C;">    &#x251C;&#x2500;&#x2500;</span> <span style="color:#7A8B6A;">.login_attempts.dat</span>        <span style="color:#546E7A;"># lockout counter (not secret)</span>

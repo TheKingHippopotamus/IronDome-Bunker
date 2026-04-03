@@ -18,7 +18,7 @@ const principles = [
     number: '03',
     title: 'Standards-Based',
     icon: 'shield-aes',
-    body: 'We don\'t invent crypto. We use OWASP-recommended PBKDF2 iteration counts, industry-standard AES-256 via Fernet, and OS-native biometric APIs. No homegrown algorithms.',
+    body: 'We don\'t invent crypto. We use OWASP-recommended PBKDF2 iteration counts, industry-standard AES-128-CBC via Fernet, and OS-native biometric APIs. No homegrown algorithms.',
   },
   {
     number: '04',
@@ -32,7 +32,7 @@ const specs = [
   { label: 'Version',         value: '2.2.1' },
   { label: 'License',         value: 'GPL-3.0' },
   { label: 'Python',          value: '3.8 – 3.13' },
-  { label: 'Encryption',      value: 'AES-256-CBC' },
+  { label: 'Encryption',      value: 'AES-128-CBC (Fernet)' },
   { label: 'Key Derivation',  value: 'PBKDF2 × 600,000' },
   { label: 'Platforms',       value: 'macOS · Windows · Linux' },
   { label: 'Dependencies',    value: 'cryptography + keyring' },
@@ -116,7 +116,7 @@ const steps = [
             Every cloud-based password manager asks you to trust their infrastructure,
             their employees, their security practices.
             <strong>IronDome asks you to trust math.</strong>
-            AES-256. PBKDF2. Your own hardware. That's it.
+            AES-128-CBC (Fernet). PBKDF2. Your own machine. That's it.
           </p>
           <div class="mission-sig">
             <span class="mission-sig-text">— Design Principle #1</span>

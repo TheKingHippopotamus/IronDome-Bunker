@@ -45,7 +45,7 @@ class StatusScreen(Screen):
             with Vertical(classes="info-section"):
                 yield Static("SECURITY", classes="info-section-title")
                 yield self._row("Auth mode:", self._state.get_auth_mode() or "unknown")
-                yield self._row("Encryption:", "AES-256-CBC (Fernet)")
+                yield self._row("Encryption:", "AES-128-CBC (Fernet)")
                 yield self._row("KDF:", "PBKDF2-HMAC-SHA256 (600k iterations)")
                 yield self._row("Key binding:", "Hardware-specific")
 

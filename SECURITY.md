@@ -28,7 +28,7 @@ IronDome is built on these security principles:
 
 - **Zero-knowledge** — master password never stored, only salted hash
 - **Local-only** — no network communication, no telemetry, no cloud sync
-- **Hardware-bound** — encryption keys derived from machine-specific identifiers
+- **Machine-specific** — encryption keys derived from machine-specific identifiers
 - **Defense in depth** — multiple encryption layers, session management, lockout protection
 - **Minimal dependencies** — only `cryptography` library to minimize attack surface
 

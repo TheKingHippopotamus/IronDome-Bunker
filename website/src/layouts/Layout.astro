@@ -12,7 +12,7 @@ interface Props {
 
 const {
   title,
-  description = 'IronDome — Zero-knowledge CLI password vault with AES-256 encryption. Your credentials never leave your machine.',
+  description = 'IronDome — Zero-knowledge CLI password vault with AES-128-CBC encryption. Your credentials never leave your machine.',
   image = '/irondome-logo.svg',
   canonical,
 } = Astro.props;
@@ -40,7 +40,7 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
     <meta name="theme-color"        content="#0A0D06" />
     <meta name="color-scheme"       content="dark" />
     <meta name="author"             content="King Hippopotamus" />
-    <meta name="keywords"           content="password manager, CLI, zero-knowledge, AES-256, encryption, security, open source, Python" />
+    <meta name="keywords"           content="password manager, CLI, zero-knowledge, AES-128-CBC, encryption, security, open source, Python" />
     <link  rel="canonical"          href={pageUrl} />
 
     <!-- Favicons -->
@@ -93,7 +93,7 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
         "url": "https://github.com/TheKingHippopotamus"
       },
       "featureList": [
-        "AES-256 encryption",
+        "AES-128-CBC encryption (Fernet)",
         "Zero-knowledge architecture",
         "Local-only storage",
         "CLI interface",

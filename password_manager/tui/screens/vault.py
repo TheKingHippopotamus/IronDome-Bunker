@@ -153,16 +153,26 @@ class VaultScreen(Screen):
     def action_delete_entry(self) -> None:
         table = self.query_one("#vault-table", VaultTable)
         entry = table.get_selected_entry()
-        if entry:
-            from password_manager.tui.screens.confirm import ConfirmDialog
-            self.app.push_screen(
-                ConfirmDialog(
-                    f"Delete entry for {entry['username']} at {entry['website']}?",
-                    action_label="Delete",
-                    danger=True,
-                ),
-                callback=lambda confirmed: self._do_delete(entry, confirmed),
-            )
+        if not entry:
+            return
+        from password_manager.tui.screens.reauth import ReAuthModal
+        self.app.push_screen(
+            ReAuthModal(self._state, action_label="Delete"),
+            callback=lambda verified: self._on_delete_reauth(entry, verified),
+        )
+
+    def _on_delete_reauth(self, entry: dict, verified: bool) -> None:
+        if not verified:
+            return
+        from password_manager.tui.screens.confirm import ConfirmDialog
+        self.app.push_screen(
+            ConfirmDialog(
+                f"Delete entry for {entry['username']} at {entry['website']}?",
+                action_label="Delete",
+                danger=True,
+            ),
+            callback=lambda confirmed: self._do_delete(entry, confirmed),
+        )
 
     def _do_delete(self, entry: dict, confirmed: bool) -> None:
         if confirmed:

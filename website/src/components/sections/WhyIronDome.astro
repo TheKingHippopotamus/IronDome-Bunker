@@ -12,10 +12,10 @@ const principles = [
       "Your master password never touches disk. Only a salted PBKDF2 hash \u2014 600,000 rounds \u2014 is derived in memory and immediately discarded. Even if someone dumps your filesystem, there is nothing to find.",
   },
   {
-    title: "Hardware Bound",
+    title: "Machine Specific",
     icon: "/IronDome-Bunker/shield-hardware.svg",
     description:
-      "Encryption keys are derived from your machine\u2019s hardware fingerprint. Steal the vault file, copy it anywhere \u2014 it\u2019s encrypted to hardware it will never be on. No hardware, no access. Full stop.",
+      "Encryption keys are derived from your machine\u2019s unique identifiers. Steal the vault file, copy it anywhere \u2014 it\u2019s encrypted to a machine identity it will never be on. No matching identity, no access. Full stop.",
   },
   {
     title: "Biometric Shield",

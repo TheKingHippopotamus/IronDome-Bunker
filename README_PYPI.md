@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome" width="500"/>
 </p>
 
-<h3 align="center">Fortified Password Vault — TUI | AES-256 | Zero-Knowledge | Biometric</h3>
+<h3 align="center">Fortified Password Vault — TUI | AES-128-CBC | Zero-Knowledge | Biometric</h3>
 
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
@@ -23,7 +23,7 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts everything locally with AES-256, binds keys to your hardware, and operates on a zero-knowledge model. Full terminal UI. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
+> IronDome encrypts everything locally with AES-128-CBC (Fernet), derives keys from machine identity, and operates on a zero-knowledge model. Full terminal UI. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
 
 ## Quick Start
 
@@ -43,13 +43,13 @@ irondome
 
 ## Security
 
-- **AES-256-CBC** encryption via Fernet
+- **AES-128-CBC** encryption via Fernet
 - **PBKDF2-HMAC-SHA256** with 600,000 iterations (OWASP 2023)
 - **Zero-knowledge** — master password never stored
-- **Hardware-bound** keys tied to your machine identity
+- **Machine-specific** keys derived from machine identity
 - **Biometric auth** — Touch ID (macOS), Windows Hello, fprintd (Linux)
 - **Two-factor** mode — biometric gate + master password
-- **24-word recovery** phrase (BIP-39 format)
+- **24-character recovery code** (XXXX-XXXX-XXXX-XXXX-XXXX-XXXX format)
 - **Adaptive lockout** — progressive brute-force protection
 - **30-minute sessions** with auto-lock
 
@@ -93,7 +93,7 @@ irondome-cli close airspace      # Lock everything
 | **Data** | Your machine only | Their servers |
 | **Network** | Never | Always |
 | **Zero knowledge** | True — no server | "Trust us" |
-| **Hardware binding** | Keys tied to machine | No |
+| **Hardware binding** | Keys derived from machine identity | No |
 | **Open source** | GPL-3.0 | Rarely |
 | **Cost** | Free | $3-5/month |
 

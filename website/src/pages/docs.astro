@@ -95,7 +95,7 @@ import Layout from '../layouts/Layout.astro';
                 {[
                   'Set your master password',
                   'Choose auth mode (biometric, bio+password, password only)',
-                  'Generate recovery phrase',
+                  'Generate recovery code',
                 ].map((item, i) => (
                   <li style="display: flex; align-items: flex-start; gap: 0.5rem; font-size: 0.8125rem; color: var(--color-text-secondary);">
                     <span style="color: var(--color-gold); font-family: var(--font-mono); font-size: 0.7rem; margin-top: 0.2rem; flex-shrink: 0;">&gt;</span>
@@ -153,7 +153,7 @@ import Layout from '../layouts/Layout.astro';
               </div>
               <!-- Rows -->
               {[
-                ['irondome create bunker', 'First-time vault setup — generates keys, configures auth, saves recovery phrase'],
+                ['irondome create bunker', 'First-time vault setup — generates keys, configures auth, saves recovery code'],
                 ['irondome open airspace',  'Authenticate and start a 30-minute session'],
                 ['irondome close airspace', 'Lock everything immediately — terminates session'],
                 ['irondome status',         'Display vault health, session state, and configuration info'],
@@ -254,7 +254,7 @@ import Layout from '../layouts/Layout.astro';
               </ul>
               <div style="padding: 0.625rem 0.875rem; background: rgba(255,215,0,0.04); border: 1px solid rgba(255,215,0,0.1); border-radius: var(--radius-sm);">
                 <p style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-gold-dim); line-height: 1.5;">
-                  Recovery requires the 24-word phrase. Store it offline.
+                  Recovery requires the 24-character recovery code. Store it offline.
                 </p>
               </div>
             </div>
@@ -488,7 +488,7 @@ import Layout from '../layouts/Layout.astro';
                 ['password_manager.log',       'neutral', 'Append-only audit log of all vault operations.'],
                 ['settings.json',              'neutral', 'User preferences — password length, timeouts, backup behavior.'],
                 ['backups/',                   'gold',    'Directory for encrypted backup files created by bunker fortify.'],
-                ['.passwords_backup_*.enc',    'muted',   'AES-256 encrypted snapshots of the vault. Filename includes timestamp.'],
+                ['.passwords_backup_*.enc',    'muted',   'AES-128-CBC encrypted snapshots of the vault. Filename includes timestamp.'],
                 ['.passwords.enc',             'green',   'Primary encrypted password store. Never edit directly.'],
                 ['salt.bin',                   'neutral', 'PBKDF2 salt. Unique per installation. Do not delete.'],
                 ['.master_user.enc',           'green',   'Encrypted vault owner credential record.'],
@@ -650,14 +650,14 @@ import Layout from '../layouts/Layout.astro';
                 <div style="padding-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
                   <div class="warning-stripe-border" style="padding: 0.75rem 1rem; border-radius: var(--radius-sm);">
                     <p style="font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-gold); font-weight: 700; margin: 0 0 0.375rem;">Zero-knowledge design: there is no server-side recovery.</p>
-                    <p style="font-size: 0.8125rem; color: var(--color-text-secondary); margin: 0; line-height: 1.55;">If you lose your master password AND your recovery phrase, vault contents are permanently inaccessible. This is by design.</p>
+                    <p style="font-size: 0.8125rem; color: var(--color-text-secondary); margin: 0; line-height: 1.55;">If you lose your master password AND your recovery code, vault contents are permanently inaccessible. This is by design.</p>
                   </div>
-                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">Recovery process using your 24-word phrase:</p>
+                  <p style="font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.6; margin: 0;">Recovery process using your 24-character recovery code:</p>
                   <ul style="display: flex; flex-direction: column; gap: 0.375rem;">
                     {[
-                      'Locate your 24-word recovery phrase (stored offline at setup)',
-                      'Run: irondome create bunker and select "Recover from phrase"',
-                      'Enter all 24 words in exact order',
+                      'Locate your 24-character recovery code (stored offline at setup)',
+                      'Run: irondome create bunker and select "Recover from code"',
+                      'Enter your recovery code (XXXX-XXXX-XXXX-XXXX-XXXX-XXXX format)',
                       'Set a new master password',
                       'Your vault will be decrypted and re-encrypted with the new credential',
                     ].map((item, i) => (

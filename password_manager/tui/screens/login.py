@@ -26,6 +26,9 @@ class LoginScreen(Screen):
         super().__init__(**kwargs)
         self._state = app_state
         self._auth_mode = None
+        # Tracks whether biometric failed in biometric_password mode so that
+        # the next Unlock press routes to password auth instead of retrying bio.
+        self._bio_failed = False
 
     def compose(self):
         with Center():
@@ -67,10 +70,9 @@ class LoginScreen(Screen):
 
     def _detect_auth_mode(self) -> None:
         if not self._state.is_configured:
-            self.query_one("#login-auth-mode").update(
-                "No vault configured. Run 'irondome create bunker' first."
-            )
-            self.query_one("#btn-unlock").disabled = True
+            # No vault exists — push setup screen instead of a dead-end message.
+            from password_manager.tui.screens.setup import SetupScreen
+            self.app.push_screen(SetupScreen(self._state))
             return
 
         self._auth_mode = self._state.get_auth_mode()
@@ -87,11 +89,10 @@ class LoginScreen(Screen):
             self.query_one("#login-bio-status").update(
                 "Biometric authentication will be requested."
             )
-        if self._auth_mode in ("biometric_password", "password_only", None):
+        if self._auth_mode in ("password_only", None):
             self.query_one("#login-username").remove_class("hidden")
             self.query_one("#login-password").remove_class("hidden")
-            if self._auth_mode == "biometric_password":
-                self.query_one("#login-username").add_class("hidden")
+        # biometric_password: password fields start hidden; revealed on bio failure
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "btn-quit":
@@ -107,7 +108,8 @@ class LoginScreen(Screen):
         self._show_spinner(True)
         self._clear_error()
 
-        if self._auth_mode in ("biometric_only", "biometric_password"):
+        # In biometric_password mode after a bio failure, fall through to password.
+        if self._auth_mode in ("biometric_only", "biometric_password") and not self._bio_failed:
             self._run_biometric_auth()
         else:
             self._run_password_auth()
@@ -146,8 +148,23 @@ class LoginScreen(Screen):
         self._show_spinner(False)
         if success:
             self.post_message(AuthSuccess(self._state.username or "user"))
+        elif self._auth_mode == "biometric_password" and not self._bio_failed:
+            # Biometric just failed for the first time in dual mode — switch to password.
+            self._bio_failed = True
+            self._show_bio_fallback()
         else:
             self._show_error("Authentication failed. Check credentials and try again.")
+
+    def _show_bio_fallback(self) -> None:
+        """Reveal password fields and prompt user after biometric failure in dual mode."""
+        try:
+            self.query_one("#login-bio-status").update(
+                f"{ICONS['warning']}  Biometric failed. Enter master password:"
+            )
+            self.query_one("#login-password", Input).remove_class("hidden")
+            self.query_one("#login-password", Input).focus()
+        except Exception as exc:
+            log.error("Failed to show bio fallback UI: %s", exc)
 
     def _show_error(self, msg: str) -> None:
         try:

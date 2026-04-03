@@ -68,6 +68,12 @@ class BiometricAuth:
         if self._available is not _NOT_CHECKED:
             return bool(self._available)
 
+        # Skip biometric in CI/SSH environments
+        if self._is_headless_environment():
+            self.logger.info("BiometricAuth: headless/CI environment detected — biometrics disabled")
+            self._available = False
+            return False
+
         try:
             if self._platform == "Darwin":
                 result = self._check_macos()
@@ -150,6 +156,18 @@ class BiometricAuth:
             self.logger.warning("BiometricAuth: authentication failed or was cancelled")
 
         return result
+
+    def _is_headless_environment(self) -> bool:
+        """Detect CI runners and SSH sessions where biometric prompts would hang."""
+        import os
+        # CI detection
+        ci_vars = ("CI", "GITHUB_ACTIONS", "JENKINS_URL", "CIRCLECI", "TRAVIS", "GITLAB_CI")
+        if any(os.environ.get(v) for v in ci_vars):
+            return True
+        # SSH detection (no display = can't show OS biometric dialog)
+        if os.environ.get("SSH_CLIENT") or os.environ.get("SSH_TTY"):
+            return True
+        return False
 
     # ------------------------------------------------------------------
     # Private — macOS (Touch ID / LocalAuthentication)
@@ -512,8 +530,10 @@ exit(success ? 0 : 1)
             return False
 
         try:
+            import os as _os
+            current_user = _os.environ.get("USER") or _os.environ.get("LOGNAME") or ""
             result = subprocess.run(
-                ["fprintd-verify"],
+                ["fprintd-verify", current_user] if current_user else ["fprintd-verify"],
                 capture_output=True,
                 text=True,
                 timeout=_BIOMETRIC_TIMEOUT,

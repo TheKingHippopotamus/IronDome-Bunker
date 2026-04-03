@@ -8,7 +8,7 @@ const threats = [
     level: 'HIGH',
     color: '#8B2500',
     scenario: 'Attacker gains filesystem access and copies .passwords.enc from disk.',
-    defense: 'Hardware-bound encryption key. The vault is machine-specific. On any other hardware, decryption produces garbage.',
+    defense: 'Machine-specific encryption key derived from machine identity. The vault is machine-specific. On any other hardware, decryption produces garbage.',
   },
   {
     id: 'T-002',

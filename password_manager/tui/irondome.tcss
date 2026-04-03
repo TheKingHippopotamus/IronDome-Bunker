@@ -229,6 +229,79 @@ LoginScreen {
     padding: 2 4;
 }
 
+/* ─── Setup Screen ─── */
+
+SetupScreen {
+    align: center middle;
+}
+
+#setup-box {
+    width: 66;
+    max-width: 95%;
+    height: auto;
+    background: #111518;
+    border: solid #1E2D3D;
+    padding: 2 4;
+}
+
+#setup-header {
+    color: #00FF41;
+    text-style: bold;
+    text-align: center;
+    margin-bottom: 1;
+}
+
+#setup-welcome {
+    color: #94A3B8;
+    text-align: center;
+    margin-bottom: 1;
+}
+
+#setup-level-label {
+    color: #94A3B8;
+    margin-top: 1;
+    margin-bottom: 0;
+}
+
+#setup-mode {
+    margin: 0 0 1 0;
+    border: none;
+    padding: 0;
+    height: auto;
+}
+
+#setup-bio-notice {
+    color: #FFB300;
+    height: auto;
+    margin-bottom: 1;
+}
+
+#setup-recovery-box {
+    background: #1A1F24;
+    border: solid #FFB300;
+    color: #FFB300;
+    padding: 1 2;
+    margin: 1 0;
+    height: auto;
+}
+
+#setup-error {
+    color: #FF2020;
+    height: auto;
+    margin-top: 1;
+}
+
+#setup-actions {
+    layout: horizontal;
+    height: auto;
+    margin: 2 0 0 0;
+    align: center middle;
+}
+
+#setup-actions Button {
+    margin: 0 1;
+}
+
 /* ─── Dashboard ─── */
 
 DashboardScreen {

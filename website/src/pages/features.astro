@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout
   title="Features"
-  description="Every layer of defense, explained. Military-grade AES-256 encryption, zero-knowledge architecture, hardware-bound keys, and biometric authentication."
+  description="Every layer of defense, explained. AES-128-CBC encryption (Fernet), zero-knowledge architecture, machine-specific keys, and biometric authentication."
 >
 
 <style>
@@ -353,8 +353,8 @@ import Layout from '../layouts/Layout.astro';
         <!-- Tactical metrics strip -->
         <div style="display:flex;justify-content:center;gap:0;flex-wrap:wrap;margin-top:2rem;border:1px solid #1A2610;max-width:640px;margin-left:auto;margin-right:auto;">
           <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1A2610;text-align:center;">
-            <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">256</div>
-            <div class="label-muted" style="margin-top:0.25rem;">bit AES</div>
+            <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">128</div>
+            <div class="label-muted" style="margin-top:0.25rem;">bit AES (Fernet)</div>
           </div>
           <div style="flex:1;min-width:120px;padding:1rem;border-right:1px solid #1A2610;text-align:center;">
             <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">600K</div>
@@ -366,7 +366,7 @@ import Layout from '../layouts/Layout.astro';
           </div>
           <div style="flex:1;min-width:120px;padding:1rem;text-align:center;">
             <div style="font-family:var(--mono);font-size:1.5rem;font-weight:900;color:var(--gold);">24</div>
-            <div class="label-muted" style="margin-top:0.25rem;">word recovery</div>
+            <div class="label-muted" style="margin-top:0.25rem;">char recovery code</div>
           </div>
         </div>
 
@@ -387,21 +387,21 @@ import Layout from '../layouts/Layout.astro';
           </p>
         </div>
 
-        <!-- ── CARD 1: AES-256 Encryption ── -->
+        <!-- ── CARD 1: AES-128-CBC Encryption ── -->
         <div class="feat-card" style="margin-bottom:2px;">
           <div class="corner-mark tl"></div>
           <div class="corner-mark tr"></div>
           <div class="corner-mark bl"></div>
           <div class="corner-mark br"></div>
 
-          <div class="feat-num">CAPABILITY-01 / AES-256 ENCRYPTION</div>
+          <div class="feat-num">CAPABILITY-01 / AES-128-CBC ENCRYPTION</div>
 
           <div style="display:grid;grid-template-columns:1fr;gap:2rem;" class="feat-layout-split-md">
             <div>
               <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.5rem;">
-                <img src="/IronDome-Bunker/shield-aes.svg" alt="AES-256" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
+                <img src="/IronDome-Bunker/shield-aes.svg" alt="AES-128-CBC" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
                 <div>
-                  <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">AES-256 Encryption</h3>
+                  <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">AES-128-CBC Encryption</h3>
                   <p style="color:#94a3b8;margin:0;line-height:1.7;">
                     Military-grade symmetric encryption. Every password entry is encrypted with a unique Fernet key derived from your master password via PBKDF2-HMAC-SHA256 with <strong style="color:var(--gold);">600,000 iterations</strong> — the OWASP 2023 recommended standard. This is not configurable because the right answer is already hardcoded.
                   </p>
@@ -417,13 +417,13 @@ import Layout from '../layouts/Layout.astro';
                        └─ output: 32-byte derived key
 
 <span class="comment"># Step 2: Vault encryption</span>
-<span class="prompt">Derived Key</span>  ──→  Fernet(AES-256-CBC + HMAC-SHA256)
+<span class="prompt">Derived Key</span>  ──→  Fernet(AES-128-CBC + HMAC-SHA256)
                └─ IV: unique per encryption
                └─ authentication tag included
                └─ output: <span class="highlight">Encrypted Vault</span>
 
 <span class="comment"># Final pipeline</span>
-Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
+Master Password → PBKDF2(600k) → Key → Fernet(AES-128-CBC) → Vault</div>
               </div>
             </div>
 
@@ -431,7 +431,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
               <div class="label-muted" style="margin-bottom:0.75rem;">TECHNICAL SPEC</div>
               <div style="display:grid;gap:0;">
                 {[
-                  ['Algorithm', 'AES-256-CBC'],
+                  ['Algorithm', 'AES-128-CBC'],
                   ['Mode', 'Fernet (authenticated encryption)'],
                   ['KDF', 'PBKDF2-HMAC-SHA256'],
                   ['Iterations', '600,000 (OWASP 2023)'],
@@ -489,19 +489,19 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
           </div>
         </div>
 
-        <!-- ── CARD 3: Hardware-Bound Keys ── -->
+        <!-- ── CARD 3: Machine-Specific Keys ── -->
         <div class="feat-card" style="margin-bottom:2px;">
           <div class="corner-mark tl"></div>
           <div class="corner-mark tr"></div>
           <div class="corner-mark bl"></div>
           <div class="corner-mark br"></div>
 
-          <div class="feat-num">CAPABILITY-03 / HARDWARE-BOUND KEYS</div>
+          <div class="feat-num">CAPABILITY-03 / MACHINE-SPECIFIC KEYS</div>
 
           <div style="display:flex;align-items:flex-start;gap:1.5rem;margin-bottom:1.75rem;">
             <img src="/IronDome-Bunker/shield-hardware.svg" alt="Hardware Binding" width="64" height="64" style="flex-shrink:0;margin-top:0.25rem;" />
             <div>
-              <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Hardware-Bound Keys</h3>
+              <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Machine-Specific Keys</h3>
               <p style="color:#94a3b8;margin:0;line-height:1.7;">
                 A system-specific encryption key is derived from your machine's unique identifiers. Even if your encrypted vault file is copied byte-for-byte to another machine, it <strong style="color:var(--gold);">cannot be decrypted</strong>. Your hardware is part of the cryptographic key material. Physical theft of your device (without credentials) yields nothing.
               </p>
@@ -514,7 +514,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 <span class="prompt">Device UUID</span>    ──┘      (deterministic,    │
                          no network calls)    │
                                               ↓
-                              <span class="highlight">Hardware-Bound Encryption Key</span>
+                              <span class="highlight">Machine-Specific Encryption Key</span>
                               (stored in ~/.irondome/hw_key)
 
 <span class="comment"># If vault copied to another machine:</span>
@@ -695,36 +695,31 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
           <div class="feat-num">CAPABILITY-07 / RECOVERY SYSTEM</div>
 
-          <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Recovery Phrase</h3>
+          <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Recovery Code</h3>
           <p style="color:#94a3b8;margin:0 0 1.75rem;line-height:1.7;max-width:680px;">
-            A <strong style="color:var(--gold);">24-word BIP-39 format</strong> recovery phrase is generated at vault creation time. This phrase encodes sufficient entropy to recover your vault even if your hardware changes or your master password is lost. Treat it like a nuclear launch code — write it on paper, store it in a fireproof safe, never digitize it.
+            A <strong style="color:var(--gold);">24-character hex recovery code</strong> is generated at vault creation time. This code (XXXX-XXXX-XXXX-XXXX-XXXX-XXXX format) encodes sufficient entropy to recover your vault even if your hardware changes or your master password is lost. Treat it like a nuclear launch code — write it on paper, store it in a fireproof safe, never digitize it.
           </p>
 
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;">
             <div style="background:#060a12;border:1px solid #1A2610;border-left:3px solid var(--gold);padding:1.5rem;">
-              <div class="label-gold" style="margin-bottom:0.875rem;">BIP-39 STANDARD</div>
+              <div class="label-gold" style="margin-bottom:0.875rem;">HEX RECOVERY CODE</div>
               <div style="font-size:0.85rem;color:#94a3b8;line-height:1.7;">
-                The same mnemonic standard used by Bitcoin hardware wallets. 24 words drawn from a 2048-word wordlist, encoding 256 bits of entropy. Standardized, audited, and battle-tested by the cryptocurrency industry.
+                A 24-character hex string formatted as XXXX-XXXX-XXXX-XXXX-XXXX-XXXX (6 groups of 4 hex chars, 12 bytes / 96 bits of entropy). Generated at vault creation. Never stored on disk. Keep it offline.
               </div>
             </div>
             <div style="background:#060a12;border:1px solid #1A2610;border-left:3px solid var(--red);padding:1.5rem;">
               <div style="font-family:var(--mono);font-size:0.7rem;font-weight:700;letter-spacing:0.15em;color:var(--red);margin-bottom:0.875rem;">SECURITY WARNING</div>
               <div style="font-size:0.85rem;color:#94a3b8;line-height:1.7;">
-                Never store your recovery phrase digitally. Never photograph it. Never type it into any device while connected to a network. If someone obtains these 24 words, they own your vault permanently.
+                Never store your recovery code digitally. Never photograph it. Never type it into any device while connected to a network. If someone obtains this code, they own your vault permanently.
               </div>
             </div>
           </div>
 
           <!-- Visual phrase preview (censored) -->
           <div style="margin-top:1.5rem;">
-            <div class="label-muted" style="margin-bottom:0.75rem;">EXAMPLE PHRASE FORMAT (CENSORED)</div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:4px;">
-              {Array.from({length: 24}, (_, i) => (
-                <div style="background:#060a12;border:1px solid #1A2610;padding:0.4rem 0.625rem;display:flex;align-items:center;gap:0.5rem;">
-                  <span style="font-family:var(--mono);font-size:0.65rem;color:var(--gold-dim);width:1.5rem;flex-shrink:0;">{String(i + 1).padStart(2, '0')}</span>
-                  <span style="font-family:var(--mono);font-size:0.72rem;color:#475569;letter-spacing:0.05em;">••••••</span>
-                </div>
-              ))}
+            <div class="label-muted" style="margin-bottom:0.75rem;">EXAMPLE CODE FORMAT (CENSORED)</div>
+            <div style="font-family:var(--mono);font-size:0.85rem;color:#475569;letter-spacing:0.12em;padding:0.75rem 1rem;background:#060a12;border:1px solid #1A2610;">
+              XXXX-XXXX-XXXX-XXXX-XXXX-XXXX
             </div>
           </div>
         </div>
@@ -740,14 +735,14 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
 
           <h3 style="font-size:1.4rem;font-weight:800;margin:0 0 0.75rem;color:var(--text);">Encrypted Backups</h3>
           <p style="color:#94a3b8;margin:0 0 1.75rem;line-height:1.7;max-width:680px;">
-            <span style="font-family:var(--mono);color:var(--gold);">bunker fortify</span> creates a complete encrypted snapshot of your vault. Backups inherit the full encryption chain — the same AES-256 Fernet encryption, the same hardware binding, the same zero-knowledge guarantee. No plaintext ever leaves the encryption boundary, not even in backup form.
+            <span style="font-family:var(--mono);color:var(--gold);">bunker fortify</span> creates a complete encrypted snapshot of your vault. Backups inherit the full encryption chain — the same AES-128-CBC Fernet encryption, the same machine-specific binding, the same zero-knowledge guarantee. No plaintext ever leaves the encryption boundary, not even in backup form.
           </p>
 
           <div class="terminal-block"><span class="prompt">$</span> bunker fortify
 
 <span class="comment"># Output:</span>
 <span class="highlight">[IRONDOME]</span> Creating encrypted vault backup...
-           Applying AES-256-CBC encryption
+           Applying AES-128-CBC encryption
            Binding to current hardware fingerprint
            Generating backup manifest (HMAC-signed)
            Writing to: ~/.irondome/backups/vault_<span class="highlight">20240315_143022</span>.enc
@@ -890,7 +885,7 @@ Master Password → PBKDF2(600k) → Key → Fernet(AES-256-CBC) → Vault</div>
                   { feature: 'Data Location', iron: 'Your machine only', cloud: 'Their servers', ironGood: true, cloudGood: false },
                   { feature: 'Network Required', iron: 'Never', cloud: 'Always', ironGood: true, cloudGood: false },
                   { feature: 'Zero Knowledge', iron: 'True (no server exists)', cloud: '"Trust us"', ironGood: true, cloudGood: false },
-                  { feature: 'Hardware Binding', iron: 'Yes — key tied to device', cloud: 'No', ironGood: true, cloudGood: false },
+                  { feature: 'Hardware Binding', iron: 'Yes — key derived from machine identity', cloud: 'No', ironGood: true, cloudGood: false },
                   { feature: 'Open Source', iron: 'GPL-3.0 (fully auditable)', cloud: 'Rarely', ironGood: true, cloudGood: false },
                   { feature: 'Cost', iron: 'Free forever', cloud: '$3–5/month', ironGood: true, cloudGood: false },
                   { feature: 'Biometric Auth', iron: 'OS-native (Secure Enclave)', cloud: 'Browser plugin', ironGood: true, cloudGood: false },

@@ -72,10 +72,10 @@ const permissions = [
 <span class="fs-tree__branch">├──</span> <span class="fs-tree__file">password_manager.log</span>         <span class="fs-tree__comment"># non-sensitive audit trail</span>
 <span class="fs-tree__branch">├──</span> <span class="fs-tree__file">settings.json</span>                <span class="fs-tree__comment"># user preferences, no secrets</span>
 <span class="fs-tree__branch">├──</span> <span class="fs-tree__dir">backups/</span>
-<span class="fs-tree__branch">│   └──</span> <span class="fs-tree__file">.passwords_backup_*.enc</span>  <span class="fs-tree__comment"># AES-256 encrypted backups</span>
+<span class="fs-tree__branch">│   └──</span> <span class="fs-tree__file">.passwords_backup_*.enc</span>  <span class="fs-tree__comment"># AES-128-CBC encrypted backups</span>
 <span class="fs-tree__branch">└──</span> <span class="fs-tree__dir">secrets/</span>                      <span class="fs-tree__comment"># chmod 0700 — owner only</span>
-<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.passwords.enc</span>            <span class="fs-tree__comment"># vault — Fernet AES-256</span>
-<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">salt.bin</span>                  <span class="fs-tree__comment"># PBKDF2 salt (32 bytes)</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.passwords.enc</span>            <span class="fs-tree__comment"># vault — Fernet AES-128-CBC</span>
+<span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">salt.bin</span>                  <span class="fs-tree__comment"># PBKDF2 salt (16 bytes)</span>
 <span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.master_user.enc</span>          <span class="fs-tree__comment"># encrypted master username</span>
 <span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.master_hash.enc</span>          <span class="fs-tree__comment"># encrypted PBKDF2 hash</span>
 <span class="fs-tree__branch">    ├──</span> <span class="fs-tree__file">.login_attempts.dat</span>       <span class="fs-tree__comment"># lockout counter</span>

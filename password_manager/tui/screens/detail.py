@@ -237,6 +237,15 @@ class DetailScreen(Screen):
             self.notify("Entry updated", timeout=3)
 
     def action_delete_entry(self) -> None:
+        from password_manager.tui.screens.reauth import ReAuthModal
+        self.app.push_screen(
+            ReAuthModal(self._state, action_label="Delete"),
+            callback=self._on_delete_reauth,
+        )
+
+    def _on_delete_reauth(self, verified: bool) -> None:
+        if not verified:
+            return
         from password_manager.tui.screens.confirm import ConfirmDialog
         self.app.push_screen(
             ConfirmDialog(
