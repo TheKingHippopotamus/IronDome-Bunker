@@ -71,6 +71,40 @@ const threats = [
 
 <section class="threat-model" aria-labelledby="threats">
   <div class="threat-model__inner">
+
+    <!-- Status board header bar -->
+    <div class="tsb" role="region" aria-label="Threat status board">
+      <div class="tsb__inner">
+        <div class="tsb__left">
+          <span class="tsb__title">THREAT STATUS BOARD</span>
+        </div>
+        <div class="tsb__right">
+          <span class="tsb__monitoring">
+            <span class="tsb__monitoring-dot" aria-hidden="true"></span>
+            ACTIVE MONITORING: ENABLED
+          </span>
+        </div>
+      </div>
+      <div class="tsb__counts" role="list" aria-label="Threat count by severity">
+        <div class="tsb__count tsb__count--high" role="listitem" aria-label="2 high severity threats">
+          <span class="tsb__count-num">2</span>
+          <span class="tsb__count-label">HIGH</span>
+        </div>
+        <div class="tsb__count tsb__count--medium" role="listitem" aria-label="3 medium severity threats">
+          <span class="tsb__count-num">3</span>
+          <span class="tsb__count-label">MEDIUM</span>
+        </div>
+        <div class="tsb__count tsb__count--low" role="listitem" aria-label="1 low severity threat">
+          <span class="tsb__count-num">1</span>
+          <span class="tsb__count-label">LOW</span>
+        </div>
+        <div class="tsb__count tsb__count--neutralized" role="listitem" aria-label="2 neutralized threats">
+          <span class="tsb__count-num">2</span>
+          <span class="tsb__count-label">NEUTRALIZED</span>
+        </div>
+      </div>
+    </div>
+
     <!-- Section heading -->
     <div class="threat-model__header">
       <ClassificationBadge text="THREAT MODEL" level="top-secret" />
@@ -114,6 +148,174 @@ const threats = [
 </section>
 
 <style>
+  /* ============================================================
+     THREAT STATUS BOARD
+     ============================================================ */
+
+  .tsb {
+    margin-bottom: 2.5rem;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius-md, 4px);
+    background-color: rgba(8, 11, 16, 0.85);
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Scan-line animation overlay */
+  .tsb::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(239, 68, 68, 0.018) 3px,
+      rgba(239, 68, 68, 0.018) 4px
+    );
+    pointer-events: none;
+    animation: tsb-scanlines 8s linear infinite;
+  }
+
+  @keyframes tsb-scanlines {
+    0%   { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+  }
+
+  /* Top row: title + monitoring status */
+  .tsb__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1.25rem;
+    background-color: rgba(239, 68, 68, 0.06);
+    border-bottom: 1px solid rgba(239, 68, 68, 0.18);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tsb__title {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #EF4444;
+  }
+
+  .tsb__monitoring {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #39D353;
+  }
+
+  .tsb__monitoring-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #39D353;
+    box-shadow: 0 0 6px rgba(57, 211, 83, 0.8);
+    animation: tsb-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes tsb-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(57, 211, 83, 0.8); }
+    50%       { opacity: 0.5; box-shadow: 0 0 2px rgba(57, 211, 83, 0.3); }
+  }
+
+  /* Bottom row: count badges */
+  .tsb__counts {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+  }
+
+  .tsb__count {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-sm, 1px);
+    border: 1px solid;
+  }
+
+  .tsb__count-num {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .tsb__count-label {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  /* HIGH — red */
+  .tsb__count--high {
+    background-color: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.3);
+  }
+  .tsb__count--high .tsb__count-num  { color: #EF4444; }
+  .tsb__count--high .tsb__count-label { color: rgba(239, 68, 68, 0.8); }
+
+  /* MEDIUM — amber */
+  .tsb__count--medium {
+    background-color: rgba(245, 158, 11, 0.1);
+    border-color: rgba(245, 158, 11, 0.3);
+  }
+  .tsb__count--medium .tsb__count-num  { color: #F59E0B; }
+  .tsb__count--medium .tsb__count-label { color: rgba(245, 158, 11, 0.8); }
+
+  /* LOW — steel blue */
+  .tsb__count--low {
+    background-color: rgba(74, 107, 139, 0.12);
+    border-color: rgba(74, 107, 139, 0.3);
+  }
+  .tsb__count--low .tsb__count-num  { color: #60A5FA; }
+  .tsb__count--low .tsb__count-label { color: rgba(96, 165, 250, 0.8); }
+
+  /* NEUTRALIZED — phosphor green */
+  .tsb__count--neutralized {
+    background-color: rgba(57, 211, 83, 0.08);
+    border-color: rgba(57, 211, 83, 0.25);
+  }
+  .tsb__count--neutralized .tsb__count-num  { color: #39D353; }
+  .tsb__count--neutralized .tsb__count-label { color: rgba(57, 211, 83, 0.8); }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .tsb__inner {
+      padding: 0.5rem 1rem;
+    }
+
+    .tsb__counts {
+      padding: 0.5rem 1rem;
+      gap: 0.375rem;
+    }
+
+    .tsb__count {
+      padding: 0.2rem 0.5rem;
+    }
+
+    .tsb__count-num {
+      font-size: 0.875rem;
+    }
+  }
+
   /* ── Section ── */
   .threat-model {
     position: relative;

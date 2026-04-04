@@ -1,52 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 /* ============================================================
-   IRONDOME — ARMY TACTICAL COMMAND CENTER DESIGN SYSTEM
-   Tailwind CSS v4 global stylesheet
+   IRONDOME — TACTICAL COMMAND DESIGN SYSTEM  v3.0
+   Unified palette: one olive primary, one phosphor secondary,
+   steel-slate backgrounds, full token coverage.
    ============================================================ */
 
 /* ------------------------------------------------------------
-   CSS CUSTOM PROPERTIES — ARMY DESIGN TOKENS
+   CSS CUSTOM PROPERTIES
    ------------------------------------------------------------ */
 :root {
-  /* Background palette — deep forest dark */
-  --color-bg-base:        #0A0D06;
-  --color-bg-card:        #0D1208;
-  --color-bg-card-hover:  #141E0B;
-  --color-bg-elevated:    #1A2610;
 
-  /* Army accent palette */
-  --color-army:           #4A5D23;
-  --color-army-light:     #5C7A29;
-  --color-army-bright:    #8B9A46;
-  --color-army-glow:      rgba(139, 154, 70, 0.25);
-  --color-army-border:    rgba(74, 93, 35, 0.25);
-  --color-army-muted:     rgba(139, 154, 70, 0.12);
+  /* ----------------------------------------------------------
+     BACKGROUND LAYERS — steel-slate ops-center depth
+     Layer 0 (void) → Layer 3 (elevated surface)
+     ---------------------------------------------------------- */
+  --color-bg-base:        #080B10;   /* page/body — navy-black void              */
+  --color-bg-surface:     #0D1117;   /* cards, panels — deep steel               */
+  --color-bg-raised:      #131922;   /* hover states, selected rows              */
+  --color-bg-overlay:     #1C2433;   /* modals, tooltips — clearly elevated      */
 
-  /* Text palette — olive-tinted grays */
-  --color-text-primary:   #C8D4B0;
-  --color-text-secondary: #7A8B6A;
-  --color-text-muted:     #5A6B4A;
+  /* ----------------------------------------------------------
+     PRIMARY ACCENT — Tactical Olive
+     UI chrome only: borders, button fills, section labels,
+     icons, glow halos. Never for terminal or live data.
+     ---------------------------------------------------------- */
+  --color-olive:          #6B7F2E;   /* base — field-drab olive                  */
+  --color-olive-bright:   #8FA63A;   /* hover, active, section label text        */
+  --color-olive-dim:      #3D4A1A;   /* badge/pill background fill               */
+  --color-olive-border:   rgba(107, 127, 46, 0.28);   /* card borders, dividers  */
+  --color-olive-glow:     rgba(143, 166, 58, 0.22);   /* diffuse box/text shadow  */
+  --color-olive-muted:    rgba(107, 127, 46, 0.10);   /* subtle surface tints     */
 
-  /* Functional accents */
-  --color-green:          #00FF41;
-  --color-green-dim:      rgba(0, 255, 65, 0.15);
-  --color-red:            #8B2500;
-  --color-blue:           #4A6B8B;
+  /* ----------------------------------------------------------
+     SECONDARY ACCENT — Phosphor Green
+     Terminal output, live status dots, code syntax,
+     "ACTIVE" indicators. Not for UI chrome.
+     ---------------------------------------------------------- */
+  --color-phosphor:       #39D353;   /* phosphor CRT green — legible, not neon   */
+  --color-phosphor-dim:   rgba(57, 211, 83, 0.14);    /* inline code bg tint      */
+  --color-phosphor-glow:  rgba(57, 211, 83, 0.35);    /* status dot box-shadow    */
 
-  /* Legacy aliases — backwards compat */
-  --color-gold:           var(--color-army-bright);
-  --color-gold-dim:       rgba(139, 154, 70, 0.6);
-  --color-gold-muted:     var(--color-army-muted);
-  --color-gold-border:    var(--color-army-border);
-  --color-gold-glow:      var(--color-army-glow);
+  /* ----------------------------------------------------------
+     TEXT — 4 levels, cool neutral
+     ---------------------------------------------------------- */
+  --color-text-primary:   #E2E8F0;   /* headings, labels — slate near-white      */
+  --color-text-secondary: #94A3B8;   /* body copy — comfortable reading gray     */
+  --color-text-muted:     #4B5563;   /* placeholders, helper text                */
+  --color-text-disabled:  #2D3748;   /* disabled controls, redacted text         */
 
-  /* Border radii — tactical: minimal curvature */
+  /* ----------------------------------------------------------
+     STATUS COLORS — semantic, unambiguous
+     ---------------------------------------------------------- */
+  --color-success:        #39D353;   /* mirrors phosphor                         */
+  --color-success-bg:     rgba(57, 211, 83, 0.10);
+  --color-warning:        #F59E0B;   /* amber — distinct from olive              */
+  --color-warning-bg:     rgba(245, 158, 11, 0.10);
+  --color-error:          #EF4444;   /* red — breach / threat                    */
+  --color-error-bg:       rgba(239, 68, 68, 0.10);
+  --color-info:           #60A5FA;   /* steel blue — neutral intel               */
+  --color-info-bg:        rgba(96, 165, 250, 0.10);
+
+  /* ----------------------------------------------------------
+     BORDERS & DIVIDERS
+     ---------------------------------------------------------- */
+  --color-border-subtle:  rgba(255, 255, 255, 0.06);  /* hairline row separators  */
+  --color-border-base:    rgba(255, 255, 255, 0.10);  /* standard card edge       */
+  --color-border-strong:  rgba(255, 255, 255, 0.18);  /* focused / active state   */
+
+  /* ----------------------------------------------------------
+     CODE / TERMINAL COLORS
+     ---------------------------------------------------------- */
+  --color-term-bg:        #060910;   /* terminal — deeper than page bg           */
+  --color-term-prompt:    var(--color-olive-bright);  /* $ prompt character       */
+  --color-term-output:    var(--color-phosphor);      /* stdout text              */
+  --color-term-comment:   #4B5563;   /* # comments                               */
+  --color-term-string:    #F59E0B;   /* string literals — amber                  */
+  --color-term-keyword:   #60A5FA;   /* keywords — steel blue                    */
+  --color-term-number:    #C084FC;   /* numbers, hex values — muted violet       */
+
+  /* ----------------------------------------------------------
+     LEGACY ALIASES — preserve existing component references
+     ---------------------------------------------------------- */
+  --color-army:           var(--color-olive);
+  --color-army-light:     var(--color-olive-bright);
+  --color-army-bright:    var(--color-olive-bright);
+  --color-army-glow:      var(--color-olive-glow);
+  --color-army-border:    var(--color-olive-border);
+  --color-army-muted:     var(--color-olive-muted);
+  --color-green:          var(--color-phosphor);
+  --color-green-dim:      var(--color-phosphor-dim);
+  --color-red:            var(--color-error);
+  --color-blue:           var(--color-info);
+  --color-gold:           var(--color-olive-bright);
+  --color-gold-dim:       rgba(143, 166, 58, 0.60);
+  --color-gold-muted:     var(--color-olive-muted);
+  --color-gold-border:    var(--color-olive-border);
+  --color-gold-glow:      var(--color-olive-glow);
+  --color-bg-card:        var(--color-bg-surface);
+  --color-bg-card-hover:  var(--color-bg-raised);
+  --color-bg-elevated:    var(--color-bg-overlay);
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY
+     Rajdhani    — headings: geometric, military stencil energy
+     Inter       — body: neutral, optimised for UI legibility
+     JetBrains Mono — code/terminal: clear at 12–14px
+     ---------------------------------------------------------- */
+  --font-heading: "Rajdhani", "Segoe UI", system-ui, sans-serif;
+  --font-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "JetBrains Mono", "Cascadia Code", "Fira Code", Menlo, monospace;
+  --font-sans:    var(--font-body);   /* legacy alias */
+
+  /* TYPE SCALE — clamp(min, fluid, max)
+     Weight guide:
+       400 — body copy, secondary labels
+       500 — nav links, metadata, mono UI labels
+       600 — h3–h4, section headings, strong emphasis
+       700 — h1–h2, CTAs, classification badges        */
+  --text-xs:      clamp(0.6875rem, 1.5vw,  0.75rem);   /* 11–12px  captions      */
+  --text-sm:      clamp(0.8125rem, 1.8vw,  0.875rem);  /* 13–14px  labels/badges */
+  --text-base:    clamp(0.9375rem, 2vw,    1rem);       /* 15–16px  body          */
+  --text-lg:      clamp(1rem,      2.2vw,  1.125rem);  /* 16–18px  lead copy     */
+  --text-xl:      clamp(1.125rem,  2.5vw,  1.25rem);   /* 18–20px  h5–h6         */
+  --text-2xl:     clamp(1.25rem,   3vw,    1.5rem);    /* 20–24px  h4            */
+  --text-3xl:     clamp(1.5rem,    3.5vw,  2rem);      /* 24–32px  h3            */
+  --text-4xl:     clamp(1.875rem,  4.5vw,  2.5rem);    /* 30–40px  h2            */
+  --text-display: clamp(2.25rem,   6vw,    3.75rem);   /* 36–60px  h1/hero       */
+
+  /* ----------------------------------------------------------
+     BORDER RADII
+     ---------------------------------------------------------- */
   --radius-sm:   1px;
   --radius-base: 2px;
-  --radius-md:   2px;
+  --radius-md:   4px;
 
-  /* Spacing scale */
+  /* ----------------------------------------------------------
+     SPACING
+     ---------------------------------------------------------- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
   --space-3: 0.75rem;
@@ -57,11 +149,9 @@
   --space-16: 4rem;
   --space-20: 5rem;
 
-  /* Typography */
-  --font-sans:  ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono:  ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
-
-  /* Motion */
+  /* ----------------------------------------------------------
+     MOTION
+     ---------------------------------------------------------- */
   --duration-fast:   150ms;
   --duration-base:   250ms;
   --duration-slow:   400ms;
@@ -89,7 +179,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   line-height: 1.6;
   background-color: var(--color-bg-base);
   color: var(--color-text-primary);
@@ -182,19 +272,19 @@ hr {
    TYPOGRAPHY SCALE
    ------------------------------------------------------------ */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-sans);
+  font-family: var(--font-heading);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.01em;
+  letter-spacing: 0.01em;   /* Rajdhani reads better with slight positive tracking */
   color: var(--color-text-primary);
 }
 
-h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); }
-h3 { font-size: clamp(1.25rem, 2.5vw, 1.75rem); }
-h4 { font-size: 1.25rem; }
-h5 { font-size: 1.125rem; }
-h6 { font-size: 1rem; }
+h1 { font-size: var(--text-display); }
+h2 { font-size: var(--text-4xl); }
+h3 { font-size: var(--text-3xl); font-weight: 600; }
+h4 { font-size: var(--text-2xl); font-weight: 600; }
+h5 { font-size: var(--text-xl);  font-weight: 500; }
+h6 { font-size: var(--text-lg);  font-weight: 500; }
 
 p {
   color: var(--color-text-secondary);
@@ -958,4 +1048,677 @@ strong {
   .site-header {
     padding-top: env(safe-area-inset-top, 0);
   }
+}
+
+/* ============================================================
+   IRONDOME — MOBILE-FIRST RESPONSIVE LAYOUT SYSTEM v1.0
+   Drop-in extension to global.css
+   Strategy: define in :root, write mobile base, layer up with
+   min-width breakpoints. Overrides the scattered max-width
+   patches above with a coherent system.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. BREAKPOINT TOKENS (reference only — use in media queries)
+      --bp-sm  : 480px   phones landscape / large phones
+      --bp-md  : 768px   tablets (iPad portrait)
+      --bp-lg  : 1080px  desktop / iPad landscape
+   ------------------------------------------------------------ */
+:root {
+  /* Breakpoint reference values (not usable directly in @media,
+     listed here as documentation tokens) */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1080px;
+
+  /* 2. GRID SYSTEM
+        mobile  → 4 columns, 16px gutter
+        tablet  → 8 columns, 24px gutter
+        desktop → 12 columns, 32px gutter                       */
+  --grid-cols-mobile:  4;
+  --grid-cols-tablet:  8;
+  --grid-cols-desktop: 12;
+  --grid-gutter-mobile:  1rem;       /* 16px */
+  --grid-gutter-tablet:  1.5rem;     /* 24px */
+  --grid-gutter-desktop: 2rem;       /* 32px */
+
+  /* 3. TYPOGRAPHY SCALE — mobile-first fluid sizes
+        These replace the single-breakpoint overrides above.    */
+  --text-caption:   0.6875rem;   /* 11px — badges, labels      */
+  --text-sm:        0.8125rem;   /* 13px — secondary body      */
+  --text-base:      0.9375rem;   /* 15px — body copy mobile    */
+  --text-lg:        1.0625rem;   /* 17px — lead text           */
+  --text-h4:        1.125rem;    /* 18px                       */
+  --text-h3:        1.25rem;     /* 20px mobile / clamps up    */
+  --text-h2:        1.5rem;      /* 24px mobile / clamps up    */
+  --text-h1:        2rem;        /* 32px mobile / clamps up    */
+  --text-code:      0.8125rem;   /* 13px — inline code mobile  */
+
+  /* 4. SPACING SCALE — 4px base unit, powers of 2
+        Extends the existing scale with explicit semantic names  */
+  --sp-1:   0.25rem;   /* 4px  */
+  --sp-2:   0.5rem;    /* 8px  */
+  --sp-3:   0.75rem;   /* 12px */
+  --sp-4:   1rem;      /* 16px */
+  --sp-5:   1.25rem;   /* 20px */
+  --sp-6:   1.5rem;    /* 24px */
+  --sp-8:   2rem;      /* 32px */
+  --sp-10:  2.5rem;    /* 40px */
+  --sp-12:  3rem;      /* 48px */
+  --sp-16:  4rem;      /* 64px */
+  --sp-20:  5rem;      /* 80px */
+  --sp-24:  6rem;      /* 96px */
+
+  /* Section vertical rhythm (mobile → tablet → desktop) */
+  --section-py: var(--sp-12);
+
+  /* 10. TOUCH TARGETS — WCAG 2.5.5 minimum 44×44px */
+  --touch-target: 44px;
+  --touch-target-lg: 48px;
+}
+
+/* ------------------------------------------------------------
+   2. GRID UTILITY CLASSES — mobile-first CSS Grid
+   ------------------------------------------------------------ */
+
+/* Base grid — always active, 4 cols on mobile */
+.grid {
+  display: grid;
+  gap: var(--grid-gutter-mobile);
+  grid-template-columns: repeat(var(--grid-cols-mobile), 1fr);
+}
+
+/* Auto-stack pattern: 1 col mobile, 2 tablet, 3 desktop */
+.grid-auto {
+  display: grid;
+  gap: var(--grid-gutter-mobile);
+  grid-template-columns: 1fr;
+}
+
+/* Span helpers (mobile: always full width) */
+.col-span-2  { grid-column: span 2; }
+.col-span-3  { grid-column: span 3; }
+.col-span-4  { grid-column: span 4; }
+.col-full    { grid-column: 1 / -1; }
+
+@media (min-width: 480px) {
+  .grid-auto {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gutter-tablet);
+  }
+}
+
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--grid-gutter-tablet);
+    grid-template-columns: repeat(var(--grid-cols-tablet), 1fr);
+  }
+
+  .grid-auto {
+    gap: var(--grid-gutter-tablet);
+  }
+
+  :root {
+    --section-py: var(--sp-16);
+  }
+}
+
+@media (min-width: 1080px) {
+  .grid {
+    gap: var(--grid-gutter-desktop);
+    grid-template-columns: repeat(var(--grid-cols-desktop), 1fr);
+  }
+
+  .grid-auto {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gutter-desktop);
+  }
+
+  :root {
+    --section-py: var(--sp-20);
+  }
+}
+
+/* ------------------------------------------------------------
+   3. TYPOGRAPHY SCALE — mobile-first fluid headings
+      The clamp() values defined in global.css are desktop-centric.
+      These override with correct mobile floors.
+   ------------------------------------------------------------ */
+h1 {
+  font-size: clamp(1.75rem, 6vw, 3.5rem);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: clamp(1.375rem, 4vw, 2.5rem);
+  line-height: 1.15;
+}
+
+h3 {
+  font-size: clamp(1.125rem, 3vw, 1.75rem);
+  line-height: 1.2;
+}
+
+h4 {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 1.3;
+}
+
+/* Body text — 15px on mobile, 16px on desktop */
+body {
+  font-size: var(--text-base);
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 1rem; /* 16px */
+  }
+}
+
+/* Code/terminal — always slightly smaller to fit narrow screens */
+code, kbd, samp, pre {
+  font-size: var(--text-code);
+}
+
+@media (min-width: 768px) {
+  code, kbd, samp, pre {
+    font-size: 0.875rem;
+  }
+}
+
+/* Caption / label utility */
+.text-caption {
+  font-size: var(--text-caption);
+  line-height: 1.4;
+}
+
+/* ------------------------------------------------------------
+   4. SECTION SPACING — consistent vertical rhythm
+   ------------------------------------------------------------ */
+.section {
+  padding-block: var(--section-py);
+}
+
+.section--sm {
+  padding-block: var(--sp-8);
+}
+
+@media (min-width: 768px) {
+  .section--sm {
+    padding-block: var(--sp-12);
+  }
+}
+
+/* ------------------------------------------------------------
+   5. CARD PATTERNS — mobile stack behavior
+   ------------------------------------------------------------ */
+
+/* Feature cards: single column on mobile, auto-fill on tablet+ */
+.feature-grid {
+  display: grid;
+  gap: var(--grid-gutter-mobile);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--grid-gutter-tablet);
+  }
+}
+
+@media (min-width: 1080px) {
+  .feature-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gutter-desktop);
+  }
+}
+
+/* Stat cards: 2-up on mobile (small numbers), 4-up on desktop */
+.stat-grid {
+  display: grid;
+  gap: var(--sp-3);
+  grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+  .stat-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-4);
+  }
+}
+
+/* Card padding adapts to screen size */
+.tactical-card {
+  padding: var(--sp-4);
+}
+
+@media (min-width: 768px) {
+  .tactical-card {
+    padding: var(--sp-6);
+  }
+}
+
+@media (min-width: 1080px) {
+  .tactical-card {
+    padding: var(--sp-8);
+  }
+}
+
+/* ------------------------------------------------------------
+   6. NAVIGATION — hamburger mobile / horizontal desktop
+   ------------------------------------------------------------ */
+
+/* Mobile nav state variables */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-inline: var(--sp-4);
+}
+
+/* Desktop nav — hidden on mobile */
+.nav-desktop {
+  display: none;
+}
+
+/* Hamburger button — visible on mobile only */
+.nav-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: var(--touch-target);
+  height: var(--touch-target);
+  padding: var(--sp-2);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 1px;
+  transition:
+    transform 200ms var(--ease-tactical),
+    opacity 200ms ease;
+}
+
+/* Open state — X shape */
+.nav-hamburger[aria-expanded="true"] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger[aria-expanded="true"] span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-hamburger[aria-expanded="true"] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile nav drawer — slides down from header */
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(10, 13, 6, 0.98);
+  border-bottom: 1px solid var(--color-army-border);
+  padding: var(--sp-4) var(--sp-4) var(--sp-6);
+  z-index: 99;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.nav-mobile.is-open {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  animation: slideInLeft 200ms var(--ease-tactical) both;
+}
+
+/* Mobile nav links — full-width, tall touch targets */
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-4) 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid var(--color-army-border);
+  min-height: var(--touch-target);
+  transition: color 150ms ease;
+}
+
+.mobile-nav-link:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link[aria-current="page"] {
+  color: var(--color-army-bright);
+}
+
+/* Desktop breakpoint — flip to horizontal nav */
+@media (min-width: 768px) {
+  .site-header {
+    height: 64px;
+  }
+
+  .header-inner {
+    padding-inline: clamp(var(--sp-4), 4vw, var(--sp-8));
+  }
+
+  .nav-desktop {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-1);
+  }
+
+  .nav-hamburger {
+    display: none;
+  }
+
+  .nav-mobile {
+    display: none !important; /* force hide drawer on desktop */
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--sp-2) var(--sp-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    border-radius: var(--radius-sm);
+    min-height: var(--touch-target);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current="page"] {
+    color: var(--color-army-bright);
+    background-color: var(--color-army-muted);
+  }
+}
+
+/* ------------------------------------------------------------
+   7. HERO SECTION — mobile-first adaptive layout
+      Logo: 160px mobile, 200px tablet, 240px desktop
+      Padding accounts for fixed header (60px mobile / 64px desktop)
+   ------------------------------------------------------------ */
+.hero {
+  padding-top: calc(60px + var(--sp-10));
+  padding-bottom: var(--sp-12);
+  padding-inline: var(--sp-4);
+}
+
+.hero-content {
+  gap: var(--sp-5);
+}
+
+.logo-wrap,
+.hero-logo {
+  width: 160px;
+  height: 160px;
+}
+
+.tagline {
+  font-size: clamp(1.75rem, 7vw, 4rem);
+}
+
+.subtitle {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  padding-inline: var(--sp-2);
+}
+
+.install-box {
+  max-width: 100%;
+}
+
+.install-box code {
+  font-size: 0.875rem;
+  padding: var(--sp-3) var(--sp-4);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 480px) {
+  .logo-wrap,
+  .hero-logo {
+    width: 200px;
+    height: 200px;
+  }
+
+  .install-box {
+    max-width: 380px;
+  }
+}
+
+@media (min-width: 768px) {
+  .hero {
+    padding-top: calc(64px + var(--sp-12));
+    padding-bottom: var(--sp-16);
+    padding-inline: var(--sp-8);
+  }
+
+  .hero-content {
+    gap: var(--sp-6);
+  }
+
+  .logo-wrap,
+  .hero-logo {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+/* CTA row: stacks to column on mobile, row on tablet+ */
+.cta-row {
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  max-width: 320px;
+}
+
+.cta-btn {
+  justify-content: center;
+  width: 100%;
+  min-height: var(--touch-target-lg);
+  padding: var(--sp-3) var(--sp-5);
+  font-size: var(--text-sm);
+}
+
+@media (min-width: 480px) {
+  .cta-row {
+    flex-direction: row;
+    align-items: center;
+    max-width: none;
+    width: auto;
+  }
+
+  .cta-btn {
+    width: auto;
+    min-height: var(--touch-target);
+    padding: var(--sp-3) var(--sp-6);
+  }
+}
+
+/* ------------------------------------------------------------
+   8. COMPARISON TABLE — horizontal scroll on mobile
+      (card-stack approach requires JS; scroll is zero-dependency)
+   ------------------------------------------------------------ */
+.comparison__table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Subtle fade hint that table scrolls right */
+  -webkit-mask-image: linear-gradient(
+    to right,
+    black calc(100% - 32px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    black calc(100% - 32px),
+    transparent 100%
+  );
+}
+
+/* Remove mask once fully scrolled — JS can toggle .is-scrolled */
+.comparison__table-wrap.is-scrolled {
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.comparison__table {
+  min-width: 560px; /* Never shrink below this; scroll kicks in */
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Sticky first column — capability label stays visible */
+.comparison__table td:first-child,
+.comparison__table th:first-child {
+  position: sticky;
+  left: 0;
+  background: var(--color-bg-base);
+  z-index: 1;
+  min-width: 130px;
+  padding-right: var(--sp-3);
+}
+
+/* Compact row padding on mobile */
+.comparison__table td,
+.comparison__table th {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .comparison__table-wrap {
+    -webkit-mask-image: none;
+    mask-image: none;
+    overflow-x: visible;
+  }
+
+  .comparison__table {
+    min-width: unset;
+  }
+
+  .comparison__table td,
+  .comparison__table th {
+    padding: var(--sp-3) var(--sp-4);
+    font-size: var(--text-base);
+    white-space: normal;
+  }
+
+  .comparison__table td:first-child,
+  .comparison__table th:first-child {
+    position: static;
+    min-width: unset;
+  }
+}
+
+/* ------------------------------------------------------------
+   9. CODE BLOCKS — terminal display on narrow screens
+      Strategy: horizontal scroll, monospace preserved, no wrapping
+   ------------------------------------------------------------ */
+.code-block,
+pre,
+.prose pre {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Prevent the block from stretching the page */
+  max-width: 100%;
+  white-space: pre;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+/* Mobile: bleed to screen edges for more usable width */
+@media (max-width: 479px) {
+  .prose pre,
+  .code-block--bleed {
+    margin-inline: calc(var(--sp-4) * -1);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    padding-inline: var(--sp-4);
+  }
+}
+
+/* Scrollbar on code blocks — always visible so user knows it scrolls */
+.code-block::-webkit-scrollbar,
+pre::-webkit-scrollbar {
+  height: 4px;
+}
+
+.code-block::-webkit-scrollbar-track,
+pre::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.code-block::-webkit-scrollbar-thumb,
+pre::-webkit-scrollbar-thumb {
+  background: rgba(74, 93, 35, 0.5);
+  border-radius: 0;
+}
+
+/* ------------------------------------------------------------
+   10. TOUCH TARGETS — all interactive elements
+       Applied unconditionally; coarse pointer media query removed
+       in favor of always-safe sizing that doesn't hurt desktop.
+   ------------------------------------------------------------ */
+.btn-primary,
+.btn-secondary,
+.cta-btn,
+.copy-btn,
+.social-icon,
+.nav-link,
+.mobile-nav-link {
+  min-height: var(--touch-target);
+}
+
+/* Inline links and icon-only buttons on touch devices */
+@media (pointer: coarse) {
+  a:not(.btn-primary):not(.btn-secondary):not(.cta-btn):not(.nav-link):not(.mobile-nav-link) {
+    /* Expand tap area without visual change */
+    padding-block: 0.25em;
+  }
+
+  button:not(.nav-hamburger):not(.copy-btn) {
+    min-height: var(--touch-target);
+    min-width: var(--touch-target);
+  }
+}
+
+/* Social icon touch target — currently 42px, bump to 44 */
+.social-icon {
+  width: 44px;
+  height: 44px;
 }

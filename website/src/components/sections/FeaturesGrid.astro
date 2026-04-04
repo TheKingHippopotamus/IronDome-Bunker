@@ -1,285 +1,1247 @@
 ---
 import ClassificationBadge from '../ClassificationBadge.astro';
-
-const features = [
-  {
-    title: 'AES-128 Encryption',
-    icon: '/IronDome-Bunker/shield-aes.svg',
-    description: 'Military-grade Fernet encryption. Every entry encrypted with unique key derived via PBKDF2 \u00d7 600,000.',
-  },
-  {
-    title: 'Zero Knowledge',
-    icon: '/IronDome-Bunker/shield-zero.svg',
-    description: 'Master password never stored. Not encrypted, not hashed for storage. Exists only in memory during session.',
-  },
-  {
-    title: 'Hardware Binding',
-    icon: '/IronDome-Bunker/shield-hardware.svg',
-    description: 'System key derived from CPU serial, motherboard UUID, hostname. Vault locked to your machine.',
-  },
-  {
-    title: 'Session Management',
-    icon: '/IronDome-Bunker/shield-session.svg',
-    description: '30-minute auto-timeout. Cross-process sessions. Token file chmod 0600.',
-  },
-  {
-    title: 'Brute Force Protection',
-    icon: '/IronDome-Bunker/shield-brute.svg',
-    description: 'Progressive lockout. Per-device attempt tracking.',
-  },
-  {
-    title: 'Local Only',
-    icon: '/IronDome-Bunker/shield-local.svg',
-    description: 'Zero network calls. No cloud sync. No phone home. Attack surface: zero.',
-  },
-  {
-    title: 'Recovery System',
-    icon: '/IronDome-Bunker/shield-recovery.svg',
-    description: '24-character hex recovery code (XXXX-XXXX-XXXX format). Generated at vault creation. Store it offline.',
-  },
-  {
-    title: 'Encrypted Backups',
-    icon: '/IronDome-Bunker/shield-backup.svg',
-    description: '`bunker fortify` creates AES-128 encrypted snapshots. Same encryption chain, same hardware binding.',
-  },
-];
 ---
 
-<section class="features-grid-section" aria-labelledby="features">
-  <div class="features-grid-section__inner">
-    <!-- Section heading -->
-    <div class="features-grid-section__header">
-      <ClassificationBadge text="TACTICAL CAPABILITIES" level="classified" />
-      <h2 class="features-grid-section__title" id="features">Full Feature Set</h2>
-      <p class="features-grid-section__subtitle">
-        Eight independent defense layers. Each one stops an attacker alone. Together, impenetrable.
-      </p>
-    </div>
+<section class="fg-section" id="features" aria-labelledby="fg-heading">
 
-    <!-- Grid -->
-    <div class="features-grid">
-      {features.map((feature) => (
-        <article class="fg-card">
-          <div class="fg-card__accent" aria-hidden="true"></div>
+  <!-- ── Section header ── -->
+  <div class="fg-section__header">
+    <ClassificationBadge text="TACTICAL CAPABILITIES" level="classified" />
+    <h2 class="fg-section__title" id="fg-heading">Full Feature Set</h2>
+    <p class="fg-section__subtitle">
+      Four defence layers. Ten battle-tested capabilities. Zero compromises.
+    </p>
+  </div>
 
-          <div class="fg-card__icon" aria-hidden="true">
-            {feature.icon ? (
-              <img src={feature.icon} alt="" width="44" height="44" loading="lazy" />
-            ) : (
-              <svg
-                width="44"
-                height="44"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  <!-- ═══════════════════════════════════════════════════
+       CATEGORY 01 — CRYPTOGRAPHIC CORE
+  ═══════════════════════════════════════════════════ -->
+  <div class="fg-layout">
+
+    <!-- FULL-WIDTH: AES-128-CBC ENCRYPTION -->
+    <article class="fg-card fg-card--full fg-card--crypto" aria-label="AES-128-CBC Encryption">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--top-secret">TOP SECRET // CRYPTO</span>
+          <span class="fg-seq">01</span>
+        </div>
+
+        <h3 class="fg-card__title">AES-128-CBC ENCRYPTION</h3>
+        <p class="fg-card__desc">
+          Fernet symmetric encryption backed by PBKDF2-HMAC-SHA256 at 600,000 iterations.
+          Every credential encrypted with a unique key. Brute-force cost: thermodynamically hostile.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">CIPHER ACTIVE</span>
+          <span class="fg-status-sep" aria-hidden="true">|</span>
+          <span class="fg-status-text">AES-128-CBC + HMAC-SHA256</span>
+        </div>
+      </div>
+
+      <!-- Visual: KDF code snippet -->
+      <div class="fg-card__visual" aria-hidden="true">
+        <div class="fg-code-block">
+          <div class="fg-code-block__bar">
+            <span class="fg-code-block__dot fg-code-block__dot--red"></span>
+            <span class="fg-code-block__dot fg-code-block__dot--yellow"></span>
+            <span class="fg-code-block__dot fg-code-block__dot--green"></span>
+            <span class="fg-code-block__label">kdf.py</span>
+          </div>
+          <pre class="fg-code-block__pre"><code><span class="fg-tok-kw">key</span> = <span class="fg-tok-fn">PBKDF2HMAC</span>(
+  <span class="fg-tok-param">algorithm</span>=<span class="fg-tok-str">SHA256()</span>,
+  <span class="fg-tok-param">length</span>=<span class="fg-tok-num">32</span>,
+  <span class="fg-tok-param">salt</span>=<span class="fg-tok-str">os.urandom(16)</span>,
+  <span class="fg-tok-param">iterations</span>=<span class="fg-tok-num">600_000</span>,
+).derive(<span class="fg-tok-str">password</span>)
+<span class="fg-tok-kw">fernet</span> = <span class="fg-tok-fn">Fernet</span>(<span class="fg-tok-fn">base64.urlsafe_b64encode</span>(key))</code></pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- ═══════════════════════════════════════════════════
+         CATEGORY 02 — NETWORK & DATA POSTURE
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- HALF-WIDTH: OFFLINE. ALWAYS. -->
+    <article class="fg-card fg-card--half" aria-label="Offline, always">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--classified">CLASSIFIED // NETWORK</span>
+          <span class="fg-seq">02</span>
+        </div>
+
+        <h3 class="fg-card__title">OFFLINE. ALWAYS.</h3>
+        <p class="fg-card__desc">
+          Zero network stack. Zero cloud. Zero attack surface. If it cannot phone home, it cannot be breached remotely.
+        </p>
+
+        <!-- Visual: crossed-out wifi -->
+        <div class="fg-visual-wifi" aria-hidden="true">
+          <svg class="fg-wifi-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- wifi arcs -->
+            <path d="M6 18C12.6 11.4 21 8 24 8s11.4 3.4 18 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M11 23c3.6-3.6 7.8-5.5 13-5.5s9.4 1.9 13 5.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M16 28c2.2-2.2 4.8-3.5 8-3.5s5.8 1.3 8 3.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="24" cy="35" r="2.5" fill="currentColor"/>
+            <!-- X strike-through -->
+            <line x1="6" y1="6" x2="42" y2="42" stroke="var(--color-error)" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="fg-wifi-label">NO NETWORK CALLS</span>
+        </div>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot fg-status-dot--red" aria-hidden="true"></span>
+          <span class="fg-status-text">AIRGAPPED</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- HALF-WIDTH: ZERO KNOWLEDGE -->
+    <article class="fg-card fg-card--half" aria-label="Zero knowledge architecture">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--classified">CLASSIFIED // PRIVACY</span>
+          <span class="fg-seq">03</span>
+        </div>
+
+        <h3 class="fg-card__title">ZERO KNOWLEDGE</h3>
+        <p class="fg-card__desc">
+          No telemetry. No accounts. No servers. We cannot see your vault because there is no "we" between you and your data.
+        </p>
+
+        <!-- Visual: empty server with X -->
+        <div class="fg-visual-server" aria-hidden="true">
+          <svg class="fg-server-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="8" width="36" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+            <circle cx="38" cy="13" r="2" fill="currentColor"/>
+            <rect x="6" y="22" width="36" height="10" rx="1" stroke="currentColor" stroke-width="2"/>
+            <circle cx="38" cy="27" r="2" fill="currentColor"/>
+            <rect x="6" y="36" width="36" height="6" rx="1" stroke="currentColor" stroke-width="2"/>
+            <!-- X overlay -->
+            <line x1="14" y1="14" x2="34" y2="34" stroke="var(--color-error)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="34" y1="14" x2="14" y2="34" stroke="var(--color-error)" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="fg-server-label">NO SERVERS INVOLVED</span>
+        </div>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">LOCAL ONLY</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ═══════════════════════════════════════════════════
+         CATEGORY 03 — AUTHENTICATION LAYER
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- FULL-WIDTH: BIOMETRIC AUTHENTICATION -->
+    <article class="fg-card fg-card--full fg-card--bio" aria-label="Biometric authentication">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--top-secret">TOP SECRET // AUTH</span>
+          <span class="fg-seq">04</span>
+        </div>
+
+        <h3 class="fg-card__title">BIOMETRIC AUTHENTICATION</h3>
+        <p class="fg-card__desc">
+          Touch ID, Windows Hello, and fprintd. Hardware-attested biometric gate before every vault session.
+          Your face and your fingerprint are your credentials.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">IRONDOME v2.0</span>
+          <span class="fg-status-sep" aria-hidden="true">|</span>
+          <span class="fg-status-text">MULTI-PLATFORM</span>
+        </div>
+      </div>
+
+      <!-- Visual: three platform icons connected to fingerprint -->
+      <div class="fg-card__visual fg-card__visual--bio" aria-hidden="true">
+        <div class="fg-bio-diagram">
+          <div class="fg-bio-platforms">
+
+            <!-- macOS -->
+            <div class="fg-bio-platform">
+              <div class="fg-bio-platform__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16.08 1.02c-1.85.1-4 1.2-5.27 2.7-.89 1.04-1.63 2.66-1.36 4.22 2.04.06 4.13-1.03 5.35-2.54.84-1.04 1.53-2.62 1.28-4.38zM20.4 8.26c-.25-.1-2.5-1.03-2.52-3.64-.02-2.16 1.77-3.24 1.96-3.35-1.07-1.57-2.73-1.74-3.32-1.77-1.42-.14-2.77.84-3.49.84-.72 0-1.83-.8-3.02-.78-1.55.02-2.99.9-3.79 2.28C4.51 4.67 4 7.33 5.01 9.83c.68 1.74 2.57 5.93 4.53 5.87.87-.02 1.49-.59 2.8-.59 1.3 0 1.87.59 2.87.57 1.98-.03 3.68-3.87 4.35-5.61-.02-.01-2.14-.82-2.16-3.81z" fill="currentColor"/>
+                </svg>
+              </div>
+              <span class="fg-bio-platform__name">macOS<br/>Touch ID</span>
+              <div class="fg-bio-connector" aria-hidden="true"></div>
+            </div>
+
+            <!-- Fingerprint glyph -->
+            <div class="fg-bio-fp">
+              <svg class="fg-bio-fp__icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 8C15.16 8 8 15.16 8 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M24 8C32.84 8 40 15.16 40 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M14 24c0-5.52 4.48-10 10-10s10 4.48 10 10c0 4.2-2.6 7.8-6.3 9.3" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M24 18c3.31 0 6 2.69 6 6 0 5.5-2 10.5-6 14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M24 18c-3.31 0-6 2.69-6 6 0 3 .5 6.5 2 9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="24" cy="24" r="2" fill="currentColor"/>
               </svg>
-            )}
+              <span class="fg-bio-fp__label">BIOMETRIC<br/>GATE</span>
+            </div>
+
+            <!-- Windows -->
+            <div class="fg-bio-platform">
+              <div class="fg-bio-connector fg-bio-connector--right" aria-hidden="true"></div>
+              <div class="fg-bio-platform__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 5.557L10.5 4.5V11.5H3V5.557zM21 3L11.5 4.444V11.5H21V3zM11.5 12.5V19.556L21 21V12.5H11.5zM3 12.5V18.443L10.5 19.5V12.5H3z" fill="currentColor"/>
+                </svg>
+              </div>
+              <span class="fg-bio-platform__name">Windows<br/>Hello</span>
+            </div>
+
           </div>
 
-          <h3 class="fg-card__title">{feature.title}</h3>
-          <p class="fg-card__desc" set:html={feature.description.replace(/`([^`]+)`/g, '<code>$1</code>')} />
+          <!-- Linux row -->
+          <div class="fg-bio-linux-row">
+            <div class="fg-bio-platform fg-bio-platform--linux">
+              <div class="fg-bio-platform__icon">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                  <circle cx="9" cy="10" r="1" fill="currentColor"/>
+                  <circle cx="15" cy="10" r="1" fill="currentColor"/>
+                  <path d="M7 7c.5-1.5 2-2 2-2M17 7c-.5-1.5-2-2-2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <span class="fg-bio-platform__name">Linux<br/>fprintd</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
 
-          <div class="fg-card__corner-tl" aria-hidden="true"></div>
-          <div class="fg-card__corner-br" aria-hidden="true"></div>
-        </article>
-      ))}
-    </div>
-  </div>
+    <!-- ═══════════════════════════════════════════════════
+         CATEGORY 04 — SESSION & RUNTIME SECURITY
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- THIRD-WIDTH: MACHINE-SPECIFIC KEYS -->
+    <article class="fg-card fg-card--third" aria-label="Machine-specific keys">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--restricted">RESTRICTED // HW</span>
+          <span class="fg-seq">05</span>
+        </div>
+
+        <h3 class="fg-card__title">MACHINE-SPECIFIC KEYS</h3>
+        <p class="fg-card__desc">
+          Keys derived from CPU serial, motherboard UUID, and hostname.
+          Copy the vault file — it is useless without the exact hardware that created it.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">HW-BOUND</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- THIRD-WIDTH: SESSION INTEGRITY -->
+    <article class="fg-card fg-card--third" aria-label="Session integrity">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--restricted">RESTRICTED // SESSION</span>
+          <span class="fg-seq">06</span>
+        </div>
+
+        <h3 class="fg-card__title">SESSION INTEGRITY</h3>
+        <p class="fg-card__desc">
+          Configurable inactivity timeout with hard-lock on expiry. Session token chmod 0600.
+          No session survives a reboot.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">30 MIN DEFAULT</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- THIRD-WIDTH: CLIPBOARD AUTO-CLEAR -->
+    <article class="fg-card fg-card--third" aria-label="Clipboard auto-clear">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--restricted">RESTRICTED // CLIPBOARD</span>
+          <span class="fg-seq">07</span>
+        </div>
+
+        <h3 class="fg-card__title">CLIPBOARD AUTO-CLEAR</h3>
+        <p class="fg-card__desc">
+          Copied credentials self-destruct from clipboard after 30 seconds.
+          No lingering plaintext. No accidental paste into the wrong window.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">TTL: 30s</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- ═══════════════════════════════════════════════════
+         CATEGORY 05 — TERMINAL INTERFACE
+    ═══════════════════════════════════════════════════ -->
+
+    <!-- FULL-WIDTH: FULL TERMINAL COMMAND CENTER -->
+    <article class="fg-card fg-card--full fg-card--tui" aria-label="Full terminal command center">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--top-secret">TOP SECRET // INTERFACE</span>
+          <span class="fg-seq">08</span>
+        </div>
+
+        <h3 class="fg-card__title">FULL TERMINAL COMMAND CENTER</h3>
+        <p class="fg-card__desc">
+          A 12-screen TUI built on Rich. Vault list, credential inspector, audit log, settings panel,
+          backup manager — all keyboard-driven, all without leaving your terminal.
+        </p>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">12 SCREENS</span>
+          <span class="fg-status-sep" aria-hidden="true">|</span>
+          <span class="fg-status-text">RICH TUI</span>
+          <span class="fg-status-sep" aria-hidden="true">|</span>
+          <span class="fg-status-text">KEYBOARD NATIVE</span>
+        </div>
+      </div>
+
+      <!-- Visual: ASCII vault list mockup -->
+      <div class="fg-card__visual" aria-hidden="true">
+        <div class="fg-ascii-tui">
+          <div class="fg-ascii-tui__bar">
+            <span class="fg-code-block__dot fg-code-block__dot--red"></span>
+            <span class="fg-code-block__dot fg-code-block__dot--yellow"></span>
+            <span class="fg-code-block__dot fg-code-block__dot--green"></span>
+            <span class="fg-ascii-tui__title">IronDome — Vault List</span>
+          </div>
+          <pre class="fg-ascii-tui__body"><code><span class="fg-tui-border">┌─────────────────────────────────────────┐</span>
+<span class="fg-tui-border">│</span> <span class="fg-tui-label">VAULT</span>                    <span class="fg-tui-dim">ENTRIES  UPDATED</span>  <span class="fg-tui-border">│</span>
+<span class="fg-tui-border">├─────────────────────────────────────────┤</span>
+<span class="fg-tui-border">│</span> <span class="fg-tui-active">&gt; Work Accounts</span>            <span class="fg-tui-num">  42</span>  <span class="fg-tui-dim">2h ago</span>  <span class="fg-tui-border">│</span>
+<span class="fg-tui-border">│</span>   <span class="fg-tui-item">Personal</span>                  <span class="fg-tui-num">  18</span>  <span class="fg-tui-dim">1d ago</span>  <span class="fg-tui-border">│</span>
+<span class="fg-tui-border">│</span>   <span class="fg-tui-item">Infrastructure</span>            <span class="fg-tui-num">   9</span>  <span class="fg-tui-dim">3d ago</span>  <span class="fg-tui-border">│</span>
+<span class="fg-tui-border">│</span>   <span class="fg-tui-item">API Keys</span>                  <span class="fg-tui-num">  31</span>  <span class="fg-tui-dim">6h ago</span>  <span class="fg-tui-border">│</span>
+<span class="fg-tui-border">└─────────────────────────────────────────┘</span>
+<span class="fg-tui-hint">  [n]ew  [d]elete  [/]search  [Ctrl+P] cmd</span></code></pre>
+        </div>
+      </div>
+    </article>
+
+    <!-- HALF-WIDTH: Ctrl+P COMMAND PALETTE -->
+    <article class="fg-card fg-card--half" aria-label="Command palette">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--classified">CLASSIFIED // UX</span>
+          <span class="fg-seq">09</span>
+        </div>
+
+        <h3 class="fg-card__title">Ctrl+P COMMAND PALETTE</h3>
+        <p class="fg-card__desc">
+          Every action, one keypress away. Fuzzy search across all commands. No menu navigation, no mouse required.
+        </p>
+
+        <!-- Visual: command list -->
+        <div class="fg-cmd-palette" aria-hidden="true">
+          <div class="fg-cmd-palette__input">
+            <span class="fg-cmd-palette__prompt">&gt;</span>
+            <span class="fg-cmd-palette__cursor">|</span>
+          </div>
+          <ul class="fg-cmd-palette__list">
+            <li class="fg-cmd-palette__item fg-cmd-palette__item--active">
+              <span class="fg-cmd-key">add</span>
+              <span class="fg-cmd-desc">Add new credential</span>
+            </li>
+            <li class="fg-cmd-palette__item">
+              <span class="fg-cmd-key">copy</span>
+              <span class="fg-cmd-desc">Copy password to clipboard</span>
+            </li>
+            <li class="fg-cmd-palette__item">
+              <span class="fg-cmd-key">search</span>
+              <span class="fg-cmd-desc">Fuzzy search vault</span>
+            </li>
+            <li class="fg-cmd-palette__item">
+              <span class="fg-cmd-key">lock</span>
+              <span class="fg-cmd-desc">Hard-lock session now</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">PALETTE READY</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- HALF-WIDTH: CROSS-PLATFORM -->
+    <article class="fg-card fg-card--half" aria-label="Cross-platform support">
+      <div class="fg-card__grid-overlay" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--tr" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--bl" aria-hidden="true"></div>
+      <div class="fg-card__corner fg-card__corner--br" aria-hidden="true"></div>
+
+      <div class="fg-card__body">
+        <div class="fg-card__meta">
+          <span class="fg-badge fg-badge--classified">CLASSIFIED // PLATFORM</span>
+          <span class="fg-seq">10</span>
+        </div>
+
+        <h3 class="fg-card__title">CROSS-PLATFORM</h3>
+        <p class="fg-card__desc">
+          macOS, Windows, Linux. One codebase, three deployment targets, zero platform-specific compromises.
+        </p>
+
+        <!-- Visual: three OS icons with ACTIVE status -->
+        <div class="fg-platform-grid" aria-hidden="true">
+
+          <div class="fg-platform-item">
+            <div class="fg-platform-item__icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16.08 1.02c-1.85.1-4 1.2-5.27 2.7-.89 1.04-1.63 2.66-1.36 4.22 2.04.06 4.13-1.03 5.35-2.54.84-1.04 1.53-2.62 1.28-4.38zM20.4 8.26c-.25-.1-2.5-1.03-2.52-3.64-.02-2.16 1.77-3.24 1.96-3.35-1.07-1.57-2.73-1.74-3.32-1.77-1.42-.14-2.77.84-3.49.84-.72 0-1.83-.8-3.02-.78-1.55.02-2.99.9-3.79 2.28C4.51 4.67 4 7.33 5.01 9.83c.68 1.74 2.57 5.93 4.53 5.87.87-.02 1.49-.59 2.8-.59 1.3 0 1.87.59 2.87.57 1.98-.03 3.68-3.87 4.35-5.61-.02-.01-2.14-.82-2.16-3.81z" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="fg-platform-item__name">macOS</span>
+            <span class="fg-platform-item__status">ACTIVE</span>
+          </div>
+
+          <div class="fg-platform-item">
+            <div class="fg-platform-item__icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 5.557L10.5 4.5V11.5H3V5.557zM21 3L11.5 4.444V11.5H21V3zM11.5 12.5V19.556L21 21V12.5H11.5zM3 12.5V18.443L10.5 19.5V12.5H3z" fill="currentColor"/>
+              </svg>
+            </div>
+            <span class="fg-platform-item__name">Windows</span>
+            <span class="fg-platform-item__status">ACTIVE</span>
+          </div>
+
+          <div class="fg-platform-item">
+            <div class="fg-platform-item__icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 14s1.5 2 4 2 4-2 4-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="9" cy="10" r="1" fill="currentColor"/>
+                <circle cx="15" cy="10" r="1" fill="currentColor"/>
+                <path d="M7 7c.5-1.5 2-2 2-2M17 7c-.5-1.5-2-2-2-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <span class="fg-platform-item__name">Linux</span>
+            <span class="fg-platform-item__status">ACTIVE</span>
+          </div>
+
+        </div>
+
+        <div class="fg-card__status">
+          <span class="fg-status-dot" aria-hidden="true"></span>
+          <span class="fg-status-text">3 / 3 PLATFORMS ACTIVE</span>
+        </div>
+      </div>
+    </article>
+
+  </div><!-- /fg-layout -->
 </section>
 
 <style>
-  /* ── Section ── */
-  .features-grid-section {
+  /* ═══════════════════════════════════════════════
+     SECTION SHELL
+  ═══════════════════════════════════════════════ */
+  .fg-section {
     position: relative;
-    padding: 5rem 1.5rem;
+    padding: var(--space-20) var(--space-6);
     overflow: hidden;
   }
 
-  .features-grid-section__inner {
-    max-width: 1120px;
-    margin: 0 auto;
-  }
-
-  /* ── Header ── */
-  .features-grid-section__header {
+  .fg-section__header {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-12);
+    max-width: 1120px;
+    margin-inline: auto;
     margin-bottom: 3.5rem;
-    gap: 0.875rem;
   }
 
-  .features-grid-section__title {
-    font-size: clamp(1.75rem, 4vw, 3rem);
+  .fg-section__title {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
     font-weight: 700;
-    color: #e2e8f0;
-    line-height: 1.12;
+    color: var(--color-text-primary);
     letter-spacing: -0.02em;
+    line-height: 1.1;
     margin: 0;
   }
 
-  .features-grid-section__subtitle {
-    font-size: 0.9375rem;
-    color: #78909C;
+  .fg-section__subtitle {
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
     line-height: 1.65;
-    max-width: 560px;
+    max-width: 520px;
     margin: 0;
   }
 
-  /* ── Grid ── */
-  .features-grid {
+  /* ═══════════════════════════════════════════════
+     LAYOUT GRID
+  ═══════════════════════════════════════════════ */
+  .fg-layout {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.125rem;
+    max-width: 1120px;
+    margin-inline: auto;
   }
 
-  @media (max-width: 960px) {
-    .features-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 560px) {
-    .features-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .features-grid-section {
-      padding: 3.5rem 1rem;
-    }
-  }
-
-  /* ── Card ── */
+  /* ═══════════════════════════════════════════════
+     CARD — BASE
+  ═══════════════════════════════════════════════ */
   .fg-card {
     position: relative;
-    background-color: #0D1208;
-    border: 1px solid rgba(74, 93, 35, 0.25);
-    border-radius: 2px;
-    padding: 1.5rem 1.375rem 1.375rem;
+    background-color: var(--color-bg-surface);
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
     overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
     transition:
-      background-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
-      border-color 250ms cubic-bezier(0.16, 1, 0.3, 1),
-      box-shadow 250ms cubic-bezier(0.16, 1, 0.3, 1);
+      background-color var(--duration-base) var(--ease-tactical),
+      border-color var(--duration-base) var(--ease-tactical),
+      box-shadow var(--duration-base) var(--ease-tactical);
   }
 
   .fg-card:hover {
-    background-color: #111a0e;
-    border-color: rgba(139, 154, 70, 0.35);
+    background-color: var(--color-bg-raised);
+    border-color: rgba(143, 166, 58, 0.42);
     box-shadow:
-      0 0 0 1px rgba(139, 154, 70, 0.08),
-      0 8px 32px rgba(0, 0, 0, 0.45);
+      0 0 0 1px rgba(143, 166, 58, 0.08),
+      0 8px 40px rgba(0, 0, 0, 0.5);
   }
 
-  /* Gold left-bar accent — animated on hover */
-  .fg-card__accent {
+  /* SPAN variants */
+  .fg-card--full  { grid-column: span 6; }
+  .fg-card--half  { grid-column: span 3; }
+  .fg-card--third { grid-column: span 2; }
+
+  /* Card body (text side) */
+  .fg-card__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 1.5rem 1.375rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Visual side — only on full-width cards */
+  .fg-card__visual {
+    flex: 0 0 auto;
+    width: clamp(260px, 38%, 420px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    border-left: 1px solid var(--color-olive-border);
+    background-color: var(--color-term-bg);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Half/third cards: stack visuals below body */
+  .fg-card--half .fg-card__body,
+  .fg-card--third .fg-card__body {
+    padding-bottom: 1.25rem;
+  }
+
+  /* ═══════════════════════════════════════════════
+     MILITARY GRID OVERLAY — 2% opacity
+  ═══════════════════════════════════════════════ */
+  .fg-card__grid-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 2px;
-    height: 0%;
-    background: linear-gradient(
-      180deg,
-      rgba(139, 154, 70, 0) 0%,
-      #8B9A46 40%,
-      #8B9A46 60%,
-      rgba(139, 154, 70, 0) 100%
-    );
-    transition: height 350ms cubic-bezier(0.16, 1, 0.3, 1);
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.02;
+    background-image:
+      linear-gradient(var(--color-olive-bright) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-olive-bright) 1px, transparent 1px);
+    background-size: 24px 24px;
   }
 
-  .fg-card:hover .fg-card__accent {
-    height: 100%;
-  }
-
-  /* Tactical corner decorations */
-  .fg-card__corner-tl,
-  .fg-card__corner-br {
+  /* ═══════════════════════════════════════════════
+     TACTICAL CORNER DECORATIONS — 8px
+  ═══════════════════════════════════════════════ */
+  .fg-card__corner {
     position: absolute;
     width: 8px;
     height: 8px;
-    border-color: rgba(139, 154, 70, 0.2);
+    border-color: rgba(143, 166, 58, 0.25);
     border-style: solid;
     pointer-events: none;
-    transition: border-color 250ms ease;
+    z-index: 2;
+    transition: border-color var(--duration-base) var(--ease-tactical);
   }
 
-  .fg-card:hover .fg-card__corner-tl,
-  .fg-card:hover .fg-card__corner-br {
-    border-color: rgba(139, 154, 70, 0.55);
+  .fg-card:hover .fg-card__corner {
+    border-color: rgba(143, 166, 58, 0.65);
   }
 
-  .fg-card__corner-tl {
-    top: 0;
-    left: 0;
-    border-width: 1px 0 0 1px;
+  .fg-card__corner--tl { top: 0; left: 0;    border-width: 1px 0 0 1px; }
+  .fg-card__corner--tr { top: 0; right: 0;   border-width: 1px 1px 0 0; }
+  .fg-card__corner--bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+  .fg-card__corner--br { bottom: 0; right: 0;border-width: 0 1px 1px 0; }
+
+  /* ═══════════════════════════════════════════════
+     CARD META ROW
+  ═══════════════════════════════════════════════ */
+  .fg-card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
   }
 
-  .fg-card__corner-br {
-    bottom: 0;
-    right: 0;
-    border-width: 0 1px 1px 0;
+  .fg-seq {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
   }
 
-  /* Icon */
-  .fg-card__icon {
-    color: rgba(139, 154, 70, 0.75);
-    margin-bottom: 0.875rem;
-    transition: color 250ms ease;
-    line-height: 0;
-    width: 44px;
-    height: 44px;
-  }
-
-  .fg-card__icon img {
-    width: 44px;
-    height: 44px;
-    display: block;
-    opacity: 0.75;
-    transition: opacity 250ms ease;
-  }
-
-  .fg-card:hover .fg-card__icon {
-    color: #8B9A46;
-  }
-
-  .fg-card:hover .fg-card__icon img {
-    opacity: 1;
-  }
-
-  /* Title */
-  .fg-card__title {
-    font-size: 0.8rem;
+  /* ═══════════════════════════════════════════════
+     CLASSIFICATION BADGES (inline, not the component)
+  ═══════════════════════════════════════════════ */
+  .fg-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.45rem;
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: #8B9A46;
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
-    margin: 0 0 0.5rem;
-    line-height: 1.3;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
   }
 
-  /* Description */
-  .fg-card__desc {
-    font-size: 0.85rem;
-    color: #78909C;
-    line-height: 1.65;
+  .fg-badge--top-secret {
+    background-color: rgba(255, 215, 0, 0.08);
+    border: 1px solid rgba(255, 215, 0, 0.45);
+    color: #FFD700;
+  }
+
+  .fg-badge--classified {
+    background-color: rgba(143, 166, 58, 0.08);
+    border: 1px solid var(--color-olive-border);
+    color: var(--color-olive-bright);
+  }
+
+  .fg-badge--restricted {
+    background-color: transparent;
+    border: 1px solid rgba(120, 144, 156, 0.3);
+    color: var(--color-text-secondary);
+  }
+
+  /* ═══════════════════════════════════════════════
+     CARD TITLE
+  ═══════════════════════════════════════════════ */
+  .fg-card__title {
+    font-family: var(--font-heading);
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-primary);
+    line-height: 1.2;
     margin: 0;
   }
 
-  .fg-card__desc :global(code) {
-    font-family: ui-monospace, "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Monaco, "Courier New", monospace;
-    font-size: 0.8125rem;
-    color: #8B9A46;
-    background: rgba(139, 154, 70, 0.1);
-    padding: 0.1em 0.35em;
-    border-radius: 2px;
+  .fg-card--full .fg-card__title {
+    font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  }
+
+  /* ═══════════════════════════════════════════════
+     CARD DESCRIPTION
+  ═══════════════════════════════════════════════ */
+  .fg-card__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    margin: 0;
+    flex: 1 1 auto;
+  }
+
+  /* ═══════════════════════════════════════════════
+     STATUS BAR
+  ═══════════════════════════════════════════════ */
+  .fg-card__status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .fg-status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-phosphor);
+    box-shadow: 0 0 6px var(--color-phosphor-glow);
+    flex-shrink: 0;
+    animation: fg-pulse 2.4s ease-in-out infinite;
+  }
+
+  .fg-status-dot--red {
+    background-color: var(--color-error);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.45);
+  }
+
+  @keyframes fg-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
+  }
+
+  .fg-status-text {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--color-phosphor);
+    text-transform: uppercase;
+  }
+
+  .fg-status-sep {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+  }
+
+  /* ═══════════════════════════════════════════════
+     CODE BLOCK (KDF visual)
+  ═══════════════════════════════════════════════ */
+  .fg-code-block {
+    width: 100%;
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
+    overflow: hidden;
+    background-color: var(--color-term-bg);
+  }
+
+  .fg-code-block__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.45rem 0.75rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--color-olive-border);
+  }
+
+  .fg-code-block__dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .fg-code-block__dot--red    { background-color: #FF5F57; }
+  .fg-code-block__dot--yellow { background-color: #FEBC2E; }
+  .fg-code-block__dot--green  { background-color: #28C840; }
+
+  .fg-code-block__label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--color-text-muted);
+    margin-left: var(--space-1);
+    letter-spacing: 0.06em;
+  }
+
+  .fg-code-block__pre {
+    padding: 1rem 1.125rem;
+    margin: 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    white-space: pre;
+  }
+
+  /* Syntax tokens */
+  .fg-tok-kw     { color: var(--color-olive-bright); font-weight: 600; }
+  .fg-tok-fn     { color: var(--color-info); }
+  .fg-tok-param  { color: var(--color-text-secondary); }
+  .fg-tok-str    { color: var(--color-term-string); }
+  .fg-tok-num    { color: var(--color-term-number); }
+
+  /* ═══════════════════════════════════════════════
+     WIFI / SERVER VISUALS
+  ═══════════════════════════════════════════════ */
+  .fg-visual-wifi,
+  .fg-visual-server {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.15);
+    border-radius: var(--radius-base);
+  }
+
+  .fg-wifi-icon,
+  .fg-server-icon {
+    width: 40px;
+    height: 40px;
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  .fg-wifi-label,
+  .fg-server-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--color-error);
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════════════════
+     BIOMETRIC DIAGRAM
+  ═══════════════════════════════════════════════ */
+  .fg-card__visual--bio {
+    width: clamp(220px, 34%, 360px);
+  }
+
+  .fg-bio-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  .fg-bio-platforms {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  .fg-bio-platform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    position: relative;
+  }
+
+  .fg-bio-platform__icon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-olive-bright);
+    opacity: 0.8;
+  }
+
+  .fg-bio-platform__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fg-bio-platform__name {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    text-align: center;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  /* Connector lines between platforms and fingerprint */
+  .fg-bio-connector {
+    position: absolute;
+    right: -1rem;
+    top: 14px;
+    width: 1rem;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-olive-border), var(--color-olive-bright));
+  }
+
+  .fg-bio-connector--right {
+    position: absolute;
+    left: -1rem;
+    top: 14px;
+    width: 1rem;
+    height: 1px;
+    background: linear-gradient(270deg, var(--color-olive-border), var(--color-olive-bright));
+    right: auto;
+  }
+
+  .fg-bio-fp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .fg-bio-fp__icon {
+    width: 52px;
+    height: 52px;
+    color: var(--color-olive-bright);
+    filter: drop-shadow(0 0 8px var(--color-olive-glow));
+  }
+
+  .fg-bio-fp__label {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.18em;
+    color: var(--color-phosphor);
+    text-align: center;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .fg-bio-linux-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .fg-bio-platform--linux .fg-bio-platform__icon {
+    color: var(--color-text-secondary);
+    opacity: 0.65;
+  }
+
+  /* ═══════════════════════════════════════════════
+     ASCII TUI MOCKUP
+  ═══════════════════════════════════════════════ */
+  .fg-ascii-tui {
+    width: 100%;
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
+    overflow: hidden;
+    background-color: var(--color-term-bg);
+  }
+
+  .fg-ascii-tui__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.45rem 0.75rem;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid var(--color-olive-border);
+  }
+
+  .fg-ascii-tui__title {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    color: var(--color-text-muted);
+    margin-left: var(--space-1);
+    letter-spacing: 0.06em;
+    flex: 1;
+    text-align: center;
+  }
+
+  .fg-ascii-tui__body {
+    padding: 0.875rem 1rem;
+    margin: 0;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    white-space: pre;
+  }
+
+  /* TUI syntax tokens */
+  .fg-tui-border { color: var(--color-olive-dim); }
+  .fg-tui-label  { color: var(--color-text-muted); font-size: 0.65rem; letter-spacing: 0.1em; }
+  .fg-tui-active { color: var(--color-phosphor); font-weight: 600; }
+  .fg-tui-item   { color: var(--color-text-secondary); }
+  .fg-tui-num    { color: var(--color-term-number); }
+  .fg-tui-dim    { color: var(--color-text-muted); }
+  .fg-tui-hint   { color: var(--color-olive-bright); font-size: 0.65rem; }
+
+  /* ═══════════════════════════════════════════════
+     COMMAND PALETTE VISUAL
+  ═══════════════════════════════════════════════ */
+  .fg-cmd-palette {
+    margin-top: var(--space-2);
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
+    overflow: hidden;
+    background-color: var(--color-term-bg);
+  }
+
+  .fg-cmd-palette__input {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--color-olive-border);
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .fg-cmd-palette__prompt {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-olive-bright);
+    font-weight: 600;
+  }
+
+  .fg-cmd-palette__cursor {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-phosphor);
+    animation: fg-blink 1s step-end infinite;
+  }
+
+  @keyframes fg-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .fg-cmd-palette__list {
+    list-style: none;
+    margin: 0;
+    padding: 0.25rem 0;
+  }
+
+  .fg-cmd-palette__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.675rem;
+    transition: background-color var(--duration-fast) ease;
+  }
+
+  .fg-cmd-palette__item--active {
+    background-color: rgba(57, 211, 83, 0.08);
+  }
+
+  .fg-cmd-key {
+    color: var(--color-phosphor);
+    font-weight: 600;
+    min-width: 50px;
+    letter-spacing: 0.05em;
+  }
+
+  .fg-cmd-desc {
+    color: var(--color-text-muted);
+    font-size: 0.625rem;
+  }
+
+  /* ═══════════════════════════════════════════════
+     CROSS-PLATFORM GRID VISUAL
+  ═══════════════════════════════════════════════ */
+  .fg-platform-grid {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .fg-platform-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-2);
+    background-color: var(--color-term-bg);
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
+  }
+
+  .fg-platform-item__icon {
+    width: 28px;
+    height: 28px;
+    color: var(--color-olive-bright);
+    opacity: 0.85;
+  }
+
+  .fg-platform-item__icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fg-platform-item__name {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .fg-platform-item__status {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    color: var(--color-phosphor);
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════════════════
+     CARD THEME OVERRIDES
+     (--crypto, --bio, --tui get a subtle tinted bg)
+  ═══════════════════════════════════════════════ */
+  .fg-card--crypto {
+    background-color: color-mix(in srgb, var(--color-bg-surface) 96%, var(--color-olive-dim) 4%);
+  }
+
+  .fg-card--bio {
+    background-color: color-mix(in srgb, var(--color-bg-surface) 96%, var(--color-info-bg) 4%);
+  }
+
+  .fg-card--tui {
+    background-color: color-mix(in srgb, var(--color-bg-surface) 96%, var(--color-phosphor-dim) 4%);
+  }
+
+  /* ═══════════════════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════════════════ */
+
+  /* Below 768px: half-width cards go full-width */
+  @media (max-width: 768px) {
+    .fg-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .fg-card--full,
+    .fg-card--half,
+    .fg-card--third {
+      grid-column: span 1;
+    }
+
+    /* Stack visual below body on full-width cards at mobile */
+    .fg-card--full {
+      flex-direction: column;
+    }
+
+    .fg-card__visual {
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid var(--color-olive-border);
+    }
+
+    .fg-card__visual--bio {
+      width: 100%;
+    }
+  }
+
+  /* Below 480px: third-width cards already covered above;
+     tighten section padding */
+  @media (max-width: 480px) {
+    .fg-section {
+      padding: 3.5rem 1rem;
+    }
+
+    .fg-layout {
+      gap: 0.875rem;
+    }
+
+    .fg-code-block__pre,
+    .fg-ascii-tui__body {
+      font-size: 0.65rem;
+    }
+  }
+
+  /* Between 768px and 960px:
+     half cards go 2-col, third cards go 3-col */
+  @media (min-width: 769px) and (max-width: 960px) {
+    .fg-layout {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .fg-card--full  { grid-column: span 6; }
+    .fg-card--half  { grid-column: span 3; }
+    .fg-card--third { grid-column: span 2; }
+
+    /* Stack visuals on full cards at this breakpoint */
+    .fg-card--full {
+      flex-direction: column;
+    }
+
+    .fg-card__visual {
+      width: 100%;
+      border-left: none;
+      border-top: 1px solid var(--color-olive-border);
+      min-height: 180px;
+    }
   }
 </style>

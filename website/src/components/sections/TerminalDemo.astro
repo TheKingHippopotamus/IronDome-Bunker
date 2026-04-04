@@ -1,260 +1,578 @@
 ---
 /**
  * TerminalDemo.astro — sections/
- * PSYCHOLOGY: PROOF. A live terminal animation proves the product works.
  *
- * Animation strategy:
- *   - Each .line starts at opacity:0 / translateY(4px)
- *   - @keyframes reveal fires with staggered --d (delay) per line
- *   - animation-fill-mode: forwards holds the visible state
- *   - IntersectionObserver triggers [data-state="running"] on first view
- *   - Replay button resets state → idle → running
+ * PSYCHOLOGY: PROOF. Users must SEE the TUI before they install.
  *
- * CSS-only staggered reveal. No JS framework required.
+ * Design:
+ *   - Four screen tabs: Splash / Login / Dashboard / Vault Detail
+ *   - Each tab renders a faithful ASCII mockup of the real Textual UI
+ *   - Auto-cycle: frames advance every 3.5 s on first view; tabs override
+ *   - CSS-only animation within each frame (line stagger via --d, cursor blink)
+ *   - IntersectionObserver starts the cycle; a "Pause / Resume" button
+ *     gives motion-sensitive users control
+ *   - prefers-reduced-motion: skips auto-cycle, shows first frame statically
+ *   - Install CTA is fused directly below — zero distance from proof to action
+ *
+ * Accurate source data used for mockup content:
+ *   - Colors from password_manager/tui/theme.py
+ *   - ASCII art from password_manager/tui/ascii_art.py
+ *   - Screen layouts from tui/screens/{splash,login,dashboard,detail}.py
+ *   - Bindings and UI text from actual source
  */
 ---
 
-<section class="demo-section" id="demo" aria-labelledby="demo-heading">
+<!-- ═══════════════════════════════════════════════════════════════
+     SECTION WRAPPER
+     ═══════════════════════════════════════════════════════════════ -->
+<section class="tui-section" id="demo" aria-labelledby="tui-heading">
 
   <!-- Section label -->
-  <div class="demo-label" aria-hidden="true">FIELD DEMONSTRATION</div>
-  <h2 class="demo-heading" id="demo-heading">See It in Action</h2>
+  <div class="tui-eyebrow" aria-hidden="true">LIVE FIELD DEMONSTRATION</div>
+  <h2 class="tui-heading" id="tui-heading">The TUI, Unfiltered</h2>
+  <p class="tui-subhead">
+    This is the actual interface. No marketing renders.
+  </p>
 
   <!-- Screen-reader description -->
   <p class="sr-only">
-    Animated terminal session demonstrating IronDome CLI commands: opening an
-    airspace with biometric auth, creating an encrypted credential, and
-    retrieving it from the bunker.
+    Four-frame walkthrough of the IronDome TUI: the boot splash with ASCII dome art,
+    the biometric login screen, the main dashboard with vault stats, and a credential
+    detail view with password reveal and auto-hide countdown.
   </p>
 
-  <!-- Terminal wrapper — animation controlled via data-state -->
-  <div class="term-wrap" id="term-demo" data-state="idle">
+  <!-- ── Tab strip ──────────────────────────────────────────────── -->
+  <div class="tui-tabs" role="tablist" aria-label="TUI screen walkthroughs">
+    <button
+      class="tui-tab tui-tab--active"
+      role="tab"
+      id="tab-splash"
+      aria-controls="frame-splash"
+      aria-selected="true"
+      data-frame="0"
+    >01 SPLASH</button>
+    <button
+      class="tui-tab"
+      role="tab"
+      id="tab-login"
+      aria-controls="frame-login"
+      aria-selected="false"
+      data-frame="1"
+    >02 LOGIN</button>
+    <button
+      class="tui-tab"
+      role="tab"
+      id="tab-dash"
+      aria-controls="frame-dash"
+      aria-selected="false"
+      data-frame="2"
+    >03 DASHBOARD</button>
+    <button
+      class="tui-tab"
+      role="tab"
+      id="tab-detail"
+      aria-controls="frame-detail"
+      aria-selected="false"
+      data-frame="3"
+    >04 VAULT DETAIL</button>
 
-    <!-- ── Terminal window ────────────────────────────────────── -->
-    <div class="term-window">
+    <!-- Cycle control — motion-aware users can pause -->
+    <button
+      class="tui-cycle-btn"
+      id="tui-cycle-toggle"
+      type="button"
+      aria-label="Pause auto-advance"
+      aria-pressed="false"
+    >
+      <span class="cycle-icon" aria-hidden="true">&#9646;&#9646;</span>
+      <span class="cycle-label">PAUSE</span>
+    </button>
+  </div>
 
-      <!-- Tactical corners -->
-      <div class="tc tc--tl" aria-hidden="true"></div>
-      <div class="tc tc--tr" aria-hidden="true"></div>
-      <div class="tc tc--bl" aria-hidden="true"></div>
-      <div class="tc tc--br" aria-hidden="true"></div>
+  <!-- ── Terminal window ───────────────────────────────────────── -->
+  <div class="tui-terminal" id="tui-terminal" aria-live="polite" aria-atomic="true">
 
-      <!-- Title bar -->
-      <div class="term-titlebar" aria-hidden="true">
-        <div class="term-dots">
-          <span class="dot dot--red"></span>
-          <span class="dot dot--yel"></span>
-          <span class="dot dot--grn"></span>
+    <!-- macOS-style chrome -->
+    <div class="tui-chrome" aria-hidden="true">
+      <div class="tui-dots">
+        <span class="dot dot--red"></span>
+        <span class="dot dot--yel"></span>
+        <span class="dot dot--grn"></span>
+      </div>
+      <span class="tui-chrome-title">irondome — bash — 160×44</span>
+      <span class="tui-live-pill" aria-hidden="true">
+        <span class="live-dot"></span>LIVE
+      </span>
+    </div>
+
+    <!-- ── FRAME 0: SPLASH ──────────────────────────────────────
+         Source: tui/screens/splash.py + tui/ascii_art.py
+         Shows the full boot sequence with progress bar and status messages.
+         ─────────────────────────────────────────────────────────── -->
+    <div
+      class="tui-frame tui-frame--active"
+      id="frame-splash"
+      role="tabpanel"
+      aria-labelledby="tab-splash"
+      tabindex="0"
+      data-frame="0"
+    >
+      <!-- Textual full-screen: centered art + progress bar -->
+      <div class="f0-outer">
+
+        <!-- ASCII art — subset of SPLASH_ART (condensed for display width) -->
+        <pre class="f0-art"><span class="art-border">╔═══╦═════════════════════════════════════════════════════╦═══╗</span>
+<span class="art-star">║ ★ ║</span><span class="art-dots"> · · · · · · · · · · · · · · · · · · · · · · · · · · </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">║   ║</span><span class="art-blank">                                                         </span><span class="art-border">║   ║</span>
+<span class="art-star">║ ★ ║</span><span class="art-scene">                                        ★  THREAT ▲  </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">     ╭──────────────────────────────╮   ╲  INBOUND   </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">   ╭─╯    I R O N D O M E           ╰─╮  ╲           </span><span class="art-border">║   ║</span>
+<span class="art-star">║ ★ ║</span><span class="art-scene"> ╭─╯       DOME : ACTIVE          ▲    ╰─╮          </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">╭─╯                                ║ ✸✸✸   ╰─╮       </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">╯                             ▲    ╳  ✸ ✸      ╰─    </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">              ▲               ║     ✸✸✸  KILL        </span><span class="art-border">║   ║</span>
+<span class="art-star">║ ★ ║</span><span class="art-scene">              ║               ●    NEUTRALIZED       </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">╔══╗        ║▲      ┌─┐ ┌──┐ ┌───┐ ┌──┐ ┌─┐        </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">║◎ ║╔═════╗ ║║      │█│ │██│ │███│ │██│ │█│        </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-scene">╚══╝╚═════╝▄╨╨▄▄▄▄▄███▄████▄█████▄████▄███▄▄▄▄▄  </span><span class="art-border">║   ║</span>
+<span class="art-star">║ ★ ║</span><span class="art-ground">██████████████████████████████████████████████████   </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">║   ║</span><span class="art-blank">                                                         </span><span class="art-border">║   ║</span>
+<span class="art-border">║   ║</span><span class="art-rule"> ═════════════════════════════════════════════════════ </span><span class="art-border">║   ║</span>
+<span class="art-star">║ ★ ║</span><span class="art-wordmark">    ★  SECURE VAULT  ·  FORTIFIED  ·  ZERO KNOWLEDGE  ★  </span><span class="art-star">║ ★ ║</span>
+<span class="art-border">╚═══╩═════════════════════════════════════════════════════╩═══╝</span></pre>
+
+        <!-- Version label -->
+        <div class="f0-version">SECURE VAULT  v2.1.1</div>
+
+        <!-- Progress bar — animates on frame-active -->
+        <div class="f0-bar-wrap" aria-hidden="true">
+          <div class="f0-bar" id="splash-bar"></div>
         </div>
-        <span class="term-title">irondome &mdash; demo session</span>
+
+        <!-- Cycling status message -->
+        <div class="f0-status" id="splash-status">Initializing IronDome...</div>
+
+      </div>
+    </div><!-- /#frame-splash -->
+
+    <!-- ── FRAME 1: LOGIN ───────────────────────────────────────
+         Source: tui/screens/login.py
+         Biometric mode — Touch ID prompt with spinner, then success.
+         ─────────────────────────────────────────────────────────── -->
+    <div
+      class="tui-frame"
+      id="frame-login"
+      role="tabpanel"
+      aria-labelledby="tab-login"
+      tabindex="0"
+      data-frame="1"
+      hidden
+    >
+      <!-- Textual header bar -->
+      <div class="tx-header" aria-hidden="true">
+        <span class="tx-header-app">IronDome v2.1.1</span>
+        <span class="tx-header-right">irondome</span>
       </div>
 
-      <!-- Terminal body -->
-      <div class="term-body" aria-hidden="true">
+      <!-- Centered login box -->
+      <div class="f1-outer">
+        <div class="f1-box">
 
-        <!-- Scanline overlay -->
-        <div class="scanlines" aria-hidden="true"></div>
+          <div class="f1-heading">[ IRONDOME ]  AUTHENTICATION</div>
 
-        <!-- ════════════════════════════════════════════════════
-             BLOCK 1 — open airspace
-             ════════════════════════════════════════════════════ -->
-        <div class="line" style="--d:0s;">
-          <span class="prompt">$</span>
-          <span class="cmd"> irondome open airspace</span>
+          <div class="f1-row">
+            <span class="f1-label">Mode:</span>
+            <span class="f1-bio">&#128737;  BIOMETRIC ONLY</span>
+          </div>
+
+          <div class="f1-bio-msg">Biometric authentication will be requested.</div>
+
+          <!-- Spinner — animated dots cycling -->
+          <div class="f1-spinner-row" aria-label="Authenticating with Touch ID">
+            <span class="f1-spinner" aria-hidden="true" id="login-spinner">&#10009;</span>
+            <span class="f1-spinner-label"> Requesting Touch ID...</span>
+          </div>
+
+          <!-- Success state — shown after animation delay -->
+          <div class="f1-success" id="login-success" aria-live="polite">
+            <span class="f1-chk">&#10003;</span>
+            <span class="f1-success-msg"> Touch ID verified — vault unlocked</span>
+          </div>
+
+          <div class="f1-actions">
+            <span class="f1-btn f1-btn--primary">Unlock Vault</span>
+            <span class="f1-btn">Quit</span>
+          </div>
+
         </div>
+      </div>
 
-        <div class="line" style="--d:0.7s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="out"> Biometric authentication required...</span>
-        </div>
+      <!-- Textual footer bindings -->
+      <div class="tx-footer" aria-hidden="true">
+        <span class="tx-bind"><kbd>Esc</kbd> Quit</span>
+      </div>
+    </div><!-- /#frame-login -->
 
-        <div class="line" style="--d:1.4s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="chk"> ✓</span>
-          <span class="out"> Touch ID verified</span>
-        </div>
-
-        <div class="line" style="--d:1.9s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="out"> Session opened — 30 min TTL</span>
-        </div>
-
-        <!-- spacer -->
-        <div class="line line--spacer" style="--d:2.4s;" aria-hidden="true"></div>
-
-        <!-- ════════════════════════════════════════════════════
-             BLOCK 2 — bunker create
-             ════════════════════════════════════════════════════ -->
-        <div class="line" style="--d:2.7s;">
-          <span class="prompt">$</span>
-          <span class="cmd"> bunker create</span>
-        </div>
-
-        <div class="line line--indent" style="--d:3.2s;">
-          <span class="out">  Service: </span>
-          <span class="val">github.com</span>
-        </div>
-
-        <div class="line line--indent" style="--d:3.6s;">
-          <span class="out">  Username: </span>
-          <span class="val">kinghippo</span>
-        </div>
-
-        <div class="line line--indent" style="--d:4.0s;">
-          <span class="out">  Password: </span>
-          <span class="val">[auto-generated 32 chars]</span>
-        </div>
-
-        <div class="line" style="--d:4.6s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="chk"> ✓</span>
-          <span class="out"> Entry encrypted (AES-128-CBC)</span>
-        </div>
-
-        <div class="line" style="--d:5.1s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="chk"> ✓</span>
-          <span class="out"> HMAC-SHA256 signature attached</span>
-        </div>
-
-        <div class="line" style="--d:5.6s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="chk"> ✓</span>
-          <span class="out"> Vault updated — 1 entry</span>
-        </div>
-
-        <!-- spacer -->
-        <div class="line line--spacer" style="--d:6.1s;" aria-hidden="true"></div>
-
-        <!-- ════════════════════════════════════════════════════
-             BLOCK 3 — bunker open github (box)
-             ════════════════════════════════════════════════════ -->
-        <div class="line" style="--d:6.4s;">
-          <span class="prompt">$</span>
-          <span class="cmd"> bunker open github</span>
-        </div>
-
-        <div class="line line--box" style="--d:7.0s;">
-          <span class="box-chr">  ┌─────────────────────────────────────┐</span>
-        </div>
-        <div class="line line--box" style="--d:7.0s;">
-          <span class="box-chr">  │</span>
-          <span class="box-txt"> github.com                          </span>
-          <span class="box-chr">│</span>
-        </div>
-        <div class="line line--box" style="--d:7.3s;">
-          <span class="box-chr">  │</span>
-          <span class="box-txt"> User: kinghippo                     </span>
-          <span class="box-chr">│</span>
-        </div>
-        <div class="line line--box" style="--d:7.5s;">
-          <span class="box-chr">  │</span>
-          <span class="box-txt"> Pass: ••••••••••••••••••••••••••••  </span>
-          <span class="box-chr">│</span>
-        </div>
-        <div class="line line--box" style="--d:7.7s;">
-          <span class="box-chr">  │</span>
-          <span class="box-txt"> Created: 2025-04-17 14:30:22       </span>
-          <span class="box-chr">│</span>
-        </div>
-        <div class="line line--box" style="--d:7.9s;">
-          <span class="box-chr">  └─────────────────────────────────────┘</span>
-        </div>
-
-        <div class="line" style="--d:8.3s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="out"> Password copied to clipboard</span>
-        </div>
-
-        <div class="line" style="--d:8.7s;">
-          <span class="tag">[IRONDOME]</span>
-          <span class="out"> Clipboard auto-clear in 30s</span>
-        </div>
-
-        <!-- spacer -->
-        <div class="line line--spacer" style="--d:9.1s;" aria-hidden="true"></div>
-
-        <!-- Final prompt with blinking cursor -->
-        <div class="line line--final" style="--d:9.4s;">
-          <span class="prompt">$</span>
-          <span class="cursor" aria-hidden="true">█</span>
-        </div>
-
-      </div><!-- /.term-body -->
-    </div><!-- /.term-window -->
-
-    <!-- Replay button -->
-    <button
-      class="replay-btn"
-      id="term-demo-replay"
-      type="button"
-      aria-label="Replay terminal demo animation"
-      title="Replay demo"
+    <!-- ── FRAME 2: DASHBOARD ───────────────────────────────────
+         Source: tui/screens/dashboard.py
+         Stat cards, quick-action buttons, recent activity feed.
+         ─────────────────────────────────────────────────────────── -->
+    <div
+      class="tui-frame"
+      id="frame-dash"
+      role="tabpanel"
+      aria-labelledby="tab-dash"
+      tabindex="0"
+      data-frame="2"
+      hidden
     >
-      <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
-        <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
-      </svg>
-      <span>REPLAY</span>
-    </button>
+      <!-- Textual header -->
+      <div class="tx-header" aria-hidden="true">
+        <span class="tx-header-app">IronDome v2.1.1</span>
+        <span class="tx-header-right">&#9646; AIRSPACE OPEN — 28m</span>
+      </div>
 
-  </div><!-- /.term-wrap -->
-</section>
+      <div class="f2-title">  &#9679; IRONDOME BUNKER</div>
+
+      <!-- Stat cards row -->
+      <div class="f2-stats" aria-label="Vault statistics">
+        <div class="f2-card">
+          <div class="f2-card-label">VAULT ENTRIES</div>
+          <div class="f2-card-value f2-card-value--green">&#9679; 12</div>
+        </div>
+        <div class="f2-card">
+          <div class="f2-card-label">AIRSPACE</div>
+          <div class="f2-card-value f2-card-value--amber">&#9650; OPEN (28m)</div>
+        </div>
+        <div class="f2-card">
+          <div class="f2-card-label">SESSION</div>
+          <div class="f2-card-value f2-card-value--green">&#10003; kinghippo  27:43</div>
+        </div>
+      </div>
+
+      <!-- Quick actions -->
+      <div class="f2-actions">
+        <div class="f2-action-btn f2-action-btn--focused">[1] &#9658; Vault</div>
+        <div class="f2-action-btn">[2] &#9658; Generator</div>
+        <div class="f2-action-btn">[3] &#9658; New Entry</div>
+        <div class="f2-action-btn">[4] &#9658; Fortify</div>
+        <div class="f2-action-btn">[5] &#9658; Settings</div>
+      </div>
+
+      <!-- Activity feed -->
+      <div class="f2-feed">
+        <div class="f2-feed-title">RECENT ACTIVITY</div>
+        <div class="f2-feed-line"><span class="f2-ts">2026-03-31 14:02:11</span>  Login successful — kinghippo</div>
+        <div class="f2-feed-line"><span class="f2-ts">2026-03-31 13:58:04</span>  Save entry — github.com</div>
+        <div class="f2-feed-line"><span class="f2-ts">2026-03-31 13:55:47</span>  Search — "aws"</div>
+        <div class="f2-feed-line"><span class="f2-ts">2026-03-30 22:11:30</span>  Backup created — bunker.bkp</div>
+        <div class="f2-feed-line"><span class="f2-ts">2026-03-30 21:08:55</span>  Login successful — kinghippo</div>
+      </div>
+
+      <!-- Status bar -->
+      <div class="tx-status" aria-hidden="true">
+        <span class="tx-status-item tx-status-green">&#9679; 12 entries</span>
+        <span class="tx-status-item tx-status-amber">&#9650; Airspace open — 28:00</span>
+        <span class="tx-status-item">AES-128-CBC  ·  HMAC-SHA256  ·  Machine-bound</span>
+      </div>
+
+      <!-- Footer bindings -->
+      <div class="tx-footer" aria-hidden="true">
+        <span class="tx-bind"><kbd>1</kbd> Vault</span>
+        <span class="tx-bind"><kbd>2</kbd> Generator</span>
+        <span class="tx-bind"><kbd>3</kbd> New Entry</span>
+        <span class="tx-bind"><kbd>4</kbd> Fortify</span>
+        <span class="tx-bind"><kbd>5</kbd> Settings</span>
+        <span class="tx-bind"><kbd>q</kbd> Logout</span>
+        <span class="tx-bind"><kbd>?</kbd> Help</span>
+      </div>
+    </div><!-- /#frame-dash -->
+
+    <!-- ── FRAME 3: VAULT DETAIL ────────────────────────────────
+         Source: tui/screens/detail.py
+         Single entry — redacted password, reveal countdown, strength bar.
+         ─────────────────────────────────────────────────────────── -->
+    <div
+      class="tui-frame"
+      id="frame-detail"
+      role="tabpanel"
+      aria-labelledby="tab-detail"
+      tabindex="0"
+      data-frame="3"
+      hidden
+    >
+      <!-- Textual header -->
+      <div class="tx-header" aria-hidden="true">
+        <span class="tx-header-app">IronDome v2.1.1</span>
+        <span class="tx-header-right">&#9646; AIRSPACE OPEN — 27m</span>
+      </div>
+
+      <div class="f3-title">  &#9679; BUNKER DETAIL</div>
+
+      <!-- Field rows -->
+      <div class="f3-fields">
+
+        <div class="f3-row">
+          <span class="f3-label">Service</span>
+          <span class="f3-value">github.com</span>
+        </div>
+
+        <div class="f3-row">
+          <span class="f3-label">Username</span>
+          <!-- Button — click copies username -->
+          <span class="f3-value f3-copyable">kinghippo</span>
+        </div>
+
+        <!-- Password row: redacted → revealed → hidden -->
+        <div class="f3-row f3-row--password">
+          <span class="f3-label">Password</span>
+          <span class="f3-pw-wrap">
+            <!-- Redacted state (default) -->
+            <span class="f3-pw f3-pw--hidden" id="f3-pw-hidden">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span>
+            <!-- Revealed state (shown during animation) -->
+            <span class="f3-pw f3-pw--revealed" id="f3-pw-revealed" aria-hidden="true">xK9#mP2@vL4!wQ7$</span>
+            <!-- Auto-hide countdown -->
+            <span class="f3-reveal-timer" id="f3-reveal-timer" aria-live="polite"></span>
+          </span>
+        </div>
+
+        <!-- Strength meter -->
+        <div class="f3-row">
+          <span class="f3-label">Strength</span>
+          <span class="f3-strength-wrap">
+            <span class="f3-strength-bar">
+              <span class="f3-seg f3-seg--on"></span>
+              <span class="f3-seg f3-seg--on"></span>
+              <span class="f3-seg f3-seg--on"></span>
+              <span class="f3-seg f3-seg--on"></span>
+              <span class="f3-seg f3-seg--on"></span>
+            </span>
+            <span class="f3-strength-label">Excellent</span>
+          </span>
+        </div>
+
+        <div class="f3-row">
+          <span class="f3-label">Created</span>
+          <span class="f3-value f3-value--muted">2026-03-31 14:02:09</span>
+        </div>
+
+      </div>
+
+      <!-- Action buttons -->
+      <div class="f3-actions">
+        <span class="f3-btn f3-btn--primary">[c] Copy Password</span>
+        <span class="f3-btn">[u] Copy Username</span>
+        <span class="f3-btn f3-btn--reveal" id="f3-reveal-btn">[Space] Reveal</span>
+        <span class="f3-btn">[e] Edit</span>
+        <span class="f3-btn f3-btn--danger">[Ctrl+D] Delete</span>
+      </div>
+
+      <!-- Clipboard notification — appears mid-animation -->
+      <div class="f3-notify" id="f3-notify" aria-live="polite" aria-atomic="true">
+        <span class="f3-notify-icon">&#10003;</span>
+        Copied! Clears in 30s
+      </div>
+
+      <!-- Status bar -->
+      <div class="tx-status" aria-hidden="true">
+        <span class="tx-status-item tx-status-green">&#9679; 12 entries</span>
+        <span class="tx-status-item tx-status-amber">&#9650; Airspace open — 27:00</span>
+        <span class="tx-status-item">AES-128-CBC  ·  HMAC-SHA256  ·  Machine-bound</span>
+      </div>
+
+      <!-- Footer bindings -->
+      <div class="tx-footer" aria-hidden="true">
+        <span class="tx-bind"><kbd>c</kbd> Copy Pass</span>
+        <span class="tx-bind"><kbd>u</kbd> Copy User</span>
+        <span class="tx-bind"><kbd>Space</kbd> Reveal</span>
+        <span class="tx-bind"><kbd>e</kbd> Edit</span>
+        <span class="tx-bind"><kbd>^D</kbd> Delete</span>
+        <span class="tx-bind"><kbd>Esc</kbd> Back</span>
+      </div>
+    </div><!-- /#frame-detail -->
+
+  </div><!-- /.tui-terminal -->
+
+  <!-- ── Progress dots ─────────────────────────────────────────── -->
+  <div class="tui-dots-track" aria-hidden="true">
+    <span class="tui-dot tui-dot--active" data-frame="0"></span>
+    <span class="tui-dot" data-frame="1"></span>
+    <span class="tui-dot" data-frame="2"></span>
+    <span class="tui-dot" data-frame="3"></span>
+  </div>
+
+  <!-- ── Install CTA ───────────────────────────────────────────── -->
+  <div class="tui-cta" id="install-cta">
+    <div class="cta-label" aria-hidden="true">READY TO DEPLOY</div>
+    <p class="cta-tagline">One command. No cloud. No compromise.</p>
+    <div class="cta-install">
+      <span class="cta-prompt" aria-hidden="true">$</span>
+      <code class="cta-cmd">pip install IronDome</code>
+      <button
+        class="cta-copy"
+        id="cta-copy-btn"
+        type="button"
+        aria-label="Copy install command"
+        title="Copy"
+      >COPY</button>
+    </div>
+    <a
+      class="cta-primary-btn"
+      href="https://pypi.org/project/IronDome/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Try It Now &#8594;
+    </a>
+    <a
+      class="cta-secondary-link"
+      href="/docs"
+    >
+      Read the Docs
+    </a>
+  </div>
+
+</section><!-- /.tui-section -->
+
 
 <!-- ═══════════════════════════════════════════════════════════════
-     SCOPED STYLES
+     STYLES
      ═══════════════════════════════════════════════════════════════ -->
 <style>
-  /* ── Keyframes ──────────────────────────────────────────────── */
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  /* ──────────────────────────────────────────────────────────────
+     DESIGN TOKENS (match tui/theme.py exactly)
+     ────────────────────────────────────────────────────────────── */
+  :root {
+    --tui-bg:          #0A0D0F;
+    --tui-surface:     #111518;
+    --tui-elevated:    #1A1F24;
+    --tui-green:       #00FF41;
+    --tui-amber:       #FFB300;
+    --tui-red:         #FF2020;
+    --tui-blue:        #00B4D8;
+    --tui-gray:        #4A5568;
+    --tui-border-dim:  #1E2D3D;
+    --tui-text:        #E2E8F0;
+    --tui-text-muted:  #94A3B8;
+    --tui-header-bg:   #0D1117;
+    --tui-font:        ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, "Courier New", monospace;
   }
 
-  @keyframes cursor-blink {
+  /* ──────────────────────────────────────────────────────────────
+     KEYFRAMES
+     ────────────────────────────────────────────────────────────── */
+
+  /* Line stagger reveal used across frames */
+  @keyframes line-in {
+    from { opacity: 0; transform: translateY(3px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+
+  /* Cursor blink */
+  @keyframes blink {
     0%, 49%  { opacity: 1; }
     50%, 100% { opacity: 0; }
   }
 
-  @keyframes scan-drift {
-    from { background-position: 0 0; }
-    to   { background-position: 0 4px; }
+  /* Splash progress bar fill */
+  @keyframes bar-fill {
+    from { width: 0%; }
+    to   { width: 100%; }
   }
 
-  /* ── Section ────────────────────────────────────────────────── */
-  .demo-section {
-    padding: 5rem 1.5rem;
+  /* Splash status message pulse */
+  @keyframes msg-cycle {
+    0%   { opacity: 1; }
+    22%  { opacity: 1; }
+    28%  { opacity: 0; }
+    72%  { opacity: 0; }
+    78%  { opacity: 1; }
+    100% { opacity: 1; }
+  }
+
+  /* Spinner rotation */
+  @keyframes spin-frames {
+    0%   { content: "⠙"; }
+    12%  { content: "⠹"; }
+    25%  { content: "⠸"; }
+    37%  { content: "⠼"; }
+    50%  { content: "⠴"; }
+    62%  { content: "⠦"; }
+    75%  { content: "⠧"; }
+    87%  { content: "⠇"; }
+    100% { content: "⠏"; }
+  }
+
+  /* Login success fade-in after delay */
+  @keyframes success-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Password reveal flash */
+  @keyframes pw-reveal {
+    0%   { opacity: 0; }
+    10%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Notification slide-up */
+  @keyframes notify-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0);   }
+  }
+
+  /* Live indicator pulse */
+  @keyframes live-pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  /* Tab indicator scan */
+  @keyframes tab-scan {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     SECTION
+     ────────────────────────────────────────────────────────────── */
+  .tui-section {
+    padding: 5rem 1.5rem 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 0;
   }
 
-  .demo-label {
-    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
-    font-size: 0.65rem;
+  .tui-eyebrow {
+    font-family: var(--tui-font);
+    font-size: 0.6rem;
     font-weight: 700;
-    letter-spacing: 0.25em;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #8B9A46;
+    color: var(--tui-green);
     margin-bottom: 0.75rem;
   }
 
-  .demo-heading {
-    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
+  .tui-heading {
+    font-family: var(--tui-font);
     font-size: clamp(1.5rem, 4vw, 2.25rem);
     font-weight: 800;
-    color: #C8D4B0;
-    margin: 0 0 2.5rem;
+    color: var(--tui-text);
+    margin: 0 0 0.5rem;
     text-align: center;
   }
 
-  /* Screen-reader only utility */
+  .tui-subhead {
+    font-family: var(--tui-font);
+    font-size: 0.82rem;
+    color: var(--tui-text-muted);
+    margin: 0 0 2rem;
+    text-align: center;
+  }
+
   .sr-only {
     position: absolute;
     width: 1px;
@@ -267,54 +585,131 @@
     border: 0;
   }
 
-  /* ── Terminal wrapper ───────────────────────────────────────── */
-  .term-wrap {
-    position: relative;
+  /* ──────────────────────────────────────────────────────────────
+     TAB STRIP
+     ────────────────────────────────────────────────────────────── */
+  .tui-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0;
     width: 100%;
-    max-width: 760px;
+    max-width: 900px;
+    border-bottom: 1px solid var(--tui-border-dim);
+    margin-bottom: 0;
+    flex-wrap: wrap;
   }
 
-  /* ── Terminal window ────────────────────────────────────────── */
-  .term-window {
+  .tui-tab {
+    font-family: var(--tui-font);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--tui-text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
     position: relative;
-    background-color: #0D1208;
-    border: 1px solid rgba(74, 93, 35, 0.25);
-    border-radius: 2px;
+    transition: color 150ms ease;
+    white-space: nowrap;
+  }
+
+  .tui-tab:hover {
+    color: var(--tui-text);
+  }
+
+  .tui-tab--active,
+  .tui-tab[aria-selected="true"] {
+    color: var(--tui-green);
+    border-bottom-color: var(--tui-green);
+  }
+
+  .tui-tab:focus-visible {
+    outline: 1px solid rgba(0, 255, 65, 0.6);
+    outline-offset: 2px;
+  }
+
+  /* Cycle toggle — pushed to the right */
+  .tui-cycle-btn {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--tui-font);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--tui-gray);
+    background: transparent;
+    border: 1px solid var(--tui-border-dim);
+    border-radius: 1px;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    transition: color 150ms ease, border-color 150ms ease;
+    white-space: nowrap;
+  }
+
+  .tui-cycle-btn:hover {
+    color: var(--tui-text-muted);
+    border-color: var(--tui-gray);
+  }
+
+  .tui-cycle-btn:focus-visible {
+    outline: 1px solid rgba(0, 255, 65, 0.5);
+    outline-offset: 2px;
+  }
+
+  .tui-cycle-btn[aria-pressed="true"] .cycle-label::before {
+    content: "RESUME";
+  }
+
+  .tui-cycle-btn[aria-pressed="true"] .cycle-label {
+    display: none; /* replaced by ::before */
+    display: inline; /* reset — use content trick below */
+  }
+
+  /* Simpler: just toggle the label text via JS */
+  .cycle-icon {
+    font-size: 0.6rem;
+    opacity: 0.6;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     TERMINAL WINDOW
+     ────────────────────────────────────────────────────────────── */
+  .tui-terminal {
+    width: 100%;
+    max-width: 900px;
+    background-color: var(--tui-bg);
+    border: 1px solid rgba(0, 255, 65, 0.12);
+    border-top: none; /* tabs merge into terminal */
+    border-radius: 0 0 2px 2px;
     overflow: hidden;
     box-shadow:
-      0 0 0 1px rgba(74, 93, 35, 0.08),
-      0 4px 32px rgba(0, 0, 0, 0.55),
-      0 0 60px rgba(74, 93, 35, 0.06);
+      0 0 0 1px rgba(0, 255, 65, 0.04),
+      0 8px 48px rgba(0, 0, 0, 0.7),
+      0 0 80px rgba(0, 255, 65, 0.04);
+    position: relative;
   }
 
-  /* ── Tactical corners ───────────────────────────────────────── */
-  .tc {
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    border-color: rgba(74, 93, 35, 0.45);
-    border-style: solid;
-    pointer-events: none;
-    z-index: 3;
-  }
-
-  .tc--tl { top: -1px;    left: -1px;    border-width: 2px 0 0 2px; }
-  .tc--tr { top: -1px;    right: -1px;   border-width: 2px 2px 0 0; }
-  .tc--bl { bottom: -1px; left: -1px;    border-width: 0 0 2px 2px; }
-  .tc--br { bottom: -1px; right: -1px;   border-width: 0 2px 2px 0; }
-
-  /* ── Title bar ──────────────────────────────────────────────── */
-  .term-titlebar {
+  /* ──────────────────────────────────────────────────────────────
+     TERMINAL CHROME (macOS window bar)
+     ────────────────────────────────────────────────────────────── */
+  .tui-chrome {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 0.55rem 0.875rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-bottom: 1px solid rgba(74, 93, 35, 0.15);
+    padding: 0.5rem 0.875rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-bottom: 1px solid rgba(0, 255, 65, 0.08);
     user-select: none;
+    flex-shrink: 0;
   }
 
-  .term-dots {
+  .tui-dots {
     display: flex;
     align-items: center;
     gap: 0.375rem;
@@ -326,257 +721,1123 @@
     height: 10px;
     border-radius: 50%;
     display: block;
+    flex-shrink: 0;
   }
 
   .dot--red { background-color: #ff5f57; }
   .dot--yel { background-color: #ffbd2e; }
   .dot--grn { background-color: #28c840; }
 
-  .term-title {
+  .tui-chrome-title {
     flex: 1;
     text-align: center;
-    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, monospace;
-    font-size: 0.65rem;
+    font-family: var(--tui-font);
+    font-size: 0.6rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
-    color: rgba(200, 212, 176, 0.5);
+    letter-spacing: 0.14em;
+    color: rgba(148, 163, 184, 0.45);
   }
 
-  /* ── Terminal body ──────────────────────────────────────────── */
-  .term-body {
+  .tui-live-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: var(--tui-font);
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: rgba(0, 255, 65, 0.6);
+    flex-shrink: 0;
+  }
+
+  .live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--tui-green);
+    animation: live-pulse 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     FRAMES — base
+     ────────────────────────────────────────────────────────────── */
+  .tui-frame {
+    min-height: 420px;
+    display: none;
+    flex-direction: column;
+    font-family: var(--tui-font);
+    font-size: 0.78rem;
+    color: var(--tui-text);
     position: relative;
-    padding: 1.25rem 1.5rem 1.5rem;
-    font-family: ui-monospace, "SF Mono", "Fira Code", "Cascadia Code", "JetBrains Mono", Menlo, "Courier New", monospace;
-    font-size: 0.82rem;
-    line-height: 1.75;
     overflow: hidden;
   }
 
-  /* Scanline overlay */
-  .scanlines {
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 65, 0.015) 2px,
-      rgba(0, 255, 65, 0.015) 4px
-    );
-    animation: scan-drift 0.4s linear infinite;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── Lines — base (hidden) ──────────────────────────────────── */
-  .line {
+  .tui-frame--active,
+  .tui-frame:not([hidden]) {
     display: flex;
-    align-items: baseline;
-    white-space: pre;
-    opacity: 0;
-    position: relative;
-    z-index: 1;
   }
 
-  /* Running state: staggered reveal via --d custom property */
-  [data-state="running"] .line {
-    animation: reveal 0.3s ease-out var(--d, 0s) both;
-  }
-
-  /* Done state: keep everything visible */
-  [data-state="done"] .line {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* ── Line variants ──────────────────────────────────────────── */
-  .line--spacer {
-    height: 0.6rem;
-  }
-
-  .line--indent {
-    padding-left: 0;
-  }
-
-  .line--box {
+  /* ──────────────────────────────────────────────────────────────
+     SHARED TEXTUAL CHROME (header / status / footer bars)
+     These mimic Textual's built-in Header, StatusBar, Footer widgets.
+     ────────────────────────────────────────────────────────────── */
+  .tx-header {
+    display: flex;
     align-items: center;
-  }
-
-  /* ── Color tokens ───────────────────────────────────────────── */
-  .prompt {
-    color: #00FF41;
+    justify-content: space-between;
+    padding: 0.2rem 1rem;
+    background-color: var(--tui-header-bg);
+    border-bottom: 1px solid var(--tui-border-dim);
+    font-size: 0.65rem;
     font-weight: 700;
+    color: var(--tui-text-muted);
     flex-shrink: 0;
+    user-select: none;
   }
 
-  .cmd {
-    color: #C8D4B0;
+  .tx-header-app {
+    color: var(--tui-green);
+    letter-spacing: 0.05em;
   }
 
-  .tag {
-    color: #8B9A46;
-    flex-shrink: 0;
+  .tx-header-right {
+    color: var(--tui-amber);
   }
 
-  .out {
-    color: #C8D4B0;
-  }
-
-  .chk {
-    color: #00FF41;
-    flex-shrink: 0;
-  }
-
-  .val {
-    color: #00FF41;
-  }
-
-  /* Box drawing */
-  .box-chr {
-    color: rgba(74, 93, 35, 0.5);
-  }
-
-  .box-txt {
-    color: #C8D4B0;
-  }
-
-  /* ── Blinking cursor ────────────────────────────────────────── */
-  .cursor {
-    color: #00FF41;
-    margin-left: 0.25em;
-  }
-
-  [data-state="running"] .line--final .cursor {
-    animation:
-      reveal 0.3s ease-out var(--d, 9.4s) both,
-      cursor-blink 1s step-end calc(var(--d, 9.4s) + 0.3s) infinite;
-  }
-
-  [data-state="done"] .line--final .cursor {
-    animation: cursor-blink 1s step-end 0s infinite;
-    opacity: 1;
-  }
-
-  /* ── Replay button ──────────────────────────────────────────── */
-  .replay-btn {
-    position: absolute;
-    bottom: 0.875rem;
-    right: 0.875rem;
+  .tx-status {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.3rem 0.65rem;
-    background-color: rgba(74, 93, 35, 0.08);
-    color: rgba(139, 154, 70, 0.55);
-    border: 1px solid rgba(74, 93, 35, 0.2);
-    border-radius: 1px;
-    font-family: ui-monospace, "SF Mono", "Fira Code", Menlo, monospace;
+    gap: 1.5rem;
+    padding: 0.2rem 1rem;
+    background-color: rgba(0, 0, 0, 0.45);
+    border-top: 1px solid var(--tui-border-dim);
     font-size: 0.6rem;
+    flex-shrink: 0;
+    user-select: none;
+    flex-wrap: wrap;
+  }
+
+  .tx-status-item {
+    color: var(--tui-text-muted);
+  }
+
+  .tx-status-green { color: var(--tui-green); }
+  .tx-status-amber { color: var(--tui-amber); }
+
+  .tx-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 0.2rem 1rem;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid var(--tui-border-dim);
+    font-size: 0.6rem;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .tx-bind {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+    padding: 0 0.6rem;
+    color: var(--tui-text-muted);
+    border-right: 1px solid var(--tui-border-dim);
+  }
+
+  .tx-bind:last-child {
+    border-right: none;
+  }
+
+  .tx-bind kbd {
+    font-family: var(--tui-font);
+    font-size: 0.58rem;
+    color: var(--tui-green);
+    background: none;
+    border: none;
+    padding: 0;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     FRAME 0 — SPLASH
+     ────────────────────────────────────────────────────────────── */
+  .f0-outer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.5rem 1.5rem;
+    gap: 0.75rem;
+    background-color: var(--tui-bg);
+  }
+
+  .f0-art {
+    font-family: var(--tui-font);
+    font-size: clamp(0.38rem, 1.1vw, 0.58rem);
+    line-height: 1.3;
+    margin: 0;
+    white-space: pre;
+    letter-spacing: 0;
+  }
+
+  /* Art color tokens */
+  .art-border  { color: rgba(0, 255, 65, 0.35); }
+  .art-star    { color: rgba(0, 255, 65, 0.5);  }
+  .art-dots    { color: rgba(0, 255, 65, 0.18); }
+  .art-blank   { color: transparent; }
+  .art-scene   { color: var(--tui-gray); }
+  .art-ground  { color: rgba(0, 255, 65, 0.25); }
+  .art-rule    { color: rgba(0, 255, 65, 0.25); }
+  .art-wordmark { color: rgba(0, 255, 65, 0.6); }
+
+  .f0-version {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--tui-text-muted);
+  }
+
+  .f0-bar-wrap {
+    width: min(380px, 90%);
+    height: 6px;
+    background-color: var(--tui-border-dim);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+
+  /* Bar animates only when frame is active */
+  .tui-frame--active .f0-bar,
+  .tui-frame:not([hidden]) .f0-bar {
+    height: 100%;
+    background-color: var(--tui-green);
+    width: 0%;
+    animation: bar-fill 2.2s ease-out 0.3s forwards;
+  }
+
+  .f0-bar {
+    height: 100%;
+    width: 0%;
+  }
+
+  .f0-status {
+    font-size: 0.68rem;
+    color: var(--tui-text-muted);
+    letter-spacing: 0.06em;
+    /* Status messages cycle — driven by JS; CSS provides the base */
+    min-height: 1.2em;
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     FRAME 1 — LOGIN
+     ────────────────────────────────────────────────────────────── */
+  .f1-outer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background-color: var(--tui-surface);
+  }
+
+  .f1-box {
+    width: min(420px, 100%);
+    background-color: var(--tui-elevated);
+    border: 1px solid var(--tui-border-dim);
+    padding: 1.5rem 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .f1-heading {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    color: var(--tui-green);
+    text-transform: uppercase;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--tui-border-dim);
+  }
+
+  .f1-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+  }
+
+  .f1-label {
+    color: var(--tui-text-muted);
+    min-width: 4ch;
+  }
+
+  .f1-bio {
+    color: var(--tui-amber);
+    font-weight: 600;
+  }
+
+  .f1-bio-msg {
+    font-size: 0.65rem;
+    color: var(--tui-text-muted);
+  }
+
+  .f1-spinner-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: var(--tui-text-muted);
+  }
+
+  /* Spinner — CSS content animation (Braille spinner frames) */
+  .f1-spinner {
+    color: var(--tui-green);
+    display: inline-block;
+    /* Braille spinner via ::before toggling content isn't natively supported without JS.
+       We use a simple character that rotates via transform. */
+    animation: blink 0.7s step-end infinite;
+  }
+
+  /* Success message — hidden by default, revealed after delay when frame is active */
+  .f1-success {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    opacity: 0;
+  }
+
+  .tui-frame--active .f1-success,
+  .tui-frame:not([hidden]) .f1-success {
+    animation: success-in 0.5s ease-out 2.5s forwards;
+  }
+
+  .f1-chk {
+    color: var(--tui-green);
+    font-weight: 700;
+  }
+
+  .f1-success-msg {
+    color: var(--tui-green);
+  }
+
+  .f1-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .f1-btn {
+    font-family: var(--tui-font);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.75rem;
+    cursor: default;
+  }
+
+  .f1-btn--primary {
+    background-color: rgba(0, 255, 65, 0.15);
+    color: var(--tui-green);
+    border: 1px solid rgba(0, 255, 65, 0.4);
+  }
+
+  .f1-btn:not(.f1-btn--primary) {
+    background-color: var(--tui-elevated);
+    color: var(--tui-text-muted);
+    border: 1px solid var(--tui-border-dim);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     FRAME 2 — DASHBOARD
+     ────────────────────────────────────────────────────────────── */
+  .f2-title {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--tui-green);
+    border-bottom: 1px solid var(--tui-border-dim);
+    flex-shrink: 0;
+  }
+
+  .f2-stats {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--tui-border-dim);
+    flex-shrink: 0;
+  }
+
+  .f2-card {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    border-right: 1px solid var(--tui-border-dim);
+    min-width: 0;
+  }
+
+  .f2-card:last-child {
+    border-right: none;
+  }
+
+  .f2-card-label {
+    font-size: 0.55rem;
     font-weight: 700;
     letter-spacing: 0.18em;
+    color: var(--tui-text-muted);
     text-transform: uppercase;
-    cursor: pointer;
-    z-index: 10;
-    transition:
-      color 150ms ease,
-      border-color 150ms ease,
-      background-color 150ms ease;
+    margin-bottom: 0.25rem;
   }
 
-  .replay-btn:hover {
-    color: #00FF41;
+  .f2-card-value {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .f2-card-value--green { color: var(--tui-green); }
+  .f2-card-value--amber { color: var(--tui-amber); }
+
+  .f2-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--tui-border-dim);
+    flex-shrink: 0;
+  }
+
+  .f2-action-btn {
+    font-size: 0.72rem;
+    padding: 0.3rem 1.25rem;
+    color: var(--tui-text-muted);
+    cursor: default;
+  }
+
+  .f2-action-btn--focused {
+    background-color: rgba(0, 255, 65, 0.08);
+    color: var(--tui-green);
+    border-left: 2px solid var(--tui-green);
+    padding-left: calc(1.25rem - 2px);
+  }
+
+  .f2-feed {
+    flex: 1;
+    padding: 0.6rem 1rem;
+    overflow: hidden;
+  }
+
+  .f2-feed-title {
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: var(--tui-text-muted);
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .f2-feed-line {
+    font-size: 0.68rem;
+    color: var(--tui-text-muted);
+    line-height: 1.7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .f2-ts {
+    color: var(--tui-gray);
+  }
+
+  /* Staggered reveal for feed lines when frame is active */
+  .tui-frame--active .f2-feed-line,
+  .tui-frame:not([hidden]) .f2-feed-line {
+    opacity: 0;
+    animation: line-in 0.3s ease-out both;
+  }
+
+  .tui-frame:not([hidden]) .f2-feed-line:nth-child(2) { animation-delay: 0.15s; }
+  .tui-frame:not([hidden]) .f2-feed-line:nth-child(3) { animation-delay: 0.3s; }
+  .tui-frame:not([hidden]) .f2-feed-line:nth-child(4) { animation-delay: 0.45s; }
+  .tui-frame:not([hidden]) .f2-feed-line:nth-child(5) { animation-delay: 0.6s; }
+  .tui-frame:not([hidden]) .f2-feed-line:nth-child(6) { animation-delay: 0.75s; }
+
+  /* ──────────────────────────────────────────────────────────────
+     FRAME 3 — VAULT DETAIL
+     ────────────────────────────────────────────────────────────── */
+  .f3-title {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--tui-green);
+    border-bottom: 1px solid var(--tui-border-dim);
+    flex-shrink: 0;
+  }
+
+  .f3-fields {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .f3-row {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0;
+    border-bottom: 1px solid rgba(30, 45, 61, 0.5);
+    gap: 1rem;
+    min-height: 2rem;
+  }
+
+  .f3-row:last-child {
+    border-bottom: none;
+  }
+
+  .f3-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--tui-text-muted);
+    text-transform: uppercase;
+    min-width: 7ch;
+    flex-shrink: 0;
+  }
+
+  .f3-value {
+    font-size: 0.72rem;
+    color: var(--tui-text);
+  }
+
+  .f3-value--muted {
+    color: var(--tui-gray);
+  }
+
+  .f3-copyable {
+    color: var(--tui-blue);
+    cursor: default;
+  }
+
+  /* Password field */
+  .f3-pw-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .f3-pw {
+    font-family: var(--tui-font);
+    font-size: 0.72rem;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--tui-elevated);
+  }
+
+  .f3-pw--hidden {
+    color: var(--tui-gray);
+  }
+
+  /* Revealed password — animates in/out when frame is active */
+  .f3-pw--revealed {
+    display: none;
+    color: var(--tui-green);
+    font-weight: 700;
+  }
+
+  .tui-frame:not([hidden]) .f3-pw--hidden {
+    animation: pw-reveal 6s ease-in-out 1.2s;
+    /* Trick: revealed password swaps in via JS; CSS controls timing signal */
+  }
+
+  .f3-reveal-timer {
+    font-size: 0.62rem;
+    color: var(--tui-amber);
+    min-width: 10ch;
+  }
+
+  /* Strength meter */
+  .f3-strength-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .f3-strength-bar {
+    display: flex;
+    gap: 2px;
+  }
+
+  .f3-seg {
+    width: 18px;
+    height: 6px;
+    background-color: var(--tui-border-dim);
+    border-radius: 1px;
+  }
+
+  .f3-seg--on {
+    background-color: var(--tui-green);
+  }
+
+  .f3-strength-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: var(--tui-green);
+    letter-spacing: 0.05em;
+  }
+
+  /* Action buttons row */
+  .f3-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--tui-border-dim);
+    flex-shrink: 0;
+  }
+
+  .f3-btn {
+    font-family: var(--tui-font);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    color: var(--tui-text-muted);
+    border: 1px solid var(--tui-border-dim);
+    cursor: default;
+    white-space: nowrap;
+  }
+
+  .f3-btn--primary {
+    background-color: rgba(0, 255, 65, 0.1);
+    color: var(--tui-green);
     border-color: rgba(0, 255, 65, 0.35);
+  }
+
+  .f3-btn--reveal {
+    background-color: rgba(0, 180, 216, 0.08);
+    color: var(--tui-blue);
+    border-color: rgba(0, 180, 216, 0.3);
+  }
+
+  .f3-btn--danger {
+    background-color: rgba(255, 32, 32, 0.08);
+    color: var(--tui-red);
+    border-color: rgba(255, 32, 32, 0.3);
+  }
+
+  /* Clipboard notification */
+  .f3-notify {
+    position: absolute;
+    bottom: 5.5rem;
+    right: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--tui-green);
+    background-color: var(--tui-elevated);
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    padding: 0.35rem 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tui-frame:not([hidden]) .f3-notify {
+    animation: notify-in 0.35s ease-out 3s forwards,
+               success-in 0.3s ease-in 6.5s reverse forwards;
+  }
+
+  .f3-notify-icon {
+    color: var(--tui-green);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     PROGRESS DOTS
+     ────────────────────────────────────────────────────────────── */
+  .tui-dots-track {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+  }
+
+  .tui-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--tui-border-dim);
+    cursor: pointer;
+    transition: background-color 200ms ease, transform 200ms ease;
+  }
+
+  .tui-dot--active {
+    background-color: var(--tui-green);
+    transform: scale(1.35);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     INSTALL CTA
+     ────────────────────────────────────────────────────────────── */
+  .tui-cta {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .cta-label {
+    font-family: var(--tui-font);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--tui-green);
+  }
+
+  .cta-tagline {
+    font-family: var(--tui-font);
+    font-size: 0.85rem;
+    color: var(--tui-text-muted);
+    margin: 0;
+    text-align: center;
+  }
+
+  .cta-install {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background-color: var(--tui-surface);
+    border: 1px solid rgba(0, 255, 65, 0.25);
+    border-radius: 2px;
+    padding: 0.65rem 1rem;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .cta-prompt {
+    color: var(--tui-green);
+    font-family: var(--tui-font);
+    font-weight: 700;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .cta-cmd {
+    font-family: var(--tui-font);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--tui-text);
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 0;
+    letter-spacing: 0.03em;
+    user-select: all;
+  }
+
+  .cta-copy {
+    font-family: var(--tui-font);
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--tui-text-muted);
+    background: transparent;
+    border: 1px solid var(--tui-border-dim);
+    border-radius: 1px;
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+    margin-left: 0.75rem;
+    flex-shrink: 0;
+    transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease;
+  }
+
+  .cta-copy:hover {
+    color: var(--tui-green);
+    border-color: rgba(0, 255, 65, 0.4);
     background-color: rgba(0, 255, 65, 0.06);
   }
 
-  .replay-btn:focus-visible {
+  .cta-copy:focus-visible {
     outline: 1px solid rgba(0, 255, 65, 0.6);
     outline-offset: 2px;
   }
 
-  .replay-btn svg {
-    flex-shrink: 0;
+  /* Primary CTA button */
+  .cta-primary-btn {
+    display: inline-block;
+    font-family: var(--tui-font);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tui-bg);
+    background-color: var(--tui-green);
+    border: none;
+    padding: 0.65rem 2rem;
+    border-radius: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 150ms ease, box-shadow 150ms ease;
   }
 
-  /* ── Responsive ─────────────────────────────────────────────── */
-  @media (max-width: 480px) {
-    .demo-section {
-      padding: 3.5rem 1rem;
+  .cta-primary-btn:hover {
+    background-color: #00e639;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.35);
+  }
+
+  .cta-primary-btn:focus-visible {
+    outline: 2px solid var(--tui-green);
+    outline-offset: 3px;
+  }
+
+  /* Secondary link */
+  .cta-secondary-link {
+    font-family: var(--tui-font);
+    font-size: 0.68rem;
+    color: var(--tui-text-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--tui-border-dim);
+    transition: color 150ms ease;
+  }
+
+  .cta-secondary-link:hover {
+    color: var(--tui-text);
+    text-decoration-color: var(--tui-text-muted);
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     REDUCED MOTION
+     Disable all animations, skip auto-cycle, show frame 0 statically.
+     ────────────────────────────────────────────────────────────── */
+  @media (prefers-reduced-motion: reduce) {
+    .f0-bar,
+    .tui-frame--active .f0-bar,
+    .tui-frame:not([hidden]) .f0-bar,
+    .tui-frame--active .f1-success,
+    .tui-frame:not([hidden]) .f1-success,
+    .tui-frame:not([hidden]) .f2-feed-line,
+    .tui-frame:not([hidden]) .f3-notify,
+    .f1-spinner,
+    .live-dot {
+      animation: none !important;
     }
 
-    .term-body {
-      padding: 0.875rem 0.875rem 1.125rem;
+    .tui-frame:not([hidden]) .f1-success {
+      opacity: 1;
+    }
+
+    .tui-frame:not([hidden]) .f2-feed-line {
+      opacity: 1;
+    }
+
+    .f0-bar {
+      width: 100%;
+    }
+  }
+
+  /* ──────────────────────────────────────────────────────────────
+     RESPONSIVE
+     ────────────────────────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .tui-section {
+      padding: 3.5rem 0.75rem 2.5rem;
+    }
+
+    .tui-tab {
+      font-size: 0.52rem;
+      padding: 0.5rem 0.6rem;
+      letter-spacing: 0.1em;
+    }
+
+    .tui-cycle-btn {
+      display: none; /* too small for pause button; auto-cycle runs */
+    }
+
+    .tui-frame {
+      min-height: 360px;
       font-size: 0.68rem;
     }
 
-    .term-titlebar {
-      padding: 0.4rem 0.625rem;
+    .f0-art {
+      font-size: 0.3rem;
     }
 
-    .term-title {
-      font-size: 0.55rem;
+    .f2-stats {
+      flex-direction: column;
     }
 
-    .dot {
-      width: 8px;
-      height: 8px;
+    .f2-card {
+      border-right: none;
+      border-bottom: 1px solid var(--tui-border-dim);
     }
 
-    .replay-btn {
-      bottom: 0.625rem;
-      right: 0.625rem;
+    .f3-actions {
+      gap: 0.3rem;
+    }
+
+    .f3-btn {
+      font-size: 0.52rem;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .cta-install {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .cta-copy {
+      margin-left: 0;
+    }
+
+    .tx-footer {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .tx-footer::-webkit-scrollbar {
+      display: none;
     }
   }
 
-  @media (max-width: 360px) {
-    .term-body {
-      font-size: 0.6rem;
-      padding: 0.75rem 0.625rem;
+  @media (max-width: 380px) {
+    .tui-tab {
+      font-size: 0.45rem;
+      padding: 0.4rem 0.4rem;
+    }
+
+    .f0-art {
+      font-size: 0.24rem;
     }
   }
 </style>
 
+
 <!-- ═══════════════════════════════════════════════════════════════
-     SCRIPT — IntersectionObserver + Replay
+     SCRIPT — Tab switching, auto-cycle, splash animation
      ═══════════════════════════════════════════════════════════════ -->
 <script>
-  (function () {
-    const TOTAL_MS = 10500; // last line at 9.4s + buffer
+(function () {
+  'use strict';
 
-    const wrap = document.getElementById('term-demo') as HTMLElement | null;
-    const btn  = document.getElementById('term-demo-replay') as HTMLButtonElement | null;
+  /* ── Constants ───────────────────────────────────────────────── */
+  const FRAME_COUNT     = 4;
+  const CYCLE_INTERVAL  = 3500;   // ms between auto-advances
+  const SPLASH_MSGS     = [
+    'Initializing IronDome...',
+    'Loading encryption engine...',
+    'Verifying keychain access...',
+    'Dome systems online.',
+  ];
 
-    if (!wrap) return;
+  /* ── Elements ────────────────────────────────────────────────── */
+  const tabs        = Array.from(document.querySelectorAll<HTMLButtonElement>('.tui-tab'));
+  const frames      = Array.from(document.querySelectorAll<HTMLElement>('.tui-frame'));
+  const dots        = Array.from(document.querySelectorAll<HTMLElement>('.tui-dot'));
+  const cycleBtn    = document.getElementById('tui-cycle-toggle') as HTMLButtonElement | null;
+  const splashStatus = document.getElementById('splash-status') as HTMLElement | null;
+  const splashBar   = document.getElementById('splash-bar') as HTMLElement | null;
 
-    function start(): void {
-      wrap!.setAttribute('data-state', 'running');
-      setTimeout(() => {
-        if (wrap!.getAttribute('data-state') === 'running') {
-          wrap!.setAttribute('data-state', 'done');
+  /* ── State ───────────────────────────────────────────────────── */
+  let current     = 0;
+  let cycleTimer: ReturnType<typeof setInterval> | null = null;
+  let paused      = false;
+  let started     = false;
+
+  /* Respect prefers-reduced-motion — disable auto-cycle globally */
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Frame switching ─────────────────────────────────────────── */
+  function showFrame(idx: number): void {
+    current = (idx + FRAME_COUNT) % FRAME_COUNT;
+
+    frames.forEach((f, i) => {
+      const active = i === current;
+      f.hidden = !active;
+      f.classList.toggle('tui-frame--active', active);
+    });
+
+    tabs.forEach((t, i) => {
+      const active = i === current;
+      t.classList.toggle('tui-tab--active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    dots.forEach((d, i) => {
+      d.classList.toggle('tui-dot--active', i === current);
+    });
+
+    /* Frame-specific setup */
+    if (current === 0) {
+      animateSplash();
+    } else if (current === 3) {
+      animateDetail();
+    }
+  }
+
+  /* ── Splash animation ────────────────────────────────────────── */
+  function animateSplash(): void {
+    if (!splashStatus) return;
+    let msgIdx = 0;
+    splashStatus.textContent = SPLASH_MSGS[0];
+
+    const msgTimer = setInterval(() => {
+      msgIdx = Math.min(msgIdx + 1, SPLASH_MSGS.length - 1);
+      if (splashStatus) splashStatus.textContent = SPLASH_MSGS[msgIdx];
+      if (msgIdx >= SPLASH_MSGS.length - 1) clearInterval(msgTimer);
+    }, 600);
+
+    /* Reset and re-trigger bar animation by cloning */
+    if (splashBar) {
+      splashBar.style.animation = 'none';
+      void splashBar.offsetWidth; // reflow
+      splashBar.style.animation = '';
+    }
+  }
+
+  /* ── Detail screen reveal animation ─────────────────────────── */
+  function animateDetail(): void {
+    const pwHidden   = document.getElementById('f3-pw-hidden');
+    const pwRevealed = document.getElementById('f3-pw-revealed');
+    const timer      = document.getElementById('f3-reveal-timer');
+
+    if (!pwHidden || !pwRevealed || !timer) return;
+
+    /* Reset state */
+    pwHidden.style.display   = 'inline';
+    pwRevealed.style.display = 'none';
+    timer.textContent = '';
+
+    /* After 1.5s — reveal password */
+    const revealTimeout = setTimeout(() => {
+      if (current !== 3) return; /* user navigated away */
+      pwHidden.style.display   = 'none';
+      pwRevealed.style.display = 'inline';
+      let countdown = 10;
+      timer.textContent = `hiding in ${countdown}s`;
+
+      const countTimer = setInterval(() => {
+        countdown--;
+        if (current !== 3 || countdown <= 0) {
+          clearInterval(countTimer);
+          timer.textContent = '';
+          pwHidden.style.display   = 'inline';
+          pwRevealed.style.display = 'none';
+          return;
         }
-      }, TOTAL_MS);
+        timer.textContent = `hiding in ${countdown}s`;
+      }, 1000);
+    }, 1500);
+
+    /* Cleanup if frame changes */
+    const cleanup = () => {
+      clearTimeout(revealTimeout);
+    };
+
+    /* One-shot cleanup listener */
+    tabs.forEach(t => t.addEventListener('click', cleanup, { once: true }));
+  }
+
+  /* ── Auto-cycle ──────────────────────────────────────────────── */
+  function startCycle(): void {
+    if (reducedMotion || paused) return;
+    stopCycle();
+    cycleTimer = setInterval(() => {
+      showFrame(current + 1);
+    }, CYCLE_INTERVAL);
+  }
+
+  function stopCycle(): void {
+    if (cycleTimer !== null) {
+      clearInterval(cycleTimer);
+      cycleTimer = null;
+    }
+  }
+
+  function togglePause(): void {
+    paused = !paused;
+    if (cycleBtn) {
+      cycleBtn.setAttribute('aria-pressed', paused ? 'true' : 'false');
+      const label = cycleBtn.querySelector('.cycle-label') as HTMLElement | null;
+      if (label) label.textContent = paused ? 'RESUME' : 'PAUSE';
     }
 
-    function replay(): void {
-      wrap!.setAttribute('data-state', 'idle');
-      void (wrap as HTMLElement).offsetWidth; // force reflow
-      start();
+    if (paused) {
+      stopCycle();
+    } else {
+      startCycle();
     }
+  }
 
-    // Fire on first intersection
-    const obs = new IntersectionObserver(
+  /* ── Tab click handlers ──────────────────────────────────────── */
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      /* User interaction pauses auto-cycle for this tab's duration */
+      stopCycle();
+      showFrame(i);
+      if (!paused) startCycle();
+    });
+  });
+
+  /* Dot click */
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      stopCycle();
+      showFrame(i);
+      if (!paused) startCycle();
+    });
+  });
+
+  /* Cycle toggle */
+  if (cycleBtn) {
+    cycleBtn.addEventListener('click', togglePause);
+  }
+
+  /* Copy install command */
+  const copyBtn = document.getElementById('cta-copy-btn') as HTMLButtonElement | null;
+  if (copyBtn) {
+    copyBtn.addEventListener('click', () => {
+      navigator.clipboard.writeText('pip install IronDome').then(() => {
+        const orig = copyBtn.textContent;
+        copyBtn.textContent = 'DONE';
+        setTimeout(() => { copyBtn.textContent = orig; }, 1500);
+      }).catch(() => {});
+    });
+  }
+
+  /* ── IntersectionObserver — start cycle on first view ───────── */
+  if (!reducedMotion) {
+    const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && wrap!.getAttribute('data-state') === 'idle') {
-            start();
-            obs.unobserve(wrap!);
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !started) {
+            started = true;
+            showFrame(0);
+            startCycle();
+            observer.disconnect();
           }
         });
       },
-      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.2, rootMargin: '0px 0px -40px 0px' }
     );
-    obs.observe(wrap);
 
-    if (btn) btn.addEventListener('click', replay);
-  })();
+    const terminal = document.getElementById('tui-terminal');
+    if (terminal) observer.observe(terminal);
+  } else {
+    /* Reduced motion: show frame 0 immediately, statically */
+    showFrame(0);
+  }
+
+})();
 </script>

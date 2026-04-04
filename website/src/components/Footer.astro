@@ -40,7 +40,7 @@ const year = new Date().getFullYear();
 
       <p class="footer-tagline">
         <span class="tagline-marker" aria-hidden="true">&gt;&gt;</span>
-        Built for the paranoid.
+        No servers. No cloud. No compromise.
       </p>
 
       <p class="footer-description">
@@ -53,6 +53,13 @@ const year = new Date().getFullYear();
         <span class="install-prompt" aria-hidden="true">$</span>
         <code class="install-cmd">pip install IronDome</code>
       </div>
+
+      <!-- Attribution + badges -->
+      <p class="footer-attribution">
+        Created by King Hippopotamus
+        <span class="footer-inline-badge">GPL-3.0</span>
+        <span class="footer-inline-badge">v3.1.0</span>
+      </p>
 
       <!-- Status indicator -->
       <div class="status-block">
@@ -69,25 +76,25 @@ const year = new Date().getFullYear();
       </h3>
       <ul class="footer-link-list">
         <li>
-          <a href="#why">
+          <a href="/IronDome-Bunker/">
+            <span class="link-bullet" aria-hidden="true"></span>
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="/IronDome-Bunker/#why">
             <span class="link-bullet" aria-hidden="true"></span>
             Why IronDome
           </a>
         </li>
         <li>
-          <a href="#features">
+          <a href="/IronDome-Bunker/#features">
             <span class="link-bullet" aria-hidden="true"></span>
             Features
           </a>
         </li>
         <li>
-          <a href="#security">
-            <span class="link-bullet" aria-hidden="true"></span>
-            Security
-          </a>
-        </li>
-        <li>
-          <a href="#docs">
+          <a href="/IronDome-Bunker/docs">
             <span class="link-bullet" aria-hidden="true"></span>
             Docs
           </a>
@@ -209,7 +216,7 @@ const year = new Date().getFullYear();
 
       <!-- Copyright -->
       <span class="footer-copy">
-        &copy; 2025 IronDome &mdash; Zero Knowledge. Local Only. No Compromise.
+        &copy; {year} IronDome &mdash; No servers. No cloud. No compromise.
       </span>
 
       <!-- Social icons -->
@@ -477,6 +484,33 @@ const year = new Date().getFullYear();
     line-height: 1.7;
     max-width: 32ch;
     margin: 0;
+  }
+
+  /* Attribution */
+  .footer-attribution {
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.75rem;
+    color: #7A8B6A;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-wrap: wrap;
+  }
+
+  .footer-inline-badge {
+    display: inline-flex;
+    align-items: center;
+    font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #8B9A46;
+    background: rgba(139, 154, 70, 0.1);
+    border: 1px solid rgba(139, 154, 70, 0.28);
+    border-radius: 2px;
+    padding: 0.1rem 0.375rem;
+    line-height: 1.4;
   }
 
   /* Install command */

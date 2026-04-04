@@ -1,0 +1,403 @@
+---
+---
+
+<section class="zk" aria-labelledby="zk-heading">
+  <div class="zk__inner">
+
+    <!-- Section label -->
+    <p class="zk__label">&#9632; ZERO-KNOWLEDGE ARCHITECTURE</p>
+    <h2 class="zk__heading" id="zk-heading">Nothing Leaves the Device</h2>
+
+    <!-- YOUR MACHINE ONLY boundary box -->
+    <div class="zk__machine-box" aria-label="Your machine only — the complete encryption boundary">
+
+      <div class="zk__machine-header" aria-hidden="true">
+        <span class="zk__machine-label">YOUR MACHINE ONLY</span>
+        <span class="zk__machine-status">ISOLATED</span>
+      </div>
+
+      <div class="zk__flow">
+
+        <!-- Laptop SVG icon -->
+        <div class="zk__laptop" aria-hidden="true">
+          <svg
+            width="72"
+            height="60"
+            viewBox="0 0 72 60"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <!-- Screen bezel -->
+            <rect x="8" y="4" width="56" height="36" rx="2" stroke="#8FA63A" stroke-width="1.5" fill="rgba(13,18,8,0.9)" />
+            <!-- Screen inner -->
+            <rect x="12" y="8" width="48" height="28" rx="1" fill="rgba(57,211,83,0.06)" stroke="rgba(57,211,83,0.2)" stroke-width="1" />
+            <!-- Terminal lines -->
+            <line x1="17" y1="15" x2="38" y2="15" stroke="#39D353" stroke-width="1.2" stroke-linecap="round" opacity="0.7" />
+            <line x1="17" y1="20" x2="32" y2="20" stroke="#39D353" stroke-width="1.2" stroke-linecap="round" opacity="0.5" />
+            <line x1="17" y1="25" x2="42" y2="25" stroke="#39D353" stroke-width="1.2" stroke-linecap="round" opacity="0.4" />
+            <!-- Lock icon -->
+            <rect x="47" y="14" width="8" height="7" rx="1" fill="none" stroke="#8FA63A" stroke-width="1.2" />
+            <path d="M49 14v-2a2 2 0 014 0v2" stroke="#8FA63A" stroke-width="1.2" stroke-linecap="round" />
+            <circle cx="51" cy="17.5" r="0.9" fill="#8FA63A" />
+            <!-- Hinge -->
+            <line x1="6" y1="40" x2="66" y2="40" stroke="#8FA63A" stroke-width="1" opacity="0.4" />
+            <!-- Base -->
+            <path d="M4 40 C4 40 8 44 36 44 C64 44 68 40 68 40" stroke="#8FA63A" stroke-width="1.5" fill="none" />
+            <rect x="10" y="44" width="52" height="6" rx="1" stroke="#8FA63A" stroke-width="1" fill="rgba(13,18,8,0.9)" />
+            <!-- Touchpad -->
+            <rect x="28" y="45.5" width="16" height="3" rx="0.5" stroke="rgba(143,166,58,0.4)" stroke-width="0.75" fill="none" />
+          </svg>
+        </div>
+
+        <!-- Encryption flow steps -->
+        <div class="zk__steps" aria-label="On-device encryption flow">
+
+          <div class="zk__step">
+            <span class="zk__step-dot" aria-hidden="true"></span>
+            <span class="zk__step-name">Master Password</span>
+            <span class="zk__step-arrow" aria-hidden="true">&#8595;</span>
+          </div>
+
+          <div class="zk__step-connector" aria-hidden="true">
+            <span class="zk__step-connector-label">PBKDF2 &times; 600,000</span>
+          </div>
+
+          <div class="zk__step">
+            <span class="zk__step-dot zk__step-dot--key" aria-hidden="true"></span>
+            <span class="zk__step-name">256-bit AES Key</span>
+            <span class="zk__step-arrow" aria-hidden="true">&#8595;</span>
+          </div>
+
+          <div class="zk__step-connector" aria-hidden="true">
+            <span class="zk__step-connector-label">Fernet encrypt</span>
+          </div>
+
+          <div class="zk__step">
+            <span class="zk__step-dot zk__step-dot--vault" aria-hidden="true"></span>
+            <span class="zk__step-name">.passwords.enc</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Barrier line: THIS BOUNDARY IS NEVER CROSSED -->
+    <div class="zk__barrier" role="separator" aria-label="Security boundary — never crossed">
+      <div class="zk__barrier-line" aria-hidden="true"></div>
+      <span class="zk__barrier-label">THIS BOUNDARY IS NEVER CROSSED</span>
+      <div class="zk__barrier-line" aria-hidden="true"></div>
+    </div>
+
+    <!-- Crossed-out blocked items -->
+    <div class="zk__blocked" aria-label="What IronDome never uses">
+
+      <div class="zk__blocked-item" aria-label="No CDN">
+        <div class="zk__blocked-icon-wrap" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="14" cy="14" r="9.5" stroke="#94A3B8" stroke-width="1.25" />
+            <ellipse cx="14" cy="14" rx="4.5" ry="9.5" stroke="#94A3B8" stroke-width="1.25" />
+            <line x1="4.5" y1="10" x2="23.5" y2="10" stroke="#94A3B8" stroke-width="1.25" />
+            <line x1="4.5" y1="18" x2="23.5" y2="18" stroke="#94A3B8" stroke-width="1.25" />
+          </svg>
+          <svg class="zk__cross" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="6" y1="6" x2="38" y2="38" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <span class="zk__blocked-label">NO CDN</span>
+      </div>
+
+      <div class="zk__blocked-item" aria-label="No API">
+        <div class="zk__blocked-icon-wrap" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="9" y="4" width="10" height="10" rx="1.5" stroke="#94A3B8" stroke-width="1.25" />
+            <line x1="14" y1="14" x2="14" y2="20" stroke="#94A3B8" stroke-width="1.25" />
+            <rect x="8" y="20" width="12" height="5" rx="1.5" stroke="#94A3B8" stroke-width="1.25" />
+            <line x1="11" y1="8" x2="11" y2="11" stroke="#94A3B8" stroke-width="1.25" />
+            <line x1="17" y1="8" x2="17" y2="11" stroke="#94A3B8" stroke-width="1.25" />
+          </svg>
+          <svg class="zk__cross" width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="6" y1="6" x2="38" y2="38" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <span class="zk__blocked-label">NO API</span>
+      </div>
+
+      <div class="zk__blocked-item" aria-label="No Cloud">
+        <div class="zk__blocked-icon-wrap" aria-hidden="true">
+          <svg width="32" height="28" viewBox="0 0 32 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 20a5 5 0 01-.5-9.97A7 7 0 0124.5 13H25a4 4 0 010 8H8z" stroke="#94A3B8" stroke-width="1.25" stroke-linejoin="round" />
+          </svg>
+          <svg class="zk__cross" width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line x1="6" y1="6" x2="42" y2="38" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </div>
+        <span class="zk__blocked-label">NO CLOUD</span>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ============================================================
+     ZERO-KNOWLEDGE ARCHITECTURE
+     ============================================================ */
+
+  .zk {
+    padding: 5rem 1.5rem;
+    position: relative;
+  }
+
+  .zk__inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ---- Label + heading ---- */
+  .zk__label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-olive-bright);
+    margin-bottom: 0.625rem;
+  }
+
+  .zk__heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    line-height: 1.15;
+  }
+
+  /* ---- Machine boundary box ---- */
+  .zk__machine-box {
+    width: 100%;
+    border: 1.5px solid rgba(143, 166, 58, 0.35);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-surface);
+    box-shadow:
+      0 0 0 1px rgba(143, 166, 58, 0.06),
+      inset 0 1px 0 rgba(143, 166, 58, 0.08);
+    overflow: hidden;
+  }
+
+  .zk__machine-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.625rem 1.25rem;
+    background-color: rgba(143, 166, 58, 0.06);
+    border-bottom: 1px solid rgba(143, 166, 58, 0.15);
+  }
+
+  .zk__machine-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-olive-bright);
+  }
+
+  .zk__machine-status {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-phosphor);
+    background-color: var(--color-phosphor-dim);
+    border: 1px solid rgba(57, 211, 83, 0.2);
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ---- Flow row ---- */
+  .zk__flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 2rem 1.5rem;
+  }
+
+  .zk__laptop {
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 12px rgba(143, 166, 58, 0.25));
+  }
+
+  /* ---- Encryption steps ---- */
+  .zk__steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .zk__step {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .zk__step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-olive);
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(107, 127, 46, 0.6);
+  }
+
+  .zk__step-dot--key {
+    background-color: var(--color-warning);
+    box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+  }
+
+  .zk__step-dot--vault {
+    background-color: var(--color-phosphor);
+    box-shadow: 0 0 6px rgba(57, 211, 83, 0.6);
+  }
+
+  .zk__step-name {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  .zk__step-arrow {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-left: auto;
+  }
+
+  .zk__step-connector {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+    margin: 0.1rem 0;
+  }
+
+  .zk__step-connector-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    padding: 0.125rem 0.5rem;
+    border-left: 1px dashed rgba(107, 127, 46, 0.3);
+    margin-left: 0.375rem;
+  }
+
+  /* ---- Barrier ---- */
+  .zk__barrier {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    margin: 1.75rem 0;
+  }
+
+  .zk__barrier-line {
+    flex: 1;
+    border-top: 2px dashed rgba(239, 68, 68, 0.6);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.2), 0 0 20px rgba(239, 68, 68, 0.08);
+  }
+
+  .zk__barrier-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #EF4444;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ---- Blocked items (opacity 0.4, diagonal red cross) ---- */
+  .zk__blocked {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 3rem;
+    opacity: 0.4;
+    width: 100%;
+  }
+
+  .zk__blocked-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.625rem;
+  }
+
+  .zk__blocked-icon-wrap {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .zk__cross {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .zk__blocked-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    text-decoration: line-through;
+    text-decoration-color: rgba(239, 68, 68, 0.7);
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 520px) {
+    .zk {
+      padding: 3.5rem 1rem;
+    }
+
+    .zk__flow {
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.5rem 1rem;
+    }
+
+    .zk__blocked {
+      gap: 1.75rem;
+    }
+
+    .zk__barrier-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .zk__blocked {
+      gap: 1.25rem;
+    }
+  }
+</style>

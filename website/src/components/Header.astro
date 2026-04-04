@@ -1,305 +1,220 @@
 ---
-const desktopLinks = [
-  { href: '#why',      label: 'Why IronDome', code: '01' },
-  { href: '#features', label: 'Features',     code: '02' },
-  { href: '#security', label: 'Security',     code: '03' },
-  { href: '#docs',     label: 'Docs',         code: '04' },
-  { href: '#about',    label: 'About',        code: '05' },
+const navLinks = [
+  { href: '#hero',     label: 'Home'     },
+  { href: '#docs',     label: 'Docs'     },
+  { href: '#security', label: 'Security' },
+  { href: '#features', label: 'Features' },
+  { href: '#about',    label: 'About'    },
 ];
 
-const mobileSections = [
-  { href: '#hero',     label: 'Home',         code: '00', icon: 'home' },
-  { href: '#why',      label: 'Why IronDome', code: '01', icon: 'shield' },
-  { href: '#howto',    label: 'How It Works', code: '02', icon: 'chevron' },
-  { href: '#features', label: 'Features',     code: '03', icon: 'grid' },
-  { href: '#demo',     label: 'Demo',         code: '04', icon: 'terminal' },
-  { href: '#security', label: 'Security',     code: '05', icon: 'lock' },
-  { href: '#crypto',   label: 'Crypto',       code: '06', icon: 'key' },
-  { href: '#threats',  label: 'Threats',      code: '07', icon: 'alert' },
-];
-
-const mobileResources = [
-  { href: '#docs',        label: 'Docs',  code: '01', icon: 'document' },
-  { href: '#about',       label: 'About', code: '02', icon: 'info' },
-  { href: '#troubleshoot', label: 'FAQ',  code: '03', icon: 'help' },
-];
-
-const mobileExternal = [
-  { href: 'https://github.com/TheKingHippopotamus/IronDome-Bunker', label: 'GitHub', code: '01', icon: 'github' },
-  { href: 'https://pypi.org/project/irondome/', label: 'PyPI', code: '02', icon: 'package' },
-  { href: 'https://colab.research.google.com/', label: 'Colab', code: '03', icon: 'play' },
-];
+const githubUrl = 'https://github.com/TheKingHippopotamus/IronDome-Bunker';
 ---
 
-<!-- Mobile checkbox toggle — CSS-only, no JS needed for open -->
-<input
-  type="checkbox"
-  id="nav-toggle"
-  class="nav-toggle-input"
-  aria-hidden="true"
-/>
-
 <header class="site-header" role="banner">
-  <div class="header-top-edge" aria-hidden="true"></div>
 
-  <div class="header-inner">
+  <!-- Brand -->
+  <a href="/IronDome-Bunker/" class="brand" aria-label="IronDome — Home">
+    <div class="brand-icon-wrap" aria-hidden="true">
+      <img
+        src="/IronDome-Bunker/irondome-favicon.svg"
+        alt=""
+        width="26"
+        height="26"
+        class="brand-icon"
+        aria-hidden="true"
+      />
+      <!-- Radar icon — tactical pulse ring -->
+      <svg
+        class="brand-radar"
+        width="26"
+        height="26"
+        viewBox="0 0 26 26"
+        fill="none"
+        aria-hidden="true"
+      >
+        <circle cx="13" cy="13" r="11" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+        <circle cx="13" cy="13" r="6"  stroke="currentColor" stroke-width="1" opacity="0.18"/>
+        <line x1="13" y1="2"  x2="13" y2="13" stroke="currentColor" stroke-width="1" opacity="0.4"/>
+        <line x1="13" y1="13" x2="22" y2="13" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+        <circle cx="13" cy="13" r="1.5" fill="currentColor" opacity="0.6"/>
+      </svg>
+      <span class="brand-corner brand-corner--tl" aria-hidden="true"></span>
+      <span class="brand-corner brand-corner--tr" aria-hidden="true"></span>
+      <span class="brand-corner brand-corner--bl" aria-hidden="true"></span>
+      <span class="brand-corner brand-corner--br" aria-hidden="true"></span>
+    </div>
+    <div class="brand-text-wrap">
+      <span class="brand-name">IRONDOME</span>
+      <span class="brand-sub">BUNKER v2.1</span>
+    </div>
+  </a>
 
-    <!-- Brand -->
-    <a href="/IronDome-Bunker/" class="brand" aria-label="IronDome — Home">
-      <div class="brand-icon-wrap">
-        <img
-          src="/IronDome-Bunker/irondome-favicon.svg"
-          alt=""
-          width="28"
-          height="28"
-          class="brand-icon"
-          aria-hidden="true"
-        />
-        <span class="brand-status-dot" aria-hidden="true"></span>
-        <span class="brand-corner brand-corner--tl" aria-hidden="true"></span>
-        <span class="brand-corner brand-corner--tr" aria-hidden="true"></span>
-        <span class="brand-corner brand-corner--bl" aria-hidden="true"></span>
-        <span class="brand-corner brand-corner--br" aria-hidden="true"></span>
-      </div>
-      <div class="brand-text-wrap">
-        <span class="brand-name">IRONDOME</span>
-        <span class="brand-sub">BUNKER v2.0</span>
-      </div>
-    </a>
+  <!-- Desktop navigation -->
+  <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
+    <ul class="nav-list" role="list">
+      {navLinks.map(link => (
+        <li class="nav-item">
+          <a href={link.href} class="nav-link">{link.label}</a>
+        </li>
+      ))}
+      <li class="nav-item">
+        <a
+          href={githubUrl}
+          class="nav-link nav-link--github"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="GitHub repository"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+      </li>
+    </ul>
+  </nav>
 
-    <!-- Desktop navigation -->
-    <nav class="desktop-nav" role="navigation" aria-label="Main navigation">
-      <ul class="nav-list" role="list">
-        {desktopLinks.map(link => (
-          <li class="nav-item">
-            <a href={link.href} class="nav-link">
-              <span class="nav-link-code" aria-hidden="true">{link.code}</span>
-              <span class="nav-link-label">{link.label}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
+  <!-- Right cluster: SYSTEMS ONLINE + hamburger -->
+  <div class="header-right">
 
-    <!-- Header right: CTA + hamburger -->
-    <div class="header-right">
-      <div class="system-status" aria-hidden="true">
-        <span class="status-indicator"></span>
-        <span class="status-text">SYS:OK</span>
-      </div>
+    <!-- SYSTEMS ONLINE indicator -->
+    <div class="systems-status" aria-label="Systems online">
+      <span class="status-indicator status-online" aria-hidden="true"></span>
+      <span class="systems-status-text">SYSTEMS ONLINE</span>
+    </div>
 
+    <!-- Hamburger — aria-expanded toggle, animates to X -->
+    <button
+      class="nav-hamburger"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="nav-mobile"
+      type="button"
+    >
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+  </div>
+
+</header>
+
+<!-- Mobile navigation drawer — slides in from right -->
+<nav
+  id="nav-mobile"
+  class="nav-mobile"
+  role="navigation"
+  aria-label="Mobile navigation"
+>
+  <div class="nav-mobile-header" aria-hidden="true">
+    <span class="nav-mobile-label">NAVIGATION</span>
+    <span class="nav-mobile-divider"></span>
+  </div>
+
+  <ul class="nav-mobile-list" role="list">
+    {navLinks.map(link => (
+      <li>
+        <a href={link.href} class="nav-mobile-link drawer-link">{link.label}<span class="nav-mobile-arrow" aria-hidden="true">&rsaquo;</span></a>
+      </li>
+    ))}
+    <li>
       <a
-        href="https://github.com/TheKingHippopotamus/IronDome-Bunker"
+        href={githubUrl}
+        class="nav-mobile-link"
         target="_blank"
         rel="noopener noreferrer"
-        class="header-cta"
-        aria-label="View IronDome on GitHub"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
         </svg>
-        <span>DEPLOY</span>
-        <span class="cta-arrow" aria-hidden="true">&rsaquo;</span>
-      </a>
-
-      <!-- Hamburger label (CSS-only toggle) -->
-      <label
-        for="nav-toggle"
-        class="hamburger"
-        aria-label="Toggle navigation menu"
-        role="button"
-        tabindex="0"
-      >
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </label>
-    </div>
-
-  </div>
-
-  <!-- Bottom border with scan line -->
-  <div class="header-border" aria-hidden="true">
-    <div class="header-border-line"></div>
-    <div class="header-border-scan"></div>
-  </div>
-</header>
-
-<!-- Mobile navigation drawer -->
-<nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
-
-  <!-- SECTIONS -->
-  <div class="mobile-nav-section-label" aria-hidden="true">
-    <span class="section-label-line"></span>
-    <span class="section-label-text">SECTIONS</span>
-    <span class="section-label-line"></span>
-  </div>
-  <ul class="mobile-nav-list" role="list">
-    {mobileSections.map(link => (
-      <li class="mobile-nav-item">
-        <a href={link.href} class="mobile-nav-link drawer-link">
-          <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
-          <span class="mobile-nav-code" aria-hidden="true">{link.code}</span>
-          <span class="mobile-nav-label">{link.label}</span>
-          <span class="mobile-nav-arrow" aria-hidden="true">&rsaquo;</span>
-        </a>
-      </li>
-    ))}
-  </ul>
-
-  <!-- RESOURCES -->
-  <div class="mobile-nav-section-label" aria-hidden="true">
-    <span class="section-label-line"></span>
-    <span class="section-label-text">RESOURCES</span>
-    <span class="section-label-line"></span>
-  </div>
-  <ul class="mobile-nav-list" role="list">
-    {mobileResources.map(link => (
-      <li class="mobile-nav-item">
-        <a href={link.href} class="mobile-nav-link drawer-link">
-          <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
-          <span class="mobile-nav-code" aria-hidden="true">{link.code}</span>
-          <span class="mobile-nav-label">{link.label}</span>
-          <span class="mobile-nav-arrow" aria-hidden="true">&rsaquo;</span>
-        </a>
-      </li>
-    ))}
-  </ul>
-
-  <!-- EXTERNAL -->
-  <div class="mobile-nav-section-label" aria-hidden="true">
-    <span class="section-label-line"></span>
-    <span class="section-label-text">EXTERNAL</span>
-    <span class="section-label-line"></span>
-  </div>
-  <div class="mobile-nav-external">
-    {mobileExternal.map(link => (
-      <a
-        href={link.href}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="mobile-external-link"
-      >
-        <span class="mobile-nav-icon" aria-hidden="true" data-icon={link.icon}></span>
-        <span class="mobile-nav-code" aria-hidden="true">EXT:{link.code}</span>
-        <span>{link.label}</span>
-        <svg class="ext-arrow" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        GitHub
+        <svg class="ext-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
           <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
         </svg>
       </a>
-    ))}
-  </div>
+    </li>
+  </ul>
 
-  <div class="mobile-nav-footer">
-    <div class="mobile-footer-content">
-      <span class="classification-badge">SECURE CONNECTION</span>
-      <span class="mobile-footer-dot" aria-hidden="true"></span>
-    </div>
-    <span class="mobile-footer-id" aria-hidden="true">NODE:7A2F // ENCRYPTED</span>
+  <div class="nav-mobile-footer" aria-hidden="true">
+    <span class="status-indicator status-online"></span>
+    <span class="nav-mobile-footer-text">SECURE CONNECTION // ENCRYPTED</span>
   </div>
 </nav>
 
-<!-- Overlay to close mobile nav -->
-<label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
+<!-- Overlay — closes drawer on outside click -->
+<div class="nav-overlay" aria-hidden="true"></div>
 
-<!-- Auto-close drawer on link click -->
 <script>
-  function initDrawerClose() {
-    const toggle = document.getElementById('nav-toggle') as HTMLInputElement;
-    if (!toggle) return;
-    document.querySelectorAll('.mobile-nav a, .mobile-external-link').forEach(link => {
-      link.addEventListener('click', () => {
-        toggle.checked = false;
-      });
+  const btn = document.querySelector('.nav-hamburger');
+  const drawer = document.querySelector('.nav-mobile');
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    drawer?.classList.toggle('is-open', !open);
+  });
+
+  // Close drawer when a link is clicked
+  document.querySelectorAll('.drawer-link').forEach(link => {
+    link.addEventListener('click', () => {
+      btn?.setAttribute('aria-expanded', 'false');
+      drawer?.classList.remove('is-open');
     });
-  }
-  document.addEventListener('DOMContentLoaded', initDrawerClose);
-  document.addEventListener('astro:page-load', initDrawerClose);
+  });
+
+  // Close drawer when overlay is clicked
+  document.querySelector('.nav-overlay')?.addEventListener('click', () => {
+    btn?.setAttribute('aria-expanded', 'false');
+    drawer?.classList.remove('is-open');
+  });
+
+  // Update hamburger aria-label for screen readers
+  btn?.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+  });
 </script>
 
 <style>
   /* ============================================================
-     IRONDOME HEADER — MILITARY COMMAND CENTER HUD (SPA)
+     IRONDOME HEADER — v3.0
+     Design tokens from global.css design system.
+     Military ops feel. 60px height. Sticky.
      ============================================================ */
 
-  :root {
-    --army-olive-dark: #4A5D23;
-    --army-olive: #5C7A29;
-    --army-olive-light: #8B9A46;
-    --night-vision: #00FF41;
-    --hud-bg: rgba(10,13,6,0.95);
-    --hud-bg-solid: #0A0D06;
-    --text-primary: #C8D4B0;
-    --text-muted: #7A8B6A;
-    --text-dim: #5A6B4A;
-    --border-subtle: rgba(74,93,35,0.25);
-    --glow-olive: rgba(139,154,70,0.6);
-    --glow-green: rgba(0,255,65,0.5);
-    --mono: ui-monospace, "Cascadia Code", "Fira Code", "Source Code Pro", Menlo, monospace;
-  }
-
-  /* Hidden checkbox toggle */
-  .nav-toggle-input {
-    position: absolute;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  /* ── Header shell ─────────────────────────────────────────── */
+  /* ── Header shell ──────────────────────────────────────────── */
   .site-header {
     position: sticky;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 100;
-    background: var(--hud-bg);
-    backdrop-filter: blur(16px) saturate(160%);
-    -webkit-backdrop-filter: blur(16px) saturate(160%);
-    box-shadow:
-      0 2px 20px rgba(0,0,0,0.5),
-      inset 0 1px 0 rgba(139,154,70,0.08);
-  }
-
-  .header-top-edge {
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--army-olive-dark) 15%,
-      var(--army-olive) 35%,
-      var(--army-olive-light) 50%,
-      var(--army-olive) 65%,
-      var(--army-olive-dark) 85%,
-      transparent 100%
-    );
-    opacity: 0.5;
-  }
-
-  .header-inner {
+    z-index: 200;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    height: 56px;
-    max-width: 1200px;
-    margin-inline: auto;
+    height: 60px;
     padding-inline: clamp(0.75rem, 4vw, 2rem);
+    max-width: 100%;
+    background: rgba(8, 11, 16, 0.96);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border-bottom: 1px solid var(--color-olive-border);
+    box-shadow: 0 1px 0 rgba(107, 127, 46, 0.06), 0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
-  /* ── Brand ────────────────────────────────────────────────── */
+  /* ── Brand ─────────────────────────────────────────────────── */
   .brand {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.55rem;
     text-decoration: none;
     flex-shrink: 0;
     color: inherit;
-    transition: opacity 180ms ease;
+    transition: opacity var(--duration-fast) ease;
   }
 
-  .brand:hover { opacity: 0.88; color: inherit; }
+  .brand:hover { opacity: 0.82; }
 
   .brand-icon-wrap {
     position: relative;
@@ -308,78 +223,79 @@ const mobileExternal = [
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, rgba(74,93,35,0.15), rgba(92,122,41,0.08));
-    border: 1px solid rgba(92,122,41,0.35);
-    border-radius: 3px;
+    background: linear-gradient(
+      135deg,
+      var(--color-olive-muted),
+      rgba(107, 127, 46, 0.06)
+    );
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
     flex-shrink: 0;
+    color: var(--color-olive-bright);
   }
 
-  .brand-corner {
+  /* The favicon is rendered; radar SVG overlays as a ghost ring */
+  .brand-radar {
     position: absolute;
-    width: 5px;
-    height: 5px;
-    border-color: var(--army-olive);
-    border-style: solid;
-    border-width: 0;
-    opacity: 0.6;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--color-olive-bright);
+    opacity: 0;
+    transition: opacity var(--duration-base) ease;
   }
-  .brand-corner--tl { top: -2px; left: -2px; border-top-width: 1px; border-left-width: 1px; }
-  .brand-corner--tr { top: -2px; right: -2px; border-top-width: 1px; border-right-width: 1px; }
-  .brand-corner--bl { bottom: -2px; left: -2px; border-bottom-width: 1px; border-left-width: 1px; }
-  .brand-corner--br { bottom: -2px; right: -2px; border-bottom-width: 1px; border-right-width: 1px; }
+
+  .brand:hover .brand-radar { opacity: 1; }
+  .brand:hover .brand-icon  { opacity: 0; }
 
   .brand-icon {
     width: 22px;
     height: 22px;
     object-fit: contain;
     filter: brightness(0.9) sepia(0.3) hue-rotate(50deg) saturate(1.4);
+    transition: opacity var(--duration-base) ease;
   }
 
-  .brand-status-dot {
+  /* Corner bracket decorations */
+  .brand-corner {
     position: absolute;
-    top: -3px;
-    right: -3px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--night-vision);
-    box-shadow: 0 0 4px var(--glow-green), 0 0 12px rgba(0,255,65,0.3);
-    animation: nv-pulse 2s ease-in-out infinite;
-    border: 1.5px solid var(--hud-bg-solid);
+    width: 5px;
+    height: 5px;
+    border-color: var(--color-olive);
+    border-style: solid;
+    border-width: 0;
+    opacity: 0.55;
   }
-
-  @keyframes nv-pulse {
-    0%, 100% { box-shadow: 0 0 4px rgba(0,255,65,0.4), 0 0 8px rgba(0,255,65,0.15); opacity: 0.85; }
-    50% { box-shadow: 0 0 6px rgba(0,255,65,0.8), 0 0 18px rgba(0,255,65,0.35); opacity: 1; }
-  }
+  .brand-corner--tl { top: -2px;    left: -2px;  border-top-width: 1px;    border-left-width: 1px;  }
+  .brand-corner--tr { top: -2px;    right: -2px; border-top-width: 1px;    border-right-width: 1px; }
+  .brand-corner--bl { bottom: -2px; left: -2px;  border-bottom-width: 1px; border-left-width: 1px;  }
+  .brand-corner--br { bottom: -2px; right: -2px; border-bottom-width: 1px; border-right-width: 1px; }
 
   .brand-text-wrap {
     display: flex;
     flex-direction: column;
     line-height: 1;
+    gap: 0.15rem;
   }
 
   .brand-name {
-    font-family: var(--mono);
-    font-size: 0.95rem;
-    font-weight: 800;
-    letter-spacing: 0.18em;
-    color: var(--army-olive-light);
-    text-shadow: 0 0 10px rgba(139,154,70,0.4), 0 0 25px rgba(92,122,41,0.15);
-    text-transform: uppercase;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-text-primary);
   }
 
   .brand-sub {
-    font-family: var(--mono);
-    font-size: 0.5rem;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--color-olive-bright);
+    opacity: 0.75;
   }
 
-  /* ── Desktop nav ──────────────────────────────────────────── */
+  /* ── Desktop navigation ─────────────────────────────────────── */
   .desktop-nav {
     display: none;
     flex: 1;
@@ -393,139 +309,83 @@ const mobileExternal = [
   .nav-list {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 0.125rem;
     list-style: none;
     margin: 0;
     padding: 0;
   }
 
+  .nav-item { display: flex; }
+
   .nav-link {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.4rem 0.75rem;
-    border-radius: 2px;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 600;
+    gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--color-text-secondary);
     text-decoration: none;
+    border-radius: var(--radius-base);
     border: 1px solid transparent;
-    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, text-shadow 180ms ease;
-    position: relative;
+    transition:
+      color var(--duration-fast) ease,
+      background var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
   }
 
-  .nav-link:hover {
-    color: var(--army-olive-light);
-    background-color: rgba(74,93,35,0.1);
-    border-color: rgba(74,93,35,0.2);
-    text-shadow: 0 0 8px rgba(139,154,70,0.3);
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--color-olive-bright);
+    background: var(--color-olive-muted);
+    border-color: var(--color-olive-border);
   }
 
-  .nav-link-code {
-    font-size: 0.55rem;
-    color: var(--text-dim);
-    letter-spacing: 0.05em;
-    opacity: 0.5;
-    transition: opacity 180ms ease, color 180ms ease;
+  .nav-link--github {
+    color: var(--color-text-muted);
+    border-color: var(--color-border-subtle);
   }
 
-  .nav-link:hover .nav-link-code {
-    opacity: 1;
-    color: rgba(139,154,70,0.7);
+  .nav-link--github:hover,
+  .nav-link--github:focus-visible {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-base);
+    background: var(--color-bg-raised);
   }
 
-  /* ── System status ────────────────────────────────────────── */
-  .system-status {
-    display: none;
-    align-items: center;
-    gap: 6px;
-    padding: 0 0.5rem;
-    font-family: var(--mono);
-    font-size: 0.55rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    border-right: 1px solid var(--border-subtle);
-    padding-right: 0.75rem;
-    margin-right: 0.25rem;
-  }
-
-  @media (min-width: 768px) {
-    .system-status { display: flex; }
-  }
-
-  .status-indicator {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--night-vision);
-    box-shadow: 0 0 6px var(--glow-green);
-    animation: nv-pulse 2.5s ease-in-out infinite;
-  }
-
-  /* ── Header right ─────────────────────────────────────────── */
+  /* ── Header right cluster ───────────────────────────────────── */
   .header-right {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     flex-shrink: 0;
   }
 
-  .header-cta {
+  /* ── SYSTEMS ONLINE indicator ──────────────────────────────── */
+  .systems-status {
     display: none;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.35rem 0.85rem;
-    background: linear-gradient(180deg, rgba(92,122,41,0.2) 0%, rgba(74,93,35,0.12) 100%);
-    color: var(--army-olive-light);
-    font-family: var(--mono);
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: 1px solid rgba(92,122,41,0.4);
-    border-radius: 2px;
-    text-decoration: none;
-    position: relative;
-    overflow: hidden;
-    transition: color 200ms ease, border-color 200ms ease, background 200ms ease, box-shadow 200ms ease;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), inset 0 1px 0 rgba(139,154,70,0.1);
+    gap: 0.45rem;
   }
 
   @media (min-width: 640px) {
-    .header-cta { display: flex; }
+    .systems-status { display: flex; }
   }
 
-  .header-cta::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(139,154,70,0.08), transparent);
-    transform: translateX(-100%);
-    transition: transform 400ms ease;
-  }
-  .header-cta:hover::before { transform: translateX(100%); }
-
-  .header-cta:hover {
-    color: var(--night-vision);
-    border-color: rgba(0,255,65,0.4);
-    background: linear-gradient(180deg, rgba(92,122,41,0.3) 0%, rgba(74,93,35,0.18) 100%);
-    box-shadow: 0 1px 8px rgba(0,255,65,0.15), 0 0 20px rgba(0,255,65,0.05), inset 0 1px 0 rgba(0,255,65,0.1);
-    text-shadow: 0 0 8px rgba(0,255,65,0.4);
+  .systems-status-text {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--color-phosphor);
+    opacity: 0.85;
   }
 
-  .cta-arrow {
-    font-size: 1rem;
-    line-height: 1;
-    opacity: 0.6;
-    transition: opacity 180ms ease, transform 180ms ease;
-  }
-  .header-cta:hover .cta-arrow { opacity: 1; transform: translateX(2px); }
-
-  /* ── Hamburger ────────────────────────────────────────────── */
-  .hamburger {
+  /* ── Hamburger button ───────────────────────────────────────── */
+  .nav-hamburger {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -533,367 +393,204 @@ const mobileExternal = [
     gap: 4px;
     width: 36px;
     height: 36px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--color-olive-border);
+    border-radius: var(--radius-base);
     cursor: pointer;
-    border: 1px solid rgba(74,93,35,0.3);
-    border-radius: 2px;
-    background: linear-gradient(180deg, rgba(74,93,35,0.08) 0%, rgba(74,93,35,0.03) 100%);
-    transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
     flex-shrink: 0;
+    transition: border-color var(--duration-fast) ease, background var(--duration-fast) ease;
+  }
+
+  .nav-hamburger:hover,
+  .nav-hamburger:focus-visible {
+    background: var(--color-olive-muted);
+    border-color: var(--color-olive);
   }
 
   @media (min-width: 768px) {
-    .hamburger { display: none; }
+    .nav-hamburger { display: none; }
   }
 
-  .hamburger:hover {
-    border-color: rgba(92,122,41,0.5);
-    background: rgba(74,93,35,0.12);
-    box-shadow: 0 0 10px rgba(139,154,70,0.1);
-  }
-
-  .hamburger-line {
+  /* Three bars — animate middle bar out + top/bottom rotate to X */
+  .hamburger-bar {
     display: block;
     width: 16px;
     height: 1.5px;
-    background-color: var(--army-olive-light);
-    transition: transform 280ms cubic-bezier(0.4,0,0.2,1), opacity 280ms ease, background-color 180ms ease;
-    transform-origin: center;
+    background: var(--color-text-secondary);
     border-radius: 1px;
+    transform-origin: center;
+    transition:
+      transform var(--duration-base) var(--ease-tactical),
+      opacity   var(--duration-base) var(--ease-tactical),
+      background var(--duration-fast) ease;
   }
 
-  .hamburger:hover .hamburger-line {
-    background-color: var(--night-vision);
-    box-shadow: 0 0 4px rgba(0,255,65,0.3);
-  }
+  .nav-hamburger:hover .hamburger-bar { background: var(--color-olive-bright); }
 
-  /* Animated X when open */
-  .nav-toggle-input:checked ~ header .hamburger {
-    border-color: rgba(0,255,65,0.3);
-    background: rgba(0,255,65,0.05);
-  }
-  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(1) {
+  /* When aria-expanded="true" → morph to X */
+  .nav-hamburger[aria-expanded="true"] .hamburger-bar:nth-child(1) {
     transform: translateY(5.5px) rotate(45deg);
-    background-color: var(--night-vision);
-    box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
-  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(2) {
+  .nav-hamburger[aria-expanded="true"] .hamburger-bar:nth-child(2) {
     opacity: 0;
     transform: scaleX(0);
   }
-  .nav-toggle-input:checked ~ header .hamburger .hamburger-line:nth-child(3) {
+  .nav-hamburger[aria-expanded="true"] .hamburger-bar:nth-child(3) {
     transform: translateY(-5.5px) rotate(-45deg);
-    background-color: var(--night-vision);
-    box-shadow: 0 0 6px rgba(0,255,65,0.4);
   }
 
-  /* ── Header bottom border with scanning line ──────────────── */
-  .header-border {
-    position: relative;
-    height: 1px;
-    overflow: hidden;
-  }
-
-  .header-border-line {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      transparent 0%, rgba(74,93,35,0.15) 10%, rgba(92,122,41,0.35) 30%,
-      rgba(139,154,70,0.5) 50%, rgba(92,122,41,0.35) 70%, rgba(74,93,35,0.15) 90%, transparent 100%
-    );
-  }
-
-  .header-border-scan {
-    position: absolute;
-    top: -1px;
-    left: -15%;
-    width: 15%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, var(--night-vision), transparent);
-    opacity: 0.7;
-    animation: hud-scan 5s linear infinite;
-    border-radius: 2px;
-    box-shadow: 0 0 8px var(--glow-green);
-  }
-
-  @keyframes hud-scan {
-    0% { left: -15%; opacity: 0; }
-    5% { opacity: 0.7; }
-    90% { opacity: 0.7; }
-    100% { left: 115%; opacity: 0; }
-  }
-
-  /* ── Mobile nav drawer ────────────────────────────────────── */
-  .mobile-nav {
+  /* ── Mobile drawer ──────────────────────────────────────────── */
+  .nav-mobile {
     position: fixed;
-    top: 59px;
-    left: 0;
+    top: 60px;
     right: 0;
-    z-index: 99;
-    background: rgba(8,10,5,0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(74,93,35,0.2);
-    transform: translateY(-110%);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-      transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-      opacity 300ms ease,
-      visibility 300ms ease;
-    pointer-events: none;
-    max-height: calc(100vh - 59px);
+    bottom: 0;
+    width: min(320px, 88vw);
+    z-index: 199;
+    background: var(--color-bg-surface);
+    border-left: 2px solid var(--color-olive);
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 1.5rem 1rem 1rem;
     overflow-y: auto;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(74,93,35,0.1);
+    /* Slide in from right */
+    transform: translateX(100%);
+    transition: transform var(--duration-slow) var(--ease-tactical);
+    /* Hide from AT when closed */
+    visibility: hidden;
   }
 
-  .nav-toggle-input:checked ~ .mobile-nav {
-    transform: translateY(0);
-    opacity: 1;
+  .nav-mobile.is-open {
+    transform: translateX(0);
     visibility: visible;
-    pointer-events: auto;
-  }
-
-  /* Section labels */
-  .mobile-nav-section-label {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.6rem clamp(1rem, 4vw, 1.5rem) 0.2rem;
-  }
-
-  .section-label-text {
-    font-family: var(--mono);
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.25em;
-    color: var(--text-dim);
-    white-space: nowrap;
-    text-transform: uppercase;
-  }
-
-  .section-label-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, var(--border-subtle), transparent);
-  }
-  .section-label-line:first-child {
-    background: linear-gradient(90deg, transparent, var(--border-subtle));
-  }
-
-  .mobile-nav-list {
-    list-style: none;
-    margin: 0;
-    padding: 0 clamp(1rem, 4vw, 1.5rem);
-  }
-
-  .mobile-nav-item {
-    border-bottom: 1px solid rgba(74,93,35,0.06);
-  }
-  .mobile-nav-item:last-child { border-bottom: none; }
-
-  .mobile-nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.55rem 0.4rem;
-    font-family: var(--mono);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 180ms ease, background-color 180ms ease, padding-left 180ms ease;
-    border-radius: 2px;
-    border-left: 2px solid transparent;
-  }
-
-  .mobile-nav-link:hover {
-    color: var(--army-olive-light);
-    background-color: rgba(74,93,35,0.06);
-    padding-left: 0.6rem;
-    border-left-color: var(--army-olive-light);
-  }
-
-  /* Icons via CSS pseudo-elements using data-icon attribute */
-  .mobile-nav-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-    color: var(--text-dim);
-    font-size: 0.7rem;
-    transition: color 180ms ease;
-  }
-  .mobile-nav-link:hover .mobile-nav-icon { color: var(--army-olive-light); }
-
-  /* Shield */
-  .mobile-nav-icon[data-icon="shield"]::before { content: "\1F6E1"; font-size: 0.65rem; }
-  /* Chevron */
-  .mobile-nav-icon[data-icon="chevron"]::before { content: "\00BB"; font-size: 1rem; color: inherit; }
-  /* Grid */
-  .mobile-nav-icon[data-icon="grid"]::before { content: "\2637"; font-size: 0.8rem; }
-  /* Terminal */
-  .mobile-nav-icon[data-icon="terminal"]::before { content: ">_"; font-family: var(--mono); font-size: 0.5rem; font-weight: 800; }
-  /* Lock */
-  .mobile-nav-icon[data-icon="lock"]::before { content: "\1F512"; font-size: 0.6rem; }
-  /* Key */
-  .mobile-nav-icon[data-icon="key"]::before { content: "\1F511"; font-size: 0.6rem; }
-  /* Alert */
-  .mobile-nav-icon[data-icon="alert"]::before { content: "\26A0"; font-size: 0.7rem; }
-  /* Document */
-  .mobile-nav-icon[data-icon="document"]::before { content: "\1F4C4"; font-size: 0.6rem; }
-  /* Info */
-  .mobile-nav-icon[data-icon="info"]::before { content: "\2139"; font-size: 0.75rem; font-weight: 800; }
-  /* Help */
-  .mobile-nav-icon[data-icon="help"]::before { content: "?"; font-family: var(--mono); font-size: 0.7rem; font-weight: 800; }
-  /* GitHub */
-  .mobile-nav-icon[data-icon="github"]::before { content: "\2B22"; font-size: 0.7rem; }
-  /* Package */
-  .mobile-nav-icon[data-icon="package"]::before { content: "\1F4E6"; font-size: 0.6rem; }
-  /* Play */
-  .mobile-nav-icon[data-icon="play"]::before { content: "\25B6"; font-size: 0.6rem; }
-
-  .mobile-nav-code {
-    font-size: 0.5rem;
-    color: var(--text-dim);
-    letter-spacing: 0.08em;
-    min-width: 20px;
-    opacity: 0.6;
-  }
-
-  .mobile-nav-label { flex: 1; }
-
-  .mobile-nav-arrow {
-    margin-left: auto;
-    font-size: 0.9rem;
-    color: var(--text-dim);
-    opacity: 0.4;
-    transition: opacity 180ms ease, transform 180ms ease, color 180ms ease;
-  }
-  .mobile-nav-link:hover .mobile-nav-arrow {
-    opacity: 1;
-    transform: translateX(2px);
-    color: var(--night-vision);
-  }
-
-  /* External links */
-  .mobile-nav-external {
-    padding: 0.15rem clamp(1rem, 4vw, 1.5rem) 0.5rem;
-  }
-
-  .mobile-external-link {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.5rem 0.4rem;
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--text-muted);
-    text-decoration: none;
-    border-radius: 2px;
-    transition: color 180ms ease, background-color 180ms ease;
-  }
-
-  .mobile-external-link:hover {
-    color: var(--army-olive-light);
-    background-color: rgba(74,93,35,0.06);
-  }
-
-  .ext-arrow {
-    margin-left: auto;
-    opacity: 0.35;
-  }
-
-  /* Mobile nav footer */
-  .mobile-nav-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem clamp(1rem, 4vw, 1.5rem);
-    border-top: 1px solid rgba(74,93,35,0.1);
-    background: rgba(74,93,35,0.03);
-  }
-
-  .mobile-footer-content {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .classification-badge {
-    font-family: var(--mono);
-    font-size: 0.5rem;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    padding: 2px 6px;
-    border: 1px solid rgba(74,93,35,0.2);
-    border-radius: 1px;
-  }
-
-  .mobile-footer-dot {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background: var(--night-vision);
-    box-shadow: 0 0 6px var(--glow-green);
-    animation: nv-pulse 2s ease-in-out infinite;
-  }
-
-  .mobile-footer-id {
-    font-family: var(--mono);
-    font-size: 0.45rem;
-    letter-spacing: 0.12em;
-    color: rgba(90,107,74,0.4);
-  }
-
-  /* ── Overlay ──────────────────────────────────────────────── */
-  .nav-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 98;
-    background: rgba(0,0,0,0.65);
-    backdrop-filter: blur(2px);
-    cursor: pointer;
-  }
-
-  .nav-toggle-input:checked ~ .nav-overlay {
-    display: block;
   }
 
   @media (min-width: 768px) {
-    .nav-toggle-input:checked ~ .mobile-nav {
-      transform: translateY(-110%);
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-    }
-    .nav-toggle-input:checked ~ .nav-overlay { display: none; }
+    /* Drawer is purely mobile; on desktop it never renders visually */
+    .nav-mobile { display: none; }
   }
 
-  /* ── Scanline texture ─────────────────────────────────────── */
-  .site-header::before {
-    content: "";
-    position: absolute;
+  .nav-mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .nav-mobile-label {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: var(--color-olive-bright);
+    flex-shrink: 0;
+  }
+
+  .nav-mobile-divider {
+    flex: 1;
+    height: 1px;
+    background: var(--color-olive-border);
+  }
+
+  .nav-mobile-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
+
+  .nav-mobile-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-base);
+    border: 1px solid transparent;
+    transition:
+      color var(--duration-fast) ease,
+      background var(--duration-fast) ease,
+      border-color var(--duration-fast) ease;
+  }
+
+  .nav-mobile-link:hover,
+  .nav-mobile-link:focus-visible {
+    color: var(--color-olive-bright);
+    background: var(--color-olive-muted);
+    border-color: var(--color-olive-border);
+  }
+
+  .nav-mobile-arrow {
+    margin-left: auto;
+    color: var(--color-olive-border);
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .ext-icon {
+    flex-shrink: 0;
+    opacity: 0.5;
+    margin-left: auto;
+  }
+
+  .nav-mobile-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-olive-border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-mobile-footer-text {
+    font-family: var(--font-mono);
+    font-size: 0.5625rem;
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Overlay ────────────────────────────────────────────────── */
+  .nav-overlay {
+    position: fixed;
     inset: 0;
-    background: repeating-linear-gradient(
-      0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px
-    );
+    z-index: 198;
+    background: rgba(8, 11, 16, 0.6);
+    backdrop-filter: blur(2px);
+    opacity: 0;
     pointer-events: none;
-    z-index: 0;
+    transition: opacity var(--duration-slow) ease;
   }
 
-  .site-header > * {
-    position: relative;
-    z-index: 1;
-  }
+  /* Show overlay when drawer is open — JS adds is-open to .nav-mobile;
+     we can't CSS-select a sibling from .nav-mobile easily, so JS also
+     toggles the overlay directly (see script below). */
 </style>
+
+<script>
+  /* Overlay sync — runs after the hamburger listener above */
+  (() => {
+    const overlay = document.querySelector('.nav-overlay') as HTMLElement | null;
+    const drawer  = document.querySelector('.nav-mobile')    as HTMLElement | null;
+
+    function syncOverlay() {
+      if (!overlay || !drawer) return;
+      const open = drawer.classList.contains('is-open');
+      overlay.style.opacity        = open ? '1' : '0';
+      overlay.style.pointerEvents  = open ? 'auto' : 'none';
+    }
+
+    /* Watch for class changes on the drawer */
+    if (drawer && overlay) {
+      new MutationObserver(syncOverlay).observe(drawer, { attributes: true, attributeFilter: ['class'] });
+    }
+  })();
+</script>

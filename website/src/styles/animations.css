@@ -822,3 +822,287 @@
     transition: none !important;
   }
 }
+
+/* ============================================================
+   16. DECLASSIFICATION REVEAL — Scroll-triggered
+   Elements appear as if being unredacted: a black bar wipes
+   left-to-right via clip-path, revealing content underneath.
+   Apply data-animate="declassify" in HTML.
+   JS (animations.js) adds .visible on viewport entry.
+   ============================================================ */
+
+@keyframes declassify {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0.4;
+  }
+  /* Pause mid-reveal — document being "processed" */
+  40% {
+    clip-path: inset(0 60% 0 0);
+    opacity: 0.7;
+  }
+  55% {
+    clip-path: inset(0 58% 0 0);
+    opacity: 0.7;
+  }
+  100% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+/* JS-transition variant: hidden state, .visible triggers it */
+.declassify {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition:
+    clip-path 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.4s ease;
+}
+
+.declassify.visible {
+  clip-path: inset(0 0% 0 0);
+  opacity: 1;
+}
+
+/* Direct animation variant — no JS */
+.animate-declassify {
+  animation: declassify 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Stagger helper: wrap multiple lines in .declassify-group,
+   each child gets auto-staggered via nth-child in JS */
+.declassify-group > * {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  transition:
+    clip-path 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.35s ease;
+}
+
+.declassify-group.visible > * {
+  clip-path: inset(0 0% 0 0);
+  opacity: 1;
+}
+
+.declassify-group.visible > *:nth-child(1) { transition-delay: 0ms; }
+.declassify-group.visible > *:nth-child(2) { transition-delay: 80ms; }
+.declassify-group.visible > *:nth-child(3) { transition-delay: 160ms; }
+.declassify-group.visible > *:nth-child(4) { transition-delay: 240ms; }
+.declassify-group.visible > *:nth-child(5) { transition-delay: 320ms; }
+.declassify-group.visible > *:nth-child(6) { transition-delay: 400ms; }
+
+/* ============================================================
+   17. COPY BUTTON FEEDBACK ANIMATION
+   Two-part sequence: a green flash on the border, then a
+   brief scale-up on the checkmark. Runs on
+   [data-copy-btn][data-copied] via CSS attribute selector.
+   ============================================================ */
+
+@keyframes copy-confirm-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(0, 255, 65, 0); }
+  20%  { box-shadow: 0 0 0 3px rgba(0, 255, 65, 0.4); }
+  60%  { box-shadow: 0 0 0 5px rgba(0, 255, 65, 0.15); }
+  100% { box-shadow: 0 0 0 5px rgba(0, 255, 65, 0); }
+}
+
+@keyframes copy-checkmark-pop {
+  0%   { transform: translateX(-50%) translateY(-50%) scale(0.5); opacity: 0; }
+  60%  { transform: translateX(-50%) translateY(-50%) scale(1.15); opacity: 1; }
+  100% { transform: translateX(-50%) translateY(-50%) scale(1); opacity: 1; }
+}
+
+/* Applied to any element with both attributes */
+[data-copy-btn][data-copied] {
+  animation: copy-confirm-flash 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* The COPIED label gets the pop. Works for .install-box__copied-label */
+[data-copy-btn][data-copied] .install-box__copied-label {
+  animation: copy-checkmark-pop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
+   18. SECTION DIVIDERS — Gradient fade + tactical accent
+   Replace plain <hr> with .section-divider for military feel.
+   Three variants: standard, tight, and the bracketed variant
+   with corner marks that reads as a map grid boundary.
+   ============================================================ */
+
+.section-divider {
+  position: relative;
+  height: 1px;
+  margin: var(--space-16, 4rem) 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 93, 35, 0.15) 10%,
+    rgba(92, 122, 41, 0.4) 50%,
+    rgba(74, 93, 35, 0.15) 90%,
+    transparent 100%
+  );
+  border: none;
+}
+
+/* Tight variant — between subsections */
+.section-divider--tight {
+  margin: var(--space-8, 2rem) 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 93, 35, 0.25) 50%,
+    transparent 100%
+  );
+}
+
+/* Bracketed variant — draws small corner marks, reads as map grid */
+.section-divider--grid {
+  margin: var(--space-12, 3rem) 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(74, 93, 35, 0.15) 5%,
+    rgba(92, 122, 41, 0.35) 50%,
+    rgba(74, 93, 35, 0.15) 95%,
+    transparent 100%
+  );
+}
+
+.section-divider--grid::before,
+.section-divider--grid::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  width: 1px;
+  height: 9px;
+  background-color: rgba(92, 122, 41, 0.6);
+}
+
+.section-divider--grid::before { left: 0; }
+.section-divider--grid::after  { right: 0; }
+
+/* ============================================================
+   19. PAGE LOAD SKELETON / LOADING STATE
+   .page-loader overlays the viewport during initial paint.
+   JS removes .page-loader--active when page is interactive.
+   Extremely lightweight — no JS animation, pure CSS.
+   ============================================================ */
+
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  background-color: var(--color-bg-base, #0A0D06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  /* Fade out when deactivated */
+  opacity: 1;
+  transition: opacity 0.35s ease 0.1s;
+}
+
+.page-loader--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Inner boot sequence text */
+.page-loader__text {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(92, 122, 41, 0.7);
+  animation: blink-cursor 0.8s step-end infinite;
+}
+
+/* ============================================================
+   20. TERMINAL TYPING — CSS state hooks
+   The JS typing engine (animations.js) writes characters one
+   by one into [data-type-target] and manages these classes.
+   CSS only defines the cursor and the "typed" completion state.
+   ============================================================ */
+
+/* Element is actively being typed into */
+[data-type-target].is-typing::after {
+  content: "\2588";
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--color-green, #00FF41);
+  font-family: var(--font-mono);
+  animation: blink-cursor 0.75s step-end infinite;
+  vertical-align: baseline;
+}
+
+/* Typing complete — cursor stops blinking, dims out */
+[data-type-target].is-typed::after {
+  content: "\2588";
+  display: inline-block;
+  margin-left: 1px;
+  color: var(--color-green, #00FF41);
+  font-family: var(--font-mono);
+  opacity: 0.4;
+  animation: none;
+}
+
+/* No cursor for elements that should not show one after typing */
+[data-type-target][data-no-cursor].is-typed::after {
+  display: none;
+}
+
+/* ============================================================
+   MOBILE — Disable expensive animations on touch devices
+   Strategy: keep status dots, hover fades, typing cursor.
+   Kill: radar sweep, scan beam, matrix-bg, parallax, border-flow.
+   These are the GPU-compositor hogs on low-end devices.
+   ============================================================ */
+
+@media (pointer: coarse) {
+  /* Kill radar — GPU-intensive conic-gradient rotation */
+  .radar-sweep::before {
+    animation: none;
+    background: none;
+  }
+
+  /* Kill scan beam — constant repaint */
+  .scan-beam::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Kill matrix column rain */
+  .matrix-bg::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  /* Kill animated gradient border — conic-gradient + animation = jank */
+  .animated-border::before,
+  .animated-border-slow::before {
+    animation: none;
+    background: rgba(92, 122, 41, 0.2);
+  }
+
+  /* Kill parallax — touch scroll + CSS perspective = motion sickness */
+  .parallax-container {
+    perspective: none;
+  }
+
+  .parallax-layer-far,
+  .parallax-layer-mid,
+  .parallax-layer-near {
+    transform: none;
+  }
+
+  /* Kill CRT flicker on mobile — reads as a bug, not a feature */
+  .animate-flicker {
+    animation: none;
+  }
+
+  /* Keep: status-blink, status-ping, typing cursor, glow-pulse */
+  /* These are cheap opacity/scale animations that run on the compositor */
+}

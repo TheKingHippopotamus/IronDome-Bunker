@@ -1,0 +1,192 @@
+---
+const githubUrl = "https://github.com/TheKingHippopotamus/Secure_CLI_Password_Manager_Cybersecurity_PythonEngineering";
+---
+
+<section class="oss" aria-labelledby="oss-heading">
+  <div class="oss__inner">
+
+    <!-- GPL shield icon -->
+    <div class="oss__shield" aria-label="GPL-3.0 license" aria-hidden="false">
+      <svg
+        width="48"
+        height="56"
+        viewBox="0 0 48 56"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <!-- Shield outline -->
+        <path
+          d="M24 2L4 10v18c0 12.8 8.5 24.7 20 28 11.5-3.3 20-15.2 20-28V10L24 2z"
+          stroke="rgba(57,211,83,0.6)"
+          stroke-width="1.5"
+          fill="rgba(57,211,83,0.06)"
+        />
+        <!-- Checkmark -->
+        <path
+          d="M15 28l6 6 12-12"
+          stroke="#39D353"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+
+    <!-- GPL label -->
+    <span class="oss__license-tag">GPL-3.0</span>
+
+    <!-- Headline -->
+    <h2 class="oss__heading" id="oss-heading">Don't trust claims. Read the code.</h2>
+
+    <!-- GitHub link -->
+    <a
+      class="oss__github-link"
+      href={githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="View IronDome source code on GitHub"
+    >
+      <!-- GitHub mark icon -->
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+      </svg>
+      View on GitHub &rarr;
+    </a>
+
+    <!-- Subtext -->
+    <p class="oss__subtext">
+      Every cryptographic decision documented. Every line auditable. No black boxes.
+    </p>
+
+  </div>
+</section>
+
+<style>
+  /* ============================================================
+     OPEN SOURCE BADGE SECTION
+     ============================================================ */
+
+  .oss {
+    padding: 4rem 1.5rem;
+  }
+
+  .oss__inner {
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 2.5rem 2rem;
+    border: 1px solid rgba(57, 211, 83, 0.2);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-surface);
+    box-shadow:
+      0 0 0 1px rgba(57, 211, 83, 0.04),
+      inset 0 1px 0 rgba(57, 211, 83, 0.06);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle phosphor radial backdrop */
+  .oss__inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(57, 211, 83, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* ---- Shield ---- */
+  .oss__shield {
+    filter: drop-shadow(0 0 10px rgba(57, 211, 83, 0.3));
+    margin-bottom: 0.25rem;
+  }
+
+  /* ---- License tag ---- */
+  .oss__license-tag {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-phosphor);
+    background-color: var(--color-phosphor-dim);
+    border: 1px solid rgba(57, 211, 83, 0.25);
+    padding: 0.2rem 0.625rem;
+    border-radius: var(--radius-sm);
+  }
+
+  /* ---- Headline ---- */
+  .oss__heading {
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 3vw, 1.625rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+    line-height: 1.2;
+    margin: 0.25rem 0 0;
+  }
+
+  /* ---- GitHub link ---- */
+  .oss__github-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-phosphor);
+    text-decoration: none;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid rgba(57, 211, 83, 0.3);
+    border-radius: var(--radius-md);
+    background-color: rgba(57, 211, 83, 0.06);
+    transition:
+      background-color var(--duration-base) var(--ease-tactical),
+      border-color var(--duration-base) var(--ease-tactical),
+      box-shadow var(--duration-base) var(--ease-tactical);
+  }
+
+  .oss__github-link:hover {
+    background-color: rgba(57, 211, 83, 0.12);
+    border-color: rgba(57, 211, 83, 0.5);
+    box-shadow: 0 0 16px rgba(57, 211, 83, 0.15);
+  }
+
+  .oss__github-link:focus-visible {
+    outline: 2px solid var(--color-phosphor);
+    outline-offset: 3px;
+  }
+
+  /* ---- Subtext ---- */
+  .oss__subtext {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    max-width: 400px;
+    margin: 0.25rem 0 0;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 520px) {
+    .oss {
+      padding: 3rem 1rem;
+    }
+
+    .oss__inner {
+      padding: 1.75rem 1.25rem;
+    }
+  }
+</style>
