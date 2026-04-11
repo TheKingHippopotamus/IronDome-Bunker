@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IronDome — Fortified CLI Vault</title>
-  <meta name="description" content="IronDome — Fortified CLI vault with AES-256 encryption, biometric auth, and zero-knowledge architecture">
+  <meta name="description" content="IronDome — Fortified CLI vault with Fernet (AES-128-CBC), biometric auth, and zero-knowledge architecture">
   <meta property="og:title" content="IronDome — Fortified CLI Vault">
-  <meta property="og:description" content="AES-256 encryption, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
+  <meta property="og:description" content="Fernet (AES-128-CBC), PBKDF2, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
   <meta property="og:image" content="static/irondome-favicon.svg">
   <link rel="icon" type="image/svg+xml" href="static/irondome-favicon.svg">
   <link rel="apple-touch-icon" href="static/irondome-favicon.svg">
@@ -429,32 +429,106 @@
     .btn-github:hover { color: #FFD700; border-color: rgba(255, 215, 0, 0.4); }
 
     /* ═══════════════════════════════════════════ */
-    /* DOCS — Intelligence Briefing                */
+    /* HANDBOOK — inline reference                 */
     /* ═══════════════════════════════════════════ */
-    .docs {
+    .handbook {
       max-width: 900px;
       margin: 0 auto;
       padding: 30px 24px 60px;
     }
-    .docs h2 {
+    .handbook > h2 {
       color: #FFD700;
       font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 5px;
       text-transform: uppercase;
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
-    .docs-container {
-      background: #ffffff;
-      border-radius: 2px;
-      overflow: hidden;
+    .handbook-lead {
+      text-align: center;
+      color: #546E7A;
+      font-size: 0.8rem;
+      letter-spacing: 0.5px;
+      line-height: 1.6;
+      margin: 0 auto 28px;
+      max-width: 640px;
+    }
+    .handbook-article {
+      background: #0d1117;
       border: 1px solid rgba(255, 215, 0, 0.1);
+      border-radius: 4px;
+      padding: 28px 28px 36px;
     }
-    .docs-container simple-spawn {
-      display: block;
-      padding: 40px;
+    .handbook-article h3 {
+      color: #FFD700;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin: 28px 0 14px;
+      border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+      padding-bottom: 8px;
     }
+    .handbook-article h3:first-child { margin-top: 0; }
+    .handbook-article p { color: #94a3b8; font-size: 0.85rem; line-height: 1.65; margin: 0 0 10px; }
+    .handbook-article ul { margin: 10px 0 10px 1.25rem; color: #94a3b8; font-size: 0.85rem; line-height: 1.65; }
+    .handbook-article li { margin: 4px 0; }
+    .handbook-article code {
+      background: rgba(255, 215, 0, 0.08);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 0.82em;
+      color: #34d399;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    }
+    .handbook-table-wrap {
+      overflow-x: auto;
+      margin: 12px 0 8px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .handbook-table-wrap table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+      min-width: 520px;
+    }
+    .handbook-table-wrap th,
+    .handbook-table-wrap td {
+      border: 1px solid rgba(255, 215, 0, 0.1);
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .handbook-table-wrap th {
+      background: rgba(255, 215, 0, 0.06);
+      color: #FFD700;
+      font-weight: 700;
+    }
+    .handbook-table-wrap td { color: #cbd5e1; }
+    .handbook-table-wrap caption {
+      caption-side: top;
+      text-align: left;
+      color: #78909C;
+      font-size: 0.72rem;
+      margin-bottom: 8px;
+    }
+    .handbook-pre {
+      background: #050810;
+      border: 1px solid rgba(255, 215, 0, 0.12);
+      border-radius: 4px;
+      padding: 16px 18px;
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.7rem;
+      line-height: 1.45;
+      color: #94a3b8;
+      overflow-x: auto;
+      margin: 12px 0;
+      white-space: pre;
+    }
+    .handbook-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-top: 14px; }
+    .handbook-links a { color: #4FC3F7; font-size: 0.82rem; text-decoration: none; }
+    .handbook-links a:hover { text-decoration: underline; }
 
     /* ═══════════════════════════════════════════ */
     /* FOOTER — Command Post                       */
@@ -665,6 +739,8 @@
       .classification { font-size: 0.6rem; letter-spacing: 3px; }
       .wf-comment { display: none; }
       .wf-body { padding: 16px 14px 20px; font-size: 0.72rem; }
+      .handbook-article { padding: 20px 16px 28px; }
+      .handbook-table-wrap table { min-width: 100%; font-size: 0.72rem; }
     }
   </style>
 </head>
@@ -685,7 +761,7 @@
       <span class="nav-divider"></span>
       <a href="#try">Field Test</a>
       <span class="nav-divider"></span>
-      <a href="#docs">Intel</a>
+      <a href="#handbook">Handbook</a>
       <span class="nav-divider"></span>
       <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md">Contribute</a>
     </div>
@@ -700,7 +776,7 @@
       <div class="classification">Classified // Defense Grade Encryption</div>
       <br><br>
       <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
-      <p>Fortified CLI vault. AES-256 encryption, biometric auth, zero-knowledge architecture. Your bunkers never leave your machine.</p>
+      <p>Fortified CLI vault. Fernet (AES-128-CBC) with PBKDF2, biometric auth, zero-knowledge design. Your bunkers never leave your machine.</p>
       <div class="install-wrap">
         <div class="install-box">
           <span>$</span> pip install IronDome
@@ -879,9 +955,9 @@
 
     <section class="features">
       <div class="card">
-        <img class="card-icon" src="static/shield-aes.svg" alt="AES-256">
-        <h3>AES-256 Encryption</h3>
-        <p>Fernet symmetric encryption with PBKDF2-HMAC-SHA256 and 600,000 iterations. OWASP 2023 compliant.</p>
+        <img class="card-icon" src="static/shield-aes.svg" alt="Fernet encryption">
+        <h3>Fernet encryption</h3>
+        <p>AES-128-CBC via Fernet (includes HMAC). Keys from PBKDF2-HMAC-SHA256 with 600,000 iterations — OWASP 2023 aligned.</p>
       </div>
       <div class="card"><!-- center gap --></div>
       <div class="card">
@@ -930,7 +1006,7 @@
   <!-- ═══════════════════════════════════════════ -->
   <section class="try-it" id="try">
     <h2>Field Test</h2>
-    <p class="subtitle">Real CLI workflow — what you see when you run IronDome</p>
+    <p class="subtitle">Sample output after airspace is open — full install-to-lock flow is in <a href="#wf-block" style="color:#4FC3F7;text-decoration:none">Command Center</a> above.</p>
 
     <div class="tactical-frame">
       <img class="corner tl" src="static/tactical-corner.svg" alt="" aria-hidden="true">
@@ -943,55 +1019,20 @@
           <span class="term-dot" style="background:#ff5f57"></span>
           <span class="term-dot" style="background:#febc2e"></span>
           <span class="term-dot" style="background:#28c840"></span>
-          <span class="term-title">IronDome — v2.2</span>
+          <span class="term-title">IronDome — sample session</span>
         </div>
         <div class="term-body">
-          <div style="color:#546E7A">// Step 1 — Install</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">pip install IronDome</span></div>
-          <div style="color:#78909C">Successfully installed IronDome-2.2.1</div>
-          <div>&nbsp;</div>
-          <div style="color:#546E7A">// Step 2 — First-time setup</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome create bunker</span></div>
-          <div>&nbsp;</div>
-          <div style="color:#FFD700">Touch ID detected on this device!</div>
-          <div>&nbsp;</div>
-          <div>Choose your security level:</div>
-          <div>  <span style="color:#4FC3F7">1.</span> Touch ID Only — quick access, no password</div>
-          <div>  <span style="color:#4FC3F7">2.</span> Touch ID + Master Password — maximum security</div>
-          <div>  <span style="color:#4FC3F7">3.</span> Master Password Only — traditional</div>
-          <div>&nbsp;</div>
-          <div>Select: <span style="color:#34d399">1</span></div>
-          <div style="color:#34d399">Touch ID vault created successfully!</div>
-          <div>&nbsp;</div>
-          <div style="color:#546E7A">// Step 3 — Open airspace (30 min session)</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome open airspace</span></div>
-          <div style="color:#FFD700">Authenticate with Touch ID:</div>
-          <div style="color:#34d399">Touch ID verified. Welcome back!</div>
-          <div style="color:#78909C">Airspace open. You have 30 minutes of free access.</div>
-          <div>&nbsp;</div>
-          <div style="color:#546E7A">// Step 4 — Create bunkers (no re-auth needed)</div>
+          <div style="color:#546E7A">// With airspace open — create and read one bunker</div>
           <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker create</span></div>
           <div>Generated: <span style="color:#34d399">f4(ZMI87T-eZnsFrp#VgQ</span></div>
-          <div>Strength: <span style="color:#34d399">Excellent</span></div>
-          <div>Username: <span style="color:#4FC3F7">admin@github.com</span></div>
-          <div>Service:  <span style="color:#4FC3F7">github.com</span></div>
           <div style="color:#34d399">Bunker stored for admin@github.com at github.com</div>
           <div>&nbsp;</div>
-          <div style="color:#546E7A">// Retrieve</div>
           <div><span style="color:#546E7A">$</span> <span style="color:#34d399">bunker open github</span></div>
           <div>  Service:  <span style="color:#4FC3F7">github.com</span></div>
           <div>  Username: <span style="color:#4FC3F7">admin@github.com</span></div>
           <div>  Password: <span style="color:#34d399">f4(ZMI87T-eZnsFrp#VgQ</span></div>
           <div>&nbsp;</div>
-          <div style="color:#546E7A">// Lock down</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome close airspace</span></div>
-          <div style="color:#FFD700">Airspace closed. All access locked.</div>
-          <div>&nbsp;</div>
-          <div><span style="color:#546E7A">$</span> <span style="color:#34d399">irondome status</span></div>
-          <div>=== IronDome Status ===</div>
-          <div>  Dome:     <span style="color:#34d399">configured</span></div>
-          <div>  Airspace: <span style="color:#f87171">CLOSED</span></div>
-          <div>  Biometric: <span style="color:#4FC3F7">Touch ID</span></div>
+          <div style="color:#78909C">Run <span style="color:#34d399">irondome</span> for the full Textual TUI (12 screens, command palette, masked input).</div>
         </div>
       </div>
     </div>
@@ -1008,13 +1049,213 @@
   </div>
 
   <!-- ═══════════════════════════════════════════ -->
-  <!-- DOCS — INTELLIGENCE BRIEFING                -->
+  <!-- HANDBOOK — inline reference                 -->
   <!-- ═══════════════════════════════════════════ -->
-  <section class="docs" id="docs">
-    <h2>Intelligence Briefing</h2>
-    <div class="docs-container">
-      <simple-spawn src="./README.md" shadow></simple-spawn>
-    </div>
+  <section class="handbook" id="handbook">
+    <h2>Operations Handbook</h2>
+    <p class="handbook-lead">Modes, UI behavior, cryptography, and links. Copy-paste commands stay in Command Center so nothing is repeated here.</p>
+    <article class="handbook-article">
+      <h3 id="security-modes">Security levels</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <caption>Choose once at first-time setup (<code>irondome create bunker</code>).</caption>
+          <thead>
+            <tr><th scope="col">Mode</th><th scope="col">How it works</th><th scope="col">Best for</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Biometric only</th><td>Touch ID / Windows Hello / fingerprint unlocks vault key from the OS keychain.</td><td>Speed — single factor.</td></tr>
+            <tr><th scope="row">Biometric + password</th><td>Biometric gate plus master password derives keys via PBKDF2.</td><td>Maximum security.</td></tr>
+            <tr><th scope="row">Password only</th><td>Master password derives all keys via PBKDF2.</td><td>Universal compatibility.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="terminal-ui">Terminal UI</h3>
+      <p>Primary interface: a Textual-based TUI. Launch with <code>irondome</code> (default).</p>
+      <ul>
+        <li><strong>12 screens</strong> — splash, login, dashboard, vault browser, entry detail, generator, save form, settings, backup, status, help, confirmations.</li>
+        <li><strong>Keyboard-driven</strong> — arrows, Enter, Esc, Tab, hotkeys; <code>Ctrl+P</code> command palette.</li>
+        <li><strong>Security-first</strong> — masked input, alternate screen (limits scrollback exposure), clipboard auto-clear, signal handlers, memory protection.</li>
+      </ul>
+      <p>Headless and scripting: use the <code>irondome</code> / <code>bunker</code> commands in Command Center above (same names as the README).</p>
+
+      <h3 id="keyboard-shortcuts">Keyboard shortcuts</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Key</th><th scope="col">Action</th><th scope="col">Where</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>Ctrl+P</code></td><td>Command palette</td><td>Everywhere</td></tr>
+            <tr><td><code>Ctrl+Q</code></td><td>Quit</td><td>Everywhere</td></tr>
+            <tr><td><code>Ctrl+L</code></td><td>Lock vault</td><td>Everywhere</td></tr>
+            <tr><td><code>?</code></td><td>Help overlay</td><td>Everywhere</td></tr>
+            <tr><td><code>Esc</code></td><td>Back / cancel</td><td>Everywhere</td></tr>
+            <tr><td><code>Tab</code> / <code>Shift+Tab</code></td><td>Next / previous</td><td>Everywhere</td></tr>
+            <tr><td><code>Up</code> / <code>Down</code></td><td>Navigate</td><td>Lists, forms</td></tr>
+            <tr><td><code>Left</code></td><td>Go back</td><td>Vault, detail</td></tr>
+            <tr><td><code>Right</code> / <code>Enter</code></td><td>Open / confirm</td><td>Vault, detail</td></tr>
+            <tr><td><code>Space</code></td><td>Reveal password</td><td>Detail</td></tr>
+            <tr><td><code>c</code></td><td>Copy password</td><td>Vault, detail</td></tr>
+            <tr><td><code>u</code></td><td>Copy username</td><td>Vault, detail</td></tr>
+            <tr><td><code>/</code></td><td>Search</td><td>Vault</td></tr>
+            <tr><td><code>n</code></td><td>New entry</td><td>Vault</td></tr>
+            <tr><td><code>r</code></td><td>Regenerate</td><td>Generator</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="platforms">Cross-platform</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Platform</th><th scope="col">Terminal</th><th scope="col">Biometric</th><th scope="col">Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">macOS</th><td>Terminal.app, iTerm2, Alacritty, WezTerm</td><td>Touch ID</td><td>Full support</td></tr>
+            <tr><th scope="row">Windows</th><td>Windows Terminal, PowerShell</td><td>Windows Hello</td><td>Full support</td></tr>
+            <tr><th scope="row">Linux</th><td>GNOME Terminal, Konsole, Alacritty, WezTerm</td><td>fprintd</td><td>Full support</td></tr>
+            <tr><th scope="row">SSH</th><td>Any terminal</td><td>Password fallback</td><td>Works</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="security-architecture">Encryption stack</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">Standard</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Symmetric encryption</th><td>AES-128-CBC (Fernet — includes HMAC)</td></tr>
+            <tr><th scope="row">Key derivation</th><td>PBKDF2-HMAC-SHA256 × 600,000 (OWASP 2023)</td></tr>
+            <tr><th scope="row">Password hashing</th><td>PBKDF2-HMAC-SHA256 + unique salt</td></tr>
+            <tr><th scope="row">Random generation</th><td>Python <code>secrets</code> (CSPRNG)</td></tr>
+            <tr><th scope="row">Hardware binding</th><td>Machine identity (machine-id / hostname / UUID)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="tui-security">TUI security controls</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Control</th><th scope="col">Implementation</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Secure input</th><td>Masked at widget level</td></tr>
+            <tr><th scope="row">Alternate screen</th><td>SMCUP/RMCUP — reduces scrollback leakage</td></tr>
+            <tr><th scope="row">Clipboard auto-clear</th><td>30-second timeout, cross-platform</td></tr>
+            <tr><th scope="row">Signal handlers</th><td>SIGTERM/SIGINT/SIGHUP restore terminal + clear clipboard</td></tr>
+            <tr><th scope="row">Memory protection</th><td><code>mlockall</code> where available; sensitive buffer zeroing</td></tr>
+            <tr><th scope="row">Password reveal</th><td>Auto-hides after ~10 seconds</td></tr>
+            <tr><th scope="row">Session</th><td>Live countdown; auto-lock on expiry (~30 min)</td></tr>
+            <tr><th scope="row">Network</th><td>No HTTP/WebSocket listeners in the vault tool</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="threat-model">Threat model</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col">Threat</th><th scope="col">Defense</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Vault file stolen</th><td>Machine-specific keying — useless on other machines</td></tr>
+            <tr><th scope="row">Brute force</th><td>600k PBKDF2 + adaptive lockout</td></tr>
+            <tr><th scope="row">Memory dump</th><td>Memory locking + signal handlers</td></tr>
+            <tr><th scope="row">Clipboard sniffing</th><td>Auto-clear after 30 seconds</td></tr>
+            <tr><th scope="row">Scrollback leak</th><td>Alternate screen — minimal persistence</td></tr>
+            <tr><th scope="row">Man-in-the-middle</th><td>No network path for vault data</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="vault-layout">Vault directory layout</h3>
+      <pre class="handbook-pre">~/.password_manager/
+├── password_manager.log           # Non-sensitive audit trail
+├── settings.json                  # User preferences
+├── backups/
+│   └── .passwords_backup_*.enc    # Encrypted backups
+└── secrets/                       # chmod 0700
+    ├── .passwords.enc             # Encrypted vault (AES-128-CBC)
+    ├── salt.bin                   # Key derivation salt
+    ├── .master_user.enc           # Encrypted master user
+    ├── .master_hash.enc           # Encrypted PBKDF2 hash
+    ├── .login_attempts.dat        # Per-device lockout counter
+    └── .airspace.session          # Active session (0600)</pre>
+
+      <h3 id="how-it-works">How it works</h3>
+      <pre class="handbook-pre">pip install IronDome → irondome
+
+  ┌─────────────────────────────────────────────────┐
+  │              CHOOSE SECURITY LEVEL               │
+  └─────────────────────┬───────────────────────────┘
+                        │
+         ┌──────────────┼──────────────┐
+         ▼              ▼              ▼
+   Biometric Only  Bio + Password  Password Only
+         │              │              │
+   OS Keychain     Bio gate +      PBKDF2 derives
+   stores key      PBKDF2 key      vault key
+         │              │              │
+         └──────────────┼──────────────┘
+                        ▼
+              ┌─────────────────┐
+              │    Vault Key    │
+              └────────┬────────┘
+                       │
+           ┌───────────┼───────────┐
+           ▼                       ▼
+   Machine-Specific Key    User-Specific Key
+   (machine-specific)      (user+pass+salt)
+           │                       │
+           ▼                       ▼
+   Encrypts master         Encrypts password
+   credentials             database</pre>
+
+      <h3 id="cloud-compare">IronDome vs cloud password managers</h3>
+      <div class="handbook-table-wrap">
+        <table>
+          <thead>
+            <tr><th scope="col"></th><th scope="col">IronDome</th><th scope="col">Cloud managers</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Data location</th><td>Your machine only</td><td>Their servers</td></tr>
+            <tr><th scope="row">Network required</th><td>Never for vault use</td><td>Typically always</td></tr>
+            <tr><th scope="row">Zero knowledge</th><td>No server in the loop</td><td>Varies — trust model</td></tr>
+            <tr><th scope="row">Hardware binding</th><td>Keys tied to machine identity</td><td>Usually none</td></tr>
+            <tr><th scope="row">Interface</th><td>Full TUI + CLI</td><td>Browser / app</td></tr>
+            <tr><th scope="row">Open source</th><td>GPL-3.0</td><td>Often closed</td></tr>
+            <tr><th scope="row">Biometric</th><td>OS-native (Touch ID, Hello, fprintd)</td><td>Often extension-based</td></tr>
+            <tr><th scope="row">Attack surface</th><td>No vault API exposure</td><td>APIs, sync, infrastructure</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="requirements">Requirements</h3>
+      <ul>
+        <li><strong>Python</strong> 3.8 – 3.13</li>
+        <li><strong>Dependencies:</strong> <code>cryptography</code>, <code>keyring</code>, <code>textual</code></li>
+        <li><strong>Optional:</strong> <code>pyobjc-framework-LocalAuthentication</code> (macOS Touch ID)</li>
+      </ul>
+
+      <h3 id="developers">For developers</h3>
+      <pre class="handbook-pre">git clone https://github.com/TheKingHippopotamus/IronDome-Bunker.git
+cd IronDome-Bunker
+pip install -e .
+irondome</pre>
+      <div class="handbook-links">
+        <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>
+        <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>
+        <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md">SECURITY.md</a>
+        <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE">LICENSE (GPL-3.0)</a>
+      </div>
+
+      <h3 id="interactive">Interactive notebook</h3>
+      <p>Full walkthrough in the browser (encryption, vault flows, stress tests): use the Colab button in Field Test above, or <a href="https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb" target="_blank" rel="noopener">open the notebook directly</a>.</p>
+    </article>
   </section>
 
   <!-- Warning stripe accent -->
@@ -1027,11 +1268,10 @@
     <img src="static/king-hippo.svg" alt="King Hippopotamus">
     <br>
     Created by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a>
-    &bull; Powered by <a href="https://www.npmjs.com/package/sst-spawn">SST</a>
+    &bull; <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE">GPL-3.0</a>
     <div class="footer-meta">IronDome Bunker Division // All Rights Reserved</div>
   </footer>
 
-  <script type="module" src="https://unpkg.com/sst-spawn/dist/index.js"></script>
   <script>
     function copyCmd(cmd) {
       navigator.clipboard.writeText(cmd).then(function() {

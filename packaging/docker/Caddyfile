@@ -1,0 +1,11 @@
+# TLS via Let's Encrypt DNS-01 (Duck DNS). Set DUCKDNS_API_TOKEN in .env (token from duckdns.org).
+# Proxies to textual-serve on irondome-web:8000.
+
+irondome-playground.example.com {
+	tls {
+		dns duckdns {env.DUCKDNS_API_TOKEN}
+	}
+	reverse_proxy irondome-web:8000 {
+		flush_interval -1
+	}
+}

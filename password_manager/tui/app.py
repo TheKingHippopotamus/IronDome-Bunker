@@ -7,6 +7,7 @@ Existing CLI commands (irondome, bunker) remain untouched.
 from __future__ import annotations
 
 import logging
+import os
 import sys
 import traceback
 from typing import Iterable
@@ -246,6 +247,12 @@ class IronDomeApp(App):
             self.exit()
 
 
+def _running_under_textual_web_driver() -> bool:
+    """textual-serve spawns the app with pipes; WebDriver handles I/O over its protocol."""
+    driver = os.environ.get("TEXTUAL_DRIVER", "")
+    return "web_driver" in driver
+
+
 def main() -> None:
     """Entry point for the irondome-tui command."""
     # Security: install signal handlers before anything else
@@ -254,8 +261,8 @@ def main() -> None:
     # Security: attempt to lock memory (prevents swap)
     lock_memory()
 
-    # Detect if running in a real terminal
-    if not sys.stdout.isatty():
+    # Real TTY for terminal driver; textual-serve uses WebDriver (no isatty on stdout).
+    if not sys.stdout.isatty() and not _running_under_textual_web_driver():
         print("IronDome TUI requires an interactive terminal.", file=sys.stderr)
         sys.exit(1)
 

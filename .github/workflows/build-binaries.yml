@@ -1,0 +1,65 @@
+name: Build standalone binaries
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  binaries:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            label: windows-x64
+          - os: ubuntu-latest
+            label: linux-x64
+          - os: macos-latest
+            label: macos-arm64
+          - os: macos-13
+            label: macos-x64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package and PyInstaller
+        shell: bash
+        run: |
+          set -eux
+          pip install --upgrade pip
+          if [[ "${{ runner.os }}" == "macOS" ]]; then
+            pip install ".[macos,binary]"
+          else
+            pip install ".[binary]"
+          fi
+
+      - name: Build executables
+        run: python scripts/build_binaries.py --dist dist-artifacts
+
+      - name: Stage artifacts with platform prefix
+        shell: bash
+        run: |
+          set -eux
+          mkdir -p upload
+          LABEL="${{ matrix.label }}"
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            for f in irondome irondome-cli bunker; do
+              cp "dist-artifacts/${f}.exe" "upload/${LABEL}-${f}.exe"
+            done
+          else
+            for f in irondome irondome-cli bunker; do
+              cp "dist-artifacts/${f}" "upload/${LABEL}-${f}"
+            done
+          fi
+          ls -la upload
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: irondome-binaries-${{ matrix.label }}
+          path: upload/*

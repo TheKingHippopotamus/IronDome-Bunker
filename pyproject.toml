@@ -45,7 +45,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+web = ["textual-serve>=1.1.0,<2"]
 macos = ["pyobjc-framework-LocalAuthentication>=9.0"]
+# Twine 5.x cannot parse wheels with Metadata-Version 2.4 (current setuptools); use 6.2+ for uploads.
+publish = ["build", "twine>=6.2"]
 
 [project.scripts]
 irondome = "password_manager.tui.app:main"

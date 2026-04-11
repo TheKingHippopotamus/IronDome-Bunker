@@ -167,20 +167,6 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
       );
   }
 
-  .army-ops-bg::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    background-image:
-      radial-gradient(circle at 20% 80%, rgba(92, 122, 41, 0.06) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, rgba(74, 93, 35, 0.06) 0%, transparent 50%);
-  }
-
   .army-ops-bg > * {
     position: relative;
     z-index: 1;

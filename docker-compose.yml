@@ -1,0 +1,82 @@
+# IronDome in Docker
+#
+# --- ERR_CONNECTION_TIMED_OUT on https://…duckdns.org ---
+# Usually: no inbound TCP 443 (and 80) from the internet to THIS host (router port-forward,
+# laptop asleep, CGNAT from ISP, or Mac firewall). DNS-01 fixes TLS issuance but you still
+# need something listening on 443 on your public IP for browsers to connect.
+#
+# --- Two ways to run the web UI ---
+# 1) Duck DNS + Caddy (you control the hostname; need WAN → host TCP 443):
+#    Copy .env.example to .env, set DUCKDNS_API_TOKEN, IRONDOME_PUBLIC_URL, COMPOSE_PROFILES=caddy
+#
+# 2) No open ports — Cloudflare Quick Tunnel (random *.trycloudflare.com URL in logs):
+#    docker compose --profile tunnel up -d
+#    docker compose logs cloudflared | grep -o 'https://[^ ]*trycloudflare.com'
+#    Put that URL in .env as IRONDOME_PUBLIC_URL=… then: docker compose restart irondome-web
+#
+# Compose reads `.env` from the repo root (same folder as this file). A file only under
+# packaging/docker/.env is NOT loaded unless you merge it into root `.env`.
+#
+# Local terminal TUI: docker compose --profile terminal run --rm irondome
+services:
+  irondome:
+    profiles: ["terminal"]
+    build: .
+    image: irondome:local
+    stdin_open: true
+    tty: true
+    volumes:
+      - irondome_data:/root/.password_manager
+    command: ["irondome"]
+
+  irondome-web:
+    build: .
+    image: irondome:local
+    init: true
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${IRONDOME_WEB_PORT:-8000}:8000"
+    volumes:
+      - irondome_data:/root/.password_manager
+    environment:
+      IRONDOME_SERVE_HOST: "0.0.0.0"
+      IRONDOME_SERVE_PORT: "8000"
+      IRONDOME_PUBLIC_URL: ${IRONDOME_PUBLIC_URL:-http://127.0.0.1:${IRONDOME_WEB_PORT:-8000}}
+    entrypoint: ["python", "/usr/local/bin/irondome-serve-web.py"]
+
+  caddy:
+    profiles: ["caddy"]
+    build:
+      context: ./packaging/docker/caddy
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DUCKDNS_API_TOKEN: ${DUCKDNS_API_TOKEN:-}
+    volumes:
+      - ./packaging/docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - irondome-web
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["tunnel"]
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://irondome-web:8000
+    depends_on:
+      - irondome-web
+
+volumes:
+  irondome_data:
+  caddy_data:
+  caddy_config:

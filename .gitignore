@@ -8,6 +8,7 @@ env/
 build/
 develop-eggs/
 dist/
+dist-artifacts/
 downloads/
 eggs/
 .eggs/
@@ -26,6 +27,7 @@ ENV/
 # Virtual environment
 .env
 .venv
+packaging/docker/.env
 
 # Sensitive data directories
 secrets/
