@@ -89,6 +89,12 @@ def irondome_main() -> None:
     # irondome status
     subparsers.add_parser("status", help="Show IronDome status")
 
+    # irondome nuke — self-destruct: permanently erase all user data
+    subparsers.add_parser(
+        "nuke",
+        help="Permanently destroy all IronDome data (irreversible)",
+    )
+
     args = parser.parse_args()
 
     data_dir = _data_dir()
@@ -195,6 +201,13 @@ def irondome_main() -> None:
         _print_status(data_dir, airspace)
         return
 
+    # ------------------------------------------------------------------
+    # irondome nuke
+    # ------------------------------------------------------------------
+    if args.command == "nuke":
+        _handle_nuke(data_dir)
+        return
+
 
 # ---------------------------------------------------------------------------
 # bunker entry point
@@ -232,6 +245,12 @@ def bunker_main() -> None:
     # bunker status — show dome info
     subparsers.add_parser("status", help="Show dome info")
 
+    # bunker nuke — self-destruct: permanently erase all user data
+    subparsers.add_parser(
+        "nuke",
+        help="Permanently destroy all IronDome data (irreversible)",
+    )
+
     args = parser.parse_args()
 
     data_dir = _data_dir()
@@ -264,6 +283,13 @@ def bunker_main() -> None:
     # ------------------------------------------------------------------
     if args.command == "status":
         _print_status(data_dir, airspace)
+        return
+
+    # ------------------------------------------------------------------
+    # bunker nuke
+    # ------------------------------------------------------------------
+    if args.command == "nuke":
+        _handle_nuke(data_dir)
         return
 
     # ------------------------------------------------------------------
@@ -364,6 +390,80 @@ def bunker_main() -> None:
 # ---------------------------------------------------------------------------
 # Shared helpers
 # ---------------------------------------------------------------------------
+
+def _handle_nuke(data_dir: str) -> None:
+    """
+    Interactively confirm and execute a full IronDome self-destruct.
+
+    Does NOT require airspace to be open — the user may want to destroy data
+    even when they cannot authenticate.
+    """
+    from password_manager.nuke import list_targets, execute_nuke
+
+    print()
+    print("  ██╗███╗   ██╗██╗   ██╗██╗  ██╗███████╗")
+    print("  ██║████╗  ██║██║   ██║██║ ██╔╝██╔════╝")
+    print("  ██║██╔██╗ ██║██║   ██║█████╔╝ █████╗  ")
+    print("  ██║██║╚██╗██║██║   ██║██╔═██╗ ██╔══╝  ")
+    print("  ██║██║ ╚████║╚██████╔╝██║  ██╗███████╗")
+    print("  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝")
+    print()
+    print("  WARNING: SELF-DESTRUCT PROTOCOL")
+    print("  This will permanently and irreversibly destroy:")
+    print()
+
+    targets = list_targets(data_dir)
+    if not targets:
+        print("  No IronDome data found. Nothing to destroy.")
+        return
+
+    for path in targets:
+        print(f"    - {path}")
+
+    print()
+    print("  The OS keychain entries (master_key, auth_mode, recovery_hash)")
+    print("  will also be purged.")
+    print()
+    print("  This action CANNOT be undone. All passwords will be lost forever.")
+    print()
+
+    try:
+        confirm = input('  Type "DESTROY" to confirm, or anything else to abort: ').strip()
+    except (KeyboardInterrupt, EOFError):
+        print("\n  Aborted.")
+        return
+
+    if confirm != "DESTROY":
+        print("  Aborted. IronDome data is intact.")
+        return
+
+    print()
+    print("  Executing nuke sequence...")
+
+    result = execute_nuke(data_dir)
+
+    print()
+    if result["keyring_cleared"]:
+        print("  [OK] OS keychain entries purged.")
+    else:
+        print("  [!!] OS keychain entries could not be fully purged.")
+
+    if result["files_deleted"]:
+        print(f"  [OK] {len(result['files_deleted'])} file(s) securely deleted.")
+
+    if result["errors"]:
+        print()
+        print("  Errors encountered:")
+        for err in result["errors"]:
+            print(f"    - {err}")
+
+    print()
+    if result["success"]:
+        print("  IronDome has been destroyed. Run 'irondome create bunker' to start fresh.")
+    else:
+        print("  Nuke completed with errors. Some data may remain — see above.")
+    print()
+
 
 def _print_status(data_dir: str, airspace) -> None:
     """Print a unified IronDome status block."""

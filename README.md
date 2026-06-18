@@ -102,6 +102,8 @@ bunker open                      # List all entries
 bunker open github               # Search by name
 bunker fortify                   # Create encrypted backup
 bunker settings                  # Configure preferences
+irondome nuke                    # Self-destruct: permanently erase all data
+bunker nuke                      # Alias — same self-destruct from bunker
 ```
 
 ---

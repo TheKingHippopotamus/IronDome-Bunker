@@ -188,9 +188,10 @@ import Layout from '../layouts/Layout.astro';
                 ['bunker open [name]','bunker -o [name]','Search for entries matching the given name'],
                 ['bunker fortify',    '—',             'Create an encrypted backup of the vault'],
                 ['bunker settings',   '—',             'Open preferences — passwords length, timeouts, symbols'],
+                ['irondome nuke',     'bunker nuke',   'Self-destruct — permanently and irreversibly erase all vault data'],
                 ['bunker',            '—',             'Launch interactive 9-option menu'],
               ].map((row, i) => (
-                <div style={`display: grid; grid-template-columns: 2fr 1.5fr 3fr; gap: 0; border-bottom: ${i < 5 ? '1px solid var(--color-gold-border)' : 'none'}; transition: background-color var(--duration-fast) ease;`}
+                <div style={`display: grid; grid-template-columns: 2fr 1.5fr 3fr; gap: 0; border-bottom: ${i < 6 ? '1px solid var(--color-gold-border)' : 'none'}; transition: background-color var(--duration-fast) ease;`}
                   onmouseover="this.style.backgroundColor='rgba(255,215,0,0.02)'"
                   onmouseout="this.style.backgroundColor='transparent'">
                   <div style="padding: 0.75rem 1.25rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--color-green);">{row[0]}</div>

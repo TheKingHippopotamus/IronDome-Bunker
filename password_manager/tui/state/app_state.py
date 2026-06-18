@@ -467,6 +467,44 @@ class AppState:
 
         return {"success": True, "error": None, "recovery_key": None}
 
+    def nuke_vault(self) -> dict:
+        """
+        Permanently destroy all IronDome data for this installation.
+
+        Caller MUST obtain explicit user confirmation before invoking this.
+
+        Sequence
+        --------
+        1. Close the active session and airspace cleanly.
+        2. Clear the in-memory vault cache and fernet key.
+        3. Execute the nuke (keychain purge + secure file deletion).
+
+        Returns
+        -------
+        dict
+            ``success``         (bool) — True only if every step succeeded.
+            ``files_deleted``   (list) — Absolute paths of deleted files.
+            ``keyring_cleared`` (bool) — True if OS keychain entries were removed.
+            ``errors``          (list) — Human-readable strings for any failures.
+        """
+        from password_manager.nuke import execute_nuke
+
+        # Close session and airspace before touching disk
+        try:
+            self.session.logout()
+        except Exception as exc:
+            log.warning("Session logout before nuke failed (non-fatal): %s", exc)
+        try:
+            self.airspace.close()
+        except Exception as exc:
+            log.warning("Airspace close before nuke failed (non-fatal): %s", exc)
+
+        # Wipe in-memory secrets
+        self._vault_cache.clear()
+        self.auth.fernet = None
+
+        return execute_nuke(self.data_dir)
+
     def create_backup(self) -> Optional[str]:
         try:
             return self.storage.create_backup()
