@@ -89,10 +89,10 @@ def irondome_main() -> None:
     # irondome status
     subparsers.add_parser("status", help="Show IronDome status")
 
-    # irondome nuke — self-destruct: permanently erase all user data
+    # irondome nuke — self-destruct: overwrite and delete all user data
     subparsers.add_parser(
         "nuke",
-        help="Permanently destroy all IronDome data (irreversible)",
+        help="Self-destruct: overwrite and delete all IronDome data and keychain entries",
     )
 
     args = parser.parse_args()
@@ -244,10 +244,10 @@ def bunker_main() -> None:
     # bunker status — show dome info
     subparsers.add_parser("status", help="Show dome info")
 
-    # bunker nuke — self-destruct: permanently erase all user data
+    # bunker nuke — self-destruct: overwrite and delete all user data
     subparsers.add_parser(
         "nuke",
-        help="Permanently destroy all IronDome data (irreversible)",
+        help="Self-destruct: overwrite and delete all IronDome data and keychain entries",
     )
 
     args = parser.parse_args()
@@ -408,7 +408,7 @@ def _handle_nuke(data_dir: str) -> None:
     print("  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝")
     print()
     print("  WARNING: SELF-DESTRUCT PROTOCOL")
-    print("  This will permanently and irreversibly destroy:")
+    print("  This will overwrite with random bytes, then delete:")
     print()
 
     targets = list_targets(data_dir)
@@ -422,6 +422,11 @@ def _handle_nuke(data_dir: str) -> None:
     print()
     print("  The OS keychain entries (master_key, auth_mode, recovery_hash)")
     print("  will also be purged.")
+    print()
+    print("  Erasure limit: each file is overwritten once in place, fsynced,")
+    print("  then unlinked. On SSDs with wear-levelling, on copy-on-write")
+    print("  filesystems (btrfs/ZFS) or on journaled ext4, the original blocks")
+    print("  may survive. For guaranteed destruction, destroy the disk key.")
     print()
     print("  This action CANNOT be undone. All passwords will be lost forever.")
     print()

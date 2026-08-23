@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-IronDome self-destruct: permanently erases all user data for this installation.
+IronDome self-destruct: overwrites and deletes all user data for this installation.
 
 ``execute_nuke()`` is the single public entry point.  It performs no prompting
 or confirmation — that responsibility belongs entirely to the caller (CLI or TUI).
@@ -157,7 +157,7 @@ def list_targets(data_dir: str) -> list:
 
 def execute_nuke(data_dir: str) -> dict:
     """
-    Permanently destroy all IronDome user data for this installation.
+    Overwrite and delete all IronDome user data for this installation.
 
     The caller MUST obtain explicit user confirmation before invoking this.
     This function performs no prompting of its own.

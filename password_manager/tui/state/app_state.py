@@ -469,7 +469,7 @@ class AppState:
 
     def nuke_vault(self) -> dict:
         """
-        Permanently destroy all IronDome data for this installation.
+        Overwrite and delete all IronDome data for this installation.
 
         Caller MUST obtain explicit user confirmation before invoking this.
 
