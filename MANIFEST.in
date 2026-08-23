@@ -3,6 +3,12 @@ include README.md
 include requirements.txt
 recursive-include password_manager *.py
 
+# "The source is the specification" implies the tests come with the source.
+# The suite is unrunnable without conftest.py -- it holds the throwaway-HOME
+# and in-memory-keyring fixtures every test file asks for -- so the sdist
+# ships the whole directory, not a selection of it.
+recursive-include tests *.py
+
 exclude run.py
 recursive-exclude static *
 recursive-exclude * __pycache__
