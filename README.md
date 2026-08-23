@@ -331,7 +331,25 @@ ruff check password_manager tests
 irondome
 ```
 
-The test suite covers the encryption round-trip and tamper detection, the KDF parameters, keyring create/unlock, `nuke` completeness, and a static check that no module in `password_manager/` imports a network library. CI runs `pytest` and `ruff` before any PyPI publish.
+The test suite covers the encryption round-trip and tamper detection, the KDF parameters, keyring create/unlock, on-disk file permissions, `nuke` completeness, and a static check that no module in `password_manager/` imports a network library. CI runs `pytest` and `ruff` before any PyPI publish.
+
+### Building the website
+
+The landing page prints exact numbers — how many tests the suite has, how many
+screens the TUI has, which version is on PyPI. None of them are typed into the
+page. `scripts/counts.py` collects the suite, parses the TUI package and reads
+the version, then writes `website/src/data/counts.json`; the Astro page imports
+that file. Regenerate it in the same pass that builds the site, and commit the
+JSON with whatever change moved the numbers:
+
+```bash
+python scripts/counts.py            # rewrite website/src/data/counts.json
+python scripts/counts.py --check    # exit 1 if the committed JSON is stale
+cd website && npm ci && npm run build
+```
+
+`--check` is the form for CI: it fails the build when a test has been added and
+the page would otherwise go out claiming the old count.
 
 <details>
 <summary><strong>Project Structure</strong></summary>
@@ -352,13 +370,14 @@ password_manager/
 ├── generator.py         # Password generation
 ├── utils.py             # Utility functions
 ├── logger.py            # Logging setup
+├── secure_io.py         # 0600 files / 0700 dirs for everything written
 ├── constants.py         # Constants
 └── tui/                 # Terminal UI (Textual)
     ├── app.py           # Main application + command palette
     ├── irondome.tcss    # Dome-themed stylesheet
     ├── theme.py         # Design tokens + ASCII art
     ├── ascii_art.py     # Splash screen art
-    ├── screens/         # 12 screens
+    ├── screens/         # 15 screens
     ├── widgets/         # Custom widgets
     ├── state/           # Reactive state management
     └── security/        # Clipboard, memory, signal handlers

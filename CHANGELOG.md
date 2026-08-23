@@ -6,6 +6,49 @@ This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 The version number lives in exactly one place, `password_manager/__init__.py`;
 `pyproject.toml` reads it from there via `[tool.setuptools.dynamic]`.
 
+## [3.2.2] — 2026-08-23
+
+Closes three findings from an external review of the 3.2.1 release and its
+website. No behaviour changes for anyone using the vault; one on-disk
+permission change applies itself to existing vaults on next open.
+
+### Security
+
+- **Vault files were created world-readable.** `secrets/` was `0700`, so
+  nothing leaked in practice, but the files inside it — `salt.bin`,
+  `.master_hash.enc`, `.master_user.enc`, `.passwords.enc`, the login-attempt
+  counters and every backup — were written by a plain `open()` and landed at
+  `0644` under a default umask. The directory was the only thing protecting
+  them; a permissive umask, a `chmod` on the parent, a backup tool or a copy
+  out of the directory removed that single layer. Every write now goes through
+  `password_manager/secure_io.py`, which opens with
+  `O_CREAT|O_WRONLY|O_TRUNC` at `0600` and `fchmod`s the descriptor before any
+  data is written. Directories are created and re-asserted at `0700`. Because
+  `O_CREAT` does not touch the mode of a file that already exists, the
+  `fchmod` also tightens vaults written by earlier versions the first time
+  each file is rewritten, and reopening a vault re-applies `0700` to its
+  directories. Covered by `tests/test_permissions.py`, which walks the whole
+  data directory after building and using a vault and fails on any file that
+  is not `0600` or any directory that is not `0700` — including files a future
+  version adds without anyone remembering to update the test.
+
+### Fixed
+
+- **The sdist could not run its own tests.** `tests/conftest.py` holds the
+  throwaway-HOME and in-memory-keyring fixtures that `test_nuke.py` and
+  `test_keystore.py` depend on, and it was not in `MANIFEST.in`, so those two
+  files failed from the published source distribution with
+  `fixture 'data_dir' not found`. `MANIFEST.in` now ships `tests/` whole.
+- **The website's numbers were typed in by hand and had drifted.** The page
+  said 143 tests against a suite that collected 144. `scripts/counts.py` now
+  derives the test count from `pytest --collect-only`, the screen count from
+  the classes under `password_manager/tui/screens/`, and the version from
+  `password_manager/__init__.py`, writing all three to
+  `website/src/data/counts.json`. The page imports that file; the test count,
+  the per-file breakdown, the screen count and every version string on the
+  site now come from the artefacts they describe. `--check` fails a build on
+  a stale JSON.
+
 ## [3.2.1] — 2026-08-23
 
 A truth-in-advertising release. No new features: every change here either
