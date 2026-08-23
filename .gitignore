@@ -73,3 +73,13 @@ test_password_manager.py
 users.json .claude/
 .astro/
 node_modules/
+
+# Agent/editor local config and secrets — never commit (added 2026-08-23)
+.claude/
+*.local.json
+.mcp.json
+.env
+.env.*
+*.state
+state/
+*.bak*
