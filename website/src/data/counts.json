@@ -1,0 +1,12 @@
+{
+  "tests": 157,
+  "screens": 15,
+  "version": "3.2.2",
+  "files": {
+    "test_encryption.py": 13,
+    "test_keystore.py": 13,
+    "test_no_network.py": 108,
+    "test_nuke.py": 12,
+    "test_permissions.py": 11
+  }
+}

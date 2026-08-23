@@ -1,6 +1,9 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import transcript from '../data/transcript.txt?raw';
+/* Written by scripts/counts.py from the suite and the package itself.
+   Never edit by hand: the page states numbers, it does not decide them. */
+import counts from '../data/counts.json';
 
 const B = import.meta.env.BASE_URL.endsWith('/')
   ? import.meta.env.BASE_URL
@@ -37,14 +40,23 @@ const scenes = sceneSpec.map(([name, caption, n]) => {
   return { name, caption, blocks: slice };
 });
 
+/* ------------------------------------------------------------------
+   The per-file breakdown printed on the test card, formatted from the
+   same collection run that produced the total.
+   ------------------------------------------------------------------ */
+const testBreakdown = Object.entries(counts.files as Record<string, number>)
+  .sort((a, b) => b[1] - a[1])
+  .map(([name, n]) => `${name.padEnd(20)}${String(n).padStart(3)}`)
+  .join('\n');
+
 /* ------------------------------------------------------------------ */
 const facts = [
-  ['3.2.1',   'on PyPI'],
-  ['143',     'tests, run before publish'],
-  ['0',       'network calls in the package'],
-  ['600,000', 'PBKDF2 iterations'],
-  ['15',      'screens in the TUI'],
-  ['GPL-3.0', 'source is the spec'],
+  [counts.version,        'on PyPI'],
+  [String(counts.tests),  'tests, run before publish'],
+  ['0',                   'network calls in the package'],
+  ['600,000',             'PBKDF2 iterations'],
+  [String(counts.screens),'screens in the TUI'],
+  ['GPL-3.0',             'source is the spec'],
 ];
 
 const steps = [
@@ -227,10 +239,10 @@ const layers = [
         code: 'fh.write(os.urandom(size))\nfh.flush()\nos.fsync(fh.fileno())\n\n  [OK] 7 file(s) securely deleted.',
       },
       {
-        t: '143 tests gate the release',
-        b: 'Encryption round-trip and tamper detection, KDF parameters, keyring behaviour, nuke completeness, and the network check. CI runs pytest and ruff before anything reaches PyPI.',
+        t: `${counts.tests} tests gate the release`,
+        b: 'Encryption round-trip and tamper detection, KDF parameters, keyring behaviour, file permissions, nuke completeness, and the network check. CI runs pytest and ruff before anything reaches PyPI.',
         badge: 'GATE',
-        code: 'test_encryption.py   13\ntest_keystore.py     13\ntest_nuke.py         11\ntest_no_network.py  106',
+        code: testBreakdown,
       },
       {
         t: 'GPL-3.0, all of it',
@@ -270,7 +282,7 @@ const spec = [
   ['Session file',         'Mode 0600, 30-minute timeout'],
   ['Failed logins',        '3 attempts, then 15-minute device lockout'],
   ['Clipboard',            'Auto-clear after 30 seconds'],
-  ['Interface',            'Textual TUI (15 screens) + CLI'],
+  ['Interface',            `Textual TUI (${counts.screens} screens) + CLI`],
   ['Platforms',            'macOS, Windows, Linux — Python 3.8–3.13'],
   ['Dependencies',         'cryptography, keyring, textual'],
   ['License',              'GPL-3.0-only'],
@@ -281,7 +293,7 @@ const limits = [
   ['The biometric check is not cryptographic', 'It is an OS authentication gate in front of a keyring-stored key. A process already running as you can read that key without presenting a fingerprint.'],
   ['nuke cannot defeat an SSD controller', 'One overwrite pass, fsync, unlink. Wear-levelling, copy-on-write filesystems and journaling can all leave the original blocks. For guaranteed destruction, use full-disk encryption and destroy the key.'],
   ['The key is not zeroed in memory', 'It is held as immutable Python bytes inside a Fernet object and cannot be overwritten in place.'],
-  ['No independent third-party audit', '143 self-authored tests are not an audit. Nobody outside the project has reviewed the cryptography. Treat this as beta software.'],
+  ['No independent third-party audit', `${counts.tests} self-authored tests are not an audit. Nobody outside the project has reviewed the cryptography. Treat this as beta software.`],
 ];
 ---
 
@@ -297,7 +309,7 @@ const limits = [
     <div class="wrap hero-in">
       <p class="hero-eye mono">
         <span class="pip" aria-hidden="true"></span>
-        Local-first password vault · v3.2.1
+        Local-first password vault · v{counts.version}
       </p>
 
       <h1 class="hero-h1">
@@ -538,7 +550,8 @@ const limits = [
       <p class="eyebrow reveal">The TUI, unfiltered</p>
       <h2 class="reveal">A whole session, start to self-destruct</h2>
       <p class="lede reveal" style="--d:80ms">
-        Not a mock-up. IronDome 3.2.1 was installed from PyPI into a throwaway home
+        Not a mock-up. IronDome 3.2.1 — the release this session was recorded against —
+        was installed from PyPI into a throwaway home
         directory and driven through seven scenes — setup, unlock, four entries, search,
         backup, a lockout, and <span class="mono">nuke</span>. What replays below is that
         recording, verbatim, with only the temporary paths rewritten to

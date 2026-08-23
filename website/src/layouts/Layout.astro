@@ -1,5 +1,7 @@
 ---
 import '../styles/site.css';
+/* Written by scripts/counts.py from password_manager/__init__.py. */
+import counts from '../data/counts.json';
 
 interface Props {
   title: string;
@@ -62,7 +64,7 @@ const nav = [
       name: 'IronDome',
       applicationCategory: 'SecurityApplication',
       operatingSystem: 'macOS, Windows, Linux',
-      softwareVersion: '3.2.1',
+      softwareVersion: counts.version,
       license: 'https://www.gnu.org/licenses/gpl-3.0.html',
       description: description,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -79,7 +81,7 @@ const nav = [
         <a class="mark" href="#top">
           <span class="mark-dot" aria-hidden="true"></span>
           <span class="mark-name">IronDome</span>
-          <span class="mark-ver">3.2.1</span>
+          <span class="mark-ver">{counts.version}</span>
         </a>
         <nav class="nav" aria-label="Sections">
           {nav.map(([href, label]) => <a href={href}>{label}</a>)}
@@ -99,7 +101,7 @@ const nav = [
     <footer class="ftr">
       <div class="wrap ftr-in">
         <div class="ftr-col">
-          <p class="ftr-title mono">IronDome 3.2.1</p>
+          <p class="ftr-title mono">IronDome {counts.version}</p>
           <p class="ftr-note">
             A local-first password vault for the terminal. Free software under the
             GNU General Public License v3.0 — the source is the specification.
