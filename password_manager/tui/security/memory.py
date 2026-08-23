@@ -1,22 +1,16 @@
-"""Memory protection utilities for sensitive data."""
+"""Memory protection utilities for sensitive data.
+
+Only swap avoidance lives here.  A ``zero_bytearray`` helper used to sit
+alongside ``lock_memory`` and had no callers anywhere in the tree, while the
+README advertised "bytearray zeroing" as a shipped control.  It was removed
+rather than wired up: the vault key is held as an immutable Python ``bytes``
+inside a ``Fernet`` object, so zeroing it in place is not possible without
+changing how the key is held.  The README no longer claims it.
+"""
 
 import ctypes
 import ctypes.util
 import sys
-
-
-def zero_bytearray(buf: bytearray) -> None:
-    """Overwrite a bytearray's buffer with zeros, then clear it.
-
-    This is a best-effort defense-in-depth measure. Python's garbage
-    collector and memory allocator may retain copies; this reduces the
-    window of exposure.
-    """
-    if len(buf) > 0:
-        ctypes.memset(
-            (ctypes.c_char * len(buf)).from_buffer(buf), 0, len(buf)
-        )
-    buf.clear()
 
 
 def lock_memory() -> bool:
