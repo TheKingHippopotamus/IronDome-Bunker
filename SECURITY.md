@@ -26,11 +26,13 @@ You will receive an acknowledgment within 48 hours. Critical vulnerabilities wil
 
 IronDome is built on these security principles:
 
-- **Zero-knowledge** — master password never stored, only salted hash
-- **Local-only** — no network communication, no telemetry, no cloud sync
-- **Machine-specific** — encryption keys derived from machine-specific identifiers
+- **Master password never stored** — only a PBKDF2-HMAC-SHA256 digest over a random salt is written to disk, and there is no server to send the password to
+- **Local-only** — no network calls anywhere in the package, enforced by `tests/test_no_network.py`; no telemetry, no cloud sync
+- **Machine-scoped metadata** — the stored master-user record is wrapped with a key derived from `/etc/machine-id`. This is not hardware binding: `/etc/machine-id` is world-readable and travels with a disk image, and the vault itself is protected by the master password
 - **Defense in depth** — multiple encryption layers, session management, lockout protection
-- **Minimal dependencies** — only `cryptography` library to minimize attack surface
+- **Minimal dependencies** — `cryptography`, `keyring` and `textual` only
+
+Known limits, stated up front: the cipher is AES-128-CBC (Fernet splits its 32-byte key into a 16-byte AES key and a 16-byte HMAC key); the biometric check is an OS authentication gate in front of the keyring-stored vault key, not key material; `nuke` overwrites once in place and cannot guarantee erasure on SSDs or copy-on-write filesystems; and the project has had no independent third-party review.
 
 ## Responsible Disclosure
 

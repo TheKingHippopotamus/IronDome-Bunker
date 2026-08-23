@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>IronDome — Fortified CLI Vault</title>
-  <meta name="description" content="IronDome — Fortified CLI vault with Fernet (AES-128-CBC), biometric auth, and zero-knowledge architecture">
+  <meta name="description" content="IronDome — local-first CLI vault with Fernet (AES-128-CBC), PBKDF2-HMAC-SHA256, and an OS biometric gate">
   <meta property="og:title" content="IronDome — Fortified CLI Vault">
-  <meta property="og:description" content="Fernet (AES-128-CBC), PBKDF2, biometric auth, zero-knowledge. Touch ID / Windows Hello / Fingerprint. pip install IronDome">
+  <meta property="og:description" content="Fernet (AES-128-CBC), PBKDF2-HMAC-SHA256, OS biometric gate. Touch ID / Windows Hello / fprintd. pip install IronDome">
   <meta property="og:image" content="static/irondome-favicon.svg">
   <link rel="icon" type="image/svg+xml" href="static/irondome-favicon.svg">
   <link rel="apple-touch-icon" href="static/irondome-favicon.svg">
@@ -773,10 +773,10 @@
   <section class="hero">
     <img class="hero-radar" src="static/radar-bg.svg" alt="" aria-hidden="true">
     <div class="hero-content">
-      <div class="classification">Classified // Defense Grade Encryption</div>
+      <div class="classification">Local-first // Fernet AES-128-CBC</div>
       <br><br>
       <img class="logo" src="static/irondome-logo.svg" alt="IronDome — Secure Password Vault">
-      <p>Fortified CLI vault. Fernet (AES-128-CBC) with PBKDF2, biometric auth, zero-knowledge design. Your bunkers never leave your machine.</p>
+      <p>Local-first CLI vault. Fernet (AES-128-CBC) with PBKDF2-HMAC-SHA256 at 600,000 iterations, and an OS biometric gate. No account, no sync, no telemetry — the package makes no network calls at all.</p>
       <div class="install-wrap">
         <div class="install-box">
           <span>$</span> pip install IronDome
