@@ -27,6 +27,8 @@ ENV/
 # Virtual environment
 .env
 .venv
+.venv*/
+venv*/
 packaging/docker/.env
 
 # Sensitive data directories
