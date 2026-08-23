@@ -155,3 +155,13 @@ def test_top_level_file_list_is_a_superset_of_known_writes():
     assert ".device_id" in nuke._TOP_LEVEL_FILES
     assert "settings.json" in nuke._TOP_LEVEL_FILES
     assert "password_manager.log" in nuke._TOP_LEVEL_FILES
+
+
+def test_keyring_not_cleared_is_not_success(tmp_path, monkeypatch):
+    """A nuke whose keychain step returns False must not report success."""
+    from password_manager import nuke as nuke_mod
+
+    monkeypatch.setattr(nuke_mod, "_clear_keyring", lambda data_dir, errors: False)
+    result = nuke_mod.execute_nuke(str(tmp_path)) if "data_dir" in nuke_mod.execute_nuke.__code__.co_varnames else nuke_mod.execute_nuke()
+    assert result["keyring_cleared"] is False
+    assert result["success"] is False

@@ -193,6 +193,8 @@ def execute_nuke(data_dir: str) -> dict:
 
     # Step 1: clear keyring before touching the disk (salt is still present)
     keyring_ok = _clear_keyring(data_dir, errors)
+    if not keyring_ok and not any('keyring' in e.lower() for e in errors):
+        errors.append('keyring: entries could not be confirmed removed')
 
     # Step 2: wipe subdirectories
     for subdir in _SUBDIRS_TO_WIPE:
