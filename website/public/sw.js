@@ -2,8 +2,7 @@
 const CACHE_NAME = 'irondome-v1';
 const PRECACHE = [
   '/IronDome-Bunker/',
-  '/IronDome-Bunker/irondome-favicon.svg',
-  '/IronDome-Bunker/irondome-logo.svg',
+  '/IronDome-Bunker/favicon.svg',
 ];
 
 self.addEventListener('install', (event) => {

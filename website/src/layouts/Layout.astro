@@ -1,26 +1,30 @@
 ---
-import '../styles/global.css';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
+import '../styles/site.css';
 
 interface Props {
   title: string;
   description?: string;
-  image?: string;
-  canonical?: string;
 }
 
 const {
   title,
-  description = 'IronDome — Zero-knowledge CLI password vault with AES-128-CBC encryption. Your credentials never leave your machine.',
-  image = '/irondome-logo.svg',
-  canonical,
+  description = 'IronDome is a local-first password vault that lives in your terminal. AES-128-CBC via Fernet, PBKDF2-HMAC-SHA256 at 600,000 iterations, and no network calls anywhere in the package.',
 } = Astro.props;
 
-const siteUrl   = 'https://irondome.dev';
-const pageUrl   = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
-const imageUrl  = image.startsWith('http') ? image : new URL(image, siteUrl).toString();
-const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
+const B = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+
+const site = 'https://thekinghippopotamus.github.io/IronDome-Bunker/';
+const fullTitle = title === 'IronDome' ? 'IronDome — local-first password vault for the terminal' : `${title} — IronDome`;
+
+const nav = [
+  ['#layers', 'Layers'],
+  ['#dome', 'Architecture'],
+  ['#tui', 'Terminal'],
+  ['#spec', 'Spec'],
+  ['#limits', 'Limits'],
+];
 ---
 
 <!doctype html>
@@ -28,147 +32,243 @@ const fullTitle = title === 'IronDome' ? title : `${title} — IronDome`;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="IronDome" />
     <meta name="generator" content={Astro.generator} />
 
-    <!-- Primary meta -->
     <title>{fullTitle}</title>
-    <meta name="description"        content={description} />
-    <meta name="theme-color"        content="#0A0D06" />
-    <meta name="color-scheme"       content="dark" />
-    <meta name="author"             content="King Hippopotamus" />
-    <meta name="keywords"           content="password manager, CLI, zero-knowledge, AES-128-CBC, encryption, security, open source, Python" />
-    <link  rel="canonical"          href={pageUrl} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07090a" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="keywords" content="password manager, terminal, TUI, local-first, Fernet, AES-128-CBC, PBKDF2, open source, Python" />
+    <link rel="canonical" href={site} />
 
-    <!-- Favicons -->
-    <link rel="icon"             type="image/svg+xml" href="/IronDome-Bunker/irondome-favicon.svg" />
-    <link rel="icon"             type="image/x-icon"  href="/IronDome-Bunker/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180"      href="/IronDome-Bunker/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href={`${B}favicon.svg`} />
+    <link rel="icon" type="image/x-icon" href={`${B}favicon.ico`} />
+    <link rel="apple-touch-icon" sizes="180x180" href={`${B}apple-touch-icon.png`} />
+    <link rel="manifest" href={`${B}site.webmanifest`} />
 
-    <!-- Web App Manifest (PWA) -->
-    <link rel="manifest" href="/IronDome-Bunker/site.webmanifest" />
-
-    <!-- Open Graph -->
-    <meta property="og:type"        content="website" />
-    <meta property="og:url"         content={pageUrl} />
-    <meta property="og:title"       content={fullTitle} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={site} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:image"       content={imageUrl} />
-    <meta property="og:image:alt"   content="IronDome — CLI Password Vault" />
-    <meta property="og:site_name"   content="IronDome" />
-    <meta property="og:locale"      content="en_US" />
-
-    <!-- Twitter / X Card -->
-    <meta name="twitter:card"        content="summary_large_image" />
-    <meta name="twitter:title"       content={fullTitle} />
+    <meta property="og:image" content={`${site}dome-mark.svg`} />
+    <meta property="og:site_name" content="IronDome" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image"       content={imageUrl} />
-    <meta name="twitter:image:alt"   content="IronDome — CLI Password Vault" />
 
-    <!-- Robots -->
-    <meta name="robots" content="index, follow" />
-
-    <!-- Preconnect hints (none needed — no external resources) -->
-
-    <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "IronDome",
-      "operatingSystem": "Linux, macOS, Windows",
-      "applicationCategory": "SecurityApplication",
-      "applicationSubCategory": "Password Manager",
-      "description": description,
-      "url": siteUrl,
-      "downloadUrl": "https://pypi.org/project/IronDome/",
-      "codeRepository": "https://github.com/TheKingHippopotamus/IronDome-Bunker",
-      "license": "https://opensource.org/licenses/MIT",
-      "programmingLanguage": "Python",
-      "author": {
-        "@type": "Person",
-        "name": "King Hippopotamus",
-        "url": "https://github.com/TheKingHippopotamus"
-      },
-      "featureList": [
-        "AES-128-CBC encryption (Fernet)",
-        "Zero-knowledge architecture",
-        "Local-only storage",
-        "CLI interface",
-        "Brute-force protection",
-        "Session management"
-      ],
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+      '@context': 'https://schema.org',
+      '@type': 'SoftwareApplication',
+      name: 'IronDome',
+      applicationCategory: 'SecurityApplication',
+      operatingSystem: 'macOS, Windows, Linux',
+      softwareVersion: '3.2.1',
+      license: 'https://www.gnu.org/licenses/gpl-3.0.html',
+      description: description,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     })} />
   </head>
 
-  <body class="army-ops-bg">
-    <!-- Skip to content (accessibility) -->
-    <a
-      href="#main-content"
-      class="sr-only"
-      style="position:absolute;top:0.5rem;left:0.5rem;z-index:9999;padding:0.5rem 1rem;background:#8B9A46;color:#0A0D06;font-family:var(--font-mono);font-size:0.875rem;font-weight:700;border-radius:2px;text-transform:uppercase;letter-spacing:0.05em;"
-    >
-      Skip to content
-    </a>
+  <body>
+    <div class="atmos" aria-hidden="true"></div>
 
-    <Header />
+    <a class="skip" href="#main">Skip to content</a>
 
-    <main id="main-content" class="page-content">
+    <header class="hdr" id="hdr">
+      <div class="hdr-in">
+        <a class="mark" href="#top">
+          <span class="mark-dot" aria-hidden="true"></span>
+          <span class="mark-name">IronDome</span>
+          <span class="mark-ver">3.2.1</span>
+        </a>
+        <nav class="nav" aria-label="Sections">
+          {nav.map(([href, label]) => <a href={href}>{label}</a>)}
+        </nav>
+        <a class="hdr-cta" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" rel="noopener">
+          Source
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+      <div class="hdr-scan" aria-hidden="true"></div>
+    </header>
+
+    <main id="main">
       <slot />
     </main>
 
-    <Footer />
+    <footer class="ftr">
+      <div class="wrap ftr-in">
+        <div class="ftr-col">
+          <p class="ftr-title mono">IronDome 3.2.1</p>
+          <p class="ftr-note">
+            A local-first password vault for the terminal. Free software under the
+            GNU General Public License v3.0 — the source is the specification.
+          </p>
+        </div>
+        <div class="ftr-col ftr-links">
+          <a href="https://pypi.org/project/IronDome/" rel="noopener">PyPI</a>
+          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker" rel="noopener">GitHub</a>
+          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/README.md" rel="noopener">README</a>
+          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/SECURITY.md" rel="noopener">Report a vulnerability</a>
+          <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/LICENSE" rel="noopener">License</a>
+        </div>
+      </div>
+      <div class="wrap ftr-base mono">
+        <span>Beta software. No independent third-party audit.</span>
+        <span>GPL-3.0</span>
+      </div>
+    </footer>
 
-    <!-- Service Worker registration for PWA -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/IronDome-Bunker/sw.js').catch(() => {});
+    <style>
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 100;
+        background: var(--dome);
+        color: #0a0d06;
+        padding: 10px 16px;
+        font-family: var(--mono);
+        font-size: 13px;
       }
-    </script>
+      .skip:focus { left: 12px; top: 12px; }
+
+      /* ---------------- header ---------------- */
+      .hdr {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: color-mix(in srgb, var(--void) 82%, transparent);
+        backdrop-filter: blur(14px) saturate(1.3);
+        -webkit-backdrop-filter: blur(14px) saturate(1.3);
+        border-bottom: 1px solid var(--rule);
+      }
+      .hdr-in {
+        max-width: var(--maxw);
+        margin-inline: auto;
+        padding: 0 var(--gut);
+        height: 62px;
+        display: flex;
+        align-items: center;
+        gap: 26px;
+      }
+      .hdr-scan {
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--dome), transparent);
+        opacity: .34;
+        transform-origin: left;
+        animation: sweep 9s var(--ease) infinite;
+      }
+      @keyframes sweep {
+        0%   { transform: translateX(-100%) scaleX(.35); opacity: 0; }
+        18%  { opacity: .5; }
+        100% { transform: translateX(100%) scaleX(.35); opacity: 0; }
+      }
+
+      .mark {
+        display: flex;
+        align-items: baseline;
+        gap: 9px;
+        text-decoration: none;
+        font-family: var(--mono);
+      }
+      .mark-dot {
+        width: 7px; height: 7px;
+        background: var(--dome);
+        border-radius: 50%;
+        align-self: center;
+        box-shadow: 0 0 0 0 rgba(155, 174, 74, .55);
+        animation: ping 3.4s var(--ease) infinite;
+      }
+      @keyframes ping {
+        0%   { box-shadow: 0 0 0 0 rgba(155, 174, 74, .5); }
+        70%  { box-shadow: 0 0 0 9px rgba(155, 174, 74, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(155, 174, 74, 0); }
+      }
+      .mark-name { font-size: 15px; font-weight: 700; letter-spacing: -.02em; }
+      .mark-ver { font-size: 10px; letter-spacing: .18em; color: var(--fg-4); }
+
+      .nav {
+        display: none;
+        gap: 24px;
+        margin-left: auto;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: .1em;
+        text-transform: uppercase;
+      }
+      .nav a {
+        color: var(--fg-3);
+        text-decoration: none;
+        padding-block: 6px;
+        border-bottom: 1px solid transparent;
+        transition: color .22s, border-color .22s;
+      }
+      .nav a:hover { color: var(--fg); border-bottom-color: var(--dome); }
+
+      .hdr-cta {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: .08em;
+        text-decoration: none;
+        color: var(--fg-2);
+        border: 1px solid var(--rule-hi);
+        padding: 7px 13px;
+        transition: color .22s, border-color .22s;
+      }
+      .hdr-cta:hover { color: var(--dome-hi); border-color: var(--dome-dim); }
+
+      @media (min-width: 900px) {
+        .nav { display: flex; }
+        .hdr-cta { margin-left: 0; }
+      }
+
+      /* ---------------- footer ---------------- */
+      .ftr {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--rule);
+        background: var(--steel);
+        padding-top: 56px;
+      }
+      .ftr-in {
+        display: grid;
+        gap: 34px;
+        padding-bottom: 40px;
+      }
+      .ftr-title { font-size: 14px; letter-spacing: .16em; text-transform: uppercase; margin: 0 0 10px; color: var(--fg); }
+      .ftr-note { margin: 0; color: var(--fg-3); font-size: 14px; max-width: 48ch; }
+      .ftr-links { display: flex; flex-wrap: wrap; gap: 10px 26px; align-content: start; }
+      .ftr-links a {
+        font-family: var(--mono);
+        font-size: 12px;
+        letter-spacing: .08em;
+        color: var(--fg-2);
+        text-decoration: none;
+        border-bottom: 1px solid var(--rule-hi);
+        padding-bottom: 2px;
+        transition: color .2s, border-color .2s;
+      }
+      .ftr-links a:hover { color: var(--dome-hi); border-color: var(--dome); }
+      .ftr-base {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--rule);
+        padding-block: 18px;
+        font-size: 11px;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--fg-4);
+      }
+      @media (min-width: 820px) {
+        .ftr-in { grid-template-columns: 1fr 1fr; gap: 60px; }
+      }
+    </style>
   </body>
 </html>
-
-<style is:global>
-  /* Army Operations Background Effect */
-  .army-ops-bg {
-    background-color: #0A0D06;
-    color: #C8D4B0;
-    position: relative;
-  }
-
-  .army-ops-bg::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(0, 255, 65, 0.015) 3px,
-        rgba(0, 255, 65, 0.015) 4px
-      ),
-      radial-gradient(
-        ellipse at 50% 0%,
-        rgba(74, 93, 35, 0.12) 0%,
-        transparent 70%
-      );
-  }
-
-  .army-ops-bg > * {
-    position: relative;
-    z-index: 1;
-  }
-</style>

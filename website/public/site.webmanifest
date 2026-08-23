@@ -1,19 +1,23 @@
 {
-  "name": "IronDome — Fortified CLI Vault",
+  "name": "IronDome \u2014 local-first password vault",
   "short_name": "IronDome",
-  "description": "Local-first CLI password vault with AES-128-CBC (Fernet) encryption. Your credentials never leave your machine.",
+  "description": "Local-first password vault for the terminal. AES-128-CBC via Fernet, PBKDF2-HMAC-SHA256 at 600,000 iterations, no network calls anywhere in the package.",
   "start_url": "/IronDome-Bunker/",
   "scope": "/IronDome-Bunker/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0A0D06",
-  "theme_color": "#8B9A46",
-  "categories": ["security", "utilities", "developer tools"],
+  "background_color": "#07090a",
+  "theme_color": "#9bae4a",
+  "categories": [
+    "security",
+    "utilities",
+    "developer tools"
+  ],
   "lang": "en",
   "dir": "ltr",
   "icons": [
     {
-      "src": "/IronDome-Bunker/irondome-favicon.svg",
+      "src": "/IronDome-Bunker/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"
@@ -41,15 +45,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/IronDome-Bunker/Screenshot 2025-04-17 at 11.22.03 AM.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "IronDome CLI Vault — Home"
     }
   ]
 }

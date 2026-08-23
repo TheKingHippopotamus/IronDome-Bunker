@@ -1,156 +1,1348 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/sections/Hero.astro';
-import BadgesStats from '../components/sections/BadgesStats.astro';
-import WhyIronDome from '../components/sections/WhyIronDome.astro';
-import HowItWorks from '../components/sections/HowItWorks.astro';
-import FeaturesGrid from '../components/sections/FeaturesGrid.astro';
-import TerminalDemo from '../components/sections/TerminalDemo.astro';
-import SecurityArch from '../components/sections/SecurityArch.astro';
-import CryptoPrimitives from '../components/sections/CryptoPrimitives.astro';
-import ZeroKnowledge from '../components/sections/ZeroKnowledge.astro';
-import ThreatModel from '../components/sections/ThreatModel.astro';
-import FileSystem from '../components/sections/FileSystem.astro';
-import Comparison from '../components/sections/Comparison.astro';
-import OpenSourceBadge from '../components/sections/OpenSourceBadge.astro';
-import Philosophy from '../components/sections/Philosophy.astro';
-import QuickStart from '../components/sections/QuickStart.astro';
-import About from '../components/sections/About.astro';
-import Troubleshooting from '../components/sections/Troubleshooting.astro';
-import Disclosure from '../components/sections/Disclosure.astro';
-import FinalCTA from '../components/sections/FinalCTA.astro';
+import transcript from '../data/transcript.txt?raw';
+
+const B = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : import.meta.env.BASE_URL + '/';
+
+/* ------------------------------------------------------------------
+   The terminal scenes are parsed at build time from a transcript that
+   was captured by driving the real 3.2.1 CLI in a throwaway HOME.
+   Nothing here is written by hand — the file is the recording.
+   ------------------------------------------------------------------ */
+type Block = { cmd: string; out: string[] };
+const blocks: Block[] = [];
+for (const line of transcript.split('\n')) {
+  if (line.startsWith('$ ')) blocks.push({ cmd: line.slice(2), out: [] });
+  else if (blocks.length) blocks[blocks.length - 1].out.push(line);
+}
+for (const b of blocks) {
+  while (b.out.length && b.out[b.out.length - 1].trim() === '') b.out.pop();
+}
+
+const sceneSpec: [string, string, number][] = [
+  ['SETUP',   'A vault is created. Nothing exists until you make it.', 3],
+  ['UNLOCK',  'One password opens a 30-minute airspace window.',       1],
+  ['STORE',   'Four entries generated, encrypted, written.',           4],
+  ['RECALL',  'Listing and searching a live vault.',                   4],
+  ['SEAL',    'Encrypted backup, status, lock down.',                  3],
+  ['LOCKOUT', 'Three wrong passwords, and the device is out.',         4],
+  ['NUKE',    'Self-destruct, and an honest count of what went.',      2],
+];
+let cursor = 0;
+const scenes = sceneSpec.map(([name, caption, n]) => {
+  const slice = blocks.slice(cursor, cursor + n);
+  cursor += n;
+  return { name, caption, blocks: slice };
+});
+
+/* ------------------------------------------------------------------ */
+const facts = [
+  ['3.2.1',   'on PyPI'],
+  ['143',     'tests, run before publish'],
+  ['0',       'network calls in the package'],
+  ['600,000', 'PBKDF2 iterations'],
+  ['15',      'screens in the TUI'],
+  ['GPL-3.0', 'source is the spec'],
+];
+
+const steps = [
+  {
+    n: 'Install',
+    cmd: 'pip install IronDome',
+    body: 'One package, three dependencies: cryptography, keyring, textual. Python 3.8 through 3.13, on macOS, Windows and Linux.',
+  },
+  {
+    n: 'Create the vault',
+    cmd: 'irondome-cli create bunker',
+    body: 'Pick a security mode, set a master username and password. A 16-byte random salt is written; the password itself never is.',
+  },
+  {
+    n: 'Live in it',
+    cmd: 'irondome',
+    body: 'The TUI opens. Search, generate, copy, reveal, back up — all keyboard, all local. Ctrl+L locks it again.',
+  },
+];
+
+const layers = [
+  {
+    id: 'rest',
+    n: '01',
+    tag: 'AT REST',
+    title: 'The vault on disk',
+    sub: 'What survives a reboot, and what it costs to read it.',
+    cards: [
+      {
+        t: 'AES-128-CBC via Fernet',
+        b: 'Every entry is encrypted with Fernet, which is AES-128 in CBC mode with an HMAC-SHA256 tag over the ciphertext. Tampering fails loudly instead of decrypting to garbage.',
+        badge: 'CIPHER',
+        code: 'token = Fernet(key).encrypt(plaintext)\n# 0x80 version | 8B ts | 16B IV | ct | 32B HMAC-SHA256',
+      },
+      {
+        t: 'PBKDF2-HMAC-SHA256 × 600,000',
+        b: 'The master password is stretched at the OWASP 2023 minimum before it becomes a key. The iteration count is asserted by a test, so it cannot quietly drop.',
+        badge: 'KDF',
+        code: 'PBKDF2_ITERATIONS = 600_000\nkdf = PBKDF2HMAC(algorithm=hashes.SHA256(),\n                 length=32, salt=salt,\n                 iterations=PBKDF2_ITERATIONS)',
+      },
+      {
+        t: 'Fresh salt, fresh IV',
+        b: 'A 16-byte salt from the OS CSPRNG at setup, and a new 16-byte IV for every single message. Encrypting the same password twice never produces the same bytes.',
+        badge: 'ENTROPY',
+        code: 'salt = secrets.token_bytes(16)   # once, at setup\n# 8 encryptions of identical plaintext -> 8 distinct IVs',
+      },
+      {
+        t: 'The master password is never written',
+        b: 'Only a PBKDF2 digest of it reaches the disk. There is no server to send it to and no file that holds it.',
+        badge: 'STORAGE',
+        code: '~/.password_manager/secrets/\n  .passwords.enc    .master_hash.enc\n  salt.bin          .master_user.enc',
+      },
+      {
+        t: 'Machine-scoped master record',
+        b: 'The stored master-user record is wrapped with a key derived from /etc/machine-id, so a copied folder is not immediately readable. This is obfuscation, not a boundary — machine-id is world-readable and travels with a disk image. The vault itself is protected by your password.',
+        badge: 'SCOPE',
+        code: 'create_system_key(salt)  # <- /etc/machine-id\n# wraps .master_user.enc + .master_hash.enc only',
+      },
+      {
+        t: 'Encrypted backups on demand',
+        b: 'One command writes a timestamped, encrypted copy of the vault beside it. Same key, same cipher, no plaintext export path.',
+        badge: 'BACKUP',
+        code: '$ bunker fortify\n✅ Dome fortified at: ~/.password_manager/backups/\n   .passwords_backup_20260823-155627.enc',
+      },
+    ],
+  },
+  {
+    id: 'door',
+    n: '02',
+    tag: 'AT THE DOOR',
+    title: 'Getting in',
+    sub: 'Three ways to authenticate, and one way to be locked out.',
+    cards: [
+      {
+        t: 'Three security modes',
+        b: 'Biometric only, biometric plus password, or password only. The mode is recorded in the OS keyring and drives the login flow.',
+        badge: 'MODES',
+        code: '1. Touch ID Only — quick access, no password\n2. Touch ID + Master Password — two factors\n3. Master Password Only — universal',
+      },
+      {
+        t: 'Biometric is an OS gate',
+        b: 'Touch ID, Windows Hello or fprintd runs in front of a vault key that lives in the OS keyring. Your fingerprint authorises the unlock; it is not key material, and a process already running as you can read the key without presenting one. Use mode 2 if that matters to you.',
+        badge: 'GATE',
+        code: '# biometric.py — the check is a boolean, not a KDF input\nreturn result.returncode == 0',
+      },
+      {
+        t: 'Adaptive lockout, per device',
+        b: 'Three wrong passwords and the device is locked out for fifteen minutes. The counter is stored per machine and survives the process exiting.',
+        badge: 'LOCKOUT',
+        code: 'MAX_LOGIN_ATTEMPTS = 3\nLOCKOUT_DURATION   = 15 * 60\n\n⚠️ Invalid password. 1 attempt remaining.\n⛔ Login blocked. Try again in 15.0 minutes.',
+      },
+      {
+        t: 'A recovery code, shown once',
+        b: 'Biometric modes print a 24-character hex recovery code at setup. Only its hash is kept — a test asserts the plaintext is never persisted.',
+        badge: 'RECOVERY',
+        code: '⚠️  SAVE YOUR RECOVERY KEY — shown only once!',
+      },
+      {
+        t: 'Sessions expire',
+        b: 'Opening the airspace writes a session file with mode 0600 and a 30-minute clock. Closing it, locking with Ctrl+L, or letting it lapse all end access.',
+        badge: 'SESSION',
+        code: 'SESSION_TIMEOUT = 30 * 60\n$ irondome-cli status\n  Airspace: OPEN - 29 min remaining',
+      },
+    ],
+  },
+  {
+    id: 'session',
+    n: '03',
+    tag: 'IN SESSION',
+    title: 'While the vault is open',
+    sub: 'The window where a secret is in the clear is the window that matters.',
+    cards: [
+      {
+        t: 'Clipboard clears itself',
+        b: 'Copying a password schedules its own erasure thirty seconds later, on every platform. A new copy cancels and replaces the pending timer.',
+        badge: 'CLIPBOARD',
+        code: 'def copy_with_auto_clear(secret: str,\n                         timeout: int = 30) -> bool:',
+      },
+      {
+        t: 'Revealed passwords re-hide',
+        b: 'Space reveals an entry; ten seconds later it masks itself again whether or not you looked away.',
+        badge: 'REVEAL',
+        code: '# detail screen — 10s auto-hide timer on reveal',
+      },
+      {
+        t: 'Alternate screen buffer',
+        b: 'The TUI runs in the alternate buffer, so nothing it drew is in your scrollback after you quit. Nothing to page back through, nothing in a terminal log.',
+        badge: 'TTY',
+        code: 'SMCUP on start / RMCUP on exit',
+      },
+      {
+        t: 'Masked at the widget',
+        b: 'Password inputs are masked by the widget itself, not by a redraw. There is no frame in which the characters are on screen.',
+        badge: 'INPUT',
+        code: 'Input(placeholder="Master password",\n      password=True, id="login-password")',
+      },
+      {
+        t: 'Signals restore the terminal',
+        b: 'SIGTERM, SIGINT and SIGHUP all run the same handler: put the terminal back, clear the clipboard, exit. A killed session does not leave a mess behind.',
+        badge: 'SIGNALS',
+        code: 'SIGTERM / SIGINT / SIGHUP\n  -> restore tty, clear clipboard, exit',
+      },
+      {
+        t: 'Memory kept out of swap',
+        b: 'The TUI asks the kernel to lock its pages resident so keys are not paged to disk. Best-effort and silently skipped if the OS refuses; the CLI does not attempt it at all.',
+        badge: 'MEMORY',
+        code: 'libc.mlockall(MCL_CURRENT | MCL_FUTURE)',
+      },
+    ],
+  },
+  {
+    id: 'perimeter',
+    n: '04',
+    tag: 'AT THE PERIMETER',
+    title: 'What can leave',
+    sub: 'The strongest claim on this page, because it is the one that is mechanically enforced.',
+    cards: [
+      {
+        t: 'No network calls anywhere in the package',
+        b: 'Not "we do not sync" — there is no code path that could. No sockets are opened and no ports are bound by anything you install.',
+        badge: 'NETWORK',
+        code: '$ grep -rnE "(socket|http|urllib|requests|ssl)" \\\n      password_manager/\n(no matches)',
+      },
+      {
+        t: 'Enforced by a test, not a promise',
+        b: 'A suite walks the AST of every module and fails the build on a networking import, a resolver call, or an http:// literal. The allowlist is empty, and a separate test asserts it stays empty — so restoring network access means editing this claim in the same commit.',
+        badge: 'CI',
+        code: 'ALLOWLIST: frozenset = frozenset()\n\nassert ALLOWLIST == frozenset()\n# 106 tests, one per module per check',
+      },
+      {
+        t: 'No account, no sync, no telemetry',
+        b: 'There is nothing to sign up for, nothing to log in to, and no analytics. Installing does not create a relationship with anyone.',
+        badge: 'NO ACCOUNT',
+        code: '$ irondome-cli status\n  Dome:     configured\n  Airspace: CLOSED',
+      },
+      {
+        t: 'Self-destruct that reports failure',
+        b: 'nuke clears the three keyring entries, overwrites each file once with random bytes, fsyncs, and unlinks. Then it re-walks the directory: if anything survived, it returns success: False and names every leftover.',
+        badge: 'ERASE',
+        code: 'fh.write(os.urandom(size))\nfh.flush()\nos.fsync(fh.fileno())\n\n  [OK] 7 file(s) securely deleted.',
+      },
+      {
+        t: '143 tests gate the release',
+        b: 'Encryption round-trip and tamper detection, KDF parameters, keyring behaviour, nuke completeness, and the network check. CI runs pytest and ruff before anything reaches PyPI.',
+        badge: 'GATE',
+        code: 'test_encryption.py   13\ntest_keystore.py     13\ntest_nuke.py         11\ntest_no_network.py  106',
+      },
+      {
+        t: 'GPL-3.0, all of it',
+        b: 'Every line above is in the repository and every claim on this page can be checked against it. Derivatives stay open.',
+        badge: 'LICENSE',
+        code: 'GNU General Public License v3.0',
+      },
+    ],
+  },
+];
+
+const rings = [
+  { id: 'perimeter', r: 400, label: 'PERIMETER', note: 'no network path exists' },
+  { id: 'door',      r: 310, label: 'THE DOOR',  note: 'PBKDF2 + lockout + session' },
+  { id: 'session',   r: 220, label: 'IN SESSION',note: 'clipboard, tty, memory' },
+  { id: 'rest',      r: 130, label: 'AT REST',   note: 'Fernet-encrypted vault' },
+];
+
+const shots = [
+  ['01-splash',    'Splash',     'The animated dome banner on launch.'],
+  ['02-login',     'Login',      'Password-only mode, masked at the widget.'],
+  ['03-dashboard', 'Dashboard',  'Entry count, airspace state, session owner.'],
+  ['04-vault',     'Vault',      'Searchable table with a strength column.'],
+  ['05-detail',    'Entry',      'Space reveals, ten seconds hides it again.'],
+  ['06-generator', 'Generator',  'Live preview and strength scoring.'],
+  ['07-status',    'Status',     'Vault size, timeout, biometric availability.'],
+  ['08-backup',    'Backup',     'Encrypted copies, written on demand.'],
+  ['09-help',      'Help',       'Every binding, one keypress away.'],
+];
+
+const spec = [
+  ['Symmetric encryption', 'AES-128-CBC (Fernet, with HMAC-SHA256)'],
+  ['Key derivation',       'PBKDF2-HMAC-SHA256 × 600,000 (OWASP 2023)'],
+  ['Password hashing',     'PBKDF2-HMAC-SHA256 + unique 16-byte salt'],
+  ['Randomness',           "Python secrets — the OS CSPRNG"],
+  ['IV',                   'Fresh 16 bytes per message'],
+  ['Session file',         'Mode 0600, 30-minute timeout'],
+  ['Failed logins',        '3 attempts, then 15-minute device lockout'],
+  ['Clipboard',            'Auto-clear after 30 seconds'],
+  ['Interface',            'Textual TUI (15 screens) + CLI'],
+  ['Platforms',            'macOS, Windows, Linux — Python 3.8–3.13'],
+  ['Dependencies',         'cryptography, keyring, textual'],
+  ['License',              'GPL-3.0-only'],
+];
+
+const limits = [
+  ['Key protection is software-only', 'The vault key is protected by your password and by the OS keyring. There is no TPM and no Secure Enclave, and machine-id scoping is obfuscation rather than a hardware boundary.'],
+  ['The biometric check is not cryptographic', 'It is an OS authentication gate in front of a keyring-stored key. A process already running as you can read that key without presenting a fingerprint.'],
+  ['nuke cannot defeat an SSD controller', 'One overwrite pass, fsync, unlink. Wear-levelling, copy-on-write filesystems and journaling can all leave the original blocks. For guaranteed destruction, use full-disk encryption and destroy the key.'],
+  ['The key is not zeroed in memory', 'It is held as immutable Python bytes inside a Fernet object and cannot be overwritten in place.'],
+  ['No independent third-party audit', '143 self-authored tests are not an audit. Nobody outside the project has reviewed the cryptography. Treat this as beta software.'],
+];
 ---
 
-<Layout
-  title="IronDome"
-  description="Zero-knowledge CLI password vault with AES-128-CBC encryption, biometric authentication, and machine-specific keys. No servers. No cloud. No compromise."
->
+<Layout title="IronDome">
+  <span id="top"></span>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       THE PSYCHOLOGICAL FUNNEL
-       ═══════════════════════════════════════════════════════════════
-       1. HOOK        — Hero creates intrigue, identity, and awe
-       2. CREDIBILITY — Badges & stats build instant social proof
-       3. TRUST       — Three unbreakable security pillars
-       4. SIMPLICITY  — Just 3 steps to get started
-       5. BREADTH     — 8 independent defense layers
-       6. PROOF       — Live terminal demo shows it's real
-       7. DEPTH       — Full security architecture diagram
-       8. MATH        — Real crypto code and specifications
-       9. DEFENSE     — Every attack vector addressed
-       10. TRANSPARENCY — What's actually on disk
-       11. DIFFERENTIATION — Why IronDome beats cloud managers
-       12. VALUES     — Security principles create emotional alignment
-       13. ACTION     — Quick start docs make it actionable
-       14. HUMAN      — Creator profile builds personal connection
-       15. SUPPORT    — Troubleshooting reduces adoption friction
-       16. PROFESSIONAL — Vulnerability disclosure shows maturity
-       17. CLOSE      — Confident CTA to audit and install
-       ═══════════════════════════════════════════════════════════════ -->
+  <!-- ══════════════════════════════ HERO ══════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-scope" aria-hidden="true">
+      <img src={`${B}dome-mark.svg`} alt="" width="260" height="168" loading="eager" />
+    </div>
 
-  <!-- 1. HOOK -->
-  <Hero />
+    <div class="wrap hero-in">
+      <p class="hero-eye mono">
+        <span class="pip" aria-hidden="true"></span>
+        Local-first password vault · v3.2.1
+      </p>
 
-  <!-- 2. CREDIBILITY -->
-  <BadgesStats />
+      <h1 class="hero-h1">
+        <span class="ln">Your passwords stay on this machine —</span>
+        <span class="ln ln-em">because nothing in the package can reach the network.</span>
+      </h1>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <p class="hero-lede">
+        IronDome is a terminal vault. Entries are encrypted locally with
+        <strong>AES-128-CBC via Fernet</strong>, keyed by
+        <strong>PBKDF2-HMAC-SHA256 at 600,000 iterations</strong>. There is no account,
+        no sync and no telemetry — and a test walks every module and fails the build
+        if one of them so much as imports a networking library.
+      </p>
 
-  <!-- 3. TRUST -->
-  <WhyIronDome />
+      <div class="hero-cta">
+        <div class="cmd bracket">
+          <span class="sigil">$</span>
+          <code id="hero-cmd">pip install IronDome</code>
+          <button class="copy" type="button" data-copy="pip install IronDome">Copy</button>
+        </div>
+        <a class="btn" href="#tui">See a real session</a>
+      </div>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <ul class="hero-facts">
+        {facts.map(([n, l], i) => (
+          <li class="reveal" style={`--d:${240 + i * 70}ms`}>
+            <span class="f-n mono">{n}</span>
+            <span class="f-l mono">{l}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
 
-  <!-- 4. SIMPLICITY -->
-  <HowItWorks />
+    <div class="hero-fade" aria-hidden="true"></div>
+  </section>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+  <!-- ══════════════════════════════ TRUTHS ══════════════════════════════ -->
+  <section class="sector" id="what">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 01 / Premise</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">The premise</p>
+      <h2 class="reveal">A password manager you can read end to end</h2>
+      <p class="lede reveal" style="--d:80ms">
+        Cloud vaults ask you to trust a company, its servers, its CDN and its staff.
+        IronDome asks you to trust a Python package small enough to audit in an afternoon —
+        and then it hands you the tests that check the parts you would have had to take on faith.
+      </p>
 
-  <!-- 5. BREADTH -->
-  <FeaturesGrid />
+      <div class="truths">
+        {[
+          ['Local-first, by construction', 'The vault is a file in your home directory. No service holds a copy, so no service can lose one.'],
+          ['Nothing to sign up for', 'No account, no sync, no telemetry, no licence server. Installing it does not create a relationship with anyone.'],
+          ['The source is the specification', 'GPL-3.0 on GitHub, published to PyPI from CI that runs the test suite and the linter first.'],
+        ].map(([t, b], i) => (
+          <article class="truth panel bracket reveal" style={`--d:${i * 110}ms`}>
+            <h3>{t}</h3>
+            <p>{b}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+  <!-- ══════════════════════════════ HOW IT WORKS ══════════════════════════════ -->
+  <section class="sector" id="how">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 02 / Sequence</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">How it works</p>
+      <h2 class="reveal">Three commands, in order, once.</h2>
+      <p class="lede reveal" style="--d:80ms">
+        This is a real sequence, so it is numbered. Everything after step three is you
+        using it.
+      </p>
 
-  <!-- 6. PROOF -->
-  <TerminalDemo />
+      <ol class="steps">
+        {steps.map((s, i) => (
+          <li class="step reveal" style={`--d:${i * 130}ms`}>
+            <span class="step-n mono">{String(i + 1).padStart(2, '0')}</span>
+            <div class="step-body">
+              <h3>{s.n}</h3>
+              <p class="step-cmd mono"><span class="sigil">$</span> {s.cmd}</p>
+              <p class="step-text">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+  <!-- ══════════════════════════════ FOUR LAYERS ══════════════════════════════ -->
+  <section class="sector" id="layers">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 03 / Layers</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">The full feature set</p>
+      <h2 class="reveal">Four layers, outside in</h2>
+      <p class="lede reveal" style="--d:80ms">
+        Every capability in IronDome sits at one of four distances from your secrets.
+        Reading the layers from the outside in is also the order an attacker would meet them.
+      </p>
 
-  <!-- 7. DEPTH -->
-  <SecurityArch />
+      <div class="layers">
+        {layers.map((L, li) => (
+          <section class="layer" id={`layer-${L.id}`} data-layer={L.id}>
+            <header class="layer-head reveal">
+              <span class="layer-n mono">{L.n}</span>
+              <div>
+                <p class="layer-tag mono">{L.tag}</p>
+                <h3 class="layer-title">{L.title}</h3>
+                <p class="layer-sub">{L.sub}</p>
+              </div>
+            </header>
+            <div class="cards">
+              {L.cards.map((c, ci) => (
+                <article class="card panel bracket reveal" style={`--d:${Math.min(ci, 3) * 80}ms`}>
+                  <span class="badge badge--live">{c.badge}</span>
+                  <h4 class="card-t">{c.t}</h4>
+                  <p class="card-b">{c.b}</p>
+                  <pre class="card-code mono"><code>{c.code}</code></pre>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </section>
 
-  <!-- 8. MATH -->
-  <CryptoPrimitives />
+  <!-- ══════════════════════════════ THE DOME ══════════════════════════════ -->
+  <section class="sector sector--dome" id="dome">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 04 / Architecture</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">The full security stack</p>
+      <h2 class="reveal">One diagram, four rings, one file at the centre</h2>
+      <p class="lede reveal" style="--d:80ms">
+        The rings are the layers above, drawn to the scale of how far they sit from the
+        encrypted file. Hover a ring to read what holds it.
+      </p>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <figure class="dome-fig reveal">
+        <svg class="dome-svg" id="dome-svg" viewBox="0 0 900 540" role="img"
+             aria-label="Concentric defence rings around the encrypted vault: perimeter, the door, in session, at rest.">
+          <defs>
+            <linearGradient id="gRing" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#c6dc68" stop-opacity=".95" />
+              <stop offset="100%" stop-color="#9bae4a" stop-opacity=".18" />
+            </linearGradient>
+            <radialGradient id="gCore" cx="50%" cy="100%" r="90%">
+              <stop offset="0%"  stop-color="#c6dc68" stop-opacity=".30" />
+              <stop offset="100%" stop-color="#9bae4a" stop-opacity="0" />
+            </radialGradient>
+            <linearGradient id="gGround" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%"   stop-color="#2b383d" stop-opacity="0" />
+              <stop offset="18%"  stop-color="#2b383d" stop-opacity="1" />
+              <stop offset="82%"  stop-color="#2b383d" stop-opacity="1" />
+              <stop offset="100%" stop-color="#2b383d" stop-opacity="0" />
+            </linearGradient>
+          </defs>
 
-  <!-- 8b. ZERO KNOWLEDGE -->
-  <ZeroKnowledge />
+          <!-- ground glow under the vault -->
+          <ellipse cx="450" cy="462" rx="250" ry="86" fill="url(#gCore)" class="d-glow" />
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+          <!-- sweep -->
+          <g class="d-sweep">
+            <path d="M450 462 L450 40 A422 422 0 0 1 690 110 Z" fill="url(#gCore)" opacity=".5" />
+          </g>
 
-  <!-- 9. DEFENSE -->
-  <ThreatModel />
+          <!-- rings -->
+          {rings.map((ring) => (
+            <g class="d-ring" data-ring={ring.id}>
+              <path
+                class="d-arc"
+                d={`M ${450 - ring.r} 462 A ${ring.r} ${ring.r} 0 0 1 ${450 + ring.r} 462`}
+                fill="none"
+                stroke="url(#gRing)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+              />
+              <text class="d-label mono" x="450" y={462 - ring.r - 32} text-anchor="middle">{ring.label}</text>
+              <text class="d-note mono" x="450" y={462 - ring.r - 16} text-anchor="middle">{ring.note}</text>
+            </g>
+          ))}
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+          <!-- incoming trace -->
+          <g class="d-threat">
+            <path class="d-trace" d="M 40 112 L 146 203" fill="none" stroke="#d0574a"
+                  stroke-width="1.4" stroke-dasharray="5 5" />
+            <circle class="d-blip" cx="40" cy="112" r="4" fill="#d0574a" />
+            <g class="d-block" stroke="#d0574a" stroke-width="1.6">
+              <line x1="139" y1="196" x2="153" y2="210" />
+              <line x1="153" y1="196" x2="139" y2="210" />
+            </g>
+            <text class="d-threat-l mono" x="30" y="94" fill="#d0574a">INBOUND</text>
+            <text class="d-threat-n mono" x="168" y="214" fill="#7c8c8e">no route in</text>
+          </g>
 
-  <!-- 10. TRANSPARENCY -->
-  <FileSystem />
+          <!-- ground line -->
+          <line x1="20" y1="462" x2="880" y2="462" stroke="url(#gGround)" stroke-width="1" />
+          {Array.from({ length: 29 }).map((_, i) => (
+            <line class="d-tick" x1={40 + i * 29} y1="462" x2={40 + i * 29} y2="470"
+                  stroke="#2b383d" stroke-width="1" />
+          ))}
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+          <!-- the vault -->
+          <g class="d-core">
+            <rect x="392" y="404" width="116" height="58" fill="#10171a" stroke="#c6dc68" stroke-width="1.2" />
+            <text class="d-core-t mono" x="450" y="428" text-anchor="middle">.passwords</text>
+            <text class="d-core-t mono" x="450" y="446" text-anchor="middle">.enc</text>
+          </g>
+        </svg>
 
-  <!-- 11. DIFFERENTIATION -->
-  <Comparison />
+        <figcaption class="dome-cap mono">
+          Fig. 1 — Distance from the ciphertext, not depth of a hierarchy.
+          A ring only holds if the ring outside it has already been crossed.
+        </figcaption>
+      </figure>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <div class="dome-legend">
+        {rings.slice().reverse().map((ring, i) => {
+          const L = layers.find((x) => x.id === ring.id)!;
+          return (
+            <a class="leg panel bracket reveal" href={`#layer-${ring.id}`}
+               data-ring-hover={ring.id} style={`--d:${i * 90}ms`}>
+              <span class="leg-n mono">{L.n}</span>
+              <span class="leg-t mono">{ring.label}</span>
+              <span class="leg-b">{L.title}</span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
 
-  <!-- 11b. OPEN SOURCE -->
-  <OpenSourceBadge />
+  <!-- ══════════════════════════════ TUI ══════════════════════════════ -->
+  <section class="sector" id="tui">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 05 / Recording</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">The TUI, unfiltered</p>
+      <h2 class="reveal">A whole session, start to self-destruct</h2>
+      <p class="lede reveal" style="--d:80ms">
+        Not a mock-up. IronDome 3.2.1 was installed from PyPI into a throwaway home
+        directory and driven through seven scenes — setup, unlock, four entries, search,
+        backup, a lockout, and <span class="mono">nuke</span>. What replays below is that
+        recording, verbatim, with only the temporary paths rewritten to
+        <span class="mono">~</span>.
+      </p>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <div class="term reveal" id="term">
+        <div class="term-chrome">
+          <span class="term-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="term-title mono">operator@localhost — irondome 3.2.1</span>
+          <span class="term-rec mono"><span class="rec-dot" aria-hidden="true"></span>REC</span>
+        </div>
 
-  <!-- 12. VALUES -->
-  <Philosophy />
+        <div class="term-tabs" role="tablist" aria-label="Session scenes">
+          {scenes.map((s, i) => (
+            <button class="tab mono" type="button" role="tab" data-scene={i}
+                    aria-selected={i === 0 ? 'true' : 'false'}>
+              <span class="tab-n">{String(i + 1).padStart(2, '0')}</span>
+              <span class="tab-l">{s.name}</span>
+            </button>
+          ))}
+        </div>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+        <div class="term-body">
+          <pre class="term-out mono" id="term-out" aria-live="polite"></pre>
+        </div>
 
-  <!-- 13. ACTION -->
-  <QuickStart />
+        <div class="term-foot">
+          <p class="term-cap" id="term-cap">{scenes[0].caption}</p>
+          <div class="term-ctl">
+            <button class="ctl mono" type="button" id="term-toggle" aria-label="Pause playback">Pause</button>
+            <button class="ctl mono" type="button" id="term-restart">Restart scene</button>
+          </div>
+        </div>
+      </div>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <div class="shots">
+        <p class="shots-head mono">Screens captured from the running app — Textual's own SVG export, not redrawn</p>
+        <div class="shots-grid">
+          {shots.map(([file, name, note], i) => (
+            <figure class="shot reveal" style={`--d:${Math.min(i, 5) * 70}ms`}>
+              <div class="shot-img">
+                <img src={`${B}tui/${file}.svg`} alt={`IronDome TUI — ${name} screen`} loading="lazy" />
+              </div>
+              <figcaption>
+                <span class="shot-n mono">{name}</span>
+                <span class="shot-b">{note}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
 
-  <!-- 14. HUMAN -->
-  <About />
+  <!-- ══════════════════════════════ SPEC ══════════════════════════════ -->
+  <section class="sector" id="spec">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 06 / Spec</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow reveal">Specification</p>
+      <h2 class="reveal">The numbers, without adjectives</h2>
+      <div class="spec reveal" style="--d:80ms">
+        <dl>
+          {spec.map(([k, v]) => (
+            <div class="spec-row">
+              <dt class="mono">{k}</dt>
+              <dd class="mono">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+  <!-- ══════════════════════════════ LIMITS ══════════════════════════════ -->
+  <section class="sector sector--limits" id="limits">
+    <span class="rail" aria-hidden="true"><span class="rail-tag">Sec 07 / Limits</span></span>
+    <div class="sector-inner">
+      <p class="eyebrow eyebrow--warn reveal">What IronDome does not do</p>
+      <h2 class="reveal">The honest half of the page</h2>
+      <p class="lede reveal" style="--d:80ms">
+        Every item here is also in the README. If a security tool only tells you what it
+        is good at, you are reading marketing.
+      </p>
+      <ul class="limits">
+        {limits.map(([t, b], i) => (
+          <li class="limit reveal" style={`--d:${i * 70}ms`}>
+            <span class="badge badge--warn">Limit</span>
+            <div>
+              <h3>{t}</h3>
+              <p>{b}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
-  <!-- 15. SUPPORT -->
-  <Troubleshooting />
+  <!-- ══════════════════════════════ INSTALL / CTA ══════════════════════════════ -->
+  <section class="sector cta" id="install">
+    <div class="sector-inner cta-in">
+      <p class="eyebrow reveal">Install</p>
+      <h2 class="cta-h2 reveal">Two commands and you are in.</h2>
+      <p class="lede reveal" style="--d:70ms">
+        Python 3.8 to 3.13, on macOS, Windows and Linux. Nothing to configure, nothing to
+        register, and <span class="mono">irondome nuke</span> undoes all of it.
+      </p>
 
-  <!-- Divider -->
-  <hr class="gold-divider" />
+      <div class="install panel bracket reveal" style="--d:140ms">
+        <div class="install-row">
+          <span class="install-k mono">Install</span>
+          <div class="cmd">
+            <span class="sigil">$</span>
+            <code>pip install IronDome</code>
+            <button class="copy" type="button" data-copy="pip install IronDome">Copy</button>
+          </div>
+        </div>
+        <div class="install-row">
+          <span class="install-k mono">First run</span>
+          <div class="cmd">
+            <span class="sigil">$</span>
+            <code>irondome-cli create bunker</code>
+            <button class="copy" type="button" data-copy="irondome-cli create bunker">Copy</button>
+          </div>
+        </div>
+        <div class="install-row">
+          <span class="install-k mono">Every day</span>
+          <div class="cmd">
+            <span class="sigil">$</span>
+            <code>irondome</code>
+            <button class="copy" type="button" data-copy="irondome">Copy</button>
+          </div>
+        </div>
 
-  <!-- 16. PROFESSIONAL -->
-  <Disclosure />
-
-  <!-- Divider -->
-  <hr class="gold-divider" />
-
-  <!-- 17. CLOSE -->
-  <FinalCTA />
-
+        <div class="install-foot">
+          <a class="btn btn--primary" href="https://pypi.org/project/IronDome/" rel="noopener">
+            View on PyPI <span aria-hidden="true">↗</span>
+          </a>
+          <a class="btn" href="https://github.com/TheKingHippopotamus/IronDome-Bunker" rel="noopener">
+            Read the source <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style is:global>
+  /* ══════════════════════════════ HERO ══════════════════════════════ */
+  .hero {
+    position: relative;
+    padding-block: clamp(72px, 11vw, 148px) clamp(60px, 8vw, 110px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero-scope {
+    position: absolute;
+    top: -10%;
+    right: -14%;
+    width: min(78vw, 780px);
+    opacity: .17;
+    z-index: -1;
+    mask-image: radial-gradient(circle at 50% 46%, #000 34%, transparent 72%);
+    -webkit-mask-image: radial-gradient(circle at 50% 46%, #000 34%, transparent 72%);
+    animation: domeIn 1.6s var(--ease) both;
+    --scope-op: .40;
+  }
+  @keyframes domeIn { from { opacity: 0; } to { opacity: var(--scope-op); } }
+  .hero-in { position: relative; }
+
+  .hero-eye {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    letter-spacing: .26em;
+    text-transform: uppercase;
+    color: var(--fg-3);
+    border: 1px solid var(--rule-hi);
+    padding: 6px 12px;
+    margin: 0 0 28px;
+    animation: rise .8s var(--ease) both;
+  }
+  .pip {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--dome);
+    box-shadow: 0 0 10px var(--dome);
+  }
+
+  .hero-h1 {
+    font-size: clamp(34px, 6.4vw, 76px);
+    line-height: 1.02;
+    letter-spacing: -.042em;
+    margin: 0 0 30px;
+    max-width: 17ch;
+  }
+  .hero-h1 .ln {
+    display: block;
+    overflow: hidden;
+  }
+  .hero-h1 .ln > * , .hero-h1 .ln { animation: rise .95s var(--ease) both; }
+  .hero-h1 .ln:nth-child(1) { animation-delay: .06s; }
+  .hero-h1 .ln:nth-child(2) { animation-delay: .16s; }
+  .hero-h1 .ln:nth-child(3) { animation-delay: .26s; }
+  .ln-em { color: var(--dome-hi); max-width: none; }
+  .brk { display: none; }
+  @keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+
+  .hero-lede {
+    font-size: clamp(15px, 1.4vw, 18px);
+    color: var(--fg-2);
+    max-width: 62ch;
+    margin: 0 0 36px;
+    animation: rise 1s var(--ease) .36s both;
+  }
+  .hero-lede strong { color: var(--fg); font-weight: 600; }
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: stretch;
+    margin-bottom: 52px;
+    animation: rise 1s var(--ease) .46s both;
+  }
+  .hero-cta .cmd { flex: 1 1 340px; max-width: 460px; }
+  .hero-cta .btn { flex: 0 0 auto; }
+
+  .hero-facts {
+    list-style: none;
+    margin: 0;
+    padding: 26px 0 0;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px 18px;
+  }
+  .hero-facts li { display: flex; flex-direction: column; gap: 4px; }
+  .f-n { font-size: clamp(19px, 2.1vw, 26px); font-weight: 700; letter-spacing: -.03em; color: var(--fg); }
+  .f-l { font-size: 10.5px; letter-spacing: .15em; text-transform: uppercase; color: var(--fg-4); }
+  @media (min-width: 720px) { .hero-facts { grid-template-columns: repeat(3, 1fr); } }
+  @media (min-width: 1060px) {
+    .hero-facts { grid-template-columns: repeat(6, 1fr); }
+    .brk { display: inline; }
+  }
+
+  .hero-fade {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--rule-hi) 22%, var(--rule-hi) 78%, transparent);
+  }
+
+  /* ══════════════════════════════ TRUTHS ══════════════════════════════ */
+  .truths {
+    margin-top: 48px;
+    display: grid;
+    gap: 18px;
+  }
+  .truth { padding: 26px 24px 28px; transition: background .3s var(--ease), transform .3s var(--ease); }
+  .truth:hover { background: var(--panel-hi); transform: translateY(-2px); }
+  .truth h3 { margin-bottom: 10px; color: var(--fg); }
+  .truth p { margin: 0; color: var(--fg-3); font-size: 14.5px; }
+  @media (min-width: 860px) { .truths { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+
+  /* ══════════════════════════════ STEPS ══════════════════════════════ */
+  .steps { list-style: none; margin: 48px 0 0; padding: 0; display: grid; gap: 0; }
+  .step {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 20px;
+    padding: 28px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .step:last-child { border-bottom: 1px solid var(--rule); }
+  .step-n { font-size: 12px; letter-spacing: .2em; color: var(--dome); padding-top: 5px; }
+  .step-body h3 { margin-bottom: 10px; }
+  .step-cmd {
+    margin: 0 0 12px;
+    font-size: 13.5px;
+    color: var(--fg-2);
+    background: var(--steel);
+    border-left: 2px solid var(--dome-dim);
+    padding: 9px 13px;
+    display: inline-block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .step-cmd .sigil { color: var(--dome); margin-right: 8px; }
+  .step-text { margin: 0; color: var(--fg-3); font-size: 14.5px; max-width: 62ch; }
+  @media (min-width: 900px) {
+    .steps { grid-template-columns: repeat(3, 1fr); gap: 0 32px; }
+    .step { border-top: 1px solid var(--rule); border-bottom: 0 !important; }
+  }
+
+  /* ══════════════════════════════ LAYERS ══════════════════════════════ */
+  .layers { margin-top: 52px; display: grid; gap: 60px; }
+  .layer-head {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+  .layer-n {
+    font-size: clamp(26px, 3vw, 38px);
+    font-weight: 700;
+    letter-spacing: -.05em;
+    color: var(--rule-hi);
+    line-height: 1;
+  }
+  .layer-tag { font-size: 10.5px; letter-spacing: .26em; color: var(--dome); margin: 0 0 8px; }
+  .layer-title { font-size: clamp(20px, 2.2vw, 27px); margin: 0 0 8px; }
+  .layer-sub { margin: 0; color: var(--fg-3); font-size: 14.5px; max-width: 60ch; }
+
+  .cards { display: grid; gap: 14px; }
+  @media (min-width: 760px)  { .cards { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1160px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+
+  .card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: background .3s var(--ease), border-color .3s var(--ease), transform .3s var(--ease);
+  }
+  .card:hover { background: var(--panel-hi); border-color: var(--rule-hi); transform: translateY(-3px); }
+  .card .badge { align-self: flex-start; margin-bottom: 14px; }
+  .card-t { font-size: 15.5px; line-height: 1.32; margin: 0 0 10px; color: var(--fg); }
+  .card-b { margin: 0 0 18px; font-size: 13.6px; line-height: 1.62; color: var(--fg-3); flex: 1; }
+  .card-code {
+    margin: 0;
+    width: 100%;
+    padding: 13px 14px;
+    background: #080b0d;
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--dome-dim);
+    font-size: 11.2px;
+    line-height: 1.66;
+    color: var(--ice);
+    overflow-x: auto;
+    white-space: pre;
+    tab-size: 2;
+    scrollbar-width: thin;
+  }
+
+  /* ══════════════════════════════ DOME ══════════════════════════════ */
+  .sector--dome { background: linear-gradient(180deg, var(--void), #090e10 40%, var(--void)); }
+  .dome-fig { margin: 44px 0 0; }
+  .dome-svg { width: 100%; height: auto; overflow: visible; }
+
+  .d-arc {
+    stroke-dasharray: var(--len, 1400);
+    stroke-dashoffset: var(--len, 1400);
+    transition: stroke-dashoffset 1.5s var(--ease), opacity .35s, stroke-width .35s;
+  }
+  .is-armed .d-arc { stroke-dashoffset: 0; }
+  .d-ring[data-ring="perimeter"] .d-arc { transition-delay: .05s; }
+  .d-ring[data-ring="door"]      .d-arc { transition-delay: .28s; }
+  .d-ring[data-ring="session"]   .d-arc { transition-delay: .51s; }
+  .d-ring[data-ring="rest"]      .d-arc { transition-delay: .74s; }
+
+  .d-label { font-size: 12px; font-weight: 700; letter-spacing: .22em; fill: var(--fg-2); }
+  .d-note  { font-size: 10px; letter-spacing: .1em; fill: var(--fg-4); }
+  .d-label, .d-note, .d-core, .d-threat, .d-tick {
+    opacity: 0;
+    transition: opacity .7s var(--ease) .55s, fill .3s;
+  }
+  .is-armed .d-label, .is-armed .d-note, .is-armed .d-core,
+  .is-armed .d-threat, .is-armed .d-tick { opacity: 1; }
+  .is-armed .d-tick { opacity: .55; }
+
+  .d-core-t { font-size: 12px; letter-spacing: .06em; fill: var(--dome-hi); }
+  .d-glow { opacity: 0; transition: opacity 1.2s var(--ease) .8s; }
+  .is-armed .d-glow { opacity: 1; }
+
+  .d-sweep { transform-origin: 450px 462px; opacity: 0; }
+  .is-armed .d-sweep {
+    opacity: .5;
+    animation: sweepRot 11s linear infinite;
+    transition: opacity 1s ease 1.1s;
+  }
+  @keyframes sweepRot { from { transform: rotate(-92deg); } to { transform: rotate(92deg); } }
+
+  .d-trace { stroke-dasharray: 5 5; }
+  .is-armed .d-trace { animation: dash 1.4s linear infinite; }
+  @keyframes dash { to { stroke-dashoffset: -20; } }
+  .d-blip { opacity: .9; }
+  .is-armed .d-blip { animation: blip 2.6s var(--ease) infinite; }
+  @keyframes blip { 0%,100% { opacity: .25; r: 3; } 50% { opacity: 1; r: 5; } }
+  .d-threat-l { font-size: 10px; letter-spacing: .2em; }
+  .d-threat-n { font-size: 9.5px; letter-spacing: .12em; }
+  .is-armed .d-block { animation: blip 2.6s var(--ease) infinite; }
+
+  /* focus/dim behaviour */
+  .dome-svg[data-focus] .d-ring { opacity: .28; }
+  .dome-svg[data-focus="perimeter"] .d-ring[data-ring="perimeter"],
+  .dome-svg[data-focus="door"]      .d-ring[data-ring="door"],
+  .dome-svg[data-focus="session"]   .d-ring[data-ring="session"],
+  .dome-svg[data-focus="rest"]      .d-ring[data-ring="rest"] { opacity: 1; }
+  .dome-svg[data-focus] .d-ring { transition: opacity .3s var(--ease); }
+  .dome-svg[data-focus] .d-ring .d-arc { stroke-width: 1.5; }
+  .dome-svg[data-focus="perimeter"] .d-ring[data-ring="perimeter"] .d-arc,
+  .dome-svg[data-focus="door"]      .d-ring[data-ring="door"] .d-arc,
+  .dome-svg[data-focus="session"]   .d-ring[data-ring="session"] .d-arc,
+  .dome-svg[data-focus="rest"]      .d-ring[data-ring="rest"] .d-arc { stroke-width: 3; }
+
+  .dome-cap {
+    margin: 18px 0 0;
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--fg-4);
+    text-align: center;
+    max-width: 62ch;
+    margin-inline: auto;
+  }
+
+  .dome-legend { margin-top: 40px; display: grid; gap: 12px; }
+  .leg {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    text-decoration: none;
+    transition: background .28s var(--ease), border-color .28s var(--ease);
+  }
+  .leg:hover { background: var(--panel-hi); border-color: var(--dome-dim); }
+  .leg-n { font-size: 11px; color: var(--dome); letter-spacing: .16em; }
+  .leg-t { font-size: 11.5px; letter-spacing: .2em; color: var(--fg); }
+  .leg-b { font-size: 13.5px; color: var(--fg-3); }
+  @media (min-width: 820px) { .dome-legend { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ══════════════════════════════ TERMINAL ══════════════════════════════ */
+  .term {
+    margin-top: 44px;
+    border: 1px solid var(--rule-hi);
+    background: #080c0d;
+    box-shadow: 0 30px 90px -50px rgba(0, 0, 0, .95);
+  }
+  .term-chrome {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--steel);
+  }
+  .term-dots { display: flex; gap: 6px; }
+  .term-dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--rule-hi); }
+  .term-title { font-size: 11.5px; color: var(--fg-4); letter-spacing: .06em; }
+  .term-rec {
+    margin-left: auto;
+    font-size: 10px;
+    letter-spacing: .22em;
+    color: var(--alert);
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .rec-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--alert); animation: recPulse 2s ease infinite; }
+  @keyframes recPulse { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+
+  .term-tabs {
+    display: flex;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--rule);
+    background: #0a0f11;
+    scrollbar-width: thin;
+  }
+  .tab {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    background: none;
+    border: 0;
+    border-right: 1px solid var(--rule);
+    border-bottom: 2px solid transparent;
+    color: var(--fg-4);
+    font-size: 11px;
+    letter-spacing: .16em;
+    padding: 12px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color .2s, background .2s, border-color .2s;
+  }
+  .tab .tab-n { font-size: 9.5px; opacity: .6; }
+  .tab:hover { color: var(--fg-2); background: rgba(155, 174, 74, .05); }
+  .tab[aria-selected="true"] { color: var(--dome-hi); border-bottom-color: var(--dome); background: rgba(155, 174, 74, .07); }
+
+  .term-body { position: relative; }
+  .term-out {
+    margin: 0;
+    padding: 20px 20px 22px;
+    height: clamp(340px, 46vh, 500px);
+    overflow-y: auto;
+    overflow-x: auto;
+    font-size: clamp(11.5px, 1.05vw, 13px);
+    line-height: 1.62;
+    color: var(--fg-2);
+    white-space: pre;
+    scrollbar-width: thin;
+    scrollbar-color: var(--rule-hi) transparent;
+  }
+  .term-out::-webkit-scrollbar { width: 9px; height: 9px; }
+  .term-out::-webkit-scrollbar-thumb { background: var(--rule-hi); }
+  .term-out .l-cmd  { color: var(--fg); }
+  .term-out .l-cmd .p { color: var(--dome); }
+  .term-out .l-ok   { color: var(--dome-hi); }
+  .term-out .l-warn { color: var(--amber); }
+  .term-out .l-bad  { color: var(--alert); }
+  .term-out .l-head { color: var(--ice); }
+  .term-out .l-art  { color: var(--dome-dim); }
+  .caret {
+    display: inline-block;
+    width: .58em;
+    height: 1.02em;
+    vertical-align: text-bottom;
+    background: var(--dome);
+    animation: blink 1.05s step-end infinite;
+  }
+  @keyframes blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+
+  .term-foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    border-top: 1px solid var(--rule);
+    background: var(--steel);
+  }
+  .term-cap { margin: 0; font-size: 12.5px; color: var(--fg-3); }
+  .term-ctl { display: flex; gap: 8px; }
+  .ctl {
+    background: none;
+    border: 1px solid var(--rule-hi);
+    color: var(--fg-3);
+    font-size: 10px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    padding: 6px 11px;
+    cursor: pointer;
+    transition: color .2s, border-color .2s;
+  }
+  .ctl:hover { color: var(--dome); border-color: var(--dome-dim); }
+
+  /* ── screen gallery ── */
+  .shots { margin-top: 56px; }
+  .shots-head {
+    font-size: 10.5px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--fg-4);
+    margin: 0 0 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .shots-grid { display: grid; gap: 16px; }
+  @media (min-width: 700px)  { .shots-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1100px) { .shots-grid { grid-template-columns: repeat(3, 1fr); } }
+  .shot { margin: 0; }
+  .shot-img {
+    border: 1px solid var(--rule);
+    background: #080c0d;
+    overflow: hidden;
+    transition: border-color .3s var(--ease), transform .3s var(--ease);
+  }
+  .shot-img img { width: 100%; height: auto; display: block; }
+  .shot:hover .shot-img { border-color: var(--dome-dim); transform: translateY(-3px); }
+  .shot figcaption { padding: 12px 2px 0; display: flex; flex-direction: column; gap: 3px; }
+  .shot-n { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--fg); }
+  .shot-b { font-size: 12.5px; color: var(--fg-4); }
+
+  /* ══════════════════════════════ SPEC ══════════════════════════════ */
+  .spec { margin-top: 40px; border-top: 1px solid var(--rule); }
+  .spec dl { margin: 0; }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2px 24px;
+    padding: 14px 2px;
+    border-bottom: 1px solid var(--rule);
+    transition: background .25s var(--ease);
+  }
+  .spec-row:hover { background: var(--panel); }
+  .spec dt { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--fg-4); }
+  .spec dd { margin: 0; font-size: 13.5px; color: var(--fg); }
+  @media (min-width: 720px) { .spec-row { grid-template-columns: 300px 1fr; align-items: baseline; } }
+
+  /* ══════════════════════════════ LIMITS ══════════════════════════════ */
+  .sector--limits { background: #0a0c08; }
+  .eyebrow--warn { color: var(--amber); }
+  .limits { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 0; }
+  .limit {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 22px 0;
+    border-top: 1px solid var(--rule);
+  }
+  .limit:last-child { border-bottom: 1px solid var(--rule); }
+  .limit .badge { align-self: start; justify-self: start; }
+  .limit h3 { font-size: 15.5px; margin: 0 0 8px; color: var(--fg); }
+  .limit p { margin: 0; font-size: 14px; color: var(--fg-3); max-width: 72ch; }
+  @media (min-width: 720px) { .limit { grid-template-columns: 96px 1fr; gap: 24px; } }
+
+  /* ══════════════════════════════ CTA ══════════════════════════════ */
+  .cta {
+    background:
+      radial-gradient(ellipse 80% 100% at 50% 100%, rgba(155, 174, 74, .10), transparent 62%),
+      var(--void);
+  }
+  .cta-in { text-align: left; }
+  .cta-h2 { font-size: clamp(30px, 4.6vw, 56px); }
+  .install { margin-top: 38px; padding: 26px 24px; display: grid; gap: 14px; }
+  .install-row { display: grid; grid-template-columns: 1fr; gap: 8px; align-items: center; }
+  .install-k { font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--fg-4); }
+  .install-foot { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+  @media (min-width: 720px) { .install-row { grid-template-columns: 110px 1fr; gap: 18px; } }
+
+  /* --- corrections pass 1 --- */
+  .hero { padding-block: clamp(56px, 7.5vw, 104px) clamp(56px, 7vw, 96px); }
+  .hero-scope {
+    top: 50%; right: -2%;
+    transform: translateY(-48%);
+    width: min(46vw, 600px);
+    --scope-op: .40;
+    opacity: var(--scope-op);
+  }
+  .hero-scope img { width: 100%; height: auto; }
+  @media (max-width: 900px) {
+    .hero-scope { top: -2%; right: -34%; transform: none; width: 108vw; --scope-op: .07; opacity: var(--scope-op); }
+  }
+  @media (max-width: 480px) {
+    .hero-eye { font-size: 10px; letter-spacing: .16em; padding: 6px 10px; }
+  }
+  .hero-h1 {
+    font-size: clamp(30px, 4.9vw, 60px);
+    line-height: 1.07;
+    letter-spacing: -.038em;
+    max-width: 22ch;
+  }
+  .hero-h1 .ln { display: block; overflow: visible; }
+  .cards > * { min-width: 0; }
+  .card { min-width: 0; overflow: hidden; }
+  .card-code { max-width: 100%; }
+  .layers, .layer, .sector-inner { min-width: 0; }
+</style>
+
+<script define:vars={{ scenes }}>
+  /* ── shared: reveal on scroll ─────────────────────────────────── */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const revealIO = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); revealIO.unobserve(e.target); }
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+  document.querySelectorAll('.reveal').forEach((el) => revealIO.observe(el));
+
+  /* ── copy buttons ─────────────────────────────────────────────── */
+  document.querySelectorAll('.copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.copy || '');
+        const prev = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.dataset.done = '1';
+        setTimeout(() => { btn.textContent = prev; delete btn.dataset.done; }, 1600);
+      } catch { btn.textContent = 'Select it'; }
+    });
+  });
+
+  /* ── dome: arc lengths, arm on view, focus from the legend ────── */
+  const svg = document.getElementById('dome-svg');
+  if (svg) {
+    svg.querySelectorAll('.d-arc').forEach((p) => {
+      p.style.setProperty('--len', Math.ceil(p.getTotalLength()) + 'px');
+    });
+    new IntersectionObserver((entries, o) => {
+      for (const e of entries) {
+        if (e.isIntersecting) { svg.classList.add('is-armed'); o.disconnect(); }
+      }
+    }, { threshold: 0.2 }).observe(svg);
+
+    document.querySelectorAll('[data-ring-hover]').forEach((el) => {
+      const on = () => svg.setAttribute('data-focus', el.dataset.ringHover);
+      const off = () => svg.removeAttribute('data-focus');
+      el.addEventListener('mouseenter', on);
+      el.addEventListener('focus', on);
+      el.addEventListener('mouseleave', off);
+      el.addEventListener('blur', off);
+    });
+  }
+
+  /* ── terminal player ──────────────────────────────────────────── */
+  const out = document.getElementById('term-out');
+  const cap = document.getElementById('term-cap');
+  const toggle = document.getElementById('term-toggle');
+  const restart = document.getElementById('term-restart');
+  const tabs = [...document.querySelectorAll('.tab')];
+
+  if (out && scenes.length) {
+    const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const cls = (line) => {
+      const t = line.trim();
+      if (/^(✅|\[OK\])/.test(t)) return 'l-ok';
+      if (/^(⚠️|⛔)/.test(t)) return 'l-warn';
+      if (/^(❌|\[!!\])/.test(t)) return 'l-bad';
+      if (/^===/.test(t) || /^  [A-Za-z].*:/.test(line)) return 'l-head';
+      if (/^[\s]*[█╗╔╚╝║═╠╣╬─│┌┐└┘]/.test(line)) return 'l-art';
+      return '';
+    };
+
+    let scene = 0, timer = null, paused = false, playing = false;
+    const sleep = (ms) => new Promise((r) => { timer = setTimeout(r, ms); });
+    const gate = async () => { while (paused) await sleep(120); };
+    let token = 0;
+
+    function setTabs(i) {
+      tabs.forEach((t, k) => t.setAttribute('aria-selected', k === i ? 'true' : 'false'));
+      cap.textContent = scenes[i].caption;
+    }
+
+    function append(html) {
+      const caret = out.querySelector('.caret');
+      if (caret) caret.remove();
+      const tpl = document.createElement('template');
+      tpl.innerHTML = html;
+      const nodes = [...tpl.content.childNodes];
+      out.append(...nodes);
+      out.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
+      out.scrollTop = out.scrollHeight;
+      return nodes[0];
+    }
+
+    async function play(i) {
+      const my = ++token;
+      clearTimeout(timer);
+      scene = i;
+      setTabs(i);
+      out.replaceChildren();
+      out.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
+      playing = true;
+
+      if (reduce) {
+        let html = '';
+        for (const b of scenes[i].blocks) {
+          html += '<span class="l-cmd"><span class="p">$</span> ' + esc(b.cmd) + '</span>\n';
+          for (const l of b.out) html += '<span class="' + cls(l) + '">' + esc(l) + '</span>\n';
+          html += '\n';
+        }
+        out.innerHTML = html;
+        playing = false;
+        return;
+      }
+
+      for (const b of scenes[i].blocks) {
+        await gate(); if (my !== token) return;
+        const node = append('<span class="l-cmd"><span class="p">$</span> </span>');
+        for (const ch of b.cmd) {
+          await gate(); if (my !== token) return;
+          node.append(document.createTextNode(ch));
+          out.scrollTop = out.scrollHeight;
+          await sleep(24 + Math.random() * 44 + (ch === ' ' ? 34 : 0));
+        }
+        await sleep(280);
+        append('\n');
+        for (const l of b.out) {
+          await gate(); if (my !== token) return;
+          append('<span class="' + cls(l) + '">' + esc(l) + '</span>\n');
+          await sleep(l.trim() === '' ? 36 : 24 + Math.min(l.length, 60) * 1.4);
+        }
+        append('\n');
+        await sleep(560);
+      }
+      playing = false;
+      await sleep(1600);
+      if (my !== token || paused) return;
+      play((i + 1) % scenes.length);
+    }
+
+    tabs.forEach((t, i) => t.addEventListener('click', () => { paused = false; toggle.textContent = 'Pause'; play(i); }));
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.textContent = paused ? 'Resume' : 'Pause';
+      toggle.setAttribute('aria-label', paused ? 'Resume playback' : 'Pause playback');
+      if (!paused && !playing) play(scene);
+    });
+    restart.addEventListener('click', () => { paused = false; toggle.textContent = 'Pause'; play(scene); });
+
+    let started = false;
+    new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting && !started) { started = true; play(0); }
+        else if (!e.isIntersecting && started) { paused = true; toggle.textContent = 'Resume'; }
+      }
+    }, { threshold: 0.25 }).observe(document.getElementById('term'));
+
+    setTabs(0);
+    out.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
+  }
+</script>

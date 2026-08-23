@@ -1,0 +1,340 @@
+/* ============================================================
+   IronDome — console tokens
+   Palette derives from the TUI's own theme: olive "dome" phosphor
+   on cold blast-steel, amber for caution, red for threat.
+   ============================================================ */
+
+:root {
+  /* ground */
+  --void:      #07090a;
+  --steel:     #0d1214;
+  --panel:     #10171a;
+  --panel-hi:  #141d21;
+  --rule:      #1c2529;
+  --rule-hi:   #2b383d;
+
+  /* signal */
+  --dome:      #9bae4a;
+  --dome-hi:   #c6dc68;
+  --dome-dim:  #5c6a2c;
+  --amber:     #e0a32e;
+  --alert:     #d0574a;
+  --ice:       #6f9fa8;
+
+  /* text */
+  --fg:        #e6ece8;
+  --fg-2:      #a9b8b8;
+  --fg-3:      #7c8c8e;
+  --fg-4:      #56666a;
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "DejaVu Sans Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --rail: 76px;
+  --gut: clamp(20px, 4vw, 56px);
+  --maxw: 1240px;
+
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.62;
+  letter-spacing: .002em;
+  overflow-x: hidden;
+  font-synthesis-weight: none;
+}
+
+img, svg { max-width: 100%; display: block; }
+a { color: inherit; }
+
+::selection { background: var(--dome); color: #0a0d06; }
+
+:focus-visible {
+  outline: 2px solid var(--dome-hi);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------
+   Ambient: a faint scope grid + scanline. Fixed, non-interactive,
+   ~2% opacity — present when you look for it, invisible when you read.
+   ------------------------------------------------------------ */
+.atmos {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.atmos::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(155, 174, 74, .055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(155, 174, 74, .055) 1px, transparent 1px);
+  background-size: 68px 68px;
+  mask-image: radial-gradient(ellipse 120% 78% at 50% 0%, #000 0%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 120% 78% at 50% 0%, #000 0%, transparent 72%);
+}
+.atmos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, .022) 0px,
+    rgba(255, 255, 255, .022) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* ------------------------------------------------------------
+   Layout
+   ------------------------------------------------------------ */
+.wrap {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+main { position: relative; z-index: 1; }
+
+/* A sector is a page section. The rail on its left carries the sector
+   callsign and a ticked bearing line — it tells you where you are. */
+.sector {
+  position: relative;
+  padding-block: clamp(72px, 9vw, 132px);
+  border-top: 1px solid var(--rule);
+}
+.sector:first-of-type { border-top: 0; }
+
+.sector-inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gut);
+  position: relative;
+}
+
+.rail {
+  position: absolute;
+  left: calc(var(--gut) - 4px);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--rule-hi), transparent);
+  display: none;
+}
+.rail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom, var(--rule-hi) 0 6px, transparent 6px 34px
+  );
+  opacity: .5;
+}
+.rail-tag {
+  position: sticky;
+  top: 120px;
+  display: block;
+  writing-mode: vertical-rl;
+  transform: translateX(-50%) rotate(180deg);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  white-space: nowrap;
+  padding-block: 10px;
+  background: var(--void);
+}
+
+@media (min-width: 1080px) {
+  .rail { display: block; }
+  .sector-inner { padding-left: var(--rail); }
+}
+
+/* ------------------------------------------------------------
+   Type
+   ------------------------------------------------------------ */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--dome);
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, var(--rule-hi), transparent);
+  max-width: 220px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: -.028em;
+  line-height: 1.06;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(28px, 3.7vw, 48px);
+  margin-bottom: 20px;
+}
+h3 {
+  font-size: clamp(17px, 1.5vw, 20px);
+  letter-spacing: -.01em;
+  line-height: 1.28;
+}
+
+.lede {
+  font-size: clamp(16px, 1.35vw, 19px);
+  color: var(--fg-2);
+  max-width: 64ch;
+  margin: 0;
+}
+.lede strong { color: var(--fg); font-weight: 600; }
+
+.mono { font-family: var(--mono); }
+
+/* ------------------------------------------------------------
+   Surfaces
+   ------------------------------------------------------------ */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  position: relative;
+}
+
+/* Corner brackets — a targeting reticle, drawn only on the two corners
+   that matter so it reads as a mark, not a frame. */
+.bracket::before,
+.bracket::after {
+  content: "";
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-color: var(--dome-dim);
+  border-style: solid;
+  transition: border-color .3s var(--ease);
+  pointer-events: none;
+}
+.bracket::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.bracket::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.bracket:hover::before, .bracket:hover::after { border-color: var(--dome-hi); }
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border: 1px solid var(--rule-hi);
+  color: var(--fg-3);
+  background: rgba(155, 174, 74, .04);
+  white-space: nowrap;
+}
+.badge--live { color: var(--dome); border-color: var(--dome-dim); }
+.badge--warn { color: var(--amber); border-color: #6b4f18; }
+
+/* ------------------------------------------------------------
+   Buttons + command lines
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-decoration: none;
+  padding: 13px 22px;
+  border: 1px solid var(--rule-hi);
+  color: var(--fg);
+  background: var(--panel);
+  transition: border-color .25s var(--ease), color .25s var(--ease),
+              background .25s var(--ease), transform .25s var(--ease);
+}
+.btn:hover { border-color: var(--dome); color: var(--dome-hi); transform: translateY(-1px); }
+.btn--primary {
+  background: var(--dome);
+  border-color: var(--dome);
+  color: #0a0d06;
+}
+.btn--primary:hover { background: var(--dome-hi); border-color: var(--dome-hi); color: #0a0d06; }
+
+.cmd {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--mono);
+  font-size: clamp(13px, 1.15vw, 15px);
+  background: var(--steel);
+  border: 1px solid var(--rule-hi);
+  padding: 15px 16px;
+  color: var(--fg);
+}
+.cmd .sigil { color: var(--dome); user-select: none; }
+.cmd code { flex: 1; white-space: nowrap; overflow-x: auto; }
+.copy {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--rule-hi);
+  color: var(--fg-3);
+  padding: 5px 9px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.copy:hover { color: var(--dome); border-color: var(--dome-dim); }
+.copy[data-done="1"] { color: var(--dome); border-color: var(--dome); }
+
+/* ------------------------------------------------------------
+   Motion — one reveal primitive, used everywhere
+   ------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .72s var(--ease), transform .72s var(--ease);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .atmos::after { display: none; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+  }
+}
