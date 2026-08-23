@@ -46,6 +46,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0", "ruff>=0.5"]
+# Referenced by .github/workflows/build-binaries.yml and scripts/build_binaries.py
+binary = ["pyinstaller>=6.0"]
 web = ["textual-serve>=1.1.0,<2"]
 macos = ["pyobjc-framework-LocalAuthentication>=9.0"]
 # Twine 5.x cannot parse wheels with Metadata-Version 2.4 (current setuptools); use 6.2+ for uploads.
