@@ -961,14 +961,14 @@
       </div>
       <div class="card"><!-- center gap --></div>
       <div class="card">
-        <img class="card-icon" src="static/shield-zero.svg" alt="Zero Knowledge">
-        <h3>Zero Knowledge</h3>
-        <p>Your master password is never stored. Only a salted hash exists. Not even the tool can read it.</p>
+        <img class="card-icon" src="static/shield-zero.svg" alt="No server in the loop">
+        <h3>No Server</h3>
+        <p>Your master password is never written to disk — only a PBKDF2 digest over a random salt — and there is no service to send it to.</p>
       </div>
       <div class="card">
-        <img class="card-icon" src="static/shield-hardware.svg" alt="Hardware Bound">
-        <h3>Hardware Bound</h3>
-        <p>Encryption keys derived from your machine's hardware identifiers. Data is tied to your device.</p>
+        <img class="card-icon" src="static/shield-hardware.svg" alt="Machine-scoped metadata">
+        <h3>Machine-Scoped</h3>
+        <p>The stored master-user record is wrapped with a key derived from <code>/etc/machine-id</code>. Not a hardware security module — the vault itself is protected by your master password.</p>
       </div>
       <div class="card"><!-- center gap --></div>
       <div class="card">
@@ -1224,7 +1224,7 @@
           <tbody>
             <tr><th scope="row">Data location</th><td>Your machine only</td><td>Their servers</td></tr>
             <tr><th scope="row">Network required</th><td>Never for vault use</td><td>Typically always</td></tr>
-            <tr><th scope="row">Zero knowledge</th><td>No server in the loop</td><td>Varies — trust model</td></tr>
+            <tr><th scope="row">No server</th><td>Master password never written to disk; nothing to send it to</td><td>Varies — trust model</td></tr>
             <tr><th scope="row">Hardware binding</th><td>Keys tied to machine identity</td><td>Usually none</td></tr>
             <tr><th scope="row">Interface</th><td>Full TUI + CLI</td><td>Browser / app</td></tr>
             <tr><th scope="row">Open source</th><td>GPL-3.0</td><td>Often closed</td></tr>

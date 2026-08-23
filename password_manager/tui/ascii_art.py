@@ -67,7 +67,7 @@ _rows = [
     _plain("     ██████╔╝╚██████╔╝██║ ╚███║██║  ██╗█████╗  ██║  ██║         "),
     _plain("     ╚═════╝  ╚═════╝ ╚═╝  ╚══╝╚═╝  ╚═╝╚════╝  ╚═╝  ╚═╝         "),
     _plain(_LINE),
-    _star("    ★  SECURE VAULT  ·  FORTIFIED  ·  ZERO KNOWLEDGE  ★  "),
+    _star("    ★  SECURE VAULT  ·  AES-128-CBC  ·  PBKDF2  ★        "),
     _plain(_BLANK),
     _star(_DOTS),
     _BOT,
