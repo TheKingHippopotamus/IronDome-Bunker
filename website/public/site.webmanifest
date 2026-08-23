@@ -1,7 +1,7 @@
 {
   "name": "IronDome — Fortified CLI Vault",
   "short_name": "IronDome",
-  "description": "Zero-knowledge CLI password vault with AES-256 encryption. Your credentials never leave your machine.",
+  "description": "Local-first CLI password vault with AES-128-CBC (Fernet) encryption. Your credentials never leave your machine.",
   "start_url": "/IronDome-Bunker/",
   "scope": "/IronDome-Bunker/",
   "display": "standalone",

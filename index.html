@@ -1131,7 +1131,7 @@
             <tr><th scope="row">Key derivation</th><td>PBKDF2-HMAC-SHA256 × 600,000 (OWASP 2023)</td></tr>
             <tr><th scope="row">Password hashing</th><td>PBKDF2-HMAC-SHA256 + unique salt</td></tr>
             <tr><th scope="row">Random generation</th><td>Python <code>secrets</code> (CSPRNG)</td></tr>
-            <tr><th scope="row">Hardware binding</th><td>Machine identity (machine-id / hostname / UUID)</td></tr>
+            <tr><th scope="row">Machine-scoped metadata</th><td>Master-user record wrapped with a key derived from machine-id / hostname / UUID</td></tr>
           </tbody>
         </table>
       </div>
@@ -1225,7 +1225,7 @@
             <tr><th scope="row">Data location</th><td>Your machine only</td><td>Their servers</td></tr>
             <tr><th scope="row">Network required</th><td>Never for vault use</td><td>Typically always</td></tr>
             <tr><th scope="row">No server</th><td>Master password never written to disk; nothing to send it to</td><td>Varies — trust model</td></tr>
-            <tr><th scope="row">Hardware binding</th><td>Keys tied to machine identity</td><td>Usually none</td></tr>
+            <tr><th scope="row">Machine-scoped metadata</th><td>Master-user record wrapped with a machine-id key — not a hardware security module</td><td>Usually none</td></tr>
             <tr><th scope="row">Interface</th><td>Full TUI + CLI</td><td>Browser / app</td></tr>
             <tr><th scope="row">Open source</th><td>GPL-3.0</td><td>Often closed</td></tr>
             <tr><th scope="row">Biometric</th><td>OS-native (Touch ID, Hello, fprintd)</td><td>Often extension-based</td></tr>
