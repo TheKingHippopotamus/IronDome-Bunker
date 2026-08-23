@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome" width="500"/>
 </p>
 
-<h3 align="center">Fortified Password Vault — TUI | AES-128-CBC | Zero-Knowledge | Biometric</h3>
+<h3 align="center">Local-first password vault — TUI | AES-128-CBC (Fernet) | PBKDF2-HMAC-SHA256 | OS biometric gate</h3>
 
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
@@ -23,7 +23,9 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts everything locally with AES-128-CBC (Fernet), derives keys from machine identity, and operates on a zero-knowledge model. Full terminal UI. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
+> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry.
+>
+> One caveat, stated plainly: the brute-force lockout currently identifies your machine via `socket.gethostbyname(socket.gethostname())` on each login, which can trigger a DNS lookup for your own hostname if it is not in `/etc/hosts`. No vault data is involved, and the call is being removed.
 
 ## Quick Start
 
@@ -45,9 +47,9 @@ irondome
 
 - **AES-128-CBC** encryption via Fernet
 - **PBKDF2-HMAC-SHA256** with 600,000 iterations (OWASP 2023)
-- **Zero-knowledge** — master password never stored
-- **Machine-specific** keys derived from machine identity
-- **Biometric auth** — Touch ID (macOS), Windows Hello, fprintd (Linux)
+- **Master password never stored** — only a PBKDF2 digest is written to disk, and there is no server to send it to
+- **Machine-scoped metadata** — the stored master-user record is wrapped with a key derived from `/etc/machine-id`; the vault itself is protected by your master password
+- **Biometric gate** — an OS authentication gate (PAM / Touch ID / Windows Hello) in front of the keyring-stored vault key. It is an access gate, not key material
 - **Two-factor** mode — biometric gate + master password
 - **24-character recovery code** (XXXX-XXXX-XXXX-XXXX-XXXX-XXXX format)
 - **Adaptive lockout** — progressive brute-force protection
@@ -60,8 +62,8 @@ IronDome's primary interface is a full Terminal UI built with [Textual](https://
 - **12 screens** — splash, login, dashboard, vault, detail, generator, save, settings, backup, status, help, confirm
 - **Keyboard-driven** — arrows, Tab, Enter, Esc, hotkeys for every action
 - **Command palette** — Ctrl+P fuzzy search across all commands
-- **Military aesthetic** — dark theme, dome green, amber warnings, red threats
-- **Security controls** — masked input, alternate screen buffer, clipboard auto-clear (30s), signal handlers, memory protection
+- **Themed TUI** — dark theme, dome green, amber warnings, red threats
+- **Security controls** — masked input, alternate screen buffer, clipboard auto-clear (30s), signal handlers, `mlockall` swap avoidance (TUI only, best-effort)
 
 ## CLI Mode
 
@@ -91,11 +93,20 @@ irondome-cli close airspace      # Lock everything
 | | IronDome | Cloud Managers |
 |:--|:---------|:---------------|
 | **Data** | Your machine only | Their servers |
-| **Network** | Never | Always |
-| **Zero knowledge** | True — no server | "Trust us" |
-| **Hardware binding** | Keys derived from machine identity | No |
+| **Network** | No network I/O in the package | Always |
+| **No server** | Master password never written to disk; nothing to send it to | "Trust us" |
+| **Machine-scoped metadata** | Master-user record wrapped with a machine-id key | No |
 | **Open source** | GPL-3.0 | Rarely |
 | **Cost** | Free | $3-5/month |
+
+## What IronDome does not do
+
+- **AES-128.** Fernet splits its 32-byte key into a 16-byte AES key and a 16-byte HMAC key, so the block cipher runs with a 128-bit key, not a 256-bit one.
+- **The biometric check is not cryptographic.** The key sits in the OS keyring under your login credentials, not under your fingerprint.
+- **No hardware security module.** Machine scoping reads `/etc/machine-id` (mode `0444`, world-readable). No TPM, no Secure Enclave.
+- **`nuke` cannot defeat an SSD controller.** One random-overwrite pass, `fsync`, then unlink. On SSDs, CoW filesystems, or journaled ext4 the original blocks may survive.
+- **No memory zeroing of the key.** It is held as an immutable Python `bytes` inside a `Fernet` object.
+- **No independent third-party audit.** The project ships its own `pytest` suite, gated in CI before publish, but no external review. Treat this as beta software.
 
 ## Links
 

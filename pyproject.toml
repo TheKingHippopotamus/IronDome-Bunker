@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "IronDome"
 dynamic = ["version"]
-description = "IronDome — Fortified password vault with TUI, AES-256 encryption, biometric auth, and zero-knowledge architecture"
+description = "IronDome — local-first password vault with a Textual TUI, AES-128-CBC (Fernet) encryption and PBKDF2-HMAC-SHA256 key derivation"
 readme = "README_PYPI.md"
 license = {text = "GPL-3.0-only"}
 requires-python = ">=3.8"
@@ -13,8 +13,8 @@ authors = [
     { name = "King Hippopotamus" },
 ]
 keywords = [
-    "password-manager", "encryption", "aes-256", "security", "cli", "tui",
-    "cybersecurity", "zero-knowledge", "password-generator", "vault",
+    "password-manager", "encryption", "aes-128", "security", "cli", "tui",
+    "cybersecurity", "password-generator", "vault",
     "credential-manager", "fernet", "pbkdf2", "irondome", "bunker",
     "biometric", "touch-id", "windows-hello", "fingerprint",
     "terminal-ui", "textual", "cross-platform", "macos", "linux", "windows",

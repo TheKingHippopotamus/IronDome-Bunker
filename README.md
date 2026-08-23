@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/TheKingHippopotamus/IronDome-Bunker/main/static/irondome-readme.svg" alt="IronDome" width="500"/>
 </p>
 
-<h3 align="center">Fortified Password Vault — TUI | AES-128-CBC | Zero-Knowledge | Biometric | Machine-Specific</h3>
+<h3 align="center">Local-first password vault — TUI | AES-128-CBC (Fernet) | PBKDF2-HMAC-SHA256 | OS biometric gate</h3>
 
 <p align="center">
   <a href="https://pypi.org/project/IronDome/"><img src="https://img.shields.io/pypi/v/IronDome?style=flat-square&logo=pypi&logoColor=white&color=0073b7" alt="PyPI"></a>
@@ -41,7 +41,9 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts everything locally with AES-128-CBC (Fernet), derives keys from machine identity, and operates on a zero-knowledge model. Full terminal UI with military-grade aesthetics. Unlock with Touch ID, Windows Hello, or fingerprint. Nothing leaves your device. Ever.
+> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry.
+>
+> One caveat, stated plainly: the brute-force lockout currently identifies your machine via `socket.gethostbyname(socket.gethostname())` on each login, which can trigger a DNS lookup for your own hostname if it is not in `/etc/hosts`. No vault data is involved, and the call is being removed.
 
 <br>
 
@@ -66,7 +68,7 @@ On first launch, choose your security level:
 
 | Mode | How It Works | Best For |
 |:-----|:-------------|:---------|
-| **Biometric Only** | Touch ID / Windows Hello / Fingerprint unlocks vault key from OS keychain | Speed — single factor |
+| **Biometric Only** | An OS authentication gate (PAM / Touch ID / Windows Hello) runs in front of the vault key, which is stored in the OS keyring. It is an access gate, not key material — see [What IronDome does not do](#what-irondome-does-not-do) | Speed — single factor |
 | **Biometric + Password** | Biometric gate + master password derives key via PBKDF2 | Maximum security |
 | **Password Only** | Master password derives all keys via PBKDF2 | Universal compatibility |
 
@@ -84,7 +86,7 @@ irondome              # Launch TUI (default)
 
 **Keyboard-driven** — arrow keys, Enter, Esc, Tab, hotkeys for every action. Command palette with Ctrl+P.
 
-**Military aesthetic** — dark theme, dome green accents, amber warnings, red threats. Animated splash with IronDome art.
+**Themed TUI** — dark theme, dome green accents, amber warnings, red threats. Animated splash with IronDome art.
 
 **Security-first** — masked input, alternate screen buffer (no scrollback leaks), clipboard auto-clear, signal handlers, memory protection.
 
@@ -102,7 +104,7 @@ bunker open                      # List all entries
 bunker open github               # Search by name
 bunker fortify                   # Create encrypted backup
 bunker settings                  # Configure preferences
-irondome nuke                    # Self-destruct: permanently erase all data
+irondome nuke                    # Self-destruct: overwrite and delete all vault data + keyring entries
 bunker nuke                      # Alias — same self-destruct from bunker
 ```
 
@@ -120,11 +122,11 @@ bunker nuke                      # Alias — same self-destruct from bunker
 |:--------|:--------------|
 | **Encryption** | AES-128-CBC via Fernet |
 | **Key Derivation** | PBKDF2-HMAC-SHA256 × 600,000 |
-| **Zero Knowledge** | Master password never stored |
-| **Hardware Binding** | Keys derived from machine identity |
+| **Master password** | Never stored — only a PBKDF2 digest is written to disk |
+| **Machine-scoped metadata** | The stored master-user record is wrapped with a key derived from `/etc/machine-id`. The vault itself is protected by your master password |
 | **Brute Force** | Adaptive lockout per device |
 | **Sessions** | 30-min auto-timeout |
-| **Biometrics** | Touch ID / Hello / fprintd |
+| **Biometrics** | OS authentication gate — Touch ID / Hello / fprintd |
 | **Two-Factor** | Biometric gate + password |
 | **Recovery** | 24-character hex recovery code |
 
@@ -194,7 +196,7 @@ bunker nuke                      # Alias — same self-destruct from bunker
 | **Key Derivation** | PBKDF2-HMAC-SHA256 × 600,000 (OWASP 2023) |
 | **Password Hashing** | PBKDF2-HMAC-SHA256 + unique salt |
 | **Random Generation** | Python `secrets` (CSPRNG) |
-| **Hardware Binding** | Machine identity (machine-id / hostname / UUID) |
+| **Machine-scoped metadata** | Master-user record wrapped with a key derived from machine-id / hostname / UUID |
 
 ### TUI Security Controls
 
@@ -204,21 +206,25 @@ bunker nuke                      # Alias — same self-destruct from bunker
 | **Alternate screen** | SMCUP/RMCUP — no scrollback buffer leaks |
 | **Clipboard auto-clear** | 30-second timeout, cross-platform |
 | **Signal handlers** | SIGTERM/SIGINT/SIGHUP restore terminal + clear clipboard |
-| **Memory protection** | `mlockall` prevents swap, `bytearray` zeroing |
+| **Memory protection** | `mlockall(MCL_CURRENT\|MCL_FUTURE)` keeps process memory out of swap — TUI only, best-effort, silently skipped if the OS refuses. The CLI does not call it |
 | **Password auto-hide** | 10-second reveal timer |
 | **Session countdown** | Live timer in status bar, auto-lock on expiry |
-| **No network** | Zero HTTP, WebSocket, or network listeners |
+| **No network** | The installed package opens no sockets and binds no ports — no HTTP, no WebSocket, no listeners. (The optional Docker web playground in `packaging/docker/` is a separate opt-in demo that does run a `textual-serve` HTTP/WebSocket server. It is not part of `pip install IronDome`.) |
 
 ### Threat Model
 
 | Threat | Defense |
 |:-------|:-------|
-| Vault file stolen | Machine-specific key — useless on other machines |
+| Secrets folder copied | The master-user record is machine-scoped, so the folder alone does not yield it. The vault is protected by your master password — treat the password, not the machine, as the secret |
 | Brute force | 600k PBKDF2 + adaptive lockout |
 | Memory dump | Memory locking + signal handlers |
 | Clipboard sniffing | Auto-clear after 30 seconds |
 | Scrollback leak | Alternate screen buffer — nothing persists |
-| Man-in-the-middle | No network. Zero attack surface. |
+| Man-in-the-middle | Not applicable — the vault performs no network I/O, so there is no channel to intercept |
+
+### Erasure limits
+
+`nuke` clears the three OS-keyring entries first (while the salt is still readable), then overwrites each file once with random bytes, `fsync`s, and unlinks it. On SSDs with wear-levelling, on copy-on-write filesystems (btrfs/ZFS), or on journaled ext4, a single in-place overwrite does not guarantee the original blocks are destroyed — for guaranteed destruction use full-disk encryption and destroy the key, or your platform's secure-erase tool. `nuke` reports `success: False` and lists the leftovers if anything survives under the data directory.
 
 ### Vault Structure
 
@@ -286,14 +292,25 @@ Test every corner of IronDome in your browser — encryption, vault operations, 
 | | IronDome | Cloud Managers |
 |:--|:---------|:---------------|
 | **Data location** | Your machine only | Their servers |
-| **Network required** | Never | Always |
-| **Zero knowledge** | True — no server exists | "Trust us" |
-| **Hardware binding** | Keys derived from machine identity | No |
+| **Network required** | No network I/O in the package | Always |
+| **No server** | Your master password is never written to disk, and there is no service to send it to | "Trust us" |
+| **Machine-scoped metadata** | Master-user record wrapped with a machine-id key | No |
 | **Interface** | Full TUI + CLI | Browser plugin |
 | **Open source** | GPL-3.0 — audit everything | Rarely |
 | **Cost** | Free forever | $3-5/month |
-| **Biometric** | OS-native (Touch ID, Hello, fprintd) | Browser extension |
-| **Attack surface** | Zero network exposure | API, servers, CDN, employees |
+| **Biometric** | OS-native gate (Touch ID, Hello, fprintd) | Browser extension |
+| **Attack surface** | Local process only — no API, no server, no vendor | API, servers, CDN, employees |
+
+---
+
+## What IronDome does not do
+
+- **AES-128.** Fernet splits its 32-byte key into a 16-byte AES key and a 16-byte HMAC key, so the block cipher runs with a 128-bit key — not the 256-bit key some tools advertise. That is not a weakness; it is simply a different number, and you should not have to read the source to learn which one you get.
+- **The biometric check is not cryptographic.** It is an OS authentication gate (PAM / Touch ID / Windows Hello) in front of the keyring-stored vault key. The key sits in the OS keyring under your login credentials, not under your fingerprint. A process already running as you can read it without presenting a biometric. Use Biometric + Password if that is in your threat model.
+- **No hardware security module.** Machine scoping is derived from `/etc/machine-id`, which is mode `0444` — world-readable, and it travels with any disk image or home-directory backup. There is no TPM and no Secure Enclave.
+- **`nuke` cannot defeat an SSD controller.** One overwrite pass, then unlink. See [Erasure limits](#erasure-limits).
+- **No memory zeroing of the key.** The vault key is held as an immutable Python `bytes` inside a `Fernet` object and cannot be overwritten in place.
+- **No independent third-party audit.** The project ships its own test suite (`pytest`, run in CI before every publish), but nobody outside the project has reviewed the cryptography. Treat this as beta software.
 
 ---
 
@@ -310,9 +327,13 @@ Test every corner of IronDome in your browser — encryption, vault operations, 
 ```bash
 git clone https://github.com/TheKingHippopotamus/IronDome-Bunker.git
 cd IronDome-Bunker
-pip install -e .
+pip install -e ".[dev]"
+pytest -q
+ruff check password_manager tests
 irondome
 ```
+
+The test suite covers the encryption round-trip and tamper detection, the KDF parameters, keyring create/unlock, `nuke` completeness, and a static check that no module in `password_manager/` imports a network library. CI runs `pytest` and `ruff` before any PyPI publish.
 
 <details>
 <summary><strong>Project Structure</strong></summary>
@@ -336,7 +357,7 @@ password_manager/
 ├── constants.py         # Constants
 └── tui/                 # Terminal UI (Textual)
     ├── app.py           # Main application + command palette
-    ├── irondome.tcss    # Military-themed stylesheet
+    ├── irondome.tcss    # Dome-themed stylesheet
     ├── theme.py         # Design tokens + ASCII art
     ├── ascii_art.py     # Splash screen art
     ├── screens/         # 12 screens
