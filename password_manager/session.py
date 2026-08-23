@@ -110,7 +110,7 @@ class SessionManager:
             if "remaining_attempts" in machine_data:
                 machine_data.pop("remaining_attempts")
             if self.logger:
-                self.logger.info(f"Successful login from {machine_info['hostname']} ({machine_info['ip_address']})")
+                self.logger.info(f"Successful login from {machine_info['hostname']}")
         else:
             # Track failed attempts
             machine_data["failed_attempts"] += 1
@@ -123,8 +123,7 @@ class SessionManager:
             
             if self.logger:
                 self.logger.warning(
-                    f"Failed login attempt from {machine_info['hostname']} "
-                    f"({machine_info['ip_address']}). "
+                    f"Failed login attempt from {machine_info['hostname']}. "
                     f"Attempts remaining: {remaining}"
                 )
             

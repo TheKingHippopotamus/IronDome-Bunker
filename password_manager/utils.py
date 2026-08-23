@@ -5,7 +5,6 @@
 
 import getpass
 import re
-import socket
 import platform
 import uuid
 import os
@@ -154,16 +153,17 @@ def get_machine_info():
     Returns:
         Dictionary with machine information
     """
+    # Deliberately no socket/DNS work here: this runs on every login and every
+    # failed-login accounting pass, and IronDome makes no network calls at all.
+    # platform.node() reads the kernel-supplied node name; it does not resolve it.
     try:
-        hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
+        hostname = platform.node() or "unknown"
         os_info = f"{platform.system()} {platform.release()}"
         mac_address = ':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff) 
                                for elements in range(0, 8*6, 8)][::-1])
         
         return {
             "hostname": hostname,
-            "ip_address": ip_address,
             "os_info": os_info,
             "mac_address": mac_address,
             "username": getpass.getuser(),
@@ -175,7 +175,6 @@ def get_machine_info():
                                  for elements in range(0, 8*6, 8)][::-1])
         return {
             "hostname": "unknown",
-            "ip_address": "unknown",
             "os_info": f"{platform.system()} {platform.release()}",
             "mac_address": mac_fallback,
             "username": getpass.getuser(),

@@ -23,9 +23,7 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry.
->
-> One caveat, stated plainly: the brute-force lockout currently identifies your machine via `socket.gethostbyname(socket.gethostname())` on each login, which can trigger a DNS lookup for your own hostname if it is not in `/etc/hosts`. No vault data is involved, and the call is being removed.
+> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry: the package makes no network calls anywhere, verified by a test that fails the build if any module under `password_manager/` so much as imports a networking library. Nothing leaves your device.
 
 ## Quick Start
 
@@ -47,6 +45,7 @@ irondome
 
 - **AES-128-CBC** encryption via Fernet
 - **PBKDF2-HMAC-SHA256** with 600,000 iterations (OWASP 2023)
+- **No network calls anywhere in the package** — verified by a test that fails if any module imports `socket`/`http`/`urllib`/`requests`
 - **Master password never stored** — only a PBKDF2 digest is written to disk, and there is no server to send it to
 - **Machine-scoped metadata** — the stored master-user record is wrapped with a key derived from `/etc/machine-id`; the vault itself is protected by your master password
 - **Biometric gate** — an OS authentication gate (PAM / Touch ID / Windows Hello) in front of the keyring-stored vault key. It is an access gate, not key material
@@ -93,7 +92,7 @@ irondome-cli close airspace      # Lock everything
 | | IronDome | Cloud Managers |
 |:--|:---------|:---------------|
 | **Data** | Your machine only | Their servers |
-| **Network** | No network I/O in the package | Always |
+| **Network** | No network calls anywhere in the package, verified by test | Always |
 | **No server** | Master password never written to disk; nothing to send it to | "Trust us" |
 | **Machine-scoped metadata** | Master-user record wrapped with a machine-id key | No |
 | **Open source** | GPL-3.0 | Rarely |

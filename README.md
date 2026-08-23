@@ -41,9 +41,7 @@
 
 > **Your bunkers. Your machine. Your rules.**
 >
-> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry.
->
-> One caveat, stated plainly: the brute-force lockout currently identifies your machine via `socket.gethostbyname(socket.gethostname())` on each login, which can trigger a DNS lookup for your own hostname if it is not in `/etc/hosts`. No vault data is involved, and the call is being removed.
+> IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry: the package makes no network calls anywhere, verified by a test that fails the build if any module under `password_manager/` so much as imports a networking library. Nothing leaves your device.
 
 <br>
 
@@ -209,7 +207,7 @@ bunker nuke                      # Alias — same self-destruct from bunker
 | **Memory protection** | `mlockall(MCL_CURRENT\|MCL_FUTURE)` keeps process memory out of swap — TUI only, best-effort, silently skipped if the OS refuses. The CLI does not call it |
 | **Password auto-hide** | 10-second reveal timer |
 | **Session countdown** | Live timer in status bar, auto-lock on expiry |
-| **No network** | The installed package opens no sockets and binds no ports — no HTTP, no WebSocket, no listeners. (The optional Docker web playground in `packaging/docker/` is a separate opt-in demo that does run a `textual-serve` HTTP/WebSocket server. It is not part of `pip install IronDome`.) |
+| **No network** | No network calls anywhere in the package — verified by test (`tests/test_no_network.py` fails if any module imports `socket`/`http`/`urllib`/`requests`, allowlist empty). No sockets opened, no ports bound. (The optional Docker web playground in `packaging/docker/` is a separate opt-in demo that does run a `textual-serve` HTTP/WebSocket server. It is not part of `pip install IronDome`.) |
 
 ### Threat Model
 
@@ -292,7 +290,7 @@ Test every corner of IronDome in your browser — encryption, vault operations, 
 | | IronDome | Cloud Managers |
 |:--|:---------|:---------------|
 | **Data location** | Your machine only | Their servers |
-| **Network required** | No network I/O in the package | Always |
+| **Network required** | No network calls anywhere in the package, verified by test | Always |
 | **No server** | Your master password is never written to disk, and there is no service to send it to | "Trust us" |
 | **Machine-scoped metadata** | Master-user record wrapped with a machine-id key | No |
 | **Interface** | Full TUI + CLI | Browser plugin |
