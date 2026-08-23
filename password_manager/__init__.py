@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""IronDome — Fortified Password Vault with TUI"""
+"""IronDome — local-first password vault with a Textual TUI"""
 
-__version__ = "3.2.0"
+__version__ = "3.2.1"
