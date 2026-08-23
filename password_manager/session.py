@@ -9,6 +9,7 @@ import threading
 from datetime import datetime, timedelta
 from password_manager.utils import get_machine_info
 from password_manager.constants import SESSION_TIMEOUT, MAX_LOGIN_ATTEMPTS, LOCKOUT_DURATION
+from password_manager.secure_io import secure_open
 
 class SessionManager:
     """Manages user sessions, timeout and authentication tracking"""
@@ -163,7 +164,7 @@ class SessionManager:
         Args:
             data: Dictionary with login attempt tracking data
         """
-        with open(self.login_attempts_file, 'w') as f:
+        with secure_open(self.login_attempts_file, 'w') as f:
             json.dump(data, f, indent=2)
     
     def start_session_checker(self):

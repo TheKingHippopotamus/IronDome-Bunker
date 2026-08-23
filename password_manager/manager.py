@@ -10,6 +10,7 @@ from password_manager.storage import PasswordStorage
 from password_manager.auth import AuthManager
 from password_manager.session import SessionManager
 from password_manager.logger import setup_logger
+from password_manager.secure_io import secure_open
 from password_manager.generator import generate_password
 from password_manager.utils import get_validated_input, get_validated_int, extract_domain_name
 
@@ -104,7 +105,7 @@ class SecurePasswordManager:
 
         if account_exists:
             if not os.path.isfile(self.login_attempts_file):
-                with open(self.login_attempts_file, 'w') as f:
+                with secure_open(self.login_attempts_file, 'w') as f:
                     f.write('{}')
 
             # Check auth mode to determine login flow

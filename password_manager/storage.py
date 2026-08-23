@@ -8,6 +8,8 @@ import json
 import time
 import shutil
 
+from password_manager.secure_io import harden_file, secure_makedirs, secure_open
+
 class PasswordStorage:
     """Handles storage operations for IronDome"""
     
@@ -40,15 +42,22 @@ class PasswordStorage:
         self._migrate_files_if_needed()
     
     def _ensure_dirs_exist(self):
-        """Create the data directory and secrets directory if they don't exist"""
-        if not os.path.exists(self.data_dir):
-            os.makedirs(self.data_dir)
+        """Create the data and secrets directories, both owner-only.
+
+        secure_makedirs also re-applies 0700 to a directory that already
+        exists, so a vault written by an older version is tightened the next
+        time it is opened rather than keeping the mode it was created with.
+        """
+        data_dir_is_new = not os.path.exists(self.data_dir)
+        secure_makedirs(self.data_dir)
+        if data_dir_is_new:
             print(f"Created data directory at: {self.data_dir}")
             if self.logger:
                 self.logger.info(f"Created data directory: {self.data_dir}")
-                
-        if not os.path.exists(self.secrets_dir):
-            os.makedirs(self.secrets_dir, mode=0o700)  # Restricted permissions for secrets
+
+        secrets_dir_is_new = not os.path.exists(self.secrets_dir)
+        secure_makedirs(self.secrets_dir)  # Restricted permissions for secrets
+        if secrets_dir_is_new:
             print(f"Created secrets directory at: {self.secrets_dir}")
             if self.logger:
                 self.logger.info(f"Created secrets directory: {self.secrets_dir}")
@@ -78,6 +87,9 @@ class PasswordStorage:
             if os.path.exists(old_path) and not os.path.exists(new_paths[key]):
                 try:
                     shutil.copy2(old_path, new_paths[key])
+                    # copy2 preserves the old file's mode, which predates the
+                    # 0600 rule; the migrated copy must not inherit it.
+                    harden_file(new_paths[key])
                     if self.logger:
                         self.logger.info(f"Migrated {key} file to new location: {new_paths[key]}")
                     print(f"Migrated {key} file to: {new_paths[key]}")
@@ -99,7 +111,7 @@ class PasswordStorage:
         """
         try:
             encrypted_data = fernet.encrypt(json.dumps(passwords).encode())
-            with open(self.passwords_file, 'wb') as f:
+            with secure_open(self.passwords_file, 'wb') as f:
                 f.write(encrypted_data)
             return True
         except Exception as e:
@@ -146,7 +158,7 @@ class PasswordStorage:
             True if successful, False otherwise
         """
         try:
-            with open(self.salt_file, 'wb') as f:
+            with secure_open(self.salt_file, 'wb') as f:
                 f.write(salt)
             return True
         except Exception as e:
@@ -183,7 +195,7 @@ class PasswordStorage:
             True if successful, False otherwise
         """
         try:
-            with open(self.username_file, 'wb') as f:
+            with secure_open(self.username_file, 'wb') as f:
                 f.write(encrypted_username)
             return True
         except Exception as e:
@@ -220,7 +232,7 @@ class PasswordStorage:
             True if successful, False otherwise
         """
         try:
-            with open(self.password_hash_file, 'wb') as f:
+            with secure_open(self.password_hash_file, 'wb') as f:
                 f.write(encrypted_hash)
             return True
         except Exception as e:
@@ -273,8 +285,9 @@ class PasswordStorage:
         
         # Set up backups directory if it doesn't exist
         backups_dir = os.path.join(self.data_dir, "backups")
-        if not os.path.exists(backups_dir):
-            os.makedirs(backups_dir)
+        backups_dir_is_new = not os.path.exists(backups_dir)
+        secure_makedirs(backups_dir)
+        if backups_dir_is_new:
             if self.logger:
                 self.logger.info(f"Created backups directory: {backups_dir}")
         
@@ -287,7 +300,7 @@ class PasswordStorage:
         try:
             # Copy the encrypted file
             with open(self.passwords_file, 'rb') as src:
-                with open(backup_path, 'wb') as dest:
+                with secure_open(backup_path, 'wb') as dest:
                     dest.write(src.read())
             
             if self.logger:

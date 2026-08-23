@@ -11,6 +11,8 @@ from cryptography.fernet import Fernet
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+from password_manager.secure_io import secure_makedirs, secure_open
+
 # OWASP 2023 recommended minimum for PBKDF2-HMAC-SHA256
 PBKDF2_ITERATIONS = 600_000
 
@@ -60,8 +62,8 @@ def get_machine_id():
                     return f.read().strip()
             else:
                 device_id = str(uuid.uuid4())
-                os.makedirs(os.path.dirname(device_id_path), exist_ok=True)
-                with open(device_id_path, 'w') as f:
+                secure_makedirs(os.path.dirname(device_id_path))
+                with secure_open(device_id_path, 'w') as f:
                     f.write(device_id)
                 return device_id
         except Exception:

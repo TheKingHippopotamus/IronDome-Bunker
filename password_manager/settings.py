@@ -7,6 +7,8 @@ import json
 import os
 from typing import Any
 
+from password_manager.secure_io import secure_open
+
 DEFAULTS = {
     "password_length": 20,
     "use_special_chars": True,
@@ -42,7 +44,7 @@ class Settings:
     def save(self) -> bool:
         """Save current settings to disk"""
         try:
-            with open(self.config_path, 'w') as f:
+            with secure_open(self.config_path, 'w') as f:
                 json.dump(self._settings, f, indent=2)
             return True
         except IOError:

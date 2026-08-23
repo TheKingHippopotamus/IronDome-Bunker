@@ -18,6 +18,8 @@ import json
 import os
 import time
 
+from password_manager.secure_io import secure_makedirs, secure_open
+
 
 class Airspace:
     """Manages the IronDome airspace session — open = authenticated, closed = locked."""
@@ -75,10 +77,9 @@ class Airspace:
                 "pid": os.getpid(),
                 "auth_mode": kwargs.get("auth_mode", "unknown"),
             }
-            os.makedirs(os.path.dirname(self.session_file), exist_ok=True)
+            secure_makedirs(os.path.dirname(self.session_file))
             # Write with restricted permissions from the start
-            fd = os.open(self.session_file, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-            with os.fdopen(fd, "w") as f:
+            with secure_open(self.session_file, "w") as f:
                 json.dump(data, f)
             return True
         except IOError:
@@ -153,9 +154,10 @@ class Airspace:
             with open(self.session_file, "r") as f:
                 data = json.load(f)
             data["opened_at"] = time.time()
-            with open(self.session_file, "w") as f:
+            # secure_open sets the mode on the descriptor before the refreshed
+            # session is written, closing the window that chmod-after left open.
+            with secure_open(self.session_file, "w") as f:
                 json.dump(data, f)
-            os.chmod(self.session_file, 0o600)
             return True
         except (json.JSONDecodeError, IOError):
             return False

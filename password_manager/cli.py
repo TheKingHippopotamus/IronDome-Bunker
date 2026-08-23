@@ -19,6 +19,8 @@ import argparse
 import os
 import sys
 
+from password_manager.secure_io import secure_makedirs
+
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -120,7 +122,7 @@ def irondome_main() -> None:
     if args.command == "create" and args.target == "bunker":
         from password_manager.storage import PasswordStorage
 
-        os.makedirs(data_dir, exist_ok=True)
+        secure_makedirs(data_dir)
         storage = PasswordStorage(data_dir)
 
         if storage.master_account_exists():
