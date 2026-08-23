@@ -7,7 +7,6 @@ import getpass
 import re
 import platform
 import uuid
-import os
 from datetime import datetime
 
 def get_validated_input(prompt, valid_options=None, valid_pattern=None, default=None, allow_back=True, logger=None):
@@ -169,7 +168,7 @@ def get_machine_info():
             "username": getpass.getuser(),
             "time": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         }
-    except Exception as e:
+    except Exception:
         # Provide fallback values so callers don't crash on missing keys
         mac_fallback = ':'.join(['{:02x}'.format((uuid.getnode() >> elements) & 0xff)
                                  for elements in range(0, 8*6, 8)][::-1])

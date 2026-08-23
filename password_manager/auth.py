@@ -8,7 +8,7 @@ import binascii
 import secrets
 from cryptography.fernet import Fernet
 from password_manager.encryption import hash_password, create_system_key, create_user_key, generate_salt
-from password_manager.utils import get_validated_input, get_machine_info
+from password_manager.utils import get_machine_info
 from password_manager.biometric import BiometricAuth
 from password_manager.keystore import SecureKeyStore
 
@@ -201,7 +201,7 @@ class AuthManager:
                 if retry == 't':
                     return self._auth_biometric_only(salt, _attempt=_attempt + 1)
             else:
-                print(f"❌ Maximum biometric attempts reached.")
+                print("❌ Maximum biometric attempts reached.")
             return self._recovery_flow(salt)
 
         # Retrieve master key from keychain

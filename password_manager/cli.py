@@ -101,7 +101,6 @@ def irondome_main() -> None:
 
     from password_manager.airspace import Airspace
     from password_manager.settings import Settings
-    from password_manager.biometric import BiometricAuth
 
     airspace = Airspace(data_dir)
 

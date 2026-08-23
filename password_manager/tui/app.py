@@ -10,7 +10,7 @@ import logging
 import os
 import sys
 import traceback
-from typing import Iterable
+from typing import TYPE_CHECKING
 
 from textual.app import App
 from textual.binding import Binding
@@ -22,6 +22,9 @@ from password_manager.tui.state.events import AuthSuccess, AuthFailed, SessionEx
 from password_manager.tui.security.cleanup import install_signal_handlers
 from password_manager.tui.security.memory import lock_memory
 from password_manager.tui.security.clipboard import force_clear as clipboard_clear
+
+if TYPE_CHECKING:  # imported for type annotations only — no runtime cost
+    from password_manager.tui.screens.splash import SplashScreen
 
 log = logging.getLogger("IronDome.TUI")
 

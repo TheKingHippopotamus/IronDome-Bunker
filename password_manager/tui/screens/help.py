@@ -4,7 +4,6 @@ from textual.screen import ModalScreen
 from textual.widgets import Static
 from textual.containers import Center, Vertical
 
-from password_manager.tui.theme import ICONS
 
 
 HELP_TEXT = """\

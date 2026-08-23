@@ -5,7 +5,7 @@
 
 import json
 import os
-from typing import Any, Optional
+from typing import Any
 
 DEFAULTS = {
     "password_length": 20,
@@ -74,8 +74,8 @@ class Settings:
             print(f"  4. Include digits:     {'yes' if self.get('use_digits') else 'no'}")
             print(f"  5. Session timeout:    {self.get('session_timeout') // 60} min")
             print(f"  6. Show strength:      {'yes' if self.get('show_strength') else 'no'}")
-            print(f"  7. Reset to defaults")
-            print(f"  8. Back")
+            print("  7. Reset to defaults")
+            print("  8. Back")
 
             choice = input("\nSelect (1-8): ").strip()
 

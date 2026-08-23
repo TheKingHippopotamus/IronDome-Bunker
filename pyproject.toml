@@ -45,6 +45,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+dev = ["pytest>=7.0", "ruff>=0.5"]
 web = ["textual-serve>=1.1.0,<2"]
 macos = ["pyobjc-framework-LocalAuthentication>=9.0"]
 # Twine 5.x cannot parse wheels with Metadata-Version 2.4 (current setuptools); use 6.2+ for uploads.
@@ -73,3 +74,16 @@ include = ["password_manager*"]
 # Textual resolves CSS next to the package; ship TUI stylesheets in the wheel.
 [tool.setuptools.package-data]
 "password_manager.tui" = ["*.tcss"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+# Pinned explicitly so `ruff check` means the same thing locally and in CI,
+# regardless of which ruff default set the installed version ships with.
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]

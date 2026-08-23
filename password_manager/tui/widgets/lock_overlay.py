@@ -4,7 +4,7 @@ from textual.screen import ModalScreen
 from textual.widgets import Static, Input, Button
 from textual.containers import Center, Vertical
 
-from password_manager.tui.theme import ICONS, LOGO_SMALL
+from password_manager.tui.theme import ICONS
 
 
 class LockOverlay(ModalScreen[bool]):

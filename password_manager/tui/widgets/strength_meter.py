@@ -3,7 +3,6 @@
 from textual.reactive import reactive
 from textual.widgets import Static
 
-from password_manager.tui.theme import STRENGTH_COLORS, COLORS
 
 
 class StrengthMeter(Static):

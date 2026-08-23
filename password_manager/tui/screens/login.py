@@ -8,7 +8,7 @@ from textual.containers import Center, Vertical, Horizontal
 from textual import work
 
 from password_manager.tui.theme import ICONS, LOGO_SMALL
-from password_manager.tui.state.events import AuthSuccess, AuthFailed
+from password_manager.tui.state.events import AuthSuccess
 
 log = logging.getLogger("IronDome.TUI.Login")
 

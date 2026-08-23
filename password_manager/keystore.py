@@ -18,9 +18,7 @@ Auth modes:
 """
 
 import base64
-import hashlib
 import logging
-import os
 import secrets
 import warnings
 from typing import Optional

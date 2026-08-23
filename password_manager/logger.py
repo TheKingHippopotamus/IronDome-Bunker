@@ -4,7 +4,6 @@
 """Logging module for IronDome"""
 
 import logging
-import os
 
 def setup_logger(log_file):
     """
