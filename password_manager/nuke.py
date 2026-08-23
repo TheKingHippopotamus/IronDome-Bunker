@@ -12,7 +12,14 @@ Destruction sequence
 1. Load salt (still on disk) and clear OS keychain entries.
 2. Secure-overwrite every file with random bytes, then unlink.
 3. Remove directory tree under data_dir.
-4. Remove data_dir itself if empty.
+4. Remove data_dir itself.  If anything survives under data_dir the nuke is
+   reported as a failure -- a self-destruct that returns success while leaving
+   state behind is the worst possible outcome for this command.
+
+Note on erasure strength: ``_secure_delete_file`` overwrites in place once with
+random bytes and fsyncs before unlinking.  On SSDs with wear-levelling, on
+copy-on-write filesystems (btrfs/ZFS) or on journaled ext4, that does not
+guarantee the original blocks are gone.  See the README "Erasure limits".
 """
 
 import logging
@@ -21,10 +28,14 @@ from typing import Optional
 
 log = logging.getLogger("IronDome.Nuke")
 
-# Top-level files that live directly under data_dir
+# Top-level files that live directly under data_dir.
+# .device_id is the persistent machine-identifier fallback written by
+# encryption.get_machine_id(); leaving it behind survives a "destroy
+# everything" command, so it is a nuke target like any other.
 _TOP_LEVEL_FILES = (
     "settings.json",
     "password_manager.log",
+    ".device_id",
 )
 
 # Subdirectories to wipe completely
@@ -155,8 +166,11 @@ def execute_nuke(data_dir: str) -> dict:
     --------------------
     1. Clear OS keychain entries (master_key, auth_mode, recovery_hash).
     2. Secure-overwrite + unlink every file inside the secrets and backups dirs.
-    3. Secure-delete top-level files (settings.json, password_manager.log).
-    4. Remove directory tree; remove data_dir if now empty.
+    3. Secure-delete top-level files (settings.json, password_manager.log,
+       .device_id).
+    4. Remove data_dir.  If anything remains under it, record an error naming
+       the leftovers so the caller cannot mistake a partial wipe for a clean
+       one.
 
     Parameters
     ----------
@@ -166,7 +180,8 @@ def execute_nuke(data_dir: str) -> dict:
     Returns
     -------
     dict
-        ``success``         (bool) — True only if every step succeeded.
+        ``success``         (bool) — True only if every step succeeded and
+                            nothing survives under data_dir.
         ``files_deleted``   (list) — Absolute paths of files that were deleted.
         ``keyring_cleared`` (bool) — True if OS keychain entries were removed.
         ``errors``          (list) — Human-readable strings for any failures.
@@ -190,10 +205,19 @@ def execute_nuke(data_dir: str) -> dict:
             if _secure_delete_file(filepath, errors):
                 deleted.append(filepath)
 
-    # Step 4: remove data_dir if now empty
+    # Step 4: remove data_dir -- and refuse to call a partial wipe a success.
+    # Anything still under data_dir means the target list missed a file, so the
+    # leftovers are named in the error rather than silently skipped.
     try:
-        if os.path.isdir(data_dir) and not os.listdir(data_dir):
-            os.rmdir(data_dir)
+        if os.path.isdir(data_dir):
+            leftovers = sorted(os.listdir(data_dir))
+            if leftovers:
+                errors.append(
+                    f"Data directory {data_dir} is not empty after the wipe; "
+                    f"{len(leftovers)} item(s) survived: {', '.join(leftovers)}"
+                )
+            else:
+                os.rmdir(data_dir)
     except Exception as exc:
         errors.append(f"Could not remove data directory {data_dir}: {exc}")
 
