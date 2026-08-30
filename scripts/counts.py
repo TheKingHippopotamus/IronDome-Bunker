@@ -14,20 +14,14 @@ So the page does not get to hold an opinion about them. This script asks the
 suite how many tests it collects, asks the TUI package how many screens it
 defines, asks the package what version it is, and prints the answers as JSON.
 
-The site lives in its own repository -- TheKingHippopotamus/IronDome-Bunker- --
-and imports the result as ``src/data/counts.json``. Because that checkout is
-somewhere only you know, the destination is always given explicitly; there is
-no default path to go stale.
+The site imports the result as ``src/data/counts.json``. Give the destination
+explicitly, so there is no default path to go stale.
 
 Usage::
 
-    python scripts/counts.py                          # print the JSON
-    python scripts/counts.py --out PATH               # write it to PATH
-    python scripts/counts.py --check PATH             # exit 1 if PATH is stale
-
-Run it against the site checkout before ``npm run build``::
-
-    python scripts/counts.py --out ../IronDome-Bunker-/src/data/counts.json
+    python scripts/counts.py               # print the JSON
+    python scripts/counts.py --out PATH    # write it to PATH
+    python scripts/counts.py --check PATH  # exit 1 if PATH is stale
 """
 
 import argparse
@@ -148,7 +142,7 @@ def main():
     group.add_argument(
         "--out",
         metavar="PATH",
-        help="write the JSON to PATH (in the site checkout); default is stdout",
+        help="write the JSON to PATH; default is stdout",
     )
     group.add_argument(
         "--check",
@@ -179,9 +173,7 @@ def main():
     parent = os.path.dirname(os.path.abspath(args.out))
     if not os.path.isdir(parent):
         raise SystemExit(
-            f"no such directory: {parent}\n"
-            "Point --out at the site checkout, e.g. "
-            "../IronDome-Bunker-/src/data/counts.json"
+            f"no such directory: {parent}"
         )
     with open(args.out, "w", encoding="utf-8") as handle:
         handle.write(serialised)

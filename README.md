@@ -335,29 +335,19 @@ irondome
 
 The test suite covers the encryption round-trip and tamper detection, the KDF parameters, keyring create/unlock, on-disk file permissions, `nuke` completeness, and a static check that no module in `password_manager/` imports a network library. CI runs `pytest` and `ruff` before any PyPI publish.
 
-### The website
+### Release numbers
 
-The landing page lives in its own repository —
-[TheKingHippopotamus/IronDome-Bunker-](https://github.com/TheKingHippopotamus/IronDome-Bunker-)
-— and is published to <https://thekinghippopotamus.github.io/IronDome-Bunker-/>.
-Nothing in this repository builds or serves it.
-
-One thread still runs between the two. The page prints exact numbers — how many
-tests the suite has, how many screens the TUI has, which version is on PyPI —
-and none of them are typed into the page. They describe *this* repository, so
-they are generated here. `scripts/counts.py` collects the suite, parses the TUI
-package and reads the version, then emits the JSON the page imports:
+The website quotes exact numbers — how many tests the suite has, how many
+screens the TUI has, which version is on PyPI. They describe this repository,
+so they are generated from it rather than typed by hand:
 
 ```bash
-python scripts/counts.py                                    # print the JSON
-python scripts/counts.py --out  ../IronDome-Bunker-/src/data/counts.json
-python scripts/counts.py --check ../IronDome-Bunker-/src/data/counts.json
+python scripts/counts.py               # print the JSON
+python scripts/counts.py --out PATH    # write it
+python scripts/counts.py --check PATH  # exit 1 if PATH is stale
 ```
 
-Point `--out` at your site checkout after a release that moves any of those
-numbers, then commit the JSON there. `--check` is the form for CI: it exits
-non-zero when a test has been added and the page would otherwise go out
-claiming the old count.
+Regenerate after a release that moves any of them.
 
 <details>
 <summary><strong>Project Structure</strong></summary>
