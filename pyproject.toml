@@ -59,7 +59,7 @@ irondome-cli = "password_manager.cli:irondome_main"
 bunker = "password_manager.cli:bunker_main"
 
 [project.urls]
-Homepage = "https://thekinghippopotamus.github.io/IronDome-Bunker-/"
+Homepage = "https://iron-dome-bunker.vercel.app/"
 Documentation = "https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/README.md"
 Repository = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
 Issues = "https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"

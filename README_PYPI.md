@@ -109,7 +109,7 @@ irondome-cli close airspace      # Lock everything
 
 ## Links
 
-- [Website](https://thekinghippopotamus.github.io/IronDome-Bunker-/)
+- [Website](https://iron-dome-bunker.vercel.app/)
 - [Documentation](https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/README.md)
 - [GitHub](https://github.com/TheKingHippopotamus/IronDome-Bunker)
 - [Live Demo (Colab)](https://colab.research.google.com/github/TheKingHippopotamus/IronDome-Bunker/blob/main/demo.ipynb)
