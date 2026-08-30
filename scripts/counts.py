@@ -172,9 +172,7 @@ def main():
 
     parent = os.path.dirname(os.path.abspath(args.out))
     if not os.path.isdir(parent):
-        raise SystemExit(
-            f"no such directory: {parent}"
-        )
+        raise SystemExit(f"no such directory: {parent}")
     with open(args.out, "w", encoding="utf-8") as handle:
         handle.write(serialised)
     print(f"wrote {args.out}: {counts}")
