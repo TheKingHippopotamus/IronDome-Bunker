@@ -8,8 +8,13 @@ to the URL you open in the browser (scheme + host + published port).
 from __future__ import annotations
 
 import os
+from pathlib import Path
 
 from textual_serve.server import Server
+
+# Custom templates live next to this script so they are baked into the image.
+_THIS_DIR = Path(__file__).parent
+_CUSTOM_TEMPLATES = _THIS_DIR / "templates"
 
 
 def _binds_all_interfaces(host: str) -> bool:
@@ -35,6 +40,8 @@ def main() -> None:
     }
     if public_url:
         kwargs["public_url"] = public_url
+    if _CUSTOM_TEMPLATES.is_dir():
+        kwargs["templates_path"] = str(_CUSTOM_TEMPLATES)
 
     Server(**kwargs).serve()
 

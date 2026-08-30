@@ -37,13 +37,22 @@ services:
       - path: .env
         required: false
     ports:
-      - "${IRONDOME_WEB_PORT:-8000}:8000"
+      # SECURITY (2026-08-08): a password vault must NEVER bind the public
+      # 0.0.0.0. Bound to LOOPBACK only and moved off 8000 -> 8877.
+      # (was "${IRONDOME_WEB_PORT:-8000}:8000", which Docker publishes on every
+      # interface and which bypasses host firewalls such as ufw.) Reach it
+      # locally, or through a tunnel/reverse proxy you add deliberately —
+      # never a raw host port.
+      - "127.0.0.1:${IRONDOME_WEB_PORT:-8877}:8000"
     volumes:
       - irondome_data:/root/.password_manager
     environment:
       IRONDOME_SERVE_HOST: "0.0.0.0"
       IRONDOME_SERVE_PORT: "8000"
-      IRONDOME_PUBLIC_URL: ${IRONDOME_PUBLIC_URL:-http://127.0.0.1:${IRONDOME_WEB_PORT:-8000}}
+      IRONDOME_PUBLIC_URL: ${IRONDOME_PUBLIC_URL:-http://127.0.0.1:${IRONDOME_WEB_PORT:-8877}}
+      # Per-connection wrapper: isolated temp HOME per browser session, wiped on
+      # disconnect, 2h hard cap. See packaging/docker/irondome-playground-session.sh
+      IRONDOME_SERVE_COMMAND: "irondome-playground-session.sh"
     entrypoint: ["python", "/usr/local/bin/irondome-serve-web.py"]
 
   caddy:

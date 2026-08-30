@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- ── Mobile / PWA ─────────────────────────────────────────── -->
+    <meta charset="utf-8" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0,
+                   user-scalable=no, viewport-fit=cover" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="theme-color" content="#0c181f" />
+    <title>{{ application.name or 'IronDome' }}</title>
+
+    <!-- ── Textual-serve assets ─────────────────────────────────── -->
+    <link rel="stylesheet" href="{{ config.static.url }}css/xterm.css" />
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto%20Mono" />
+    <script src="{{ config.static.url }}js/textual.js"></script>
+
+    <style>
+      /* ── Base ───────────────────────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; }
+
+      html, body {
+        margin: 0; padding: 0;
+        width: 100%; height: 100%;
+        overflow: hidden;
+        background: #0c181f;
+      }
+
+      /* ── Loading / closed dialogs ───────────────────────────────── */
+      .dialog-container {
+        position: absolute;
+        width: 100vw; height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        box-shadow: var(--shadow-elevation-high);
+      }
+      .shade {
+        position: absolute;
+        width: 100%; height: 100%;
+        background: #0c181f;
+        background-image: url("{{ config.static.url }}images/background.png");
+      }
+      .intro {
+        width: min(640px, calc(100vw - 32px));
+        min-height: 200px;
+        font-size: clamp(13px, 3.5vw, 16px);
+        z-index: 20;
+        font-family: "Roboto Mono", menlo, monospace;
+        text-align: center;
+        color: rgba(255, 255, 255, 0.95);
+        background-color: #12232d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 24px;
+        margin: 16px;
+      }
+
+      body.-first-byte .intro-dialog,
+      body.-first-byte .intro-dialog .shade {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+        display: none;
+      }
+
+      body .textual-terminal {
+        opacity: 0;
+        transition: opacity 0.3s ease-out;
+      }
+      body.-first-byte .textual-terminal {
+        opacity: 1;
+        transition: opacity 0.3s ease-out;
+      }
+
+      .intro svg { padding-right: 16px; }
+
+      body Button,
+      button.textual-btn {
+        padding: 14px 28px;
+        background-color: #5e0ba7;
+        color: rgba(255, 255, 255, 0.95);
+        border: none;
+        font-family: "Roboto Mono", menlo, monospace;
+        font-size: clamp(13px, 3.5vw, 15px);
+        margin: 12px;
+        display: block;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      body Button:hover, button.textual-btn:hover,
+      body Button:active, button.textual-btn:active {
+        background: #ac5af4;
+      }
+
+      .closed-dialog { opacity: 0; display: none; }
+      body.-closed .closed-dialog { opacity: 1; display: flex; }
+
+      #start { display: none; }
+      #start.-delay { display: flex; }
+
+      /* ── Mobile keyboard button ─────────────────────────────────── */
+      #keyboard-btn {
+        display: none;          /* shown only on touch devices via JS */
+        position: fixed;
+        bottom: max(18px, env(safe-area-inset-bottom, 18px));
+        right: 18px;
+        z-index: 9999;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        background: #5e0ba7;
+        border: 2px solid rgba(255,255,255,0.25);
+        color: #fff;
+        font-size: 22px;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.15s;
+      }
+      #keyboard-btn:active { background: #ac5af4; }
+      #keyboard-btn.active { background: #ac5af4; }
+
+      /* show button while terminal is live */
+      body.-first-byte:not(.-closed) #keyboard-btn {
+        display: flex;
+      }
+
+      /* ── Safe-area padding for notched phones ───────────────────── */
+      .textual-terminal {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+    </style>
+
+    <script>
+      function getStartUrl() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+        params.delete("delay");
+        return url.pathname + "?" + params.toString();
+      }
+      async function refresh() {
+        const ping_url = document.body.dataset.pingurl;
+        if (ping_url) {
+          await fetch(ping_url, { method: "GET", mode: "no-cors" });
+        }
+        window.location.href = getStartUrl();
+      }
+
+      /* ── Mobile keyboard handling ─────────────────────────────── */
+      function isTouchDevice() {
+        return "ontouchstart" in window
+          || navigator.maxTouchPoints > 0
+          || navigator.msMaxTouchPoints > 0;
+      }
+
+      function focusTerminalInput() {
+        /* xterm.js creates a hidden textarea (.xterm-helper-textarea)
+           that handles all keyboard input. Focusing it triggers the
+           soft keyboard on mobile without any custom shim needed. */
+        const ta = document.querySelector(".xterm-helper-textarea");
+        if (ta) {
+          ta.focus({ preventScroll: true });
+          return true;
+        }
+        /* Fallback: focus the terminal container itself */
+        const term = document.querySelector(".textual-terminal");
+        if (term) { term.focus({ preventScroll: true }); }
+        return false;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        if (!isTouchDevice()) return;
+
+        const btn = document.getElementById("keyboard-btn");
+
+        /* Show the button only on touch devices */
+        /* (CSS class .active added when keyboard is open) */
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const success = focusTerminalInput();
+          if (success) {
+            btn.classList.add("active");
+            setTimeout(() => btn.classList.remove("active"), 600);
+          }
+        });
+
+        /* Auto-focus textarea when terminal becomes visible */
+        const observer = new MutationObserver(function () {
+          if (document.body.classList.contains("-first-byte")) {
+            observer.disconnect();
+            /* Small delay to let xterm.js finish mounting */
+            setTimeout(focusTerminalInput, 400);
+          }
+        });
+        observer.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+        /* Re-focus after tapping anywhere on the terminal */
+        document.addEventListener("touchend", function (e) {
+          if (e.target.closest(".textual-terminal")) {
+            setTimeout(focusTerminalInput, 80);
+          }
+        });
+      });
+    </script>
+  </head>
+
+  <body data-pingurl="{{ ping_url }}">
+
+    <!-- Loading splash -->
+    <div class="dialog-container intro-dialog">
+      <div class="shade"></div>
+      <div class="intro">
+        <svg width="32px" viewBox="0 0 2933 2261" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M2927.81 0H1677.1L1312.35 205.173H306.689L0.359375 434.921L204.029
+               893.177H735.972L644.784 2261H1060.36L1441.72 1974.97L2073.92
+               688.003H2334.4L2717.9 472.286L2927.81 0ZM1245.82 410.347L1276.32
+               277.656H330.85L153.929 410.347H1245.82ZM1229.16 482.83H100.972L251.134
+               820.694H813.449L722.26 2188.52H837.043L1229.16 482.83ZM1350.7
+               277.656L911.417 2188.52H1023.87L1662.19 615.52H2301.36L2451.52
+               277.656H1350.7ZM1460.19 205.173H2497.79L2733.69 72.4829H1696.09L1460.19
+               205.173Z"
+            fill="#ffffff"/>
+        </svg>
+        <div>{{ application.name or 'IronDome' }}</div>
+        <button class="textual-btn" type="button" onclick="refresh()" id="start">
+          Start
+        </button>
+      </div>
+    </div>
+
+    <!-- Session ended -->
+    <div class="dialog-container closed-dialog">
+      <div class="shade"></div>
+      <div class="intro">
+        <div class="message">Session ended.</div>
+        <button class="textual-btn" type="button" onclick="refresh()">
+          Restart
+        </button>
+      </div>
+    </div>
+
+    <!-- Terminal -->
+    <div
+      id="terminal"
+      class="textual-terminal"
+      data-session-websocket-url="{{ app_websocket_url }}"
+      data-font-size="{{ font_size }}"
+    ></div>
+
+    <!-- Mobile keyboard trigger button (hidden on desktop) -->
+    <button id="keyboard-btn" aria-label="Show keyboard" title="Show keyboard">
+      ⌨
+    </button>
+
+  </body>
+</html>

@@ -72,7 +72,8 @@ coverage.xml
 
 # Personal test files
 test_password_manager.py
-users.json .claude/
+users.json
+.claude/
 .astro/
 node_modules/
 
@@ -85,3 +86,6 @@ node_modules/
 *.state
 state/
 *.bak*
+
+# Host-specific compose overrides (networks, secret stores) never leave this machine
+docker-compose.override.yml

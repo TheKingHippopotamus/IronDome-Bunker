@@ -25,6 +25,9 @@ class AppState:
     def __init__(self) -> None:
         self.data_dir = os.path.join(os.path.expanduser("~"), ".password_manager")
 
+        # Ensure the data directory exists before the logger tries to open its file
+        os.makedirs(self.data_dir, exist_ok=True)
+
         # Core services (same as SecurePasswordManager, but without interactive auth)
         self.logger = setup_logger(os.path.join(self.data_dir, "password_manager.log"))
         self.storage = PasswordStorage(self.data_dir, self.logger)

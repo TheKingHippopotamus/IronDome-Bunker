@@ -158,7 +158,7 @@ class BiometricAuth:
         return result
 
     def _is_headless_environment(self) -> bool:
-        """Detect CI runners and SSH sessions where biometric prompts would hang."""
+        """Detect CI runners, SSH sessions, and containers where biometric prompts would hang."""
         import os
         # CI detection
         ci_vars = ("CI", "GITHUB_ACTIONS", "JENKINS_URL", "CIRCLECI", "TRAVIS", "GITLAB_CI")
@@ -166,6 +166,9 @@ class BiometricAuth:
             return True
         # SSH detection (no display = can't show OS biometric dialog)
         if os.environ.get("SSH_CLIENT") or os.environ.get("SSH_TTY"):
+            return True
+        # Docker/container detection — /.dockerenv is present in all Docker containers
+        if os.path.exists("/.dockerenv"):
             return True
         return False
 

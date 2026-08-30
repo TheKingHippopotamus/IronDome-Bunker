@@ -3,7 +3,12 @@
 from __future__ import annotations
 
 import logging
+import os
 from typing import Optional
+
+# True when running inside the web playground (Docker container).
+# /.dockerenv is injected by the Docker runtime into every container.
+_IS_PLAYGROUND = os.path.exists("/.dockerenv")
 
 from textual.screen import Screen
 from textual.widgets import Static, Input, Button, LoadingIndicator, RadioButton, RadioSet
@@ -24,7 +29,15 @@ class SetupScreen(Screen):
     app-level handler transitions to the dashboard exactly like a normal login.
     """
 
-    DEFAULT_CSS = ""
+    DEFAULT_CSS = """
+    #playground-notice {
+        background: $surface;
+        border: tall $warning;
+        padding: 1 2;
+        margin-bottom: 1;
+        color: $text-muted;
+    }
+    """
 
     BINDINGS = [
         ("escape", "quit_app", "Quit"),
@@ -52,13 +65,31 @@ class SetupScreen(Screen):
                     id="setup-welcome",
                 )
 
+                # ── Playground notice (Docker / web demo only) ──────────
+                if _IS_PLAYGROUND:
+                    yield Static(
+                        "⚠  WEB PLAYGROUND — Biometric unavailable\n\n"
+                        "You can see Biometric options because they work when IronDome\n"
+                        "runs natively on your device (Mac Touch ID, Windows Hello,\n"
+                        "Linux fingerprint reader). They are disabled here because this\n"
+                        "playground runs on a remote Linux server that has no biometric\n"
+                        "hardware and no access to your device's sensors.\n\n"
+                        "Smartphones: mobile Face ID / Touch ID use WebAuthn — a\n"
+                        "browser-side API. This playground runs a server-side terminal\n"
+                        "(TUI) over WebSocket; there is no bridge between the server\n"
+                        "process and your phone's biometric sensor, so WebAuthn cannot\n"
+                        "work here either.\n\n"
+                        "→ Install IronDome locally for full biometric support:\n"
+                        "  pip install irondome",
+                        id="playground-notice",
+                    )
+
                 # ── Security level ──────────────────────────────────────
                 yield Static("Choose your security level:", id="setup-level-label")
                 with RadioSet(id="setup-mode"):
                     yield RadioButton(
                         "Biometric Only  — quick access, no password needed",
                         id="radio-bio-only",
-                        value=True,
                     )
                     yield RadioButton(
                         "Biometric + Password  — maximum security",
@@ -67,6 +98,7 @@ class SetupScreen(Screen):
                     yield RadioButton(
                         "Password Only  — traditional login",
                         id="radio-pw-only",
+                        value=True,
                     )
 
                 # ── Biometric notice ────────────────────────────────────
@@ -195,7 +227,7 @@ class SetupScreen(Screen):
         else:
             bio_notice.update("")
 
-        # Also relabel radio buttons to show detected type
+        # Relabel / enable / disable radio buttons based on bio availability
         if self._bio_available:
             try:
                 self.query_one("#radio-bio-only", RadioButton).label = (
@@ -204,14 +236,16 @@ class SetupScreen(Screen):
                 self.query_one("#radio-bio-pw", RadioButton).label = (
                     f"{self._bio_type} + Password  — maximum security"
                 )
+                self.query_one("#radio-bio-only", RadioButton).disabled = False
+                self.query_one("#radio-bio-pw", RadioButton).disabled = False
             except Exception:
                 pass
         else:
-            # Disable biometric options when hardware is absent
+            # Disable biometric options — hardware absent or headless environment
             try:
                 self.query_one("#radio-bio-only", RadioButton).disabled = True
                 self.query_one("#radio-bio-pw", RadioButton).disabled = True
-                # Force password-only selection if a biometric option was chosen
+                # If a bio option is somehow selected, fall back to password-only
                 if mode != "password_only":
                     self.query_one("#radio-pw-only", RadioButton).value = True
             except Exception:

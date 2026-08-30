@@ -15,7 +15,10 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel \
     && pip install --no-cache-dir "textual-serve>=1.1.0,<2"
 
 COPY packaging/docker/irondome_serve_web.py /usr/local/bin/irondome-serve-web.py
-RUN chmod +x /usr/local/bin/irondome-serve-web.py
+COPY packaging/docker/irondome-playground-session.sh /usr/local/bin/irondome-playground-session.sh
+COPY packaging/docker/templates /usr/local/bin/templates
+RUN chmod +x /usr/local/bin/irondome-serve-web.py \
+    && chmod +x /usr/local/bin/irondome-playground-session.sh
 
 WORKDIR /root
 
