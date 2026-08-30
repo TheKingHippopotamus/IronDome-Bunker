@@ -40,6 +40,8 @@
 <br>
 
 > **Your bunkers. Your machine. Your rules.**
+> **Try it Out**
+-[https://thekinghippopotamus.github.io/IronDome-Bunker/](https://thekinghippopotamus.github.io/IronDome-Bunker/)
 >
 > IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry: the package makes no network calls anywhere, verified by a test that fails the build if any module under `password_manager/` so much as imports a networking library. Nothing leaves your device.
 
