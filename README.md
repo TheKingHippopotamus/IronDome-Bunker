@@ -335,23 +335,29 @@ irondome
 
 The test suite covers the encryption round-trip and tamper detection, the KDF parameters, keyring create/unlock, on-disk file permissions, `nuke` completeness, and a static check that no module in `password_manager/` imports a network library. CI runs `pytest` and `ruff` before any PyPI publish.
 
-### Building the website
+### The website
 
-The landing page prints exact numbers — how many tests the suite has, how many
-screens the TUI has, which version is on PyPI. None of them are typed into the
-page. `scripts/counts.py` collects the suite, parses the TUI package and reads
-the version, then writes `website/src/data/counts.json`; the Astro page imports
-that file. Regenerate it in the same pass that builds the site, and commit the
-JSON with whatever change moved the numbers:
+The landing page lives in its own repository —
+[TheKingHippopotamus/IronDome-Bunker-](https://github.com/TheKingHippopotamus/IronDome-Bunker-)
+— and is published to <https://thekinghippopotamus.github.io/IronDome-Bunker/>.
+Nothing in this repository builds or serves it.
+
+One thread still runs between the two. The page prints exact numbers — how many
+tests the suite has, how many screens the TUI has, which version is on PyPI —
+and none of them are typed into the page. They describe *this* repository, so
+they are generated here. `scripts/counts.py` collects the suite, parses the TUI
+package and reads the version, then emits the JSON the page imports:
 
 ```bash
-python scripts/counts.py            # rewrite website/src/data/counts.json
-python scripts/counts.py --check    # exit 1 if the committed JSON is stale
-cd website && npm ci && npm run build
+python scripts/counts.py                                    # print the JSON
+python scripts/counts.py --out  ../IronDome-Bunker-/src/data/counts.json
+python scripts/counts.py --check ../IronDome-Bunker-/src/data/counts.json
 ```
 
-`--check` is the form for CI: it fails the build when a test has been added and
-the page would otherwise go out claiming the old count.
+Point `--out` at your site checkout after a release that moves any of those
+numbers, then commit the JSON there. `--check` is the form for CI: it exits
+non-zero when a test has been added and the page would otherwise go out
+claiming the old count.
 
 <details>
 <summary><strong>Project Structure</strong></summary>

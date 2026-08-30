@@ -12,15 +12,22 @@ afford.
 
 So the page does not get to hold an opinion about them. This script asks the
 suite how many tests it collects, asks the TUI package how many screens it
-defines, asks the package what version it is, and writes the answers to
-``website/src/data/counts.json``. The Astro page imports that file.
+defines, asks the package what version it is, and prints the answers as JSON.
+
+The site lives in its own repository -- TheKingHippopotamus/IronDome-Bunker- --
+and imports the result as ``src/data/counts.json``. Because that checkout is
+somewhere only you know, the destination is always given explicitly; there is
+no default path to go stale.
 
 Usage::
 
-    python scripts/counts.py            # write website/src/data/counts.json
-    python scripts/counts.py --check    # exit 1 if the file is out of date
+    python scripts/counts.py                          # print the JSON
+    python scripts/counts.py --out PATH               # write it to PATH
+    python scripts/counts.py --check PATH             # exit 1 if PATH is stale
 
-Run it in the same pass that builds the site, before ``npm run build``.
+Run it against the site checkout before ``npm run build``::
+
+    python scripts/counts.py --out ../IronDome-Bunker-/src/data/counts.json
 """
 
 import argparse
@@ -32,7 +39,6 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-OUT_PATH = os.path.join(ROOT, "website", "src", "data", "counts.json")
 SCREENS_DIR = os.path.join(ROOT, "password_manager", "tui", "screens")
 
 #: Textual base classes that make a class a screen the user can be looking at.
@@ -138,10 +144,16 @@ def collect():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--out",
+        metavar="PATH",
+        help="write the JSON to PATH (in the site checkout); default is stdout",
+    )
+    group.add_argument(
         "--check",
-        action="store_true",
-        help="do not write; exit non-zero if the committed counts are stale",
+        metavar="PATH",
+        help="do not write; exit non-zero if the JSON at PATH is stale",
     )
     args = parser.parse_args()
 
@@ -150,20 +162,30 @@ def main():
 
     if args.check:
         try:
-            with open(OUT_PATH, encoding="utf-8") as handle:
+            with open(args.check, encoding="utf-8") as handle:
                 committed = json.load(handle)
         except (OSError, ValueError):
             committed = None
         if committed != counts:
-            print(f"stale: {OUT_PATH}\n  committed {committed}\n  actual    {counts}")
+            print(f"stale: {args.check}\n  committed {committed}\n  actual    {counts}")
             return 1
         print(f"current: {counts}")
         return 0
 
-    os.makedirs(os.path.dirname(OUT_PATH), exist_ok=True)
-    with open(OUT_PATH, "w", encoding="utf-8") as handle:
+    if not args.out:
+        sys.stdout.write(serialised)
+        return 0
+
+    parent = os.path.dirname(os.path.abspath(args.out))
+    if not os.path.isdir(parent):
+        raise SystemExit(
+            f"no such directory: {parent}\n"
+            "Point --out at the site checkout, e.g. "
+            "../IronDome-Bunker-/src/data/counts.json"
+        )
+    with open(args.out, "w", encoding="utf-8") as handle:
         handle.write(serialised)
-    print(f"wrote {os.path.relpath(OUT_PATH, ROOT)}: {counts}")
+    print(f"wrote {args.out}: {counts}")
     return 0
 
 
