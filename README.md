@@ -22,8 +22,8 @@
   <img src="https://img.shields.io/badge/Windows_Hello-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Windows Hello">
   <img src="https://img.shields.io/badge/Fingerprint-4A5568?style=flat-square&logo=linux&logoColor=white" alt="Fingerprint">
   <a href="https://textual.textualize.io/"><img src="https://img.shields.io/badge/Textual-00FF41?style=flat-square&logo=python&logoColor=black" alt="Textual"></a>
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/"><img src="https://img.shields.io/badge/Website-FFD700?style=flat-square&logo=firefoxbrowser&logoColor=black" alt="Website"></a>
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/docs"><img src="https://img.shields.io/badge/Docs-0073b7?style=flat-square&logo=readthedocs&logoColor=white" alt="Docs"></a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker-/"><img src="https://img.shields.io/badge/Website-FFD700?style=flat-square&logo=firefoxbrowser&logoColor=black" alt="Website"></a>
+  <a href="https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/README.md"><img src="https://img.shields.io/badge/Docs-0073b7?style=flat-square&logo=readthedocs&logoColor=white" alt="Docs"></a>
 </p>
 
 <p align="center">
@@ -32,7 +32,7 @@
   <a href="#features">Features</a> &bull;
   <a href="#security-architecture">Security</a> &bull;
   <a href="#keyboard-shortcuts">Keyboard</a> &bull;
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/">Website</a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker-/">Website</a>
 </p>
 
 ---
@@ -41,7 +41,7 @@
 
 > **Your bunkers. Your machine. Your rules.**
 > **Try it Out**
--[https://thekinghippopotamus.github.io/IronDome-Bunker/](https://thekinghippopotamus.github.io/IronDome-Bunker/)
+-[https://thekinghippopotamus.github.io/IronDome-Bunker-/](https://thekinghippopotamus.github.io/IronDome-Bunker-/)
 >
 > IronDome encrypts your vault locally with AES-128-CBC (Fernet) and derives keys with PBKDF2-HMAC-SHA256 at 600,000 iterations. Full terminal UI. Unlock with Touch ID, Windows Hello, or fprintd. There is no account, no sync, and no telemetry: the package makes no network calls anywhere, verified by a test that fails the build if any module under `password_manager/` so much as imports a networking library. Nothing leaves your device.
 
@@ -339,7 +339,7 @@ The test suite covers the encryption round-trip and tamper detection, the KDF pa
 
 The landing page lives in its own repository —
 [TheKingHippopotamus/IronDome-Bunker-](https://github.com/TheKingHippopotamus/IronDome-Bunker-)
-— and is published to <https://thekinghippopotamus.github.io/IronDome-Bunker/>.
+— and is published to <https://thekinghippopotamus.github.io/IronDome-Bunker-/>.
 Nothing in this repository builds or serves it.
 
 One thread still runs between the two. The page prints exact numbers — how many
@@ -412,7 +412,7 @@ password_manager/
   <br>
   <strong>Created & maintained by <a href="https://github.com/TheKingHippopotamus">King Hippopotamus</a></strong>
   <br><br>
-  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker/"><img src="https://img.shields.io/badge/Website-IronDome-FFD700?style=flat-square&logo=firefoxbrowser&logoColor=white" alt="Website"></a>
+  <a href="https://thekinghippopotamus.github.io/IronDome-Bunker-/"><img src="https://img.shields.io/badge/Website-IronDome-FFD700?style=flat-square&logo=firefoxbrowser&logoColor=white" alt="Website"></a>
   <a href="https://github.com/TheKingHippopotamus"><img src="https://img.shields.io/badge/GitHub-TheKingHippopotamus-181717?style=flat-square&logo=github" alt="GitHub"></a>
   <a href="https://pypi.org/user/king.hippo/"><img src="https://img.shields.io/badge/PyPI-king.hippo-0073b7?style=flat-square&logo=pypi&logoColor=white" alt="PyPI"></a>
   <a href="https://x.com/LmlyhNyr"><img src="https://img.shields.io/badge/X-@LmlyhNyr-000000?style=flat-square&logo=x&logoColor=white" alt="X"></a>

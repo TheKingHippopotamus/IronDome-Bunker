@@ -59,8 +59,8 @@ irondome-cli = "password_manager.cli:irondome_main"
 bunker = "password_manager.cli:bunker_main"
 
 [project.urls]
-Homepage = "https://thekinghippopotamus.github.io/IronDome-Bunker/"
-Documentation = "https://thekinghippopotamus.github.io/IronDome-Bunker/docs"
+Homepage = "https://thekinghippopotamus.github.io/IronDome-Bunker-/"
+Documentation = "https://github.com/TheKingHippopotamus/IronDome-Bunker/blob/main/README.md"
 Repository = "https://github.com/TheKingHippopotamus/IronDome-Bunker"
 Issues = "https://github.com/TheKingHippopotamus/IronDome-Bunker/issues"
 Changelog = "https://github.com/TheKingHippopotamus/IronDome-Bunker/releases"
